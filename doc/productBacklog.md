@@ -1,13 +1,10 @@
 # Product Backlog
 
-| Product Backlog Item | Sprint Task | Developer | Initial Estimate of Effort | Remaining Effort Estimate |
+| Item | Initial Estimate of Effort | 1 | 2 | 3 |
 | - | - | - | - | - |
-| Definizione e implementazione del modello del dominio | Implementazione del dominio: Pesce | Barbari | 3 | 0 |
-| | Implementazione del dominio: Alghe | Benvenuti | 2 | 0 |
-| | Implementazione del dominio: Acquario | Albertini | 3 | 0 |
-| Realizzazione GUI JVM-based | Realizzazione della Control Bar | Barbari | 4 | 0 |
-| | Realizzazione della Simulation View | Lamagna | 5 | 0 |
-| Implementazione motore della simulazione | Interazione tra Pesci | Albertini, Benvenuti | 4 | 0 |
-| | Interazione tra Pesci e Alghe | Lamagna | 2 | 0 |
-| | Interazione tra Pesci e Ambiente | Benvenuti | 3 | 0 |
-| | Evoluzione indipendente dell'ambiente | Albertini | 3 | 0 |
+| Preparazione della build | 7 | 0 | 0 | 0 |
+| Identificazione requisiti base e architettura | 10 | 0 | 0 | 0 |
+| Identificazione degli elementi base del processo di svilppo | 4 | 0 | 0 | 0 |
+| Definizione e implementazione del modello del dominio | 8 | 0 | 0 | 0 |
+| Realizzazione GUI | 9 | 0 | 0 | 0 |
+| Implementazione motore della simulazione | 12 | 0 | 0 | 0 |

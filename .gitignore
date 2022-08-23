@@ -1,0 +1,9 @@
+.idea/
+*.class
+target/
+project/boot/
+project/plugins/project/
+.bsp/
+doc/*
+!doc/*.tex
+!doc/*.sty

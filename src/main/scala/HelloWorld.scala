@@ -1,2 +1,2 @@
 @main def main(): Unit =
-    println("Hello World")
+  println("Hello World")

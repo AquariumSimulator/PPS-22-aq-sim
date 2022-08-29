@@ -46,6 +46,23 @@ Sottocomponenti dei macrocomponenti MVC:
 * Control
   * Simulation engine
 
-//Diagramma delle classi
+// Diagramma delle classi
 
 // Scelte tecnologiche cruciali ai fini architetturali
+
+### 4.5 Architettura GUI
+
+**Interfaccia base**
+![base](img/base.png)
+
+**Visualizzazione popolazione**
+![population](img/population.png)
+
+**Aggiunta pesce o alga**
+![add_fish_or_algae](img/add_fish_or_algae.png)
+
+**Eliminazione pesce o alga**
+![remove_fish_or_algae](img/remove_fish_or_algae.png)
+
+**Selezione tipo di cibo**
+![select_food](img/select_food.png)

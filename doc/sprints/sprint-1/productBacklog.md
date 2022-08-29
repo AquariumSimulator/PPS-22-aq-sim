@@ -7,6 +7,7 @@
 | | Definizione work flow | 2 | 2 |
 | Identificazione requisiti base e architettura | Definizione requisiti | 5 | 0 |
 | | Definizione architettura | 5 | 2 |
+| | Definizione GUI | 2 | 0 |
 | Identificazione degli elementi base del processo di svilppo | Durata degli sprint | 1 | 0 |
 | | *definition of done* | 2 | 0 |
 | | tipologie e cadenza di meeting | 1 | 0 |

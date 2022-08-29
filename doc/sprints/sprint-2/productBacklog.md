@@ -6,6 +6,7 @@
 | Identificazione requisiti base e architettura | Definizione architettura | - | 2 | - |
 | Definizione e implementazione del modello del dominio | Implementazione del dominio: Pesce | Barbari | 3 | - |
 | | Implementazione del dominio: Alghe | Benvenuti | 2 | - |
-| | Implementazione del dominio: Acquario | Albertini | 3 | - |
-| Realizzazione GUI JVM-based | Realizzazione della Control Bar | Barbari | 4 | - |
-| | Realizzazione della Simulation View | Lamagna | 5 | - |
+| | Implementazione del dominio: Acquario | Albertini | 4 | - |
+| Realizzazione GUI JVM-based | Realizzazione della Control Bar | Barbari | 3 | - |
+| | Realizzazione della Simulation View | Lamagna/Benvenuti | 5 | - |
+

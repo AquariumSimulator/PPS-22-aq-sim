@@ -1,7 +1,7 @@
 package aquarium
 
 /** Constants that represent the dimensions of the aquarium */
-object Aquarium:
+object AquariumDimensions:
 
   /** Width of the aquarium */
   val WIDTH: Int = 200

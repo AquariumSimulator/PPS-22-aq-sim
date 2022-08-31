@@ -1,7 +1,7 @@
 package TestAquarium
 
-import org.scalatest.funspec.AnyFunSpec
 import aquarium.*
+import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
 
@@ -22,47 +22,54 @@ class TestUpdateAquariumState extends AnyFunSpec:
   val oxygenation = 10
   val newOxygenation = 15
 
+  val herbivorousNumber = 5
+  val carnivorousNumber = 5
+  val algaeNumber = 5
+
   val aquariumState = AquariumState(temperature, brightness, ph, impurity, oxygenation)
-  val updateAquariumState = UpdateAquariumState(aquariumState)
+  val population = Population(herbivorousNumber, carnivorousNumber, algaeNumber)
+  val aquarium = Aquarium(aquariumState, population)
+
+  val updateAquariumState = UpdateAquariumState(aquarium)
 
   describe("A UpdateAquariumState") {
     describe("when clean() is called") {
       it("should return a new AquariumState with impurity set to 0") {
         assert(aquariumState.impurity == impurity)
-        val newState = updateAquariumState.clean()
-        assert(newState.impurity == 0)
+        val newAquarium = updateAquariumState.clean()
+        assert(newAquarium.aquariumState.impurity == 0)
       }
     }
 
     describe("when updateTemperature() is called") {
       it(s"should return a new AquariumState with temperature set to $newTemperature") {
         assert(aquariumState.temperature == temperature)
-        val newState = updateAquariumState.updateTemperature(newTemperature)
-        assert(newState.temperature == newTemperature)
+        val newAquarium = updateAquariumState.updateTemperature(newTemperature)
+        assert(newAquarium.aquariumState.temperature == newTemperature)
       }
     }
 
     describe("when updateBrightness() is called") {
       it(s"should return a new AquariumState with brightness set to $newBrightness") {
         assert(aquariumState.brightness == brightness)
-        val newState = updateAquariumState.updateBrightness(newBrightness)
-        assert(newState.brightness == newBrightness)
+        val newAquarium = updateAquariumState.updateBrightness(newBrightness)
+        assert(newAquarium.aquariumState.brightness == newBrightness)
       }
     }
 
     describe("when updatePh() is called") {
       it(s"should return a new AquariumState with ph set to $newPh") {
         assert(aquariumState.ph == ph)
-        val newState = updateAquariumState.updatePh(newPh)
-        assert(newState.ph == newPh)
+        val newAquarium = updateAquariumState.updatePh(newPh)
+        assert(newAquarium.aquariumState.ph == newPh)
       }
     }
 
     describe("when updateOxygenation() is called") {
       it(s"should return a new AquariumState with oxygenation set to $newOxygenation") {
         assert(aquariumState.oxygenation == oxygenation)
-        val newState = updateAquariumState.updateOxygenation(newOxygenation)
-        assert(newState.oxygenation == newOxygenation)
+        val newAquarium = updateAquariumState.updateOxygenation(newOxygenation)
+        assert(newAquarium.aquariumState.oxygenation == newOxygenation)
       }
     }
   }

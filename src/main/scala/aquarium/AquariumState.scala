@@ -19,41 +19,41 @@ trait UpdateAquariumState:
 
   /** Clean the aquarium. When called the impurity level of the aquarium is set to 0
     * @return
-    *   a new [[AquariumState]]
+    *   a new [[Aquarium]]
     */
-  def clean(): AquariumState
+  def clean(): Aquarium
 
   /** Set the temperature to a given value
     * @param newTemperature
     *   the new temperature of the aquarium
     * @return
-    *   a new [[AquariumState]]
+    *   a new [[Aquarium]]
     */
-  def updateTemperature(newTemperature: Int): AquariumState
+  def updateTemperature(newTemperature: Int): Aquarium
 
   /** Set the brightness to a given value
     * @param newBrightness
     *   the new brightness of the aquarium
     * @return
-    *   a new [[AquariumState]]
+    *   a new [[Aquarium]]
     */
-  def updateBrightness(newBrightness: Int): AquariumState
+  def updateBrightness(newBrightness: Int): Aquarium
 
   /** Set PH to a given value
     * @param newPh
     *   the new PH of the aquarium
     * @return
-    *   a new [[AquariumState]]
+    *   a new [[Aquarium]]
     */
-  def updatePh(newPh: Double): AquariumState
+  def updatePh(newPh: Double): Aquarium
 
   /** Set oxygenation to a given value
     * @param newOxygenation
     *   the new oxygenation of the aquarium
     * @return
-    *   a new [[AquariumState]]
+    *   a new [[Aquarium]]
     */
-  def updateOxygenation(newOxygenation: Int): AquariumState
+  def updateOxygenation(newOxygenation: Int): Aquarium
 
 /** Companion object of [[UpdateAquariumState]] */
 object UpdateAquariumState:
@@ -64,26 +64,26 @@ object UpdateAquariumState:
     * @return
     *   a new [[UpdateAquariumState]]
     */
-  def apply(aquariumState: AquariumState): UpdateAquariumState =
-    UpdateAquariumStateImpl(aquariumState)
+  def apply(aquarium: Aquarium): UpdateAquariumState =
+    UpdateAquariumStateImpl(aquarium)
 
   /** Hidden implementation of [[UpdateAquariumState]]
-    * @param aquariumState
-    *   the [[AquariumState]] that have to be modified
+    * @param aquarium
+    *   the [[Aquarium]] that have to be modified
     */
-  private class UpdateAquariumStateImpl(aquariumState: AquariumState) extends UpdateAquariumState:
+  private class UpdateAquariumStateImpl(aquarium: Aquarium) extends UpdateAquariumState:
 
-    override def clean(): AquariumState =
-      aquariumState.copy(impurity = 0)
+    override def clean(): Aquarium =
+      aquarium.copy(aquariumState = aquarium.aquariumState.copy(impurity = 0))
 
-    override def updateTemperature(newTemperature: Int): AquariumState =
-      aquariumState.copy(temperature = newTemperature)
+    override def updateTemperature(newTemperature: Int): Aquarium =
+      aquarium.copy(aquariumState = aquarium.aquariumState.copy(temperature = newTemperature))
 
-    override def updateBrightness(newBrightness: Int): AquariumState =
-      aquariumState.copy(brightness = newBrightness)
+    override def updateBrightness(newBrightness: Int): Aquarium =
+      aquarium.copy(aquariumState = aquarium.aquariumState.copy(brightness = newBrightness))
 
-    override def updatePh(newPh: Double): AquariumState =
-      aquariumState.copy(ph = newPh)
+    override def updatePh(newPh: Double): Aquarium =
+      aquarium.copy(aquariumState = aquarium.aquariumState.copy(ph = newPh))
 
-    override def updateOxygenation(newOxygenation: Int): AquariumState =
-      aquariumState.copy(oxygenation = newOxygenation)
+    override def updateOxygenation(newOxygenation: Int): Aquarium =
+      aquarium.copy(aquariumState = aquarium.aquariumState.copy(oxygenation = newOxygenation))

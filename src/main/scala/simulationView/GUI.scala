@@ -16,6 +16,7 @@ import scalafx.scene.control.*
 import scalafx.scene.paint.Color.*
 import scalafx.scene.paint.*
 import scalafx.scene.text.TextAlignment
+import simulationView.widgets.BottomBar
 object GUI extends JFXApp3:
 
     override def start(): Unit =

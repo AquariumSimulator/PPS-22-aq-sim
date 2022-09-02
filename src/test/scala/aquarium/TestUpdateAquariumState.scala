@@ -28,7 +28,7 @@ class TestUpdateAquariumState extends AnyFunSpec:
 
   val aquariumState = AquariumState(temperature, brightness, ph, impurity, oxygenation)
   val population = Population(herbivorousNumber, carnivorousNumber, algaeNumber)
-  val availableFood = AvailableFood(Set.empty, Set.empty)
+  val availableFood = AvailableFood(Seq.empty, Seq.empty)
   val aquarium = Aquarium(aquariumState, population, availableFood)
 
   val updateAquariumState = UpdateAquariumState(aquarium)

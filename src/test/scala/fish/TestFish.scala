@@ -1,6 +1,6 @@
 package fish
 
-import model.{Fish, HerbivorousFish}
+import fish.{Fish, HerbivorousFish}
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec
 

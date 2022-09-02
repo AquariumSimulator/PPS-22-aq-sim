@@ -1,4 +1,4 @@
-package model
+package fish
 
 object Fish:
   var n: Int = 0
@@ -10,7 +10,7 @@ object Fish:
 trait Fish():
 
   import scala.util.Random
-  import model.Fish.{MAX_HUNGER, n, MIN_SIZE, MAX_SIZE}
+  import fish.Fish.{MAX_HUNGER, n, MIN_SIZE, MAX_SIZE}
 
   val name: String = "fish-" + n
   n = n + 1
@@ -24,14 +24,14 @@ trait Fish():
 
 case class HerbivorousFish() extends Fish:
 
-  import model.Fish.MAX_HUNGER
+  import fish.Fish.MAX_HUNGER
 
   def eat(food: HerbivorousFood): Unit =
     hunger = MAX_HUNGER min hunger + food.NUTRITION_AMOUNT
 
 case class CarnivorousFish() extends Fish:
 
-  import model.Fish.{MEAT_AMOUNT, MAX_HUNGER}
+  import fish.Fish.{MEAT_AMOUNT, MAX_HUNGER}
 
   def eat(fish: Fish): Unit =
     hunger = MAX_HUNGER min hunger + (MEAT_AMOUNT * fish.size).floor.toInt

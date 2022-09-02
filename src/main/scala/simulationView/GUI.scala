@@ -25,6 +25,7 @@ object GUI extends JFXApp3:
                 root = new BorderPane:
                     background = new Background(Array(new BackgroundFill(Color.Black, null, null)))
                     padding = Insets(10)
+                    bottom = BottomBar.bottomBar
                     top = new BorderPane :
                         right = new BorderPane :
                             top = new BorderPane :

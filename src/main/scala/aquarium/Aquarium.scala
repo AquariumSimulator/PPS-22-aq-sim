@@ -32,7 +32,7 @@ object Aquarium:
     */
   def apply(herbivorousFishesNumber: Int, carnivorousFishesNumber: Int, algaeNumber: Int): Aquarium =
     Aquarium(
-      aquariumState = aquariumState,
-      population = Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber),
+      aquariumState,
+      Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber),
       AvailableFood(Set.empty, Set.empty)
     )

@@ -33,10 +33,10 @@ class TestPopulation extends AnyFunSpec:
         assert(population.algae.size == algaeNumber)
       }
 
-      it("all elements should have different positions"){
+      it("all elements should have different positions") {
         population.algae.foreach(a => assert(population.algae.count(e => e == a) == 1))
       }
     }
   }
 
-  //TODO controlla che non ci siano alghe nella stessa posizione
+//TODO controlla che non ci siano alghe nella stessa posizione

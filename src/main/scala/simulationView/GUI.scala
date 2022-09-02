@@ -50,7 +50,7 @@ object GUI extends JFXApp3:
                                 alignment = Pos.Center
                                 text = "Aquarium Simulator"
                                 textAlignment = TextAlignment.Center
-                                style = "-fx-font: italic bold 15pt sans-serif"
+                                style = "-fx-font: italic bold 18pt sans-serif"
                                 textFill = Color.rgb(0,150,255)
                                 margin = Insets.apply(
                                     top = 0,

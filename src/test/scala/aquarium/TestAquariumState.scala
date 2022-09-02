@@ -1,4 +1,4 @@
-package testAquarium
+package aquarium
 
 import aquarium.*
 import org.scalatest.funspec.AnyFunSpec

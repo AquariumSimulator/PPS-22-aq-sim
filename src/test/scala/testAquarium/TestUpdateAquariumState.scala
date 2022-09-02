@@ -1,7 +1,6 @@
 package testAquarium
 
 import aquarium.*
-import food.AvailableFood
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert

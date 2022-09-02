@@ -1,4 +1,6 @@
-import model.{Fish, CarnivoreFish, CarnivoreFood}
+package fish
+
+import model.{CarnivoreFish, CarnivoreFood, Fish}
 
 class TestCarnivoreFish extends TestFish:
 

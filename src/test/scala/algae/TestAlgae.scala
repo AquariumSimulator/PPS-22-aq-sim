@@ -1,6 +1,6 @@
-package TestAlgae
+package algae
 
-import algae._
+import algae.*
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert

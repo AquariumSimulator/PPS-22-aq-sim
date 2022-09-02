@@ -1,6 +1,7 @@
-import org.scalatest.funsuite.AnyFunSuite
+package fish
 
 import model.{CarnivoreFish, Fish, HerbivoreFish}
+import org.scalatest.funsuite.AnyFunSuite
 
 class TestTwoFish extends AnyFunSuite:
   val fishTypes: List[() => Fish] = List(

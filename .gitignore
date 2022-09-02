@@ -1,6 +1,10 @@
 .idea/
 *.class
 target/
-project/boot/
-project/plugins/project/
 .bsp/
+.bloop/
+.metals/
+.vscode/
+project/
+!project/build.properties
+!project/plugins.sbt

@@ -14,4 +14,4 @@ case class Fish():
   val age: Int = 0
   val speed: (Double, Double) = (0.0, 0.0)
 
-  def isDead: Boolean = hunger == 0
+  def isAlive: Boolean = hunger > 0

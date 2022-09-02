@@ -19,8 +19,8 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
       assert(f.hunger == Fish.MAX_HUNGER)
     }
 
-    it("should not be dead") {
-      assert(!f.isDead)
+    it("should be alive") {
+      assert(f.isAlive)
     }
 
     it("should have speed 0") {

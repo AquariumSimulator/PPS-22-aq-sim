@@ -28,6 +28,12 @@ object GUI extends JFXApp3:
                     padding = Insets(10)
                     bottom = BottomBar.bottomBar
                     top = new BorderPane:
+                        margin = Insets.apply(
+                            top = 0,
+                            right = 5,
+                            bottom = 10,
+                            left = 5
+                        )
                         right = new BorderPane:
                             top = new BorderPane:
                                 background = new Background(Array(new BackgroundFill(Color.White, null, null)))
@@ -45,7 +51,19 @@ object GUI extends JFXApp3:
                                 textAlignment = TextAlignment.Center
                                 style = "-fx-font: italic bold 15pt sans-serif"
                                 textFill = Color.rgb(red = 10, green = 10, blue = 200)
+                                margin = Insets.apply(
+                                    top = 0,
+                                    right = 5,
+                                    bottom = 15,
+                                    left = 5
+                                )
                             left = new BorderPane:
+                                margin = Insets.apply(
+                                    top = 0,
+                                    right = 15,
+                                    bottom = 5,
+                                    left = 5
+                                )
                                 top = new Label:
                                     text = "LUM"
                                     textFill = Color.White
@@ -57,11 +75,30 @@ object GUI extends JFXApp3:
                             center = new BorderPane:
                                 top = new BorderPane: //acquario
                                     center = new Canvas:
-                                        width = 400
-                                        height = 300
-
-                                center = new TilePane:
+                                        width = 600
+                                        height = 400
+                                        background = new Background(
+                                            Array(
+                                                new BackgroundFill(
+                                                    Color.rgb(171, 205, 239),
+                                                    null,
+                                                    null)
+                                            )
+                                        )
+                                        margin = Insets.apply(
+                                            top = 30,
+                                            right = 30,
+                                            bottom = 30,
+                                            left = 30
+                                        )
+                                bottom = new TilePane:
                                     left = new BorderPane:
+                                        margin = Insets.apply(
+                                            top = 15,
+                                            right = 15,
+                                            bottom = 10,
+                                            left = 15
+                                        )
                                         left = new Label:
                                             text = "TEMP"
                                             textFill = Color.White
@@ -70,6 +107,12 @@ object GUI extends JFXApp3:
                                             max = 100
                                             value = 50
                                     right = new BorderPane :
+                                        margin = Insets.apply(
+                                            top = 15,
+                                            right = 15,
+                                            bottom = 10,
+                                            left = 15
+                                        )
                                         left = new Label :
                                             text = "OXY"
                                             textFill = Color.White

@@ -17,6 +17,7 @@ import scalafx.scene.paint.Color.*
 import scalafx.scene.paint.*
 import scalafx.scene.text.TextAlignment
 import simulationView.widgets.BottomBar
+import simulationView.widgets.SimulationViewer
 object GUI extends JFXApp3:
 
     override def start(): Unit =
@@ -50,7 +51,7 @@ object GUI extends JFXApp3:
                                 text = "Aquarium Simulator"
                                 textAlignment = TextAlignment.Center
                                 style = "-fx-font: italic bold 15pt sans-serif"
-                                textFill = Color.rgb(red = 10, green = 10, blue = 200)
+                                textFill = Color.rgb(0,150,255)
                                 margin = Insets.apply(
                                     top = 0,
                                     right = 5,
@@ -73,16 +74,25 @@ object GUI extends JFXApp3:
                                     value = 50
                                     orientation = Orientation.Vertical
                             center = new BorderPane:
-                                top = new BorderPane: //acquario
+                                top = new BorderPane:
+                                    //center = SimulationViewer.canvas
                                     center = new Canvas:
                                         width = 600
                                         height = 400
                                         background = new Background(
                                             Array(
                                                 new BackgroundFill(
-                                                    Color.rgb(171, 205, 239),
+                                                    new LinearGradient(
+                                                        endX = 0,
+                                                        stops = Stops(
+                                                            Color.rgb(0,191,255),
+                                                            Color.rgb(25,25,112),
+                                                        )
+                                                    ),
+                                                    //Color.rgb(171, 205, 239),
                                                     null,
-                                                    null)
+                                                    null,
+                                                )
                                             )
                                         )
                                         margin = Insets.apply(

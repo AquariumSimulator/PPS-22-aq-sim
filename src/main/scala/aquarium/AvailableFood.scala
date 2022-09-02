@@ -9,4 +9,4 @@ import fish.{CarnivorousFood, HerbivorousFood}
   * @param carnivorousFood
   *   carnivorous food available
   */
-case class AvailableFood(herbivorousFood: Set[HerbivorousFood], carnivorousFood: Set[CarnivorousFood])
+case class AvailableFood(herbivorousFood: Seq[HerbivorousFood], carnivorousFood: Seq[CarnivorousFood])

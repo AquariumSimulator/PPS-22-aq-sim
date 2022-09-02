@@ -42,5 +42,15 @@ class TestAquarium extends AnyFunSpec:
           assert(aquarium.aquariumState.oxygenation == InitializeAquarium.OXYGENATION)
         }
       }
+
+      describe("with a given availableFood"){
+        it("should have herbivorousFood set empty"){
+          assert(aquarium.availableFood.herbivorousFood.isEmpty)
+        }
+
+        it("should have carnivorousFood set empty") {
+          assert(aquarium.availableFood.carnivorousFood.isEmpty)
+        }
+      }
     }
   }

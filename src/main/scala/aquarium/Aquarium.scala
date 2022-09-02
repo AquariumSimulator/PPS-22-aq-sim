@@ -7,11 +7,18 @@ package aquarium
   * @param population
   *   represent the current population of the aquarium
   */
-case class Aquarium(aquariumState: AquariumState, population: Population)
+case class Aquarium(aquariumState: AquariumState, population: Population, availableFood: AvailableFood)
 
 /** Companion object of the case class */
 object Aquarium:
 
+  val aquariumState = AquariumState(
+    InitializeAquarium.TEMPERATURE,
+    InitializeAquarium.BRIGHTNESS,
+    InitializeAquarium.PH,
+    InitializeAquarium.IMPURITY,
+    InitializeAquarium.OXYGENATION
+  )
   /** Create a new [[Aquarium]]
     *
     * @param herbivorousFishesNumber
@@ -24,15 +31,8 @@ object Aquarium:
     *   an instance of the simulation (the initial one)
     */
   def apply(herbivorousFishesNumber: Int, carnivorousFishesNumber: Int, algaeNumber: Int): Aquarium =
-    val aquariumState = AquariumState(
-      InitializeAquarium.TEMPERATURE,
-      InitializeAquarium.BRIGHTNESS,
-      InitializeAquarium.PH,
-      InitializeAquarium.IMPURITY,
-      InitializeAquarium.OXYGENATION
-    )
-
     Aquarium(
       aquariumState = aquariumState,
-      population = Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber)
+      population = Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber),
+      AvailableFood(Set.empty, Set.empty)
     )

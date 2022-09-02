@@ -22,19 +22,19 @@ trait Fish():
 
   def isAlive: Boolean = hunger > 0
 
-case class HerbivoreFish() extends Fish:
+case class HerbivorousFish() extends Fish:
 
   import model.Fish.MAX_HUNGER
 
-  def eat(food: HerbivoreFood): Unit =
+  def eat(food: HerbivorousFood): Unit =
     hunger = MAX_HUNGER min hunger + food.NUTRITION_AMOUNT
 
-case class CarnivoreFish() extends Fish:
+case class CarnivorousFish() extends Fish:
 
   import model.Fish.{MEAT_AMOUNT, MAX_HUNGER}
 
   def eat(fish: Fish): Unit =
     hunger = MAX_HUNGER min hunger + (MEAT_AMOUNT * fish.size).floor.toInt
 
-  def eat(food: CarnivoreFood): Unit =
+  def eat(food: CarnivorousFood): Unit =
     hunger = MAX_HUNGER min hunger + food.NUTRITION_AMOUNT

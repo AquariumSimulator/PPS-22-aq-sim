@@ -1,12 +1,12 @@
 package fish
 
-import model.{CarnivoreFish, Fish, HerbivoreFish}
+import model.{CarnivorousFish, Fish, HerbivorousFish}
 import org.scalatest.funsuite.AnyFunSuite
 
 class TestTwoFish extends AnyFunSuite:
   val fishTypes: List[() => Fish] = List(
-    () => HerbivoreFish(),
-    () => CarnivoreFish()
+    () => HerbivorousFish(),
+    () => CarnivorousFish()
   )
 
   fishTypes.foreach { i =>

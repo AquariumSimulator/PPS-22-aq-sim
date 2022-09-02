@@ -1,15 +1,15 @@
 package fish
 
-import model.{Fish, HerbivoreFish}
+import model.{Fish, HerbivorousFish}
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec
 
 class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
-  var f: Fish = HerbivoreFish()
+  var f: Fish = HerbivorousFish()
 
   override def beforeEach(): Unit =
-    f = HerbivoreFish()
+    f = HerbivorousFish()
 
   describe("A new Fish") {
     it("should have age 0") {

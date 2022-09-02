@@ -1,3 +1,5 @@
+package fish
+
 import model.{Fish, HerbivoreFish, HerbivoreFood}
 
 class TestHerbivoreFish extends TestFish:

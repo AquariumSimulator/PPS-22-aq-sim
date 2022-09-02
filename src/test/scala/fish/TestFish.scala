@@ -1,6 +1,8 @@
-import org.scalatest.funspec.AnyFunSpec
-import org.scalatest.BeforeAndAfterEach
+package fish
+
 import model.{Fish, HerbivoreFish}
+import org.scalatest.BeforeAndAfterEach
+import org.scalatest.funspec.AnyFunSpec
 
 class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 

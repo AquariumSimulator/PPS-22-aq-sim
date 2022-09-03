@@ -6,6 +6,7 @@ import org.scalatest.funspec.AnyFunSpec
 
 class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
+  // HerbivorousFish is used as an example
   var f: Fish = HerbivorousFish()
 
   override def beforeEach(): Unit =
@@ -30,5 +31,13 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
     it("should not have an empty name") {
       assert(f.name !== "")
+    }
+
+    it("should absorb oxygen") {
+      assert(f.oxygenShift < 0)
+    }
+
+    it("should pollute the water") {
+      assert(f.impurityShift > 0)
     }
   }

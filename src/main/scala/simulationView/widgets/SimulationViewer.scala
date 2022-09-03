@@ -29,7 +29,7 @@ object SimulationViewer:
         new BackgroundFill(Color.rgb(171, 205, 239), null, null)
       )
     )
-    */
+     */
     margin = Insets.apply(
       top = 30,
       right = 30,

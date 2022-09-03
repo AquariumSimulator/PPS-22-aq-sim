@@ -1,6 +1,4 @@
-package algae
-
-import Model.Entity
+package model
 
 /** Algae model definition.
   *

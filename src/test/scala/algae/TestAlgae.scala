@@ -1,9 +1,10 @@
 package algae
 
-import algae.*
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
+
+import model.Algae
 
 /** Test for [[Algae]] */
 class TestAlgae extends AnyFunSpec:

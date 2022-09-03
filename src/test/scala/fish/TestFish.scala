@@ -23,7 +23,7 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
     }
 
     it("should be alive") {
-      assert(f.isAlive)
+      assert(f.isAlive())
     }
 
     it("should have speed 0") {
@@ -40,5 +40,12 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
     it("should pollute the water") {
       assert(f.impurityShift > 0)
+    }
+  }
+
+  describe("A Fish") {
+    it("when has hunger 0, should not be alive") {
+      f.hunger = 0
+      assert(!f.isAlive())
     }
   }

@@ -8,6 +8,8 @@ object Food:
 
 trait Food:
 
+  import model.Food.{MIN_NUTRITION_AMOUNT, MAX_NUTRITION_AMOUNT}
+
   val NUTRITION_AMOUNT: Int = Random.between(MIN_NUTRITION_AMOUNT, MAX_NUTRITION_AMOUNT)
 
 case class HerbivorousFood() extends Food

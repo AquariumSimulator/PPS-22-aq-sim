@@ -1,4 +1,5 @@
-package Model
+package model
+
 /** Common trait for every entity inside the aquarium. */
 trait Entity:
   /** Position with base (0, 0) in the bottom-left corner. */

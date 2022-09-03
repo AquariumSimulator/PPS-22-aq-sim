@@ -1,4 +1,6 @@
-package model
+package model.fish
+
+import model.Entity
 
 object Fish:
   var n: Int = 0
@@ -13,7 +15,7 @@ object Fish:
 trait Fish extends Entity:
 
   import scala.util.Random
-  import model.Fish.{
+  import model.fish.Fish.{
     MAX_HUNGER,
     n,
     MIN_SIZE,
@@ -36,20 +38,3 @@ trait Fish extends Entity:
   val phShift: Double = PH_SHIFT_CONSTANT * size
 
   def isAlive: Boolean = hunger > 0
-
-case class HerbivorousFish() extends Fish:
-
-  import model.Fish.MAX_HUNGER
-
-  def eat(food: HerbivorousFood): Unit =
-    hunger = MAX_HUNGER min hunger + food.NUTRITION_AMOUNT
-
-case class CarnivorousFish() extends Fish:
-
-  import model.Fish.{MEAT_AMOUNT, MAX_HUNGER}
-
-  def eat(fish: Fish): Unit =
-    hunger = MAX_HUNGER min hunger + (MEAT_AMOUNT * fish.size).floor.toInt
-
-  def eat(food: CarnivorousFood): Unit =
-    hunger = MAX_HUNGER min hunger + food.NUTRITION_AMOUNT

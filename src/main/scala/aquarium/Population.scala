@@ -23,6 +23,12 @@ object Population:
     *   a new [[Population]]
     */
   def apply(herbivorousFishesNumber: Int, carnivorousFishesNumber: Int, algaeNumber: Int): Population =
+    /** Method used to create all the algae required so that no two algae are in the same location
+      * @param number
+      *   of algae required
+      * @return
+      *   seq of algae
+      */
     def addAlgae(number: Int): Seq[Algae] =
       def _addAlgae(number: Int, seq: Seq[Algae]): Seq[Algae] =
         val newAlgae =
@@ -43,3 +49,47 @@ object Population:
     val seqAlgae = addAlgae(algaeNumber)
 
     Population(seqHerbivorous, seqCarnivorous, seqAlgae)
+
+/** Trait that models methods for adding and removing elements from a population seq
+  * @tparam A
+  *   type of the seq that have to be updated
+  */
+trait UpdateSpecificPopulation[A]:
+  /** Add a new element in the seq
+    * @param newElem
+    *   element that has to be added
+    * @return
+    *   new Seq of type A with the new element added
+    */
+  def +(newElem: A): Seq[A]
+
+  /** Remove an element from the seq
+    * @param removeElem
+    *   element that has to be removed
+    * @return
+    *   new Seq of type A with the element removed
+    */
+  def -(removeElem: A): Seq[A]
+
+/** Companion object of [[UpdateSpecificPopulation]] */
+object UpdateSpecificPopulation:
+
+  /** Create a new [[UpdateSpecificPopulation]] by a given Seq of type A
+    * @param seq
+    *   seq that has to be updated
+    * @tparam A
+    *   type of the seq that have to be updated
+    * @return
+    *   a new [[UpdateSpecificPopulation]]
+    */
+  def apply[A](seq: Seq[A]): UpdateSpecificPopulation[A] = UpdateSpecificPopulationImpl[A](seq)
+
+  /** Hidden implementation of [[UpdateSpecificPopulation]]
+    *
+    * @param seq
+    *   seq of [[A]] that have to be updated
+    */
+  private class UpdateSpecificPopulationImpl[A](seq: Seq[A]) extends UpdateSpecificPopulation[A]:
+    override def +(newElem: A): Seq[A] = seq :+ newElem
+
+    override def -(removeElem: A): Seq[A] = ???

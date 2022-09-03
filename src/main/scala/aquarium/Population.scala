@@ -1,7 +1,7 @@
 package aquarium
 
-import algae.Algae
-import fish.{CarnivorousFish, HerbivorousFish}
+import model.Algae
+import model.fish.{CarnivorousFish, HerbivorousFish}
 
 import scala.language.postfixOps
 import scala.util.Random

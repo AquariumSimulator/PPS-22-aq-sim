@@ -1,6 +1,6 @@
 package aquarium
 
-import fish.{CarnivorousFood, HerbivorousFood}
+import model.{CarnivorousFood, HerbivorousFood}
 
 /** This case class represent the food available inside the aquarium
   *

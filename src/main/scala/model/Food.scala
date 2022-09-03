@@ -1,4 +1,4 @@
-package fish
+package model
 
 import scala.util.Random
 
@@ -7,8 +7,6 @@ object Food:
   val MAX_NUTRITION_AMOUNT: Int = 15
 
 trait Food:
-
-  import fish.Food.{MAX_NUTRITION_AMOUNT, MIN_NUTRITION_AMOUNT}
 
   val NUTRITION_AMOUNT: Int = Random.between(MIN_NUTRITION_AMOUNT, MAX_NUTRITION_AMOUNT)
 

@@ -1,11 +1,13 @@
 package fish
 
-import fish.{Fish, HerbivorousFish}
+import model.fish.{Fish, HerbivorousFish}
+
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec
 
 class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
+  // HerbivorousFish is used as an example
   var f: Fish = HerbivorousFish()
 
   override def beforeEach(): Unit =
@@ -21,7 +23,7 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
     }
 
     it("should be alive") {
-      assert(f.isAlive)
+      assert(f.isAlive())
     }
 
     it("should have speed 0") {
@@ -30,5 +32,20 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
     it("should not have an empty name") {
       assert(f.name !== "")
+    }
+
+    it("should absorb oxygen") {
+      assert(f.oxygenShift < 0)
+    }
+
+    it("should pollute the water") {
+      assert(f.impurityShift > 0)
+    }
+  }
+
+  describe("A Fish") {
+    it("when has hunger 0, should not be alive") {
+      f.hunger = 0
+      assert(!f.isAlive())
     }
   }

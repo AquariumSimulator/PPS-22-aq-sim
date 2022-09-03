@@ -1,6 +1,7 @@
 package fish
 
-import fish.{CarnivorousFish, CarnivorousFood, Fish}
+import model.fish.{CarnivorousFish, Fish}
+import model.CarnivorousFood
 
 class TestCarnivorousFish extends TestFish:
 

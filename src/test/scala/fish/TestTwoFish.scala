@@ -1,6 +1,7 @@
 package fish
 
-import fish.{CarnivorousFish, Fish, HerbivorousFish}
+import model.fish.{CarnivorousFish, Fish, HerbivorousFish}
+
 import org.scalatest.funsuite.AnyFunSuite
 
 class TestTwoFish extends AnyFunSuite:

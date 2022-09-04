@@ -53,3 +53,8 @@ trait Fish extends Entity:
     *   True if hunger is positive, False otherwise.
     */
   def isAlive(): Boolean = hunger > 0
+
+  override def equals(that: Any): Boolean =
+    that match
+      case that: Fish => that.name == name
+      case _ => false

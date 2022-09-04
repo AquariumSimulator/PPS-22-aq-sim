@@ -1,6 +1,6 @@
 package aquarium
 
-import aquarium.*
+import model.aquarium.Population
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert

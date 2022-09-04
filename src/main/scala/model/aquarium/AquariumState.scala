@@ -1,4 +1,4 @@
-package aquarium
+package model.aquarium
 
 /** Case class that represent the current state of the aquarium
   * @param temperature

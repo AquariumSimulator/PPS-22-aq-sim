@@ -1,4 +1,4 @@
-package aquarium
+package model.aquarium
 
 /** This class represent the current state of the simulation
   *

@@ -1,4 +1,4 @@
-package aquarium
+package model.aquarium
 
 /** Constants that represent the dimensions of the aquarium */
 object AquariumDimensions:

@@ -1,7 +1,7 @@
 package aquarium
 
-import aquarium.*
 import model.CarnivorousFood
+import model.aquarium.{Population, UpdateSpecificPopulation}
 import model.fish.{CarnivorousFish, HerbivorousFish}
 import org.scalatest.funspec.AnyFunSpec
 

@@ -1,4 +1,4 @@
-package aquarium
+package model.aquarium
 
 import model.{CarnivorousFood, Food, HerbivorousFood}
 

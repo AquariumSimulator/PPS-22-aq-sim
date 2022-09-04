@@ -1,4 +1,4 @@
-package aquarium
+package model.aquarium
 
 import model.Algae
 import model.fish.{CarnivorousFish, HerbivorousFish}

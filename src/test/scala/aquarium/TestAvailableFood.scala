@@ -1,6 +1,6 @@
 package aquarium
 
-import aquarium.{AvailableFood, UpdateAvailableFood}
+import model.aquarium.{AvailableFood, UpdateAvailableFood}
 import model.{CarnivorousFood, Food, HerbivorousFood}
 import org.scalatest.funspec.AnyFunSpec
 

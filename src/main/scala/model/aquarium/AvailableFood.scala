@@ -15,19 +15,19 @@ case class AvailableFood(herbivorousFood: Seq[HerbivorousFood], carnivorousFood:
 trait UpdateAvailableFood:
 
   /** Add a new food
-    * @param elem
+    * @param addElem
     * @return
     *   a new seq of [[Food]]
     */
-  def addFood(elem: Food): Seq[Food]
+  def addFood(addElem: Food): Seq[Food]
 
   /** Remove a particular instance of food
-    * @param elem
+    * @param removeElem
     *   that have to be removed
     * @return
     *   a new seq of [[Food]]
     */
-  def deleteFood(elem: Food): Seq[Food]
+  def deleteFood(removeElem: Food): Seq[Food]
 
 /** Companion object of [[UpdateAvailableFood]] */
 object UpdateAvailableFood:
@@ -46,7 +46,7 @@ object UpdateAvailableFood:
     */
   private class UpdateAvailableFoodImpl(seq: Seq[Food]) extends UpdateAvailableFood:
 
-    override def addFood(elem: Food): Seq[Food] =
-      seq :+ elem
+    override def addFood(addElem: Food): Seq[Food] =
+      seq :+ addElem
 
-    override def deleteFood(elem: Food): Seq[Food] = ???
+    override def deleteFood(removeElem: Food): Seq[Food] = seq.filterNot(elem => elem == removeElem)

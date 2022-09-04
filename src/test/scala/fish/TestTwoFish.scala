@@ -25,7 +25,7 @@ class TestTwoFish extends AnyFunSuite:
     fishTypes.foreach { j =>
       val f2 = j()
       test(s"A ${f.getClass.getSimpleName} and a ${f2.getClass.getSimpleName} should be different") {
-        assert(f.name !== f2.name)
+        assert(f !== f2)
       }
     }
   }

@@ -16,8 +16,7 @@ import scalafx.scene.control.*
 import scalafx.scene.paint.Color.*
 import scalafx.scene.paint.*
 import scalafx.scene.text.TextAlignment
-import simulationView.widgets.BottomBar
-import simulationView.widgets.SimulationViewer
+import simulationView.widgets.*
 
 object GUI extends JFXApp3:
   override def start(): Unit =
@@ -36,14 +35,14 @@ object GUI extends JFXApp3:
               left = 5
             )
             right = new BorderPane:
-              top = new BorderPane:
-                background = new Background(Array(new BackgroundFill(Color.White, null, null)))
-                center = new Label:
-                  text = "Info"
-              bottom = new BorderPane:
-                background = new Background(Array(new BackgroundFill(Color.White, null, null)))
-                center = new Label:
-                  text = "Chronicle"
+              margin = Insets.apply(
+                top = 10,
+                right = 10,
+                bottom = 10,
+                left = 10
+              )
+              top = Info.info
+              bottom = Chronicle.chronicle
             left = new BorderPane:
               top = new Label:
                 alignmentInParent = Pos.Center

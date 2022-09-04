@@ -10,4 +10,4 @@ case class CarnivorousFish() extends Fish:
     hunger = MAX_HUNGER min hunger + (MEAT_AMOUNT * fish.size).floor.toInt
 
   def eat(food: CarnivorousFood): Unit =
-    hunger = MAX_HUNGER min hunger + food.NUTRITION_AMOUNT
+    hunger = MAX_HUNGER min hunger + food.nutritionAmount

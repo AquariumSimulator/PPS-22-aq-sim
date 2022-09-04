@@ -19,41 +19,41 @@ trait UpdateAquariumState:
 
   /** Clean the aquarium. When called the impurity level of the aquarium is set to 0
     * @return
-    *   a new [[Aquarium]]
+    *   a new [[AquariumState]]
     */
-  def clean(): Aquarium
+  def clean(): AquariumState
 
   /** Set the temperature to a given value
     * @param newTemperature
     *   the new temperature of the aquarium
     * @return
-    *   a new [[Aquarium]]
+    *   a new [[AquariumState]]
     */
-  def updateTemperature(newTemperature: Int): Aquarium
+  def updateTemperature(newTemperature: Int): AquariumState
 
   /** Set the brightness to a given value
     * @param newBrightness
     *   the new brightness of the aquarium
     * @return
-    *   a new [[Aquarium]]
+    *   a new [[AquariumState]]
     */
-  def updateBrightness(newBrightness: Int): Aquarium
+  def updateBrightness(newBrightness: Int): AquariumState
 
   /** Set PH to a given value
     * @param newPh
     *   the new PH of the aquarium
     * @return
-    *   a new [[Aquarium]]
+    *   a new [[AquariumState]]
     */
-  def updatePh(newPh: Double): Aquarium
+  def updatePh(newPh: Double): AquariumState
 
   /** Set oxygenation to a given value
     * @param newOxygenation
     *   the new oxygenation of the aquarium
     * @return
-    *   a new [[Aquarium]]
+    *   a new [[AquariumState]]
     */
-  def updateOxygenation(newOxygenation: Int): Aquarium
+  def updateOxygenation(newOxygenation: Int): AquariumState
 
 /** Companion object of [[UpdateAquariumState]] */
 object UpdateAquariumState:
@@ -73,17 +73,17 @@ object UpdateAquariumState:
     */
   private class UpdateAquariumStateImpl(aquarium: Aquarium) extends UpdateAquariumState:
 
-    override def clean(): Aquarium =
-      aquarium.copy(aquariumState = aquarium.aquariumState.copy(impurity = 0))
+    override def clean(): AquariumState =
+      aquarium.aquariumState.copy(impurity = 0)
 
-    override def updateTemperature(newTemperature: Int): Aquarium =
-      aquarium.copy(aquariumState = aquarium.aquariumState.copy(temperature = newTemperature))
+    override def updateTemperature(newTemperature: Int): AquariumState =
+      aquarium.aquariumState.copy(temperature = newTemperature)
 
-    override def updateBrightness(newBrightness: Int): Aquarium =
-      aquarium.copy(aquariumState = aquarium.aquariumState.copy(brightness = newBrightness))
+    override def updateBrightness(newBrightness: Int): AquariumState =
+      aquarium.aquariumState.copy(brightness = newBrightness)
 
-    override def updatePh(newPh: Double): Aquarium =
-      aquarium.copy(aquariumState = aquarium.aquariumState.copy(ph = newPh))
+    override def updatePh(newPh: Double): AquariumState =
+      aquarium.aquariumState.copy(ph = newPh)
 
-    override def updateOxygenation(newOxygenation: Int): Aquarium =
-      aquarium.copy(aquariumState = aquarium.aquariumState.copy(oxygenation = newOxygenation))
+    override def updateOxygenation(newOxygenation: Int): AquariumState =
+      aquarium.aquariumState.copy(oxygenation = newOxygenation)

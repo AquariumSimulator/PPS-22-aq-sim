@@ -32,7 +32,7 @@ object Population:
     def addAlgae(number: Int): Seq[Algae] =
       def _addAlgae(number: Int, seq: Seq[Algae]): Seq[Algae] =
         val newAlgae =
-          new Algae(Random.between(0, AquariumDimensions.WIDTH), Random.between(Algae.DEFAULT_HEIGHT, Algae.MAX_HEIGHT))
+          Algae(Random.between(0, AquariumDimensions.WIDTH), Random.between(Algae.DEFAULT_HEIGHT, Algae.MAX_HEIGHT))
         number match
           case 0 => seq
           case _ =>
@@ -92,4 +92,4 @@ object UpdateSpecificPopulation:
   private class UpdateSpecificPopulationImpl[A](seq: Seq[A]) extends UpdateSpecificPopulation[A]:
     override def +(newElem: A): Seq[A] = seq :+ newElem
 
-    override def -(removeElem: A): Seq[A] = ???
+    override def -(removeElem: A): Seq[A] = seq.filterNot(elem => elem == removeElem)

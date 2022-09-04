@@ -20,6 +20,14 @@ class TestAvailableFood extends AnyFunSpec:
   val updateAvailableFoodCarnivorousAdd = UpdateAvailableFood(availableFood.carnivorousFood)
   val updateAvailableFoodCarnivorousRemove = UpdateAvailableFood(availableFoodRemove.carnivorousFood)
 
+  val newElemHerbivorous = HerbivorousFood()
+  val newHerbivorousFoodWithAddedElem = updateAvailableFoodHerbivorousAdd.addFood(newElemHerbivorous)
+  val newHerbivorousFoodWithRemovedElem = updateAvailableFoodHerbivorousRemove.deleteFood(newElemHerbivorous)
+
+  val newElemCarnivorous = CarnivorousFood()
+  val newCarnivorousFoodWithAddedElem = updateAvailableFoodCarnivorousAdd.addFood(newElemCarnivorous)
+  val newCarnivorousFoodWithRemovedElem = updateAvailableFoodCarnivorousRemove.deleteFood(newElemCarnivorous)
+
   describe("A new instance of AvailableFood") {
     describe("built with two empty Seq") {
       it("should have an empty herbivorousFood Seq") {
@@ -36,25 +44,41 @@ class TestAvailableFood extends AnyFunSpec:
 
   describe("A new instance of UpdateAvailableFood") {
     describe("when addFood is called on the herbivorous food seq") {
-      val newElemHerbivorous = HerbivorousFood()
-      val newHerbivorousFood = updateAvailableFoodHerbivorousAdd.addFood(newElemHerbivorous)
       it("should return a new Seq[Food] equal to the old one plus a new Food instance") {
-        assert(newHerbivorousFood.size == availableFood.herbivorousFood.size + 1)
+        assert(newHerbivorousFoodWithAddedElem.size == availableFood.herbivorousFood.size + 1)
       }
 
       it(s"should return a new Seq[Food] that contain $newElemHerbivorous ") {
-        assert(newHerbivorousFood.contains(newElemHerbivorous))
+        assert(newHerbivorousFoodWithAddedElem.contains(newElemHerbivorous))
       }
     }
+
+    describe(s"when removeFood is called on $newHerbivorousFoodWithAddedElem") {
+      it("should return a new Seq[Food] equal to the old one") {
+        assert(newHerbivorousFoodWithRemovedElem.size == availableFood.herbivorousFood.size)
+      }
+
+      it(s"should return a new Seq[Food] that doesn't contain $newElemHerbivorous ") {
+        assert(!newHerbivorousFoodWithRemovedElem.contains(newElemHerbivorous))
+      }
+    }
+
     describe("when addFood is called on the carnivorous food seq") {
-      val newElemCarnivorous = CarnivorousFood()
-      val newCarnivorousFood = updateAvailableFoodCarnivorousAdd.addFood(newElemCarnivorous)
       it("should return a new Seq[Food] equal to the old one plus a new Food instance") {
-        assert(newCarnivorousFood.size == availableFood.carnivorousFood.size + 1)
+        assert(newCarnivorousFoodWithAddedElem.size == availableFood.carnivorousFood.size + 1)
       }
 
       it(s"should return a new Seq[Food] that contain $newElemCarnivorous ") {
-        assert(newCarnivorousFood.contains(newElemCarnivorous))
+        assert(newCarnivorousFoodWithAddedElem.contains(newElemCarnivorous))
+      }
+    }
+    describe(s"when removeFood is called on $newCarnivorousFoodWithRemovedElem") {
+      it("should return a new Seq[Food] equal to the old one") {
+        assert(newCarnivorousFoodWithRemovedElem.size == availableFood.carnivorousFood.size)
+      }
+
+      it(s"should return a new Seq[Food] that doesn't contain $newElemCarnivorous ") {
+        assert(!newCarnivorousFoodWithRemovedElem.contains(newElemCarnivorous))
       }
     }
   }

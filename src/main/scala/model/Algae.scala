@@ -7,7 +7,7 @@ package model
   * @param height
   *   Starting height (1 by default).
   */
-class Algae(base: Double, val height: Int = Algae.DEFAULT_HEIGHT) extends Entity:
+case class Algae(base: Double, val height: Int = Algae.DEFAULT_HEIGHT) extends Entity:
   val position: (Double, Double) = (base, 0)
   val oxygenShift: Double = Algae.OXYGEN_MULTIPLIER * height
   val impurityShift: Double = 0.0

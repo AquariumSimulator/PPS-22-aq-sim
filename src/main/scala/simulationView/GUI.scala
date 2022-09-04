@@ -18,6 +18,7 @@ import scalafx.scene.paint.*
 import scalafx.scene.text.TextAlignment
 import simulationView.widgets.BottomBar
 import simulationView.widgets.SimulationViewer
+
 object GUI extends JFXApp3:
     override def start(): Unit =
         stage = new JFXApp3.PrimaryStage:
@@ -105,4 +106,4 @@ object GUI extends JFXApp3:
                                             max = 100
                                             value = 50
 
-        stage.setFullScreen(false)
+    stage.setFullScreen(false)

@@ -5,13 +5,18 @@ import scala.util.Random
 object Food:
   val MIN_NUTRITION_AMOUNT: Int = 5
   val MAX_NUTRITION_AMOUNT: Int = 15
+  val IMPURITY_CONSTANT: Double = 0.3
 
-trait Food:
+trait Food extends Entity:
+  
+  import model.Food.{MAX_NUTRITION_AMOUNT, MIN_NUTRITION_AMOUNT, IMPURITY_CONSTANT}
 
-  import model.Food.{MIN_NUTRITION_AMOUNT, MAX_NUTRITION_AMOUNT}
+  val nutritionAmount: Int = Random.between(MIN_NUTRITION_AMOUNT, MAX_NUTRITION_AMOUNT)
 
-  val NUTRITION_AMOUNT: Int = Random.between(MIN_NUTRITION_AMOUNT, MAX_NUTRITION_AMOUNT)
+  def oxygenShift: Double = 0.0
+  def impurityShift: Double = nutritionAmount * IMPURITY_CONSTANT
+  def phShift: Double = 0.0
 
-case class HerbivorousFood() extends Food
+case class HerbivorousFood(position: (Double, Double) = (0.0, 0.0)) extends Food
 
-case class CarnivorousFood() extends Food
+case class CarnivorousFood(position: (Double, Double) = (0.0, 0.0)) extends Food

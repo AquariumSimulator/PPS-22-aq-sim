@@ -1,6 +1,6 @@
 package aquarium
 
-import model.aquarium.{Aquarium, AquariumState, AvailableFood, Population, UpdateAquariumState}
+import model.aquarium.*
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
@@ -37,35 +37,35 @@ class TestUpdateAquariumState extends AnyFunSpec:
     describe("when clean() is called") {
       it("should return a new AquariumState with impurity set to 0") {
         val newAquarium = updateAquariumState.clean()
-        assert(newAquarium.aquariumState.impurity == 0)
+        assert(newAquarium.impurity == 0)
       }
     }
 
     describe("when updateTemperature() is called") {
       it(s"should return a new AquariumState with temperature set to $newTemperature") {
         val newAquarium = updateAquariumState.updateTemperature(newTemperature)
-        assert(newAquarium.aquariumState.temperature == newTemperature)
+        assert(newAquarium.temperature == newTemperature)
       }
     }
 
     describe("when updateBrightness() is called") {
       it(s"should return a new AquariumState with brightness set to $newBrightness") {
         val newAquarium = updateAquariumState.updateBrightness(newBrightness)
-        assert(newAquarium.aquariumState.brightness == newBrightness)
+        assert(newAquarium.brightness == newBrightness)
       }
     }
 
     describe("when updatePh() is called") {
       it(s"should return a new AquariumState with ph set to $newPh") {
         val newAquarium = updateAquariumState.updatePh(newPh)
-        assert(newAquarium.aquariumState.ph == newPh)
+        assert(newAquarium.ph == newPh)
       }
     }
 
     describe("when updateOxygenation() is called") {
       it(s"should return a new AquariumState with oxygenation set to $newOxygenation") {
         val newAquarium = updateAquariumState.updateOxygenation(newOxygenation)
-        assert(newAquarium.aquariumState.oxygenation == newOxygenation)
+        assert(newAquarium.oxygenation == newOxygenation)
       }
     }
   }

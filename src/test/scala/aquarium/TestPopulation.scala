@@ -16,20 +16,20 @@ class TestPopulation extends AnyFunSpec:
 
   describe("A new Population") {
 
-    describe("with an herbivorous Fishes Seq") {
+    describe("with an herbivorous Fishes Set") {
       it(s"should have $herbivorousFishesNumber elements") {
         assert(population.herbivorous.size == herbivorousFishesNumber)
       }
     }
 
-    describe("with an carnivorous Fishes Seq") {
-      it(s"should have an carnivorous Fishes Seq of $carnivorousFishesNumber elements") {
+    describe("with an carnivorous Fishes Set") {
+      it(s"should have an carnivorous Fishes Set of $carnivorousFishesNumber elements") {
         assert(population.carnivorous.size == carnivorousFishesNumber)
       }
     }
 
-    describe("with an algae Fishes Seq") {
-      it(s"should have an algae Seq of $algaeNumber elements") {
+    describe("with an algae Fishes Set") {
+      it(s"should have an algae Set of $algaeNumber elements") {
         assert(population.algae.size == algaeNumber)
       }
 
@@ -38,5 +38,3 @@ class TestPopulation extends AnyFunSpec:
       }
     }
   }
-
-//TODO controlla che non ci siano alghe nella stessa posizione

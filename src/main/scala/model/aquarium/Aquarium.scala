@@ -34,5 +34,5 @@ object Aquarium:
     Aquarium(
       aquariumState,
       Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber),
-      AvailableFood(Seq.empty, Seq.empty)
+      AvailableFood(Set.empty, Set.empty)
     )

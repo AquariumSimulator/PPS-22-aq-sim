@@ -9,7 +9,7 @@ import model.{CarnivorousFood, Food, HerbivorousFood}
   * @param carnivorousFood
   *   carnivorous food available
   */
-case class AvailableFood(herbivorousFood: Seq[HerbivorousFood], carnivorousFood: Seq[CarnivorousFood])
+case class AvailableFood(herbivorousFood: Set[Food], carnivorousFood: Set[Food])
 
 /** Trait that models methods for modifying he food available inside the aquarium */
 trait UpdateAvailableFood:
@@ -17,36 +17,37 @@ trait UpdateAvailableFood:
   /** Add a new food
     * @param addElem
     * @return
-    *   a new seq of [[Food]]
+    *   a new set of [[Food]]
     */
-  def addFood(addElem: Food): Seq[Food]
+  def addFood(addElem: Food): Set[Food]
 
   /** Remove a particular instance of food
     * @param removeElem
     *   that have to be removed
     * @return
-    *   a new seq of [[Food]]
+    *   a new set of [[Food]]
     */
-  def deleteFood(removeElem: Food): Seq[Food]
+  def deleteFood(removeElem: Food): Set[Food]
 
 /** Companion object of [[UpdateAvailableFood]] */
 object UpdateAvailableFood:
 
-  /** Create a new [[UpdateAvailableFood]] given a seq of [[Food]]
-    * @param seq
-    *   seq of [[Food]]
+  /** Create a new [[UpdateAvailableFood]] given a set of [[Food]]
+    * @param set
+    *   set of [[Food]]
     * @return
     *   a new [[UpdateAvailableFood]]
     */
-  def apply(seq: Seq[Food]): UpdateAvailableFood = UpdateAvailableFoodImpl(seq)
+  def apply(set: Set[Food]): UpdateAvailableFood = UpdateAvailableFoodImpl(set)
 
   /** Hidden implementation of [[UpdateAvailableFood]]
-    * @param seq
-    *   seq of [[Food]]
+    * @param set
+    *   set of [[Food]]
     */
-  private class UpdateAvailableFoodImpl(seq: Seq[Food]) extends UpdateAvailableFood:
+  private class UpdateAvailableFoodImpl(set: Set[Food]) extends UpdateAvailableFood:
 
-    override def addFood(addElem: Food): Seq[Food] =
-      seq :+ addElem
+    override def addFood(addElem: Food): Set[Food] =
+      set + addElem
 
-    override def deleteFood(removeElem: Food): Seq[Food] = seq.filterNot(elem => elem == removeElem)
+    override def deleteFood(removeElem: Food): Set[Food] = set.filterNot(elem => elem == removeElem)
+

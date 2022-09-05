@@ -1,13 +1,13 @@
 package model.aquarium
 
-import model.Algae
 import model.fish.{CarnivorousFish, HerbivorousFish}
+import model.{Algae, CarnivorousFood, HerbivorousFood}
 
 import scala.language.postfixOps
 import scala.util.Random
 
 /** This class represent the current population of the aquarium */
-case class Population(herbivorous: Seq[HerbivorousFish], carnivorous: Seq[CarnivorousFish], algae: Seq[Algae])
+case class Population(herbivorous: Set[HerbivorousFish], carnivorous: Set[CarnivorousFish], algae: Set[Algae])
 
 /** Companion object of the case class */
 object Population:
@@ -27,69 +27,69 @@ object Population:
       * @param number
       *   of algae required
       * @return
-      *   seq of algae
+      *   set of algae
       */
-    def addAlgae(number: Int): Seq[Algae] =
-      def _addAlgae(number: Int, seq: Seq[Algae]): Seq[Algae] =
+    def addAlgae(number: Int): Set[Algae] =
+      def _addAlgae(number: Int, set: Set[Algae]): Set[Algae] =
         val newAlgae =
           Algae(Random.between(0, AquariumDimensions.WIDTH), Random.between(Algae.DEFAULT_HEIGHT, Algae.MAX_HEIGHT))
         number match
-          case 0 => seq
+          case 0 => set
           case _ =>
-            seq.contains(newAlgae) match
-              case true => _addAlgae(number, seq)
-              case _ => _addAlgae(number - 1, seq :+ newAlgae)
+            set.contains(newAlgae) match
+              case true => _addAlgae(number, set)
+              case _ => _addAlgae(number - 1, set + newAlgae)
 
-      _addAlgae(number, Seq.empty)
+      _addAlgae(number, Set.empty)
 
-    val seqHerbivorous = (1 to herbivorousFishesNumber).map(_ => HerbivorousFish())
+    val setHerbivorous = (1 to herbivorousFishesNumber).map(_ => HerbivorousFish()).toSet
 
-    val seqCarnivorous = (1 to carnivorousFishesNumber).map(_ => CarnivorousFish())
+    val setCarnivorous = (1 to carnivorousFishesNumber).map(_ => CarnivorousFish()).toSet
 
-    val seqAlgae = addAlgae(algaeNumber)
+    val setAlgae = addAlgae(algaeNumber)
 
-    Population(seqHerbivorous, seqCarnivorous, seqAlgae)
+    Population(setHerbivorous, setCarnivorous, setAlgae)
 
-/** Trait that models methods for adding and removing elements from a population seq
+/** Trait that models methods for adding and removing elements from a population set
   * @tparam A
-  *   type of the seq that have to be updated
+  *   type of the set that have to be updated
   */
 trait UpdateSpecificPopulation[A]:
-  /** Add a new element in the seq
+  /** Add a new element in the set
     * @param newElem
     *   element that has to be added
     * @return
-    *   new Seq of type A with the new element added
+    *   new set of type A with the new element added
     */
-  def +(newElem: A): Seq[A]
+  def +(newElem: A): Set[A]
 
-  /** Remove an element from the seq
+  /** Remove an element from the set
     * @param removeElem
     *   element that has to be removed
     * @return
-    *   new Seq of type A with the element removed
+    *   new set of type A with the element removed
     */
-  def -(removeElem: A): Seq[A]
+  def -(removeElem: A): Set[A]
 
 /** Companion object of [[UpdateSpecificPopulation]] */
 object UpdateSpecificPopulation:
 
-  /** Create a new [[UpdateSpecificPopulation]] by a given Seq of type A
-    * @param seq
-    *   seq that has to be updated
+  /** Create a new [[UpdateSpecificPopulation]] by a given set of type A
+    * @param set
+    *   set that has to be updated
     * @tparam A
-    *   type of the seq that have to be updated
+    *   type of the set that have to be updated
     * @return
     *   a new [[UpdateSpecificPopulation]]
     */
-  def apply[A](seq: Seq[A]): UpdateSpecificPopulation[A] = UpdateSpecificPopulationImpl[A](seq)
+  def apply[A](set: Set[A]): UpdateSpecificPopulation[A] = UpdateSpecificPopulationImpl[A](set)
 
   /** Hidden implementation of [[UpdateSpecificPopulation]]
     *
-    * @param seq
-    *   seq of [[A]] that have to be updated
+    * @param set
+    *   set of [[A]] that have to be updated
     */
-  private class UpdateSpecificPopulationImpl[A](seq: Seq[A]) extends UpdateSpecificPopulation[A]:
-    override def +(newElem: A): Seq[A] = seq :+ newElem
+  private class UpdateSpecificPopulationImpl[A](set: Set[A]) extends UpdateSpecificPopulation[A]:
+    override def +(newElem: A): Set[A] = set + newElem
 
-    override def -(removeElem: A): Seq[A] = seq.filterNot(elem => elem == removeElem)
+    override def -(removeElem: A): Set[A] = set.filterNot(elem => elem == removeElem)

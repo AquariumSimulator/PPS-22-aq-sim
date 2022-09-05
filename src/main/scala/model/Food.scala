@@ -8,7 +8,7 @@ object Food:
   val IMPURITY_CONSTANT: Double = 0.3
 
 trait Food extends Entity:
-  
+
   import model.Food.{MAX_NUTRITION_AMOUNT, MIN_NUTRITION_AMOUNT, IMPURITY_CONSTANT}
 
   val nutritionAmount: Int = Random.between(MIN_NUTRITION_AMOUNT, MAX_NUTRITION_AMOUNT)

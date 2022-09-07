@@ -65,17 +65,6 @@ object GUI extends JFXApp3:
                   center = SimulationViewer.canvas
                 bottom = new TilePane:
                   left = new TemperatureSlider
-                  right = new BorderPane:
-                    margin = Insets.apply(
-                      top = 15,
-                      right = 15,
-                      bottom = 10,
-                      left = 15
-                    )
-                    left = new IconLabel("/oxygen.png")
-                    right = new Slider:
-                      min = 0
-                      max = 100
-                      value = 50
+                  right = new OxygenSlider
 
     stage.setFullScreen(false)

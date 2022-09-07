@@ -18,7 +18,7 @@ import scalafx.scene.paint.*
 import scalafx.scene.text.TextAlignment
 
 import view.widgets.*
-import view.utils.*
+import view.utils.{AquariumFonts, IconLabel}
 
 object GUI extends JFXApp3:
   override def start(): Unit =
@@ -59,19 +59,7 @@ object GUI extends JFXApp3:
                   bottom = 15,
                   left = 5
                 )
-              left = new BorderPane:
-                margin = Insets.apply(
-                  top = 0,
-                  right = 15,
-                  bottom = 5,
-                  left = 5
-                )
-                top = new IconLabel("/light.png")
-                center = new Slider:
-                  min = 0
-                  max = 100
-                  value = 50
-                  orientation = Orientation.Vertical
+              left = new LightSlider
               center = new BorderPane:
                 top = new BorderPane:
                   center = SimulationViewer.canvas

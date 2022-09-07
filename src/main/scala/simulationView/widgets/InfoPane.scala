@@ -21,6 +21,10 @@ object InfoPane:
         font = Font.font("Helvetica", FontWeight.Bold, FontPosture.Regular, 15.0)
       right = new IconButton("/download.png")
     bottom = new GridPane:
+      alignment = Pos.Center
+      hgap = 40
+      vgap = 10
+      padding = Insets(20, 0, 10, 0)
       addRow(
         0,
         new InfoCell("Population", 0, "fish"),

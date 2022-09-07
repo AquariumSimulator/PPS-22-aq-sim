@@ -11,11 +11,11 @@ object InfoPane:
     padding = Insets(10, 10, 10, 10)
     background = new Background(Array(new BackgroundFill(Color.White, null, null)))
     top = new BorderPane:
-      left = new IconButton("/chart.png")
+      left = IconButton("/chart.png")
       center = new Label:
         text = "Info"
         font = AquariumFonts.bold(15.0)
-      right = new IconButton("/download.png")
+      right = IconButton("/download.png")
     bottom = new GridPane:
       alignment = Pos.Center
       hgap = 40

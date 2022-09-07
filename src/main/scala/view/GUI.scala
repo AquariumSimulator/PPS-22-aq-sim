@@ -20,7 +20,7 @@ object GUI extends JFXApp3:
       title = "Aquarium Simulator"
       scene = new Scene:
         root = new BorderPane:
-          background = new Background(Array(new BackgroundFill(Color.White, null, null)))
+          background = new Background(Array(new BackgroundFill(Color.Black, null, null)))
           padding = Insets(10)
           bottom = BottomBar.bottomBar
           top = new BorderPane:

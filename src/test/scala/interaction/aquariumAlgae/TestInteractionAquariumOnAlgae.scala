@@ -7,7 +7,7 @@ import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
 
-class TestInteractionAquariumAlgae extends AnyFunSpec:
+class TestInteractionAquariumOnAlgae extends AnyFunSpec:
 
   private val aquariumStateAlgaeAlive = AquariumState(5, 50, 7, 10, 10)
   private val aquariumStateAlgaeDead = AquariumState(5, 3, 7, 10, 10)
@@ -27,7 +27,7 @@ class TestInteractionAquariumAlgae extends AnyFunSpec:
   describe("An instance of InteractionAquariumOnAlgae") {
     describe("with a given Algae") {
       describe("and a given AquariumState") {
-        describe("when checkIfAlgaeIdDead() is called") {
+        describe("when update() is called") {
           describe(
             s"if the brightness level of the AquariumState is equal or lower than ${Algae.LOWER_BRIGHTNESS_LEVEL}"
           ) {

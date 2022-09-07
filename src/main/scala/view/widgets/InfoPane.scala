@@ -6,9 +6,8 @@ import scalafx.scene.control.Label
 import scalafx.scene.control.Button
 import scalafx.geometry.Pos
 import scalafx.geometry.Insets
-import scalafx.scene.text.Font
-import scalafx.scene.text.FontWeight
-import scalafx.scene.text.FontPosture
+
+import view.utils.AquariumFonts
 
 object InfoPane:
   val pane = new BorderPane:
@@ -18,7 +17,7 @@ object InfoPane:
       left = new IconButton("/chart.png")
       center = new Label:
         text = "Info"
-        font = Font.font("Helvetica", FontWeight.Bold, FontPosture.Regular, 15.0)
+        font = AquariumFonts.bold(15.0)
       right = new IconButton("/download.png")
     bottom = new GridPane:
       alignment = Pos.Center

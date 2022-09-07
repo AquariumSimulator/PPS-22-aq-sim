@@ -18,6 +18,7 @@ import scalafx.scene.paint.*
 import scalafx.scene.text.TextAlignment
 
 import view.widgets.*
+import view.utils.AquariumFonts
 
 object GUI extends JFXApp3:
   override def start(): Unit =
@@ -50,7 +51,7 @@ object GUI extends JFXApp3:
                 alignment = Pos.Center
                 text = "Aquarium Simulator"
                 textAlignment = TextAlignment.Center
-                style = "-fx-font: italic bold 18pt sans-serif"
+                font = AquariumFonts.bold(25.0)
                 textFill = Color.rgb(0, 150, 255)
                 margin = Insets.apply(
                   top = 0,

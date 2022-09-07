@@ -1,8 +1,6 @@
 package view.utils
 
-import scalafx.scene.text.Font
-import scalafx.scene.text.FontWeight
-import scalafx.scene.text.FontPosture
+import scalafx.scene.text.{Font, FontPosture, FontWeight}
 
 /** Utility object to keep the same fonts everywhere in the application. */
 object AquariumFonts:

@@ -1,9 +1,8 @@
 package view.widgets
 
-import scalafx.scene.layout.BorderPane
 import scalafx.geometry.Insets
 import scalafx.scene.control.Slider
-
+import scalafx.scene.layout.BorderPane
 import view.utils.IconLabel
 
 class OxygenSlider extends BorderPane:

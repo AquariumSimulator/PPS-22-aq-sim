@@ -1,8 +1,7 @@
 package view.utils
 
 import scalafx.scene.control.Button
-import scalafx.scene.image.ImageView
-import scalafx.scene.image.Image
+import scalafx.scene.image.{Image, ImageView}
 
 class IconButton(val iconPath: String) extends Button:
   graphic = new ImageView:

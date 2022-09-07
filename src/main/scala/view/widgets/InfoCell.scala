@@ -1,9 +1,8 @@
 package view.widgets
 
-import scalafx.scene.layout.BorderPane
-import scalafx.scene.control.Label
 import scalafx.geometry.Pos
-
+import scalafx.scene.control.Label
+import scalafx.scene.layout.BorderPane
 import view.utils.AquariumFonts
 
 class InfoCell(val title: String, val initial_value: Double, val unit: String) extends BorderPane:

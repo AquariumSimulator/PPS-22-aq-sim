@@ -1,14 +1,10 @@
 package view.widgets
 
+import scalafx.geometry.{Insets, Pos}
+import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.*
 import scalafx.scene.paint.Color
-import scalafx.scene.control.Label
-import scalafx.scene.control.Button
-import scalafx.geometry.Pos
-import scalafx.geometry.Insets
-
-import view.utils.AquariumFonts
-import view.utils.IconButton
+import view.utils.{AquariumFonts, IconButton}
 
 object InfoPane:
   val pane = new BorderPane:

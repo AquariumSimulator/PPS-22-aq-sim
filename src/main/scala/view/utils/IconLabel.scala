@@ -1,8 +1,7 @@
 package view.utils
 
 import scalafx.scene.control.Label
-import scalafx.scene.image.ImageView
-import scalafx.scene.image.Image
+import scalafx.scene.image.{Image, ImageView}
 
 class IconLabel(val iconPath: String) extends Label:
   graphic = new ImageView:

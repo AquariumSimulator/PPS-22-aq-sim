@@ -1,12 +1,9 @@
 package view.widgets
 
+import scalafx.geometry.{Insets, Pos}
+import scalafx.scene.control.{Label, ListView}
 import scalafx.scene.layout.*
 import scalafx.scene.paint.Color
-import scalafx.scene.control.Label
-import scalafx.scene.control.ListView
-import scalafx.geometry.Pos
-import scalafx.geometry.Insets
-
 import view.utils.AquariumFonts
 
 object Chronicle:

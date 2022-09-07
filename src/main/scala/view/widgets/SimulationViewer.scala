@@ -1,11 +1,11 @@
 package view.widgets
 
-import scalafx.scene.layout.{Background, BackgroundFill}
-import scalafx.scene.paint.{LinearGradient, Color, Stops}
 import scalafx.geometry.Insets
 import scalafx.scene.canvas.Canvas
-import scalafx.scene.layout.BorderPane
 import scalafx.scene.image.Image
+import scalafx.scene.layout.{Background, BackgroundFill, BorderPane}
+import scalafx.scene.paint.{Color, LinearGradient, Stops}
+
 import scala.util.Random
 
 object SimulationViewer:

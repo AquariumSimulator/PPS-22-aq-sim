@@ -1,24 +1,18 @@
 package view
 
-import scalafx.application.JFXApp3
-import scalafx.geometry.Insets
-import scalafx.scene.Scene
-import scalafx.scene.layout.HBox
-import scalafx.scene.text.Text
-import scalafx.scene.effect.DropShadow
 import scalafx.Includes.*
-import scalafx.application.JFXApp
-import scalafx.scene.layout.*
-import scalafx.scene.canvas.*
+import scalafx.application.JFXApp3
 import scalafx.geometry.*
 import scalafx.scene.*
+import scalafx.scene.canvas.*
 import scalafx.scene.control.*
-import scalafx.scene.paint.Color.*
+import scalafx.scene.effect.DropShadow
+import scalafx.scene.layout.*
 import scalafx.scene.paint.*
-import scalafx.scene.text.TextAlignment
-
-import view.widgets.*
+import scalafx.scene.paint.Color.*
+import scalafx.scene.text.{Text, TextAlignment}
 import view.utils.{AquariumFonts, IconLabel}
+import view.widgets.*
 
 object GUI extends JFXApp3:
   override def start(): Unit =

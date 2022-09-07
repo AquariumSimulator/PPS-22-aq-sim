@@ -1,9 +1,8 @@
 package view.widgets
 
-import scalafx.scene.layout.BorderPane
 import scalafx.geometry.{Insets, Orientation}
 import scalafx.scene.control.Slider
-
+import scalafx.scene.layout.BorderPane
 import view.utils.IconLabel
 
 class LightSlider extends BorderPane:

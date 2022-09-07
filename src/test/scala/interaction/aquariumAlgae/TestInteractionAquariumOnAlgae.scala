@@ -2,8 +2,8 @@ package interaction.aquariumAlgae
 
 import model.*
 import model.aquarium.AquariumState
-import model.interaction.aquariumAlgae.InteractionAquariumOnAlgae
 import org.scalatest.funspec.AnyFunSpec
+import model.interaction.Interaction
 
 import scala.runtime.stdLibPatches.Predef.assert
 
@@ -17,10 +17,10 @@ class TestInteractionAquariumOnAlgae extends AnyFunSpec:
   private val algaeDead = Algae(1)
 
   private val interactionAquariumAlgaeForAliveAndGrowTest =
-    InteractionAquariumOnAlgae(aquariumStateAlgaeAlive, algaeAliveThatCanGrow)
+    Interaction(algaeAliveThatCanGrow, aquariumStateAlgaeAlive)
   private val interactionAquariumAlgaeForAliveAndNotGrowTest =
-    InteractionAquariumOnAlgae(aquariumStateAlgaeAlive, algaeAliveThatCantGrow)
-  private val interactionAquariumAlgaeForDeadTest = InteractionAquariumOnAlgae(aquariumStateAlgaeDead, algaeDead)
+    Interaction(algaeAliveThatCantGrow, aquariumStateAlgaeAlive)
+  private val interactionAquariumAlgaeForDeadTest = Interaction(algaeDead, aquariumStateAlgaeDead)
 
   private val expectedGrowth = 5
 

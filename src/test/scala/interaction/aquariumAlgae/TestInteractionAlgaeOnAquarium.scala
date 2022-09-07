@@ -2,7 +2,7 @@ package interaction.aquariumAlgae
 
 import model.*
 import model.aquarium.{AquariumParametersLimits, AquariumState}
-import model.interaction.aquariumAlgae.{InteractionAlgaeOnAquarium, InteractionAquariumOnAlgae}
+import model.interaction.Interaction
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
@@ -16,9 +16,9 @@ class TestInteractionAlgaeOnAquarium extends AnyFunSpec:
   private val algae = Algae(0, Algae.MAX_HEIGHT / 2)
 
   private val interactionAlgaeAquarium =
-    InteractionAlgaeOnAquarium(aquariumState, algae)
+    Interaction(aquariumState, algae)
   private val interactionAlgaeAquariumLimitsTest =
-    InteractionAlgaeOnAquarium(aquariumStateLimitsTest, algae)
+    Interaction(aquariumStateLimitsTest, algae)
 
   describe("An instance of InteractionAlgaeOnAquarium") {
     describe("with a given AquariumState") {

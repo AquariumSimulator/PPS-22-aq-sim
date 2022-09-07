@@ -1,4 +1,4 @@
-package simulationView.widgets
+package view.widgets
 
 import scalafx.scene.layout.{Background, BackgroundFill}
 import scalafx.scene.paint.{LinearGradient, Color, Stops}

@@ -1,4 +1,4 @@
-package simulationView.widgets
+package view.widgets
 
 import scalafx.scene.control.Button
 import scalafx.scene.image.ImageView

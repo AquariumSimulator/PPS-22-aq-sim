@@ -1,4 +1,4 @@
-package simulationView
+package view
 
 import scalafx.application.JFXApp3
 import scalafx.geometry.Insets
@@ -16,7 +16,8 @@ import scalafx.scene.control.*
 import scalafx.scene.paint.Color.*
 import scalafx.scene.paint.*
 import scalafx.scene.text.TextAlignment
-import simulationView.widgets.*
+
+import view.widgets.*
 
 object GUI extends JFXApp3:
   override def start(): Unit =

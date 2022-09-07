@@ -1,4 +1,4 @@
-package simulationView.widgets
+package view.widgets
 
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.control.Button

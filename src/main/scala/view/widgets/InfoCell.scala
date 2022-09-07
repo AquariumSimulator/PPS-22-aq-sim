@@ -1,4 +1,4 @@
-package simulationView.widgets
+package view.widgets
 
 import scalafx.scene.layout.BorderPane
 import scalafx.scene.control.Label

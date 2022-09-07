@@ -1,4 +1,4 @@
-package simulationView.widgets
+package view.widgets
 
 import scalafx.scene.layout.*
 import scalafx.scene.paint.Color

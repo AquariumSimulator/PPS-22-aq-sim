@@ -1,4 +1,4 @@
-package view.widgets
+package view.utils
 
 import scalafx.scene.control.Button
 import scalafx.scene.image.ImageView

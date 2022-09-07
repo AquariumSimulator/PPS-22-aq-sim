@@ -18,7 +18,7 @@ import scalafx.scene.paint.*
 import scalafx.scene.text.TextAlignment
 
 import view.widgets.*
-import view.utils.AquariumFonts
+import view.utils.*
 
 object GUI extends JFXApp3:
   override def start(): Unit =
@@ -26,7 +26,7 @@ object GUI extends JFXApp3:
       title = "Aquarium Simulator"
       scene = new Scene:
         root = new BorderPane:
-          background = new Background(Array(new BackgroundFill(Color.Black, null, null)))
+          background = new Background(Array(new BackgroundFill(Color.White, null, null)))
           padding = Insets(10)
           bottom = BottomBar.bottomBar
           top = new BorderPane:
@@ -66,9 +66,7 @@ object GUI extends JFXApp3:
                   bottom = 5,
                   left = 5
                 )
-                top = new Label:
-                  text = "LUM"
-                  textFill = Color.White
+                top = new IconLabel("/light.png")
                 center = new Slider:
                   min = 0
                   max = 100
@@ -85,9 +83,7 @@ object GUI extends JFXApp3:
                       bottom = 10,
                       left = 15
                     )
-                    left = new Label:
-                      text = "TEMP"
-                      textFill = Color.White
+                    left = new IconLabel("/temperature.png")
                     right = new Slider:
                       min = 0
                       max = 100
@@ -99,9 +95,7 @@ object GUI extends JFXApp3:
                       bottom = 10,
                       left = 15
                     )
-                    left = new Label:
-                      text = "OXY"
-                      textFill = Color.White
+                    left = new IconLabel("/oxygen.png")
                     right = new Slider:
                       min = 0
                       max = 100

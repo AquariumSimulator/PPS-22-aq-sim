@@ -8,6 +8,7 @@ import scalafx.geometry.Pos
 import scalafx.geometry.Insets
 
 import view.utils.AquariumFonts
+import view.utils.IconButton
 
 object InfoPane:
   val pane = new BorderPane:

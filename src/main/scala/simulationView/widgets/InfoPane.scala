@@ -5,28 +5,21 @@ import scalafx.scene.paint.Color
 import scalafx.scene.control.Label
 import scalafx.scene.control.Button
 import scalafx.geometry.Pos
+import scalafx.geometry.Insets
 import scalafx.scene.text.Font
 import scalafx.scene.text.FontWeight
 import scalafx.scene.text.FontPosture
 
 object InfoPane:
   val pane = new BorderPane:
+    padding = Insets(10, 10, 10, 10)
     background = new Background(Array(new BackgroundFill(Color.White, null, null)))
-    center = new TilePane:
-      alignmentInParent = Pos.Center
-      alignment = Pos.Center
-      children ++= Seq(
-        new IconButton("/chart.png"):
-          alignmentInParent = Pos.CenterLeft
-        ,
-        new Label:
-          alignmentInParent = Pos.Center
-          text = "Info"
-          font = Font.font("Helvetica", FontWeight.Bold, FontPosture.Regular, 15.0)
-        ,
-        new IconButton("/download.png"):
-          alignmentInParent = Pos.CenterRight
-      )
+    top = new BorderPane:
+      left = new IconButton("/chart.png")
+      center = new Label:
+        text = "Info"
+        font = Font.font("Helvetica", FontWeight.Bold, FontPosture.Regular, 15.0)
+      right = new IconButton("/download.png")
     bottom = new GridPane:
       addRow(
         0,

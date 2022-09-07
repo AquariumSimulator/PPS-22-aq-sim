@@ -3,8 +3,8 @@ package simulationView.widgets
 import scalafx.scene.layout.BorderPane
 import scalafx.scene.control.Label
 import scalafx.geometry.Pos
-import scalafx.scene.text.FontWeight
 import scalafx.scene.text.Font
+import scalafx.scene.text.FontWeight
 import scalafx.scene.text.FontPosture
 
 class InfoCell(val title: String, val initial_value: Double, val unit: String) extends BorderPane:

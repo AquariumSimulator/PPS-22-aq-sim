@@ -4,8 +4,10 @@ import scalafx.scene.layout.*
 import scalafx.scene.paint.Color
 import scalafx.scene.control.Label
 import scalafx.scene.control.Button
-import scalafx.scene.image.Image
 import scalafx.geometry.Pos
+import scalafx.scene.text.Font
+import scalafx.scene.text.FontWeight
+import scalafx.scene.text.FontPosture
 
 object InfoPane:
   val pane = new BorderPane:
@@ -14,18 +16,16 @@ object InfoPane:
       alignmentInParent = Pos.Center
       alignment = Pos.Center
       children ++= Seq(
-        new Button:
-          alignmentInParent = Pos.TopLeft
-          text = "G"
+        new IconButton("/chart.png"):
+          alignmentInParent = Pos.CenterLeft
         ,
         new Label:
-          alignmentInParent = Pos.TopCenter
+          alignmentInParent = Pos.Center
           text = "Info"
+          font = Font.font("Helvetica", FontWeight.Bold, FontPosture.Regular, 15.0)
         ,
-        new Button:
-          alignmentInParent = Pos.TopCenter
-          //background = new Image("/download.svg")
-          text = "D"
+        new IconButton("/download.png"):
+          alignmentInParent = Pos.CenterRight
       )
     bottom = new GridPane:
       addRow(

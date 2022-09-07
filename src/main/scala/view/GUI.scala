@@ -64,18 +64,7 @@ object GUI extends JFXApp3:
                 top = new BorderPane:
                   center = SimulationViewer.canvas
                 bottom = new TilePane:
-                  left = new BorderPane:
-                    margin = Insets.apply(
-                      top = 15,
-                      right = 15,
-                      bottom = 10,
-                      left = 15
-                    )
-                    left = new IconLabel("/temperature.png")
-                    right = new Slider:
-                      min = 0
-                      max = 100
-                      value = 50
+                  left = new TemperatureSlider
                   right = new BorderPane:
                     margin = Insets.apply(
                       top = 15,

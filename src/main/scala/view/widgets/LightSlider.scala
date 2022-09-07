@@ -17,4 +17,5 @@ class LightSlider extends BorderPane:
     min = 0
     max = 100
     value = 50
+    style = "-fx-background-color: linear-gradient(to bottom, yellow, black)"
     orientation = Orientation.Vertical

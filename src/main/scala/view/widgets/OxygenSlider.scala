@@ -15,5 +15,6 @@ class OxygenSlider extends BorderPane:
   left = new IconLabel("/oxygen.png")
   right = new Slider:
     min = 0
-    max = 100
-    value = 50
+    max = 50
+    value = 12
+    style = "-fx-background-color: linear-gradient(to right, white, gray)"

@@ -15,5 +15,6 @@ class TemperatureSlider extends BorderPane:
   left = new IconLabel("/temperature.png")
   right = new Slider:
     min = 0
-    max = 100
-    value = 50
+    max = 30
+    value = 25
+    style = "-fx-background-color: linear-gradient(to right, red, lightblue)"

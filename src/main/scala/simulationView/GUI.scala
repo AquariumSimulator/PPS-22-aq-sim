@@ -41,7 +41,7 @@ object GUI extends JFXApp3:
                 bottom = 10,
                 left = 10
               )
-              top = Info.info
+              top = InfoPane.pane
               bottom = Chronicle.chronicle
             left = new BorderPane:
               top = new Label:

@@ -4,6 +4,7 @@ import scalafx.scene.layout.*
 import scalafx.scene.paint.Color
 import scalafx.scene.control.Label
 import scalafx.scene.control.Button
+import scalafx.scene.image.Image
 import scalafx.geometry.Pos
 
 object InfoPane:
@@ -23,21 +24,22 @@ object InfoPane:
         ,
         new Button:
           alignmentInParent = Pos.TopCenter
+          //background = new Image("/download.svg")
           text = "D"
       )
     bottom = new GridPane:
       addRow(
         0,
-        new InfoCell("Population", "0"),
-        new InfoCell("Temperature", "25°")
+        new InfoCell("Population", 0, "fish"),
+        new InfoCell("Temperature", 25, "°")
       )
       addRow(
         1,
-        new InfoCell("Brightness", "50%"),
-        new InfoCell("pH", "5.6")
+        new InfoCell("Brightness", 50, "%"),
+        new InfoCell("pH", 5.6, "")
       )
       addRow(
         2,
-        new InfoCell("Impurity", "20%"),
-        new InfoCell("Oxygenation", "12 mg/L")
+        new InfoCell("Impurity", 20, "%"),
+        new InfoCell("Oxygenation", 12, "mg/L")
       )

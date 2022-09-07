@@ -11,20 +11,11 @@ object BottomBar:
   val bottomBar = new TilePane:
     background = new Background(Array(new BackgroundFill(Color.Grey, null, null)))
     children ++= Seq(
-      new IconButton("/add-fish.png"):
-        background = new Background(Array(new BackgroundFill(Color.Yellow, null, null)))
-      ,
-      new IconButton("/remove-fish.png"):
-        background = new Background(Array(new BackgroundFill(Color.Yellow, null, null)))
-      ,
-      new IconButton("/play.png"):
-        background = new Background(Array(new BackgroundFill(Color.Yellow, null, null)))
-      ,
-      new IconButton("/food.png"):
-        background = new Background(Array(new BackgroundFill(Color.Yellow, null, null)))
-      ,
-      new IconButton("/clean.png"):
-        background = new Background(Array(new BackgroundFill(Color.Yellow, null, null))),
+      new BottomBarButton("/add-fish.png"),
+      new BottomBarButton("/remove-fish.png"),
+      new BottomBarButton("/play.png"),
+      new BottomBarButton("/food.png"),
+      new BottomBarButton("/clean.png")
     )
 
   bottomBar.alignment = Pos.Center

@@ -5,20 +5,26 @@ import scalafx.scene.control.Button
 import scalafx.scene.layout.{Background, BackgroundFill, TilePane}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Circle
+import view.utils.IconButton
 
 object BottomBar:
-  val buttonsNumber = 5
   val bottomBar = new TilePane:
     background = new Background(Array(new BackgroundFill(Color.Grey, null, null)))
-    for (a <- 1 to buttonsNumber)
-      children += new Button:
-        text = a.toString
+    children ++= Seq(
+      new IconButton("/add-fish.png"):
         background = new Background(Array(new BackgroundFill(Color.Yellow, null, null)))
-        margin = Insets.apply(
-          top = 10,
-          right = 10,
-          bottom = 10,
-          left = 10
-        )
+      ,
+      new IconButton("/remove-fish.png"):
+        background = new Background(Array(new BackgroundFill(Color.Yellow, null, null)))
+      ,
+      new IconButton("/play.png"):
+        background = new Background(Array(new BackgroundFill(Color.Yellow, null, null)))
+      ,
+      new IconButton("/food.png"):
+        background = new Background(Array(new BackgroundFill(Color.Yellow, null, null)))
+      ,
+      new IconButton("/clean.png"):
+        background = new Background(Array(new BackgroundFill(Color.Yellow, null, null))),
+    )
 
   bottomBar.alignment = Pos.Center

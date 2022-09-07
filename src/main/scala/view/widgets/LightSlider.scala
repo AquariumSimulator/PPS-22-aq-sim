@@ -3,6 +3,12 @@ package view.widgets
 import scalafx.geometry.{Insets, Orientation}
 import scalafx.scene.control.Slider
 import scalafx.scene.layout.BorderPane
+import scalafx.scene.layout.Background
+import scalafx.scene.layout.BackgroundFill
+import scalafx.scene.paint.LinearGradient
+import scalafx.scene.paint.Stops
+import scalafx.scene.paint.Color
+
 import view.utils.IconLabel
 
 class LightSlider extends BorderPane:
@@ -17,5 +23,18 @@ class LightSlider extends BorderPane:
     min = 0
     max = 100
     value = 50
-    style = "-fx-background-color: linear-gradient(to bottom, yellow, black)"
+    background = new Background(
+      Array(
+        new BackgroundFill(
+          new LinearGradient(
+            stops = Stops(
+              Color.Yellow,
+              Color.Black
+            )
+          ),
+          null,
+          null
+        )
+      )
+    )
     orientation = Orientation.Vertical

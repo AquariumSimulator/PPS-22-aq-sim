@@ -1,11 +1,10 @@
-package simulationView.widgets
+package view.widgets
 
+import scalafx.geometry.{Insets, Pos}
+import scalafx.scene.control.{Label, ListView}
 import scalafx.scene.layout.*
 import scalafx.scene.paint.Color
-import scalafx.scene.control.Label
-import scalafx.scene.control.ListView
-import scalafx.geometry.Pos
-import scalafx.geometry.Insets
+import view.utils.AquariumFonts
 
 object Chronicle:
   val chronicle = new BorderPane:
@@ -19,6 +18,7 @@ object Chronicle:
     top = new Label:
       alignmentInParent = Pos.Center
       text = "Chronicle"
+      font = AquariumFonts.bold(15.0)
     center = new ListView(
       items = Seq(
         "Fish1 is dead", "Fish2 ate Fish3", "Fish4 was born", "Fish2 ate Fish3", "Fish4 was born", "Fish2 ate Fish3",

@@ -11,13 +11,20 @@ import scalafx.scene.layout.*
 import scalafx.scene.paint.*
 import scalafx.scene.paint.Color.*
 import scalafx.scene.text.{Text, TextAlignment}
+import scalafx.stage.Screen;
 import view.utils.{AquariumFonts, IconLabel}
 import view.widgets.*
 
 object GUI extends JFXApp3:
   override def start(): Unit =
+
+    val preferredHeight: Double = Screen.primary.bounds.height * 3 / 4
+    val preferredWidth: Double = Screen.primary.bounds.width * 3 / 4
+
     stage = new JFXApp3.PrimaryStage:
       title = "Aquarium Simulator"
+      height = preferredHeight
+      width = preferredWidth
       scene = new Scene:
         root = new BorderPane:
           background = new Background(Array(new BackgroundFill(Color.Black, null, null)))

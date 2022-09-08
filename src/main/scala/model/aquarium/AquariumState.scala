@@ -12,4 +12,4 @@ package model.aquarium
   * @param oxygenation
   *   oxygenation of the aquarium
   */
-case class AquariumState(temperature: Int, brightness: Int, ph: Double, impurity: Int, oxygenation: Int)
+case class AquariumState(temperature: Double, brightness: Double, ph: Double, impurity: Double, oxygenation: Double)

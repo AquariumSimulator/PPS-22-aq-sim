@@ -16,5 +16,7 @@ case class Algae(base: Double, val height: Int = Algae.DEFAULT_HEIGHT) extends E
 object Algae:
   val DEFAULT_HEIGHT: Int = 1
   val MAX_HEIGHT: Int = 100
-  val OXYGEN_MULTIPLIER: Double = 2
+  val OXYGEN_MULTIPLIER: Double = 0.2
   val PH_DIVISOR: Double = 10
+  val LOWER_BRIGHTNESS_LEVEL: Int = 5
+  val MAX_GROWTH: Int = 10

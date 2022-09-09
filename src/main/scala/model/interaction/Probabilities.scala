@@ -15,3 +15,11 @@ object DeathProbabilityAlgae:
   val LACK_OF_BRIGHTNESS = (brightnessLevel: Double) =>
     (MAX_BRIGHTNESS_LEVEL_PROB_INTERVAL - brightnessLevel) * PROB_MIN_BRIGHTNESS /
       (MAX_BRIGHTNESS_LEVEL_PROB_INTERVAL - AquariumParametersLimits.BRIGHTNESS_MIN)
+
+object DeathProbabilityFish:
+
+  val MIN_SAFE_PH: Double = 5.9
+  val PROB_PH: Int = 3
+
+  val TOO_LOW_PH = (phLevel: Double) =>
+    (MIN_SAFE_PH - phLevel) * PROB_PH / (MIN_SAFE_PH - AquariumParametersLimits.PH_MIN)

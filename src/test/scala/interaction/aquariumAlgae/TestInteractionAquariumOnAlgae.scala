@@ -2,8 +2,8 @@ package interaction.aquariumAlgae
 
 import model.*
 import model.aquarium.AquariumState
-import org.scalatest.funspec.AnyFunSpec
 import model.interaction.Interaction
+import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
 
@@ -28,13 +28,7 @@ class TestInteractionAquariumOnAlgae extends AnyFunSpec:
     describe("with a given Algae") {
       describe("and a given AquariumState") {
         describe("when update() is called") {
-          describe(
-            s"if the brightness level of the AquariumState is equal or lower than ${Algae.LOWER_BRIGHTNESS_LEVEL}"
-          ) {
-            it(" should return an empty option") {
-              assert(interactionAquariumAlgaeForDeadTest.update().isEmpty)
-            }
-          }
+          //TODO test death (?)
           describe(s"if the brightness level of the AquariumState is greater than ${Algae.LOWER_BRIGHTNESS_LEVEL}") {
             it("it should return a new Algae updated") {
               assert(interactionAquariumAlgaeForAliveAndGrowTest.update().isDefined)

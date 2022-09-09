@@ -2,7 +2,9 @@ package model.interaction
 
 import model.Algae
 import model.aquarium.{AquariumParametersLimits, AquariumState}
-import model.interaction.Interaction
+import model.interaction.{DeathProbabilityAlgae, Interaction}
+
+import scala.util.Random
 
 /** Hidden implementation of [[Interaction]]
   *
@@ -26,7 +28,8 @@ private class InteractionAquariumOnAlgaeImpl(aquariumState: AquariumState, algae
     */
   def checkIfAlgaeAreDead(): Boolean =
     aquariumState.brightness match
-      case brightnessLevel if brightnessLevel <= Algae.LOWER_BRIGHTNESS_LEVEL => true
+      case brightnessLevel if brightnessLevel <= DeathProbabilityAlgae.MAX_BRIGHTNESS_LEVEL_PROB_INTERVAL =>
+        Random.between(0, 100) < DeathProbabilityAlgae.LACK_OF_BRIGHTNESS(brightnessLevel)
       case _ => false
 
   /** It calculate the algae growth with the following proportion: 100% : 10 = Brightness level : X. If the algae height

@@ -11,9 +11,14 @@ import scala.runtime.stdLibPatches.Predef.assert
 
 class TestDeathProbabilityFish extends AnyFunSpec:
 
+  private val multiplier = 10
+  private val delta = 0.05
+  private val inc = (d: Double) => d + 0.1
+  private val newProb = (prob: Double) => prob - delta
+
   private val probabilities =
-    List.iterate((0: Double, PROB_PH: Double), (MIN_SAFE_PH * 10).toInt)((ph: Double, prob: Double) =>
-      (ph + 0.1, prob - 0.05)
+    List.iterate((0: Double, PROB_PH: Double), (MIN_SAFE_PH * multiplier).toInt)((ph: Double, prob: Double) =>
+      (inc(ph), newProb(prob))
     )
 
   describe("Given a list of (ph, probability)") {

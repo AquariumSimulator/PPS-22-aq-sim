@@ -5,12 +5,14 @@ import scalafx.scene.canvas.Canvas
 import scalafx.scene.image.Image
 import scalafx.scene.layout.{Background, BackgroundFill, BorderPane}
 import scalafx.scene.paint.{Color, LinearGradient, Stops}
+import scalafx.stage.Screen;
 
 import scala.util.Random
 
 object SimulationViewer:
   val canvas = new BorderPane:
     val canv = new Canvas:
+      height = Screen.primary.bounds.height / 3
       background = new Background(
         Array(
           new BackgroundFill(

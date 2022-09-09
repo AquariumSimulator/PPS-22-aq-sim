@@ -10,8 +10,8 @@ import scala.runtime.stdLibPatches.Predef.assert
 class TestDeathProbabilityAlgae extends AnyFunSpec:
 
   private val probabilities =
-    List.iterate((1, 5.0), MAX_BRIGHTNESS_LEVEL_PROB_INTERVAL - BRIGHTNESS_MIN)((brightnessLevel: Int, prob: Double) =>
-      (brightnessLevel + 1, prob - 0.5)
+    List.iterate((1, PROB_MIN_BRIGHTNESS.toDouble), MAX_BRIGHTNESS_LEVEL_PROB_INTERVAL - BRIGHTNESS_MIN)(
+      (brightnessLevel: Int, prob: Double) => (brightnessLevel + 1, prob - 0.5)
     )
 
   describe("Given a list of (brightness level, probability)") {

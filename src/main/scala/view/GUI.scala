@@ -25,6 +25,7 @@ object GUI extends JFXApp3:
       title = "Aquarium Simulator"
       height = preferredHeight
       width = preferredWidth
+      resizable = false
       scene = new Scene:
         root = new BorderPane:
           background = new Background(Array(new BackgroundFill(Color.Black, null, null)))

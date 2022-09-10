@@ -33,18 +33,18 @@ trait Fish extends Entity:
   n = n + 1
 
   /** Hunger level of the Fish: starts at MAX_HUNGER and decreases over time */
-  var hunger: Int = MAX_HUNGER
+  val hunger: Int
 
   /** Age fo the Fish: represents the number of iterations it has survived */
   val age: Int = 0
 
   /** Current movement speed of the Fish: (0,0) by default */
-  var speed: (Double, Double) = (0.0, 0.0)
+  val speed: (Double, Double)
 
   /** Mono-dimensional size of the Fish */
   val size: Double = Random.between(MIN_SIZE, MAX_SIZE)
 
-  var position: (Double, Double) = (0.0, 0.0)
+  val position: (Double, Double) = (0.0, 0.0)
   val oxygenShift: Double = OXYGEN_SHIFT_CONSTANT * size
   val impurityShift: Double = IMPURITY_SHIFT_CONSTANT * size
   val phShift: Double = PH_SHIFT_CONSTANT * size
@@ -55,23 +55,11 @@ trait Fish extends Entity:
     *   True if hunger is positive, False otherwise.
     */
   def isAlive: Boolean = hunger > 0
-  
-  def changeSpeed(newSpeed: (Double, Double)): Unit = speed = newSpeed
-  
-  def move(): Unit =
-    position = (position._1 + speed._1, position._2 + speed._2)
-    position._1 match
-      case x if x < 0 =>
-        position = (x * -1, position._2)
-      case x if x > AquariumDimensions.WIDTH =>
-        position = (AquariumDimensions.WIDTH - (x - AquariumDimensions.WIDTH), position._2)
-      case _ =>
-    position._2 match
-      case y if y < 0 =>
-        position = (position._1, y * -1)
-      case y if y > AquariumDimensions.HEIGHT =>
-        position = (position._1, AquariumDimensions.HEIGHT - (y - AquariumDimensions.HEIGHT))
-      case _ => 
+
+  /** Utility method to change the fish speed.
+   *
+   */
+  //def changeSpeed(newSpeed: (Double, Double)): Unit = speed = newSpeed
 
   override def equals(that: Any): Boolean =
     that match

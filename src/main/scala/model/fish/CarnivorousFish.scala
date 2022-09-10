@@ -1,13 +1,10 @@
 package model.fish
 
 import model.CarnivorousFood
+import model.fish.Fish.MAX_HUNGER
 
-case class CarnivorousFish() extends Fish:
-
-  import model.fish.Fish.{MEAT_AMOUNT, MAX_HUNGER}
-
-  def eat(fish: Fish): Unit =
-    hunger = MAX_HUNGER min hunger + (MEAT_AMOUNT * fish.size).floor.toInt
-
-  def eat(food: CarnivorousFood): Unit =
-    hunger = MAX_HUNGER min hunger + food.nutritionAmount
+case class CarnivorousFish(
+  override val speed: (Double, Double) = (0.0, 0.0),
+  override val position: (Double, Double) = (0.0, 0.0),
+  override val hunger: Int = MAX_HUNGER
+) extends Fish

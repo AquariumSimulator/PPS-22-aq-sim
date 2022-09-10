@@ -1,10 +1,10 @@
 package model.fish
 
 import model.HerbivorousFood
+import model.fish.Fish.MAX_HUNGER
 
-case class HerbivorousFish() extends Fish:
-
-  import model.fish.Fish.MAX_HUNGER
-
-  def eat(food: HerbivorousFood): Unit =
-    hunger = MAX_HUNGER min hunger + food.nutritionAmount
+case class HerbivorousFish(
+  override val speed: (Double, Double) = (0.0, 0.0),
+  override val position: (Double, Double) = (0.0, 0.0),
+  override val hunger: Int = MAX_HUNGER
+) extends Fish

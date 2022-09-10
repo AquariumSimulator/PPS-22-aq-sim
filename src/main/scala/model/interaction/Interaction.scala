@@ -2,6 +2,7 @@ package model.interaction
 
 import model.Algae
 import model.aquarium.{AquariumParametersLimits, AquariumState}
+import model.fish.Fish
 
 /** Trait that models an interaction between two elements
   * @tparam A
@@ -42,3 +43,9 @@ object Interaction:
     */
   def apply(algae: Algae, aquariumState: AquariumState): Interaction[Option[Algae]] =
     InteractionAquariumOnAlgaeImpl(aquariumState, algae)
+  
+  def apply(fish: Fish, aquariumState: AquariumState): Interaction[Option[Fish]] =
+    InteractionAquariumOnFishImpl(fish, aquariumState)
+
+  def apply(aquariumState: AquariumState, fish: Fish): Interaction[AquariumState] =
+    InteractionFishOnAquariumImpl(aquariumState, fish)

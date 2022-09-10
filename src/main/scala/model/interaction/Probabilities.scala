@@ -47,14 +47,14 @@ object DeathProbabilityFish:
 object MultiplierVelocityFish:
 
   /** Max speed multiplier thanks to impurity */
-  val MAX_VELOCITY_IMPURITY: Int = 2
+  val MAX_SPEED_IMPURITY: Int = 2
   /** Multiplier of the speed calculated based on the impurity */
-  val VELOCITY_MULTIPLIER_IMPURITY = (impurity: Double) =>
-    (AquariumParametersLimits.IMPURITY_MAX - impurity) * MAX_VELOCITY_IMPURITY /
+  val SPEED_MULTIPLIER_IMPURITY = (impurity: Double) =>
+    (AquariumParametersLimits.IMPURITY_MAX - impurity) * MAX_SPEED_IMPURITY /
       AquariumParametersLimits.IMPURITY_MAX
 
   /** Max speed multiplier thanks to temperature */
-  val MAX_VELOCITY_TEMPERATURE: Int = 2
+  val MAX_SPEED_TEMPERATURE: Int = 2
   /** Multiplier of the speed calculated based on the temperature */
-  val VELOCITY_MULTIPLIER_TEMPERATURE = (temp: Double) =>
-    temp * MAX_VELOCITY_TEMPERATURE / AquariumParametersLimits.TEMPERATURE_MAX
+  val SPEED_MULTIPLIER_TEMPERATURE = (temp: Double) =>
+    temp * MAX_SPEED_TEMPERATURE / AquariumParametersLimits.TEMPERATURE_MAX

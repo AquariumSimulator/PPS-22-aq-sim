@@ -11,21 +11,45 @@ import scala.runtime.stdLibPatches.Predef.assert
 
 class TestDeathProbabilityFish extends AnyFunSpec:
 
-  private val multiplier = 10
-  private val delta = 0.05
-  private val inc = (d: Double) => d + 0.1
-  private val newProb = (prob: Double) => prob - delta
+  private val tolerance = 0.05
 
-  private val probabilities =
-    List.iterate((0: Double, PROB_PH: Double), (MIN_SAFE_PH * multiplier).toInt)((ph: Double, prob: Double) =>
-      (inc(ph), newProb(prob))
+  private val multiplier = 10
+  private val deltaPh = 0.05
+  private val deltaOxygen = 0.55
+  private val inc = (n: Double, inc: Double) => n + inc
+  private val calcProb = (n: Double, delta: Double) => n - delta
+
+  private val probabilitiesLowPh =
+    List.iterate((PH_MIN: Double, PROB_PH: Double), (MIN_SAFE_PH * multiplier).toInt)((ph: Double, prob: Double) =>
+      (inc(ph, 0.1), calcProb(prob, deltaPh))
     )
 
-  describe("Given a list of (ph, probability)") {
-    describe(s"when $TOO_LOW_PH is calculate on the ph") {
+  private val probabilitiesHighPh =
+    List.iterate((MAX_SAFE_PH: Double, 0: Double), (PH_MAX - MAX_SAFE_PH * multiplier).toInt)(
+      (ph: Double, prob: Double) => (inc(ph, 0.1), calcProb(prob, -deltaPh))
+    )
+
+  private val probabilitiesOxygen =
+    List.iterate((OXYGENATION_MIN: Double, PROB_OXYGEN: Double), MAX_INTERVAL_TOO_LOW_OXYGENATION - OXYGENATION_MIN)(
+      (oxygen: Double, prob: Double) => (inc(oxygen, 1), calcProb(prob, deltaOxygen))
+    )
+
+  describe(s"Given a list of ph values") {
+    describe(s"when the probability of the death of the fish is calculate on the ph") {
       it("should be equal to the precalculated one") {
-        probabilities
-          .foreach((ph, prob) => assert(TOO_LOW_PH(ph) === prob +- 0.05))
+        probabilitiesLowPh
+          .foreach((ph, prob) => assert(TOO_LOW_PH(ph) === prob +- tolerance))
+        probabilitiesHighPh
+          .foreach((ph, prob) => assert(TOO_HIGH_PH(ph) === prob +- tolerance))
+      }
+    }
+  }
+
+  describe(s"Given the list of (oxygenation, probability) $probabilitiesOxygen") {
+    describe(s"when $LOW_OXYGENATION is calculate on the oxygenation") {
+      it("should be equal to the precalculated one") {
+        probabilitiesOxygen
+          .foreach((oxygen, prob) => assert(LOW_OXYGENATION(oxygen) === prob +- tolerance))
       }
     }
   }

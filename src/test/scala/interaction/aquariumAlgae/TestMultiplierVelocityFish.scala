@@ -19,7 +19,7 @@ class TestMultiplierVelocityFish extends AnyFunSpec:
     )
 
   private val multipliersImpurity =
-    List.iterate((0: Int, MAX_VELOCITY_IMPURITY: Double), TEMPERATURE_MAX)((temperature: Int, prob: Double) =>
+    List.iterate((0: Int, MAX_SPEED_IMPURITY: Double), TEMPERATURE_MAX)((temperature: Int, prob: Double) =>
       (temperature + 1, prob - deltaImpurity)
     )
 
@@ -27,7 +27,7 @@ class TestMultiplierVelocityFish extends AnyFunSpec:
     describe(s"when the velocity multiplier is calculated on the temperature") {
       it("should be equal to the precalculated one") {
         multipliersTemperature
-          .foreach((temp, prob) => assert(VELOCITY_MULTIPLIER_TEMPERATURE(temp) === prob +- tolerance))
+          .foreach((temp, prob) => assert(SPEED_MULTIPLIER_TEMPERATURE(temp) === prob +- tolerance))
       }
     }
   }
@@ -35,7 +35,7 @@ class TestMultiplierVelocityFish extends AnyFunSpec:
     describe(s"when the velocity multiplier is calculated on the impurity") {
       it("should be equal to the precalculated one") {
         multipliersImpurity
-          .foreach((temp, prob) => assert(VELOCITY_MULTIPLIER_IMPURITY(temp) === prob +- tolerance))
+          .foreach((temp, prob) => assert(SPEED_MULTIPLIER_IMPURITY(temp) === prob +- tolerance))
       }
     }
   }

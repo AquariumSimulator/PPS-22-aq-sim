@@ -3,6 +3,9 @@ package model.interaction
 import model.Algae
 import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.fish.Fish
+import model.interaction.aquariumAlgae.InteractionAlgaeOnAquariumImpl
+import model.interaction.aquariumAlgae.InteractionAquariumOnAlgaeImpl
+import model.interaction.aquariumFish.InteractionFishOnAquariumImpl
 
 /** Trait that models an interaction between two elements
   * @tparam A

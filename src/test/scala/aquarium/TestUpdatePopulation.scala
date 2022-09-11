@@ -6,7 +6,7 @@ import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
 import scala.util.Random
-import model.fish.Fish
+import model.fish.{FeedingType, Fish}
 
 /** Test for Population (example with herbivorous fish set) */
 class TestUpdatePopulation extends AnyFunSpec:
@@ -18,7 +18,7 @@ class TestUpdatePopulation extends AnyFunSpec:
 
   val population = Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber)
 
-  val addHerbivorousElement = Fish()
+  val addHerbivorousElement = Fish(feedingType = FeedingType.HERBIVOROUS)
   val addCarnivorousElement = Fish()
   val addAlgaeElement = Algae(algaeBase)
 

@@ -18,6 +18,8 @@ import view.widgets.*
 object GUI extends JFXApp3:
   override def start(): Unit =
 
+    println("Screen size: " + Screen.primary.bounds.width + "x" + Screen.primary.bounds.height)
+
     val preferredHeight: Double = Screen.primary.bounds.height * 3 / 4
     val preferredWidth: Double = Screen.primary.bounds.width * 3 / 4
 
@@ -42,7 +44,7 @@ object GUI extends JFXApp3:
           center = new BorderPane:
             left = new LightSlider
             center = new BorderPane:
-              top = SimulationViewer.canvas
+              top = SimulationViewer.canvasPane
               bottom = new TilePane:
                 left = new TemperatureSlider
                 right = new OxygenSlider

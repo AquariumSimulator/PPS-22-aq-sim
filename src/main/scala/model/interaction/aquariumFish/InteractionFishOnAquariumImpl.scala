@@ -1,4 +1,4 @@
-package model.interaction
+package model.interaction.aquariumFish
 
 import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.fish.{Fish, HerbivorousFish}
@@ -10,7 +10,7 @@ import model.interaction.Interaction
   * @param fish
   *   a [[Fish]] of the aquarium that influences the aquarium state
   */
-private class InteractionFishOnAquariumImpl(aquariumState: AquariumState, fish: Fish)
+class InteractionFishOnAquariumImpl(aquariumState: AquariumState, fish: Fish)
     extends Interaction[AquariumState]:
 
   override def update(): AquariumState =

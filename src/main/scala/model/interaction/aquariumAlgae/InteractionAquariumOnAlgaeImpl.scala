@@ -1,8 +1,9 @@
-package model.interaction.algae
+package model.interaction.aquariumAlgae
 
 import model.Algae
 import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.interaction.{DeathProbabilityAlgae, Interaction}
+import model.interaction.Interaction
 
 import scala.util.Random
 
@@ -13,7 +14,7 @@ import scala.util.Random
   * @param algae
   *   the [[Algae]] that has to be updated
   */
-private class InteractionAquariumOnAlgaeImpl(aquariumState: AquariumState, algae: Algae)
+ class InteractionAquariumOnAlgaeImpl(aquariumState: AquariumState, algae: Algae)
     extends Interaction[Option[Algae]]:
 
   override def update(): Option[Algae] =

@@ -11,8 +11,7 @@ import model.interaction.Interaction
   * @param algae
   *   algae that influences the state of the aquarium
   */
- class InteractionAlgaeOnAquariumImpl(aquariumState: AquariumState, algae: Algae)
-    extends Interaction[AquariumState]:
+class InteractionAlgaeOnAquariumImpl(aquariumState: AquariumState, algae: Algae) extends Interaction[AquariumState]:
 
   override def update(): AquariumState =
 

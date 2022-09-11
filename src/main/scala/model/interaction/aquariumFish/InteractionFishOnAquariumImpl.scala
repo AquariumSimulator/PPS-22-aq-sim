@@ -10,8 +10,7 @@ import model.interaction.Interaction
   * @param fish
   *   a [[Fish]] of the aquarium that influences the aquarium state
   */
-class InteractionFishOnAquariumImpl(aquariumState: AquariumState, fish: Fish)
-    extends Interaction[AquariumState]:
+class InteractionFishOnAquariumImpl(aquariumState: AquariumState, fish: Fish) extends Interaction[AquariumState]:
 
   override def update(): AquariumState =
 

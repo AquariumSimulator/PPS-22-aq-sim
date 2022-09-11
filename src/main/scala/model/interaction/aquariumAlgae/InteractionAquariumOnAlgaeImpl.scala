@@ -14,8 +14,7 @@ import scala.util.Random
   * @param algae
   *   the [[Algae]] that has to be updated
   */
- class InteractionAquariumOnAlgaeImpl(aquariumState: AquariumState, algae: Algae)
-    extends Interaction[Option[Algae]]:
+class InteractionAquariumOnAlgaeImpl(aquariumState: AquariumState, algae: Algae) extends Interaction[Option[Algae]]:
 
   override def update(): Option[Algae] =
     if checkIfAlgaeAreDead() then Option.empty

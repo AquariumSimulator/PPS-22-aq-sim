@@ -44,19 +44,6 @@ object Interaction:
   def apply(algae: Algae, aquariumState: AquariumState): Interaction[Option[Algae]] =
     InteractionAquariumOnAlgaeImpl(aquariumState, algae)
 
-  /** Create a new [[Interaction]] by a given [[Fish]] and [[AquariumState]]. This interaction is meant to checks if the
-    * fish is alive and update its speed.
-    *
-    * @param fish
-    *   that has to be updated
-    * @param aquariumState
-    *   the current state of the aquarium
-    * @return
-    *   a new [[Interaction]]
-    */
-  def apply(fish: Fish, aquariumState: AquariumState): Interaction[Option[Fish]] =
-    InteractionAquariumOnFishImpl(fish, aquariumState)
-
   /** Create a new [[Interaction]] by a given [[AquariumState]] and [[Fish]]. The interaction is meant to update the
     * oxygenation level and the ph and the impurity level.
     * @param aquariumState

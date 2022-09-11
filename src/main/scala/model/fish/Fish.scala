@@ -4,7 +4,6 @@ import javafx.util.Pair
 import model.Entity
 import model.aquarium.{Aquarium, AquariumDimensions}
 import model.fish.Fish.*
-
 import scala.util.Random
 
 object Fish:
@@ -17,8 +16,12 @@ object Fish:
   val IMPURITY_SHIFT_CONSTANT: Double = 1.2
   val PH_SHIFT_CONSTANT: Double = 0.2
 
+  def getAndIncrementN(): Int =
+    n = n + 1
+    n
+
 case class Fish(
-    name: String = "fish-" + (Fish.n = Fish.n + 1),
+    name: String = "fish-" + getAndIncrementN(),
     hunger: Int = MAX_HUNGER,
     age: Int = 0,
     speed: (Double, Double) = (0.0, 0.0),

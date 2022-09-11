@@ -6,12 +6,10 @@ import org.scalatest.funspec.AnyFunSpec
 
 class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
-  // HerbivorousFish is used as an example
-  var f: HerbivorousFish = HerbivorousFish()
+  var f: Fish = Fish()
 
   override def beforeEach(): Unit =
-    f = HerbivorousFish()
-
+    f = Fish()
 
   describe("A new Fish") {
     it("should have age 0") {
@@ -45,36 +43,36 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
   describe("A Fish") {
     it("when has hunger 0, should not be alive") {
-      f = UpdateHerbivorousFish.apply(f).updateHunger(0)
+      f = UpdateFish.apply(f).updateHunger(0)
       assert(!f.isAlive)
     }
 
     it("should change speed when requested") {
-      f = UpdateHerbivorousFish.apply(f).updateSpeed((1.0, 4.0))
+      f = UpdateFish.apply(f).updateSpeed((1.0, 4.0))
       assert(f.speed === (1.0, 4.0))
     }
 
     it("should move to the expected position when requested") {
-      f = UpdateHerbivorousFish.apply(f).updateSpeed((1.0, 4.0))
-      f = UpdateHerbivorousFish.apply(f).move()
-      f = UpdateHerbivorousFish.apply(f).updateSpeed((2.0, 3.0))
-      f = UpdateHerbivorousFish.apply(f).move()
+      f = UpdateFish.apply(f).updateSpeed((1.0, 4.0))
+      f = UpdateFish.apply(f).move()
+      f = UpdateFish.apply(f).updateSpeed((2.0, 3.0))
+      f = UpdateFish.apply(f).move()
       assert(f.position === (3.0, 7.0))
     }
 
     it("should bounce back from a border with an underflow position") {
-      f = UpdateHerbivorousFish.apply(f).updateSpeed((2.0, 4.0))
-      f = UpdateHerbivorousFish.apply(f).move()
-      f = UpdateHerbivorousFish.apply(f).updateSpeed((-5.0, -6.0))
-      f = UpdateHerbivorousFish.apply(f).move()
+      f = UpdateFish.apply(f).updateSpeed((2.0, 4.0))
+      f = UpdateFish.apply(f).move()
+      f = UpdateFish.apply(f).updateSpeed((-5.0, -6.0))
+      f = UpdateFish.apply(f).move()
       assert(f.position === (3.0, 2.0))
     }
 
     it("should bounce back from a border with an overflow position") {
-      f = UpdateHerbivorousFish.apply(f).updateSpeed((196.0, 149.0))
-      f = UpdateHerbivorousFish.apply(f).move()
-      f = UpdateHerbivorousFish.apply(f).updateSpeed((5.0, 7.0))
-      f = UpdateHerbivorousFish.apply(f).move()
+      f = UpdateFish.apply(f).updateSpeed((196.0, 149.0))
+      f = UpdateFish.apply(f).move()
+      f = UpdateFish.apply(f).updateSpeed((5.0, 7.0))
+      f = UpdateFish.apply(f).move()
       assert(f.position === (199.0, 144.0))
     }
 

@@ -1,6 +1,11 @@
 package model.fish
 
+import javafx.util.Pair
 import model.Entity
+import model.aquarium.{Aquarium, AquariumDimensions}
+import model.fish.Fish.*
+
+import scala.util.Random
 
 object Fish:
   var n: Int = 0
@@ -12,47 +17,20 @@ object Fish:
   val IMPURITY_SHIFT_CONSTANT: Double = 1.2
   val PH_SHIFT_CONSTANT: Double = 0.2
 
-/** Model definition of a Fish. */
-trait Fish extends Entity:
-
-  import scala.util.Random
-  import model.fish.Fish.{
-    MAX_HUNGER,
-    n,
-    MIN_SIZE,
-    MAX_SIZE,
-    OXYGEN_SHIFT_CONSTANT,
-    IMPURITY_SHIFT_CONSTANT,
-    PH_SHIFT_CONSTANT
-  }
-
-  /** Unique name for each Fish */
-  val name: String = "fish-" + n
-  n = n + 1
-
-  /** Hunger level of the Fish: starts at MAX_HUNGER and decreases over time */
-  var hunger: Int = MAX_HUNGER
-
-  /** Age fo the Fish: represents the number of iterations it has survived */
-  val age: Int = 0
-
-  /** Current movement speed of the Fish: (0,0) by default */
-  val speed: (Double, Double) = (0.0, 0.0)
-
-  /** Mono-dimensional size of the Fish */
-  val size: Double = Random.between(MIN_SIZE, MAX_SIZE)
-
-  val position: (Double, Double) = (0.0, 0.0)
+case class Fish(
+    name: String = "fish-" + (Fish.n = Fish.n + 1),
+    hunger: Int = MAX_HUNGER,
+    age: Int = 0,
+    speed: (Double, Double) = (0.0, 0.0),
+    size: Double = Random.between(MIN_SIZE, MAX_SIZE),
+    position: (Double, Double) = (0.0, 0.0),
+    feedingType: FeedingType = FeedingType.CARNIVOROUS
+) extends Entity:
   val oxygenShift: Double = OXYGEN_SHIFT_CONSTANT * size
   val impurityShift: Double = IMPURITY_SHIFT_CONSTANT * size
   val phShift: Double = PH_SHIFT_CONSTANT * size
 
-  /** Utility method to check if the Fish is alive.
-    *
-    * @return
-    *   True if hunger is positive, False otherwise.
-    */
-  def isAlive(): Boolean = hunger > 0
+  def isAlive: Boolean = hunger > 0
 
   override def equals(that: Any): Boolean =
     that match

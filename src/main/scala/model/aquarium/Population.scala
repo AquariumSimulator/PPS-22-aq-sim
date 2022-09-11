@@ -1,13 +1,13 @@
 package model.aquarium
 
-import model.fish.{CarnivorousFish, HerbivorousFish}
 import model.{Algae, CarnivorousFood, HerbivorousFood}
 
 import scala.language.postfixOps
 import scala.util.Random
+import model.fish.Fish
 
 /** This class represent the current population of the aquarium */
-case class Population(herbivorous: Set[HerbivorousFish], carnivorous: Set[CarnivorousFish], algae: Set[Algae])
+case class Population(herbivorous: Set[Fish], carnivorous: Set[Fish], algae: Set[Algae])
 
 /** Companion object of the case class */
 object Population:
@@ -42,9 +42,9 @@ object Population:
 
       _addAlgae(number, Set.empty)
 
-    val setHerbivorous = (1 to herbivorousFishesNumber).map(_ => HerbivorousFish()).toSet
+    val setHerbivorous = (1 to herbivorousFishesNumber).map(_ => Fish()).toSet
 
-    val setCarnivorous = (1 to carnivorousFishesNumber).map(_ => CarnivorousFish()).toSet
+    val setCarnivorous = (1 to carnivorousFishesNumber).map(_ => Fish()).toSet
 
     val setAlgae = addAlgae(algaeNumber)
 

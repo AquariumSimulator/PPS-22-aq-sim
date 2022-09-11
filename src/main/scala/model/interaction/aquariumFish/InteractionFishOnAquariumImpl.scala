@@ -1,7 +1,7 @@
 package model.interaction.aquariumFish
 
 import model.aquarium.{AquariumParametersLimits, AquariumState}
-import model.fish.{Fish, HerbivorousFish}
+import model.fish.Fish
 import model.interaction.Interaction
 
 /** Hidden implementation of [[Interaction]]

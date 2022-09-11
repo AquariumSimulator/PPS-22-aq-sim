@@ -2,7 +2,7 @@ package interaction
 
 import model.*
 import model.aquarium.{AquariumParametersLimits, AquariumState}
-import model.fish.HerbivorousFish
+import model.fish.Fish
 import model.interaction.Interaction
 import org.scalatest.funspec.AnyFunSpec
 
@@ -19,7 +19,7 @@ class TestInteractionFishOnAquarium extends AnyFunSpec:
       AquariumParametersLimits.OXYGENATION_MIN
     )
 
-  private val fish = HerbivorousFish()
+  private val fish = Fish()
 
   private val interactionFishAquarium =
     Interaction(aquariumState, fish)

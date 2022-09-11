@@ -10,7 +10,7 @@ object Fish:
   val MEAT_AMOUNT: Int = 10
   val OXYGEN_SHIFT_CONSTANT: Double = -1.5
   val IMPURITY_SHIFT_CONSTANT: Double = 1.2
-  val PH_SHIFT_CONSTANT: Double = -0.2
+  val PH_SHIFT_CONSTANT: Double = 0.2
 
 /** Model definition of a Fish. */
 trait Fish extends Entity:

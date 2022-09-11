@@ -1,4 +1,4 @@
-package interaction.aquariumAlgae
+package interaction
 
 import model.aquarium.AquariumParametersLimits.*
 import model.interaction.MultiplierVelocityFish.*

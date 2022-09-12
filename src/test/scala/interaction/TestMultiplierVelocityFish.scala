@@ -8,6 +8,7 @@ import org.scalatest.funspec.AnyFunSpec
 import scala.language.postfixOps
 import scala.runtime.stdLibPatches.Predef.assert
 
+/** Test for the lambda that calculate the multiplier of a fish speed */
 class TestMultiplierVelocityFish extends AnyFunSpec:
 
   private val deltaTemp = 0.07

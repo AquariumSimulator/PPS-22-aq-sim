@@ -8,6 +8,7 @@ import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
 
+/** Test for the interaction of a fish on the aquarium state */
 class TestInteractionFishOnAquarium extends AnyFunSpec:
   private val aquariumState = AquariumState(5, 50, 7, 10, 10)
   private val aquariumStateLimitsTest =

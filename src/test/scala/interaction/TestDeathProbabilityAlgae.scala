@@ -7,6 +7,7 @@ import org.scalatest.funspec.AnyFunSpec
 import scala.language.postfixOps
 import scala.runtime.stdLibPatches.Predef.assert
 
+/** Test for the lambda that calculate the probability of an algae to die */
 class TestDeathProbabilityAlgae extends AnyFunSpec:
 
   private val probabilities =

@@ -1,4 +1,4 @@
-package model.interaction
+package model.interaction.aquariumAlgae
 
 import model.Algae
 import model.aquarium.{AquariumParametersLimits, AquariumState}
@@ -7,12 +7,11 @@ import model.interaction.Interaction
 /** Hidden implementation of [[Interaction]]
   *
   * @param aquariumState
-  *   the current state of the aquarium
+  *   the [[AquariumState]] that has to be updated
   * @param algae
-  *   the [[Algae]] that has to be updated
+  *   algae that influences the state of the aquarium
   */
-private class InteractionAlgaeOnAquariumImpl(aquariumState: AquariumState, algae: Algae)
-    extends Interaction[AquariumState]:
+class InteractionAlgaeOnAquariumImpl(aquariumState: AquariumState, algae: Algae) extends Interaction[AquariumState]:
 
   override def update(): AquariumState =
 

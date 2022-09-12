@@ -1,4 +1,4 @@
-package interaction.aquariumAlgae
+package interaction
 
 import model.*
 import model.aquarium.{AquariumParametersLimits, AquariumState}
@@ -7,6 +7,7 @@ import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
 
+/** Test for the interaction of an algae on the aquarium state */
 class TestInteractionAlgaeOnAquarium extends AnyFunSpec:
 
   private val aquariumState = AquariumState(5, 50, 7, 10, 10)

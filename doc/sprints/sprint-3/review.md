@@ -1,3 +1,4 @@
+# Sprint Review - 3
 Lo sprint di questa settimana è stato svolto in assenza di uno dei componenti della squadra (Filippo Benvenuti): ciò non ha in alcun modo influito sulla produttività del team grazie alla metodologia di sviluppo utilizzata (Scrum).
 Barbari si è occupato di portare avanti lo sviluppo della GUI iniziato la settimana precedente da Lamagna e Benvenuti: è diminuito il gap tra la GUI e i mockup, sebbene siano rimasti problemi relativi all'adattamento alle diverse dimensioni dei monitor.
 La realizzazione della parte di Model è progredita ma ancora non ultimata: Lamagna ha fatto refactoring sull'entità Fish adattandola ad uno sviluppo più funzionale, oltre ad aver implementato le meccaniche di movimento dei pesci.

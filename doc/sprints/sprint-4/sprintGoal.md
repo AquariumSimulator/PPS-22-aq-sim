@@ -1,6 +1,6 @@
 # Sprint Goal - 4
 
-Durante il terzo sprint si è deciso di concentrare i propri sforzi su:
+Durante il quarto sprint si è deciso di concentrare i propri sforzi su:
  - Sistemare gli ultimi dettagli sulla GUI
  - implementazione motore della simulazione
    - interazioni

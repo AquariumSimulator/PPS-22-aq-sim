@@ -10,5 +10,5 @@
 | Controller | Loop simulazione | Albertini | 4 | - |
 | Database prolog | Architettura | Benvenuti/Barbari | 2 | - |
 | | Implementazione | Benvenuti/Barbari | 4 | - |
-| Refactoring MVC | Implementazione MVC | Benvenuti | 4 | - |
+| Refactoring MVC | Implementazione MVC | Benvenuti | 4 | 0 |
 | | Adattamento Model per MVC | Albertini | 3 | - |

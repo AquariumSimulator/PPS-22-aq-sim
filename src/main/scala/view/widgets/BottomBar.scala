@@ -14,7 +14,7 @@ object BottomBar:
 
   var uselessBoolean: Boolean = true // TODO: remove when no more needed
 
-  val addFishButton: BottomBarButton = BottomBarButton("/add-fish.png")
+  val addFishButton: BottomBarButton = BottomBarButton("/icons/add-fish.png")
   addFishButton.tooltip = new Tooltip("Add fish or algae")
   addFishButton.onAction = (event: ActionEvent) =>
     val dialog: ChoiceDialog[String] = new ChoiceDialog(
@@ -29,25 +29,35 @@ object BottomBar:
       case Some(str) => println("Chosen " + str)
       case None => println("Chosen nothing")
 
-  val removeFishButton: BottomBarButton = BottomBarButton("/remove-fish.png")
+  val removeFishButton: BottomBarButton = BottomBarButton("/icons/remove-fish.png")
   removeFishButton.tooltip = Tooltip("Remove fish")
   removeFishButton.onAction = (event: ActionEvent) => println("Clicked remove-fish")
 
-  val playButton: BottomBarButton = BottomBarButton("/play.png")
+  val playButton: BottomBarButton = BottomBarButton("/icons/play.png")
   playButton.tooltip = Tooltip("Play the simulation")
   playButton.onAction = (event: ActionEvent) =>
     uselessBoolean match
       case true =>
         println("Clicked play")
-        IconButton.setImage(playButton, "/pause.png", BottomBarButton.DEFAULT_HEIGHT, BottomBarButton.DEFAULT_WIDTH)
+        IconButton.setImage(
+          playButton,
+          "/icons/pause.png",
+          BottomBarButton.DEFAULT_HEIGHT,
+          BottomBarButton.DEFAULT_WIDTH
+        )
         playButton.tooltip = Tooltip("Pause the simulation")
       case false =>
         println("Clicked pause")
-        IconButton.setImage(playButton, "/play.png", BottomBarButton.DEFAULT_HEIGHT, BottomBarButton.DEFAULT_WIDTH)
+        IconButton.setImage(
+          playButton,
+          "/icons/play.png",
+          BottomBarButton.DEFAULT_HEIGHT,
+          BottomBarButton.DEFAULT_WIDTH
+        )
         playButton.tooltip = Tooltip("Play the simulation")
     uselessBoolean = !uselessBoolean
 
-  val foodButton: BottomBarButton = BottomBarButton("/food.png")
+  val foodButton: BottomBarButton = BottomBarButton("/icons/food.png")
   foodButton.tooltip = new Tooltip("Add food")
   foodButton.onAction = (event: ActionEvent) =>
     val dialog: ChoiceDialog[String] = new ChoiceDialog(
@@ -62,7 +72,7 @@ object BottomBar:
       case Some(str) => println("Chosen " + str)
       case None => println("Chosen nothing")
 
-  val cleanButton: BottomBarButton = BottomBarButton("/clean.png")
+  val cleanButton: BottomBarButton = BottomBarButton("/icons/clean.png")
   cleanButton.tooltip = Tooltip("Clean the aquarium")
   cleanButton.onAction = (event: ActionEvent) => println("Clicked clean")
 

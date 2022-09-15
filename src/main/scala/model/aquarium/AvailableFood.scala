@@ -9,4 +9,7 @@ import model.{CarnivorousFood, HerbivorousFood}
   * @param carnivorousFood
   *   carnivorous food available
   */
-case class AvailableFood(herbivorousFood: Set[HerbivorousFood], carnivorousFood: Set[CarnivorousFood])
+case class AvailableFood(
+    herbivorousFood: Set[HerbivorousFood] = Set.empty,
+    carnivorousFood: Set[CarnivorousFood] = Set.empty
+)

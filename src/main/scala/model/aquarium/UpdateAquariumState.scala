@@ -3,11 +3,13 @@ package model.aquarium
 /** Trait that models methods for modifying aquarium parameters */
 trait UpdateAquariumState:
 
-  /** Clean the aquarium. When called the impurity level of the aquarium is set to 0
+  /** Set the impurity to a given value
+    * @param newImpurity
+    *   the new impurity level of the aquarium
     * @return
     *   a new [[AquariumState]]
     */
-  def clean(): AquariumState
+  def updateImpurity(newImpurity: Double): AquariumState
 
   /** Set the temperature to a given value
     * @param newTemperature
@@ -50,26 +52,36 @@ object UpdateAquariumState:
     * @return
     *   a new [[UpdateAquariumState]]
     */
-  def apply(aquarium: Aquarium): UpdateAquariumState =
-    UpdateAquariumStateImpl(aquarium)
+  def apply(aquariumState: AquariumState): UpdateAquariumState =
+    UpdateAquariumStateImpl(aquariumState)
 
   /** Hidden implementation of [[UpdateAquariumState]]
     * @param aquarium
     *   the [[Aquarium]] that have to be modified
     */
-  private class UpdateAquariumStateImpl(aquarium: Aquarium) extends UpdateAquariumState:
-
-    override def clean(): AquariumState =
-      aquarium.aquariumState.copy(impurity = 0)
+  private class UpdateAquariumStateImpl(aquariumState: AquariumState) extends UpdateAquariumState:
+    import AquariumParametersLimits.*
+    override def updateImpurity(newImpurity: Double): AquariumState =
+      newImpurity match
+        case i if i > IMPURITY_MAX || i < IMPURITY_MIN => aquariumState
+        case _ => aquariumState.copy(impurity = newImpurity)
 
     override def updateTemperature(newTemperature: Double): AquariumState =
-      aquarium.aquariumState.copy(temperature = newTemperature)
+      newTemperature match
+        case t if t > TEMPERATURE_MAX || t < TEMPERATURE_MIN => aquariumState
+        case _ => aquariumState.copy(temperature = newTemperature)
 
     override def updateBrightness(newBrightness: Double): AquariumState =
-      aquarium.aquariumState.copy(brightness = newBrightness)
+      newBrightness match
+        case b if b > BRIGHTNESS_MAX || b < BRIGHTNESS_MIN => aquariumState
+        case _ => aquariumState.copy(brightness = newBrightness)
 
     override def updatePh(newPh: Double): AquariumState =
-      aquarium.aquariumState.copy(ph = newPh)
+      newPh match
+        case p if p > PH_MAX || p < PH_MIN => aquariumState
+        case _ => aquariumState.copy(ph = newPh)
 
     override def updateOxygenation(newOxygenation: Double): AquariumState =
-      aquarium.aquariumState.copy(oxygenation = newOxygenation)
+      newOxygenation match
+        case o if o > OXYGENATION_MAX || o < OXYGENATION_MIN => aquariumState
+        case _ => aquariumState.copy(oxygenation = newOxygenation)

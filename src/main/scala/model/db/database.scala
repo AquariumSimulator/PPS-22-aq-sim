@@ -44,43 +44,54 @@ trait PrologEngine:
     *   The carnivorous food to be saved.
     */
   def saveCarnFood(carnFood: CarnivorousFood): Unit
-  /**
-    * Retrieve all saved fish in the simulation.
+  /** Retrieve all saved fish in the simulation.
     *
-    * @return An immutable list of fish.
+    * @return
+    *   An immutable list of fish.
     */
   def getAllFish: List[Fish]
-  /**
-    * Retrieve all saved algae in the simulation.
+  /** Retrieve all saved algae in the simulation.
     *
-    * @return An immutable list of algae.
+    * @return
+    *   An immutable list of algae.
     */
   def getAllAlgae: List[Algae]
-  /**
-    * Retrieve all saved herbivorous food in the simulation.
+  /** Retrieve all saved herbivorous food in the simulation.
     *
-    * @return An immutable list of herbivorous food.
+    * @return
+    *   An immutable list of herbivorous food.
     */
   def getAllHerbFood: List[HerbivorousFood]
-  /**
-    * Retrieve all saved carnivorous food in the simulation.
+  /** Retrieve all saved carnivorous food in the simulation.
     *
-    * @return An immutable list of carnivorous food.
+    * @return
+    *   An immutable list of carnivorous food.
     */
   def getAllCarnFood: List[CarnivorousFood]
 //def getGenealogicalTreeOf(f: Fish): Unit
 
-object PrologEngine:
-  val engine = new Prolog()
+object PrologEngine extends PrologEngine:
+
+  private val engine = new Prolog()
   engine.setTheory(new Theory(getClass.getResource("/prolog/mainTheory.pl").openStream()))
 
-  engine.addTheory(new Theory("parent(banana, pippo)."))
-  engine.addTheory(new Theory("parent(pippo, pera)."))
-  engine.addTheory(new Theory("parent(bananino, pera)."))
-  engine.addTheory(new Theory("parent(cipolla, bananino)."))
+  override def saveFish(fish: Fish): Unit = ???
+  override def saveSonOf(parent: Fish, son: Fish): Unit = ???
+  override def saveAlgae(algae: Algae): Unit = ???
+  override def saveHerbFood(herbFood: HerbivorousFood): Unit = ???
+  override def saveCarnFood(carnFood: CarnivorousFood): Unit = ???
+  override def getAllFish: List[Fish] = ???
+  override def getAllAlgae: List[Algae] = ???
+  override def getAllCarnFood: List[CarnivorousFood] = ???
+  override def getAllHerbFood: List[HerbivorousFood] = ???
 
-  println(engine.getTheory())
+  private def saveData(data: String): Unit =
+    engine.addTheory(new Theory(data))
 
-  println(engine.solve("parent(X, Y)."))
-  while (engine.hasOpenAlternatives())
-    println(engine.solveNext())
+  private def getData /*[A]*/ (query: String /*, convert: String => A*/ ): List[ /*A*/ String] =
+    import scala.collection.mutable.ListBuffer
+    var results = new ListBuffer[ /*A*/ String]()
+    engine.solve(query)
+    while (engine.hasOpenAlternatives())
+      results += engine.solveNext().getSolution().toJSON()
+    results.toList

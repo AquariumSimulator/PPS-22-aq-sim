@@ -14,13 +14,9 @@ import scalafx.scene.text.{Text, TextAlignment}
 import scalafx.stage.Screen;
 import view.utils.{AquariumFonts, IconLabel}
 import view.widgets.*
-import model.db.PrologEngine
 
 object GUI extends JFXApp3:
   override def start(): Unit =
-
-    // TODO: remove when no more needed
-    println(PrologEngine.engine)
 
     println("Screen size: " + Screen.primary.bounds.width + "x" + Screen.primary.bounds.height)
 

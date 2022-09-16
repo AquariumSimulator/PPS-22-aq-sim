@@ -1,7 +1,7 @@
 package model
 
 /** Common trait for every entity inside the aquarium. */
-trait Entity:
+trait Entity extends Serializable:
   /** Position with base (0, 0) in the bottom-left corner. */
   def position: (Double, Double)
   /** Oxygen shift, if positive oxygen is produced else it's absorbed. */

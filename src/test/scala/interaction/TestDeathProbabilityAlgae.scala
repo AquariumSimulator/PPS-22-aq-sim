@@ -16,7 +16,7 @@ class TestDeathProbabilityAlgae extends AnyFunSpec:
     )
 
   describe("Given a list of (brightness level, probability)") {
-    describe(s"when $LACK_OF_BRIGHTNESS is calculate on the brightness level") {
+    describe(s"when LACK_OF_BRIGHTNESS is calculate on the brightness level") {
       it("should be equal to the precalculated one") {
         probabilities
           .foreach((brightnessLevel, prob) => assert(LACK_OF_BRIGHTNESS(brightnessLevel) == prob))

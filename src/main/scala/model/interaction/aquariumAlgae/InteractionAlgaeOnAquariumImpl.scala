@@ -1,7 +1,7 @@
 package model.interaction.aquariumAlgae
 
 import model.Algae
-import model.aquarium.{AquariumParametersLimits, AquariumState, UpdateAquariumState}
+import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.interaction.Interaction
 
 /** Hidden implementation of [[Interaction]]
@@ -14,6 +14,10 @@ import model.interaction.Interaction
 class InteractionAlgaeOnAquariumImpl(aquariumState: AquariumState, algae: Algae) extends Interaction[AquariumState]:
 
   override def update(): AquariumState =
-    UpdateAquariumState(
+    aquariumState
+      .updateOxygenation(aquariumState.oxygenation + algae.oxygenShift)
+      .updatePh(aquariumState.ph + algae.phShift)
+
+/*UpdateAquariumState(
       UpdateAquariumState(aquariumState).updateOxygenation(aquariumState.oxygenation + algae.oxygenShift)
-    ).updatePh(aquariumState.ph + algae.phShift)
+    ).updatePh(aquariumState.ph + algae.phShift)*/

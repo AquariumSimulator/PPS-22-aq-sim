@@ -18,10 +18,10 @@ jobs:
       - uses: olafurpg/setup-scala@v11
 
       - name: format check
-        run: sbt scalaftmCheck
+        run: sbt scalafmtCheck
 
       - name: test format check
-        run: sbt test:scalaftmCheck
+        run: sbt Test/scalafmtCheck
       
       - name: test
         run: sbt test

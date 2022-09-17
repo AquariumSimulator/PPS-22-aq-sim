@@ -31,25 +31,30 @@ object AquariumParametersLimits:
 
   /** Minimum value of the temperature (expressed in C°) */
   val TEMPERATURE_MIN: Int = 1
+
   /** Maximus value of the temperature (expressed in C°) */
   val TEMPERATURE_MAX: Int = 30
 
   /** Minimum value of the brightness (expressed in %) */
-  val BRIGHTNESS_MIN: Int = 0
+  val BRIGHTNESS_MIN: Int = 1
+
   /** Maximus value of the brightness (expressed in %) */
   val BRIGHTNESS_MAX: Int = 100
 
   /** Minimum value of the PH */
   val PH_MIN: Double = 0
+
   /** Maximus value of the PH */
   val PH_MAX: Double = 14
 
   /** Minimum value of the impurity (expressed in %) */
   val IMPURITY_MIN: Int = 0
+
   /** Maximus value of the impurity (expressed in %) */
   val IMPURITY_MAX: Int = 100
 
   /** Minimum value of the oxygenation (expressed in mg/L) */
-  val OXYGENATION_MIN: Int = 0
+  val OXYGENATION_MIN: Int = 1
+
   /** Maximus value of the oxygenation (expressed in mg/L) */
   val OXYGENATION_MAX: Int = 20

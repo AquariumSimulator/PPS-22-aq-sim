@@ -16,15 +16,19 @@ class TestAvailableFood extends AnyFunSpec:
     Set(CarnivorousFood((0, 0)), CarnivorousFood((1, 1)))
   )
 
-  val updateAvailableHerbivorousFoodForAddTest = UpdateAvailableFood(availableFoodForAddTest.herbivorousFood)
-  val updateAvailableHerbivorousFoodForRemoveTest = UpdateAvailableFood(availableFoodForRemoveTest.herbivorousFood)
+  val updateAvailableHerbivorousFoodForAddTest =
+    UpdateAvailableFood[HerbivorousFood](availableFoodForAddTest.herbivorousFood)
+  val updateAvailableHerbivorousFoodForRemoveTest =
+    UpdateAvailableFood[HerbivorousFood](availableFoodForRemoveTest.herbivorousFood)
   val newHerbivorousElem = HerbivorousFood((0, 1))
   val newHerbivorousFoodWithAddedElem = updateAvailableHerbivorousFoodForAddTest.addFood(newHerbivorousElem)
   val removeHerbivorousElem = HerbivorousFood((0, 0))
   val newHerbivorousFoodWithRemovedElem = updateAvailableHerbivorousFoodForRemoveTest.deleteFood(removeHerbivorousElem)
 
-  val updateAvailableCarnivorousFooFordAddTest = UpdateAvailableFood(availableFoodForAddTest.carnivorousFood)
-  val updateAvailableCarnivorousFoodForRemoveTest = UpdateAvailableFood(availableFoodForRemoveTest.carnivorousFood)
+  val updateAvailableCarnivorousFooFordAddTest =
+    UpdateAvailableFood[CarnivorousFood](availableFoodForAddTest.carnivorousFood)
+  val updateAvailableCarnivorousFoodForRemoveTest =
+    UpdateAvailableFood[CarnivorousFood](availableFoodForRemoveTest.carnivorousFood)
   val newCarnivorousElem = CarnivorousFood(0, 1)
   val newCarnivorousFoodWithAddedElem = updateAvailableCarnivorousFooFordAddTest.addFood(newCarnivorousElem)
   val removeCarnivorousElem = CarnivorousFood((0, 0))

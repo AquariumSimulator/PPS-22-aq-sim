@@ -1,6 +1,6 @@
 package model.aquarium
 
-import model.{CarnivorousFood, Food, HerbivorousFood}
+import model.{CarnivorousFood, HerbivorousFood}
 
 /** This case class represent the food available inside the aquarium
   *
@@ -9,4 +9,7 @@ import model.{CarnivorousFood, Food, HerbivorousFood}
   * @param carnivorousFood
   *   carnivorous food available
   */
-case class AvailableFood(herbivorousFood: Set[Food], carnivorousFood: Set[Food])
+case class AvailableFood(
+    herbivorousFood: Set[HerbivorousFood] = Set.empty,
+    carnivorousFood: Set[CarnivorousFood] = Set.empty
+)

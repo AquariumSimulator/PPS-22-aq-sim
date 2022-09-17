@@ -12,13 +12,6 @@ case class Aquarium(aquariumState: AquariumState, population: Population, availa
 /** Companion object of the case class */
 object Aquarium:
 
-  val aquariumState = AquariumState(
-    InitializeAquarium.TEMPERATURE,
-    InitializeAquarium.BRIGHTNESS,
-    InitializeAquarium.PH,
-    InitializeAquarium.IMPURITY,
-    InitializeAquarium.OXYGENATION
-  )
   /** Create a new [[Aquarium]]
     *
     * @param herbivorousFishesNumber
@@ -32,7 +25,7 @@ object Aquarium:
     */
   def apply(herbivorousFishesNumber: Int, carnivorousFishesNumber: Int, algaeNumber: Int): Aquarium =
     Aquarium(
-      aquariumState,
+      AquariumState(),
       Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber),
-      AvailableFood(Set.empty, Set.empty)
+      AvailableFood()
     )

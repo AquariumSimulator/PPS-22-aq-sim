@@ -23,7 +23,7 @@ object BottomBar:
     ):
       title = "Add fish or algae"
       headerText = "Choose the type"
-    //initStyle(StageStyle.Utility)
+    // initStyle(StageStyle.Utility)
     val choice: Option[String] = dialog.showAndWait()
     choice match
       case Some(str) => println("Chosen " + str)
@@ -56,7 +56,7 @@ object BottomBar:
     ):
       title = "Add food"
       headerText = "Choose the food type"
-    //initStyle(StageStyle.Utility)
+    // initStyle(StageStyle.Utility)
     val choice: Option[String] = dialog.showAndWait()
     choice match
       case Some(str) => println("Chosen " + str)
@@ -69,11 +69,7 @@ object BottomBar:
   val bottomBar = new TilePane:
     background = new Background(Array(new BackgroundFill(Color.Grey, null, null)))
     children ++= Seq(
-      addFishButton,
-      removeFishButton,
-      playButton,
-      foodButton,
-      cleanButton
+      addFishButton, removeFishButton, playButton, foodButton, cleanButton
     )
 
   bottomBar.alignment = Pos.Center

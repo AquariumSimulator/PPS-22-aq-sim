@@ -1,12 +1,12 @@
 package aquarium
 
 import model.aquarium.{Population, UpdateSpecificPopulation}
-import model.fish.{CarnivorousFish, HerbivorousFish}
 import model.{Algae, CarnivorousFood}
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
 import scala.util.Random
+import model.fish.{FeedingType, Fish}
 
 /** Test for Population (example with herbivorous fish set) */
 class TestUpdatePopulation extends AnyFunSpec:
@@ -18,8 +18,8 @@ class TestUpdatePopulation extends AnyFunSpec:
 
   val population = Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber)
 
-  val addHerbivorousElement = HerbivorousFish()
-  val addCarnivorousElement = CarnivorousFish()
+  val addHerbivorousElement = Fish(feedingType = FeedingType.HERBIVOROUS)
+  val addCarnivorousElement = Fish()
   val addAlgaeElement = Algae(algaeBase)
 
   val updateHerbivorousForAddTest = UpdateSpecificPopulation(population.herbivorous)

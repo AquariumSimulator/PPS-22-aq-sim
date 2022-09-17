@@ -26,7 +26,7 @@ object SimulationViewer:
                 Color.rgb(25, 25, 112)
               )
             ),
-            //Color.rgb(171, 205, 239),
+            // Color.rgb(171, 205, 239),
             null,
             null
           )

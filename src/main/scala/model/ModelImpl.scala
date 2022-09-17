@@ -18,16 +18,16 @@ trait ModelImpl:
       Aquarium(herbivorousFishNumber, carnivorousFishNumber, algaeNumber)
 
     override def updateTemperatureByUser(temperature: Double, aquarium: Aquarium): Aquarium =
-      aquarium.copy(aquariumState = UpdateAquariumState(aquarium.aquariumState).updateTemperature(temperature))
+      aquarium.copy(aquariumState = aquarium.aquariumState.updateTemperature(temperature))
 
     override def updateBrightnessByUser(brightness: Double, aquarium: Aquarium): Aquarium =
-      aquarium.copy(aquariumState = UpdateAquariumState(aquarium.aquariumState).updateBrightness(brightness))
+      aquarium.copy(aquariumState = aquarium.aquariumState.updateBrightness(brightness))
 
     override def cleanByUser(aquarium: Aquarium): Aquarium =
-      aquarium.copy(aquariumState = UpdateAquariumState(aquarium.aquariumState).updateImpurity(0))
+      aquarium.copy(aquariumState = aquarium.aquariumState.updateImpurity(0))
 
     override def updateOxygenationByUser(oxygenation: Double, aquarium: Aquarium): Aquarium =
-      aquarium.copy(aquariumState = UpdateAquariumState(aquarium.aquariumState).updateOxygenation(oxygenation))
+      aquarium.copy(aquariumState = aquarium.aquariumState.updateOxygenation(oxygenation))
 
     override def addInhabitant[A](aquarium: Aquarium, inhabitant: A): Aquarium =
       val newPop = inhabitant match
@@ -51,26 +51,14 @@ trait ModelImpl:
 
     override def addFood[A](aquarium: Aquarium, food: A): Aquarium =
       val newFood = food match
-        case f: HerbivorousFood =>
-          aquarium.availableFood.copy(herbivorousFood =
-            UpdateAvailableFood(aquarium.availableFood.herbivorousFood).addFood(f)
-          )
-        case f: CarnivorousFood =>
-          aquarium.availableFood.copy(carnivorousFood =
-            UpdateAvailableFood(aquarium.availableFood.carnivorousFood).addFood(f)
-          )
+        case f: HerbivorousFood => aquarium.availableFood.addFood(f)
+        case f: CarnivorousFood => aquarium.availableFood.addFood(f)
       aquarium.copy(availableFood = newFood)
 
     override def removeFood[A](aquarium: Aquarium, food: A): Aquarium =
       val newFood = food match
-        case f: HerbivorousFood =>
-          aquarium.availableFood.copy(herbivorousFood =
-            UpdateAvailableFood(aquarium.availableFood.herbivorousFood).deleteFood(f)
-          )
-        case f: CarnivorousFood =>
-          aquarium.availableFood.copy(carnivorousFood =
-            UpdateAvailableFood(aquarium.availableFood.carnivorousFood).deleteFood(f)
-          )
+        case f: HerbivorousFood => aquarium.availableFood.deleteFood(f)
+        case f: CarnivorousFood => aquarium.availableFood.deleteFood(f)
       aquarium.copy(availableFood = newFood)
 
     override def step(aquarium: Aquarium): Aquarium =

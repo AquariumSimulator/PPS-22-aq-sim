@@ -9,7 +9,7 @@ trait Model:
   def m(): Int
 
   def initializeAquarium(herbivorousFishNumber: Int, carnivorousFishNumber: Int, algaeNumber: Int): Aquarium
-  
+
   def updateTemperatureByUser(temperature: Double, aquarium: Aquarium): Aquarium
 
   def updateBrightnessByUser(brightness: Double, aquarium: Aquarium): Aquarium

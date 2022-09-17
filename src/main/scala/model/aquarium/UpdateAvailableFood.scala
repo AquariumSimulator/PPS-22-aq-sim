@@ -6,14 +6,14 @@ import model.Food
   * @tparam A
   *   type of food
   */
-trait UpdateAvailableFood[A]:
+trait UpdateAvailableFood:
 
   /** Add a new food
     * @param addElem
     * @return
     *   a new set of food
     */
-  def addFood(addElem: A): Set[A]
+  def addFood[A](addElem: A): AvailableFood
 
   /** Remove a particular instance of food
     * @param removeElem
@@ -21,26 +21,26 @@ trait UpdateAvailableFood[A]:
     * @return
     *   a new set of food
     */
-  def deleteFood(removeElem: A): Set[A]
+  def deleteFood[A](removeElem: A): AvailableFood
 
-/** Companion object of [[UpdateAvailableFood]] */
+/*/** Companion object of [[UpdateAvailableFood]] */
 object UpdateAvailableFood:
 
   /** Create a new [[UpdateAvailableFood]] given a set of [[A]]
-    * @param set
-    *   set of food
-    * @return
-    *   a new [[UpdateAvailableFood]]
-    */
+ * @param set
+ *   set of food
+ * @return
+ *   a new [[UpdateAvailableFood]]
+ */
   def apply[A](set: Set[A]): UpdateAvailableFood[A] = UpdateAvailableFoodImpl[A](set)
 
   /** Hidden implementation of [[UpdateAvailableFood]]
-    * @param set
-    *   set of food
-    */
+ * @param set
+ *   set of food
+ */
   private class UpdateAvailableFoodImpl[A](set: Set[A]) extends UpdateAvailableFood[A]:
 
     override def addFood(addElem: A): Set[A] =
       set + addElem
 
-    override def deleteFood(removeElem: A): Set[A] = set.filterNot(elem => elem == removeElem)
+    override def deleteFood(removeElem: A): Set[A] = set.filterNot(elem => elem == removeElem)*/

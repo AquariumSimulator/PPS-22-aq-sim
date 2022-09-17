@@ -30,36 +30,16 @@ trait ModelImpl:
       aquarium.copy(aquariumState = aquarium.aquariumState.updateOxygenation(oxygenation))
 
     override def addInhabitant[A](aquarium: Aquarium, inhabitant: A): Aquarium =
-      val newPop = inhabitant match
-        case f: Fish if f.feedingType == FeedingType.HERBIVOROUS =>
-          aquarium.population.copy(herbivorous = UpdateSpecificPopulation(aquarium.population.herbivorous) + f)
-        case f: Fish =>
-          aquarium.population.copy(carnivorous = UpdateSpecificPopulation(aquarium.population.carnivorous) + f)
-        case a: Algae =>
-          aquarium.population.copy(algae = UpdateSpecificPopulation(aquarium.population.algae) + a)
-      aquarium.copy(population = newPop)
+      aquarium.copy(population = aquarium.population.addInhabitant(inhabitant))
 
     override def removeInhabitant[A](aquarium: Aquarium, inhabitant: A): Aquarium =
-      val newPop = inhabitant match
-        case f: Fish if f.feedingType == FeedingType.HERBIVOROUS =>
-          aquarium.population.copy(herbivorous = UpdateSpecificPopulation(aquarium.population.herbivorous) - f)
-        case f: Fish =>
-          aquarium.population.copy(carnivorous = UpdateSpecificPopulation(aquarium.population.carnivorous) - f)
-        case a: Algae =>
-          aquarium.population.copy(algae = UpdateSpecificPopulation(aquarium.population.algae) - a)
-      aquarium.copy(population = newPop)
+      aquarium.copy(population = aquarium.population.removeInhabitant(inhabitant))
 
     override def addFood[A](aquarium: Aquarium, food: A): Aquarium =
-      val newFood = food match
-        case f: HerbivorousFood => aquarium.availableFood.addFood(f)
-        case f: CarnivorousFood => aquarium.availableFood.addFood(f)
-      aquarium.copy(availableFood = newFood)
+      aquarium.copy(availableFood = aquarium.availableFood.addFood(food))
 
     override def removeFood[A](aquarium: Aquarium, food: A): Aquarium =
-      val newFood = food match
-        case f: HerbivorousFood => aquarium.availableFood.deleteFood(f)
-        case f: CarnivorousFood => aquarium.availableFood.deleteFood(f)
-      aquarium.copy(availableFood = newFood)
+      aquarium.copy(availableFood = aquarium.availableFood.deleteFood(food))
 
     override def step(aquarium: Aquarium): Aquarium =
       //TODO refactoring

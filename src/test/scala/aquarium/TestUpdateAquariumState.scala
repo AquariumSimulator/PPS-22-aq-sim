@@ -27,7 +27,7 @@ class TestUpdateAquariumState extends AnyFunSpec:
     AquariumState(TEMPERATURE_MIN, BRIGHTNESS_MIN, PH_MIN, IMPURITY_MIN, OXYGENATION_MIN)
   private val delta = 1
 
-  describe("A UpdateAquariumState") {
+  describe("An AquariumState") {
     describe("when updateImpurity() is called") {
       describe(s"if the new value is not lower than $IMPURITY_MIN or greater than $IMPURITY_MAX") {
         it("should return a new AquariumState with impurity equal to the new one") {

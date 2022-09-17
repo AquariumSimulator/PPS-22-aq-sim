@@ -10,11 +10,11 @@ import scalafx.Includes._
 
 object InfoPane:
 
-  val statisticsButton: IconButton = IconButton("chart.png")
+  val statisticsButton: IconButton = IconButton("/icons/chart.png")
   statisticsButton.tooltip = new Tooltip("View statistics")
   statisticsButton.onAction = (event: ActionEvent) => println("Clicked view statistics")
 
-  val downloadButton: IconButton = IconButton("download.png")
+  val downloadButton: IconButton = IconButton("/icons/download.png")
   downloadButton.tooltip = new Tooltip("Download simulation data")
   downloadButton.onAction = (event: ActionEvent) => println("Clicked download data")
 

@@ -19,7 +19,7 @@ class TemperatureSlider extends BorderPane:
     bottom = 10,
     left = 15
   )
-  left = new IconLabel("/temperature.png"):
+  left = new IconLabel("/icons/temperature.png"):
     tooltip = new Tooltip("Aquarium temperature")
 
   val slider: Slider = new Slider:

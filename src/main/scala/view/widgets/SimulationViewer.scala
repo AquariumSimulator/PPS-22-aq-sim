@@ -38,8 +38,8 @@ object SimulationViewer:
 
     val gc = canvas.graphicsContext2D
 
-    val greenFish = new Image("/green-fish.png")
-    val redFish = new Image("/red-fish.png")
+    val greenFish = new Image("/img/green-fish.png")
+    val redFish = new Image("/img/red-fish.png")
 
     drawFish(greenFish, (0, 0))
     drawFish(greenFish, (AquariumDimensions.WIDTH - 25, 0))

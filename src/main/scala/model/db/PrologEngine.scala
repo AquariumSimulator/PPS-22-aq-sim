@@ -86,7 +86,7 @@ trait PrologEngine:
 
 object PrologEngine extends PrologEngine:
 
-  private val engine: Prolog = new Prolog()
+  /*private*/ val engine: Prolog = new Prolog()
   engine.addTheory(new Theory(getClass.getResource("/prolog/mainTheory.pl").openStream()))
 
   private def saveData(data: String): Unit =
@@ -95,7 +95,6 @@ object PrologEngine extends PrologEngine:
   private def getData[A](query: String): List[A] =
     var results: ListBuffer[String] = new ListBuffer[String]()
     engine.solve(query)
-    println(engine.getTheory())
     while (engine.hasOpenAlternatives)
       results += engine.solveNext().getSolution().toString
     engine.solveHalt()

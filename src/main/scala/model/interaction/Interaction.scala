@@ -6,6 +6,7 @@ import model.fish.Fish
 import model.interaction.aquariumAlgae.InteractionAlgaeOnAquariumImpl
 import model.interaction.aquariumAlgae.InteractionAquariumOnAlgaeImpl
 import model.interaction.aquariumFish.InteractionFishOnAquariumImpl
+import model.interaction.fishAlgae.InteractionFishOnAlgaeImpl
 import model.interaction.aquariumFish.InteractionAquariumOnFishImpl
 
 /** Trait that models an interaction between two elements
@@ -70,3 +71,16 @@ object Interaction:
     */
   def apply(fish: Fish, aquariumState: AquariumState): Interaction[Option[Fish]] =
     InteractionAquariumOnFishImpl(fish, aquariumState)
+
+  /** Create a new [[Interaction]] by a given [[Fish]] and [[Algae]]. This interaction is meant to check if the
+    * herbivorous fish is hungry and, in that case, have to eat it.
+    *
+    * @param fish
+    * that has to eat the algae
+    * @param algae
+    * that, possibly, has to be eaten
+    * @return
+    * a new [[Interaction]]
+    */
+  def apply(fish: Fish, algae: Algae): Interaction[Fish] =
+    InteractionFishOnAlgaeImpl(fish, algae)

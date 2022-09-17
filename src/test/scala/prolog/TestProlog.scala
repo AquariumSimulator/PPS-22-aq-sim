@@ -3,10 +3,11 @@ package prolog
 import org.scalatest.funspec.AnyFunSpec
 import model.db.PrologEngine
 import model.fish.Fish
-import alice.tuprolog.Theory
+import org.scalatest.GivenWhenThen
 
-class TestProlog extends AnyFunSpec:
+class TestProlog extends AnyFunSpec with GivenWhenThen:
   describe("A new database") {
+    Given("the PrologEngine")
     it("should have 0 fish") {
       assert(PrologEngine.getAllFish.isEmpty)
     }
@@ -22,27 +23,18 @@ class TestProlog extends AnyFunSpec:
     it("should have 0 herbivorous food") {
       assert(PrologEngine.getAllHerbFood.isEmpty)
     }
-  }
+    
+    Given("a new fish")
+    val f: Fish = Fish()
 
-  describe("A database") {
-    describe("when added a fish") {
-      val f: Fish = Fish()
+    it ("should allow the fish to be added"){
+      When("fish is added")
       PrologEngine.saveFish(f)
-      it("should have 1 fish") {
-        assert(PrologEngine.getAllFish.size == 1)
-        assert(PrologEngine.getAllFish.head == f)
-      }
-    }
 
-    describe("when pippo si arrabbia perchè non funziona") {
-      it("should do something funny") {
-        PrologEngine.engine.setTheory(new Theory("banana(ciao,virgola,virgolette)."))
-        PrologEngine.engine.solve("banana(X,Y,Z).")
-        println(PrologEngine.engine.getTheory())
-        while (PrologEngine.engine.hasOpenAlternatives)
-          //results += engine.solveNext().getSolution().toString
-          println(PrologEngine.engine.solveNext())
-        assert(PrologEngine.getAllFish.isEmpty)
-      }
+      Then("the fish list should have size 1")
+      assert(PrologEngine.getAllFish.size == 1)
+
+      And("the only fish should be the one inserted before")
+      assert(PrologEngine.getAllFish.head == f)
     }
   }

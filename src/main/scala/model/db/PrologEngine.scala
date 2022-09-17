@@ -86,21 +86,25 @@ trait PrologEngine:
 
 object PrologEngine extends PrologEngine:
 
-  /*private*/ val engine: Prolog = new Prolog()
+  private val engine: Prolog = new Prolog()
   engine.addTheory(new Theory(getClass.getResource("/prolog/mainTheory.pl").openStream()))
 
   private def saveData(data: String): Unit =
     engine.addTheory(new Theory(data))
 
   private def getData[A](query: String): List[A] =
-    var results: ListBuffer[String] = new ListBuffer[String]()
-    engine.solve(query)
-    while (engine.hasOpenAlternatives)
-      results += engine.solveNext().getSolution().toString
-    engine.solveHalt()
-    results.toList.map { s =>
-      deserialize(s.replace("\'", "")).asInstanceOf[A]
-    }
+    new Iterator[A] { // Bad brackets... but needed to prevent scalafmt to make code not compilable.
+      var solution: SolveInfo = engine.solve(query)
+      var go: Boolean = solution.isSuccess()
+      def hasNext = go
+      def next =
+        val toRet = deserialize[A](solution)
+        if (solution.hasOpenAlternatives())
+          solution = engine.solveNext()
+        else
+          go = false
+        toRet
+    }.to(List)
 
   private def serialize(value: Any): String =
     val stream: ByteArrayOutputStream = new ByteArrayOutputStream()
@@ -112,15 +116,16 @@ object PrologEngine extends PrologEngine:
       UTF_8
     )
 
-  private def deserialize(str: String): Any =
+  private def deserialize[A](solInf: SolveInfo): A =
+    val str = solInf.getTerm("Y").toString().replace("\'", "")
     val bytes = Base64.getDecoder.decode(str.getBytes(UTF_8))
     val ois = new ObjectInputStream(new ByteArrayInputStream(bytes))
     val value = ois.readObject
     ois.close()
-    value
+    value.asInstanceOf[A]
 
   override def saveFish(fish: Fish): Unit =
-    saveData("fish(\"" + fish.name + "\", \"" + serialize(fish) + "\").")
+    saveData("fish('" + fish.name + "', '" + serialize(fish) + "').")
 
   override def saveSonOf(parent: Fish, son: Fish): Unit = ???
 

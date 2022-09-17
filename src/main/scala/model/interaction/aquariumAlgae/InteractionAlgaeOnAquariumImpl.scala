@@ -15,6 +15,5 @@ class InteractionAlgaeOnAquariumImpl(aquariumState: AquariumState, algae: Algae)
 
   override def update(): AquariumState =
     UpdateAquariumState(
-      UpdateAquariumState(aquariumState).
-        updateOxygenation(aquariumState.oxygenation + algae.oxygenShift)
+      UpdateAquariumState(aquariumState).updateOxygenation(aquariumState.oxygenation + algae.oxygenShift)
     ).updatePh(aquariumState.ph + algae.phShift)

@@ -21,8 +21,10 @@ object DeathProbabilityFish:
 
   /** Min safe value of ph */
   val MIN_SAFE_PH: Double = 5.9
+
   /** Max safe value of ph */
   val MAX_SAFE_PH: Double = 8.5
+
   /** Max probability of a fish to die if the ph is too high or too low */
   val PROB_PH: Int = 3
 
@@ -36,8 +38,10 @@ object DeathProbabilityFish:
 
   /** Max value of the interval of lack of brightness level */
   val MAX_INTERVAL_TOO_LOW_OXYGENATION: Int = 10
+
   /** Max probability of a fish to die if the oxygenation is too low */
   val PROB_OXYGEN = 5
+
   /** Probability of the death of a fish given a too low oxygenation */
   val LOW_OXYGENATION = (oxygen: Double) =>
     (MAX_INTERVAL_TOO_LOW_OXYGENATION - oxygen) * PROB_OXYGEN /
@@ -48,6 +52,7 @@ object MultiplierVelocityFish:
 
   /** Max speed multiplier thanks to impurity */
   val MAX_SPEED_IMPURITY: Int = 2
+
   /** Multiplier of the speed calculated based on the impurity */
   val SPEED_MULTIPLIER_IMPURITY = (impurity: Double) =>
     (AquariumParametersLimits.IMPURITY_MAX - impurity) * MAX_SPEED_IMPURITY /
@@ -55,6 +60,7 @@ object MultiplierVelocityFish:
 
   /** Max speed multiplier thanks to temperature */
   val MAX_SPEED_TEMPERATURE: Int = 2
+
   /** Multiplier of the speed calculated based on the temperature */
   val SPEED_MULTIPLIER_TEMPERATURE = (temp: Double) =>
     temp * MAX_SPEED_TEMPERATURE / AquariumParametersLimits.TEMPERATURE_MAX

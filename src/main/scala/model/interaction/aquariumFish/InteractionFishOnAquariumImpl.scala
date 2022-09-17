@@ -14,7 +14,6 @@ class InteractionFishOnAquariumImpl(aquariumState: AquariumState, fish: Fish) ex
 
   override def update(): AquariumState =
     UpdateAquariumState(
-      UpdateAquariumState(UpdateAquariumState(aquariumState).
-        updatePh(aquariumState.ph + fish.phShift))
+      UpdateAquariumState(UpdateAquariumState(aquariumState).updatePh(aquariumState.ph + fish.phShift))
         .updateOxygenation(aquariumState.oxygenation + fish.oxygenShift)
     ).updateImpurity(aquariumState.impurity + fish.impurityShift)

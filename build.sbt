@@ -18,4 +18,7 @@ scalacOptions ++= Seq(
   "-indent", "-rewrite"
 )
 
+Compile / compile := (Compile/compile dependsOn Compile/scalafmt).value
+Test / compile := (Test/compile dependsOn Test/scalafmt).value
+
 fork := true

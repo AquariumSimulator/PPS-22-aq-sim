@@ -7,6 +7,7 @@ import model.interaction.aquariumAlgae.InteractionAlgaeOnAquariumImpl
 import model.interaction.aquariumAlgae.InteractionAquariumOnAlgaeImpl
 import model.interaction.aquariumFish.InteractionFishOnAquariumImpl
 import model.interaction.fishAlgae.InteractionFishOnAlgaeImpl
+import model.interaction.aquariumFish.InteractionAquariumOnFishImpl
 
 /** Trait that models an interaction between two elements
   * @tparam A
@@ -34,7 +35,7 @@ object Interaction:
   def apply(aquariumState: AquariumState, algae: Algae): Interaction[AquariumState] =
     InteractionAlgaeOnAquariumImpl(aquariumState, algae)
 
-  /** Create a new interaction meant to checks if the algae is alive (brightness level) and make it grow if it's
+  /** Create a new interaction meant to check if the algae is alive (brightness level) and make it grow if it's
     * possible.
     *
     * @param aquariumState
@@ -58,7 +59,7 @@ object Interaction:
   def apply(aquariumState: AquariumState, fish: Fish): Interaction[AquariumState] =
     InteractionFishOnAquariumImpl(aquariumState, fish)
 
-  /** Create a new [[Interaction]] by a given [[Fish]] and [[AquariumState]]. This interaction is meant to checks if the
+  /** Create a new [[Interaction]] by a given [[Fish]] and [[AquariumState]]. This interaction is meant to check if the
     * fish is alive and update its speed.
     *
     * @param fish

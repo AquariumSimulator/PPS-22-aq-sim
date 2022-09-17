@@ -1,7 +1,7 @@
 package interaction
 
 import model.*
-import model.aquarium.AquariumState
+import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.interaction.Interaction
 import org.scalatest.funspec.AnyFunSpec
 
@@ -20,7 +20,7 @@ class TestInteractionAquariumOnAlgae extends AnyFunSpec:
   private val interactionAquariumAlgaeForAliveAndNotGrowTest =
     Interaction(algaeAliveThatCantGrow, aquariumStateAlgaeAlive)
 
-  private val expectedGrowth = 5
+  private val expectedGrowth = 1
 
   describe("An instance of InteractionAquariumOnAlgae") {
     describe("with a given Algae") {

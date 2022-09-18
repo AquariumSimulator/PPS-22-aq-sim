@@ -17,8 +17,3 @@ class InteractionFishOnAquariumImpl(aquariumState: AquariumState, fish: Fish) ex
       .updatePh(aquariumState.ph + fish.phShift)
       .updateOxygenation(aquariumState.oxygenation + fish.oxygenShift)
       .updateImpurity(aquariumState.impurity + fish.impurityShift)
-
-/*UpdateAquariumState(
-      UpdateAquariumState(UpdateAquariumState(aquariumState).updatePh(aquariumState.ph + fish.phShift))
-        .updateOxygenation(aquariumState.oxygenation + fish.oxygenShift)
-    ).updateImpurity(aquariumState.impurity + fish.impurityShift)*/

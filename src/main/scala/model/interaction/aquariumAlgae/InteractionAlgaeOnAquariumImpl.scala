@@ -17,7 +17,3 @@ class InteractionAlgaeOnAquariumImpl(aquariumState: AquariumState, algae: Algae)
     aquariumState
       .updateOxygenation(aquariumState.oxygenation + algae.oxygenShift)
       .updatePh(aquariumState.ph + algae.phShift)
-
-/*UpdateAquariumState(
-      UpdateAquariumState(aquariumState).updateOxygenation(aquariumState.oxygenation + algae.oxygenShift)
-    ).updatePh(aquariumState.ph + algae.phShift)*/

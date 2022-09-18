@@ -42,7 +42,7 @@ trait ModelImpl:
       aquarium.copy(availableFood = aquarium.availableFood.deleteFood(food))
 
     override def step(aquarium: Aquarium): Aquarium =
-      //TODO refactoring
+      // TODO refactoring
       var newState = aquarium.aquariumState
       aquarium.population.algae.foreach(a => newState = Interaction(newState, a).update())
       aquarium.population.herbivorous.foreach(h => newState = Interaction(newState, h).update())
@@ -54,13 +54,13 @@ trait ModelImpl:
         algaeStep(aquarium.population.algae, newState)
       )
 
-      //TODO INTERAZIONI PESCI
+      // TODO INTERAZIONI PESCI
 
       aquarium.copy(aquariumState = newState, population = newPopulation)
 
     private def genericFishStep(set: Set[Fish], aquariumState: AquariumState): Set[Fish] =
-      //TODO interazione pesce <--> alghe
-      //TODO interazione pesce <--> pesci
+      // TODO interazione pesce <--> alghe
+      // TODO interazione pesce <--> pesci
 
       set
         .filter(fish => fish.isAlive)

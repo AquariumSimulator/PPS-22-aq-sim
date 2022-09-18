@@ -2,45 +2,25 @@ package model.aquarium
 
 import model.Food
 
-/** Trait that models methods for modifying he food available inside the aquarium
-  * @tparam A
-  *   type of food
-  */
-trait UpdateAvailableFood[A]:
+/** Trait that models methods for modifying he food available inside the aquarium */
+trait UpdateAvailableFood:
 
-  /** Add a new food
+  /** Add a new food in the right food set
     * @param addElem
+    *   element that has to be added
+    * @tparam A
+    *   type of the element
     * @return
-    *   a new set of food
+    *   a new [[AvailableFood]]
     */
-  def addFood(addElem: A): Set[A]
+  def addFood[A](addElem: A): AvailableFood
 
-  /** Remove a particular instance of food
+  /** Remove an instance of food in the right set
     * @param removeElem
-    *   that have to be removed
-    * @return
-    *   a new set of food
+    *   element that has to be removed
+    * @tparam A
+    *   type of the element
+    * @returna
+    *   new [[AvailableFood]]
     */
-  def deleteFood(removeElem: A): Set[A]
-
-/** Companion object of [[UpdateAvailableFood]] */
-object UpdateAvailableFood:
-
-  /** Create a new [[UpdateAvailableFood]] given a set of [[A]]
-    * @param set
-    *   set of food
-    * @return
-    *   a new [[UpdateAvailableFood]]
-    */
-  def apply[A](set: Set[A]): UpdateAvailableFood[A] = UpdateAvailableFoodImpl[A](set)
-
-  /** Hidden implementation of [[UpdateAvailableFood]]
-    * @param set
-    *   set of food
-    */
-  private class UpdateAvailableFoodImpl[A](set: Set[A]) extends UpdateAvailableFood[A]:
-
-    override def addFood(addElem: A): Set[A] =
-      set + addElem
-
-    override def deleteFood(removeElem: A): Set[A] = set.filterNot(elem => elem == removeElem)
+  def deleteFood[A](removeElem: A): AvailableFood

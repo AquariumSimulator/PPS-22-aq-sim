@@ -1,10 +1,11 @@
-package model.interaction
+package model.interaction.aquariumFish
 
 import model.aquarium.AquariumState
 import model.fish.Fish
 import model.interaction.DeathProbabilityFish.*
-import model.interaction.Interaction
+import model.interaction.{DeathProbabilityFish, Interaction}
 import model.interaction.MultiplierVelocityFish.*
+import model.interaction.Interaction
 
 import scala.util.Random
 
@@ -14,7 +15,7 @@ import scala.util.Random
   * @param aquariumState
   *   the current state of the aquarium
   */
-private class InteractionAquariumOnFishImpl(fish: Fish, aquariumState: AquariumState) extends Interaction[Option[Fish]]:
+class InteractionAquariumOnFishImpl(fish: Fish, aquariumState: AquariumState) extends Interaction[Option[Fish]]:
 
   override def update(): Option[Fish] =
     checkIfFishIsDead() match

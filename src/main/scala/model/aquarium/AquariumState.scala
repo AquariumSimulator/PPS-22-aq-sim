@@ -12,4 +12,10 @@ package model.aquarium
   * @param oxygenation
   *   oxygenation of the aquarium
   */
-case class AquariumState(temperature: Double, brightness: Double, ph: Double, impurity: Double, oxygenation: Double)
+case class AquariumState(
+    temperature: Double = InitializeAquarium.TEMPERATURE,
+    brightness: Double = InitializeAquarium.BRIGHTNESS,
+    ph: Double = InitializeAquarium.PH,
+    impurity: Double = InitializeAquarium.IMPURITY,
+    oxygenation: Double = InitializeAquarium.OXYGENATION
+)

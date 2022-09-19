@@ -12,6 +12,7 @@ import scalafx.scene.paint.*
 import scalafx.scene.paint.Color.*
 import scalafx.scene.text.{Text, TextAlignment}
 import scalafx.stage.Screen;
+
 import view.utils.{AquariumFonts, IconLabel}
 import view.widgets.*
 
@@ -25,8 +26,8 @@ object GUI extends JFXApp3:
 
     stage = new JFXApp3.PrimaryStage:
       title = "Aquarium Simulator"
-      height = preferredHeight
-      width = preferredWidth
+      // height = preferredHeight
+      // width = preferredWidth
       resizable = false
       scene = new Scene:
         root = new BorderPane:

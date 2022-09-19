@@ -16,13 +16,15 @@ object SimulationEngine:
 
   private class SimulationEngineImpl(context: Requirements) extends SimulationEngine:
 
-    val aquarium = context.model.initializeAquarium(1, 1, 1) //by user
+    val aquarium = context.model.initializeAquarium(1, 1, 1) // by user
 
     override def start(): Unit =
-      Iterator.iterate(aquarium)(context.model.step).foreach( aq =>
-        Thread.sleep(2000)
-        println("Fish -> " + aq.population.herbivorous.head.position)
-      )
+      Iterator
+        .iterate(aquarium)(context.model.step)
+        .foreach(aq =>
+          Thread.sleep(2000)
+          println("Fish -> " + aq.population.herbivorous.head.position)
+        )
     override def stop(): Unit = ???
 
     override def resume(): Unit = ???

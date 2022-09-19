@@ -16,7 +16,7 @@ jobs:
         with:
           java-version: openjdk@1.17
 
-      - uses: avinal/github-pages-deploy-action@0.9
+      - uses: avinal/github-pages-deploy-action@v0.9
         with:
           GITHUB_TOKEN: ${{ github.token }}
           LANGUAGE: "scala"

@@ -14,8 +14,8 @@ object SimulationViewer:
   val canvasPane = new BorderPane:
     val canvas = new Canvas:
       managed = true
-      width = 600
-      height = 600
+      width = 500
+      height = 500
       background = new Background(
         Array(
           new BackgroundFill(

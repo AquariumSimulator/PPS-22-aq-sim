@@ -83,7 +83,7 @@ object Interaction:
     * @return
     *   a new [[Interaction]]
     */
-  def apply(fish: Fish, algae: Algae): Interaction[Fish] =
+  def apply(fish: Fish, algae: Algae): Interaction[(Fish, Algae)] =
     InteractionFishOnAlgaeImpl(fish, algae)
 
   /** Create a new [[Interaction]] between two [[Fish]]. If the 2 fishes are both herbivorous or both carnivorous they

@@ -17,7 +17,7 @@ object SimulationEngine:
 
   private class SimulationEngineImpl(context: Requirements) extends SimulationEngine:
 
-    val aquarium: Aquarium = context.model.initializeAquarium(1, 1, 1) // by user
+    val aquarium: Aquarium = context.model.initializeAquarium(10, 10, 1) // by user
 
     override def start(): Unit =
       val thread: Thread = new Thread {
@@ -26,7 +26,10 @@ object SimulationEngine:
             .iterate(aquarium)(context.model.step)
             .foreach((aq: Aquarium) =>
               Thread.sleep(1000)
-              println("Fish -> " + aq.population.herbivorous.head.position)
+              // println("Fish -> " + aq.population.herbivorous.head.position)
+              println(aq.population.herbivorous.size.toString + " herbivorous fish")
+              println(aq.population.carnivorous.size.toString + " carnivorous fish")
+              println("-----")
               context.view.renderSimulation(aq)
             )
       }

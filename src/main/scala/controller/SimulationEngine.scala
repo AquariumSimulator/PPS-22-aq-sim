@@ -1,6 +1,7 @@
 package controller
 
 import mvc.ControllerModule.Requirements
+import model.aquarium.Aquarium
 
 trait SimulationEngine:
 
@@ -16,16 +17,17 @@ object SimulationEngine:
 
   private class SimulationEngineImpl(context: Requirements) extends SimulationEngine:
 
-    val aquarium = context.model.initializeAquarium(1, 1, 1) // by user
+    val aquarium: Aquarium = context.model.initializeAquarium(1, 1, 1) // by user
 
     override def start(): Unit =
       val thread: Thread = new Thread {
         override def run(): Unit =
           Iterator
             .iterate(aquarium)(context.model.step)
-            .foreach(aq =>
-              Thread.sleep(2000)
+            .foreach((aq: Aquarium) =>
+              Thread.sleep(1000)
               println("Fish -> " + aq.population.herbivorous.head.position)
+              context.view.renderSimulation(aq)
             )
       }
       thread.start

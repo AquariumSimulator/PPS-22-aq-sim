@@ -8,7 +8,8 @@ object MVC extends ModelModule.Interface with ViewModule.Interface with Controll
 
   /*@main Entry point*/
   def main(args: Array[String]): Unit =
-    view.show(model.m())
+    // view.show(model.m())
+    controller.startSimulation()
 
 object ModelModule:
 

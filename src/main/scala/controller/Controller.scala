@@ -4,3 +4,5 @@ package controller
 trait Controller:
 
   def notifyChange(s: String): Unit
+
+  def startSimulation(): Unit

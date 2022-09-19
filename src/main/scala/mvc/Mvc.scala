@@ -11,6 +11,7 @@ object MVC extends JFXApp3 with ModelModule.Interface with ViewModule.Interface 
   /*@main Entry point*/
   override def start(): Unit =
     view.show(new JFXApp3.PrimaryStage())
+    controller.startSimulation()
 
 object ModelModule:
 

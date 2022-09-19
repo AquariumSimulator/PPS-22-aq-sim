@@ -6,8 +6,6 @@ import model.fish.Fish
 /** Model trait implemented in [[ModelImpl]]. */
 trait Model:
 
-  def m(): Int
-
   /** Create the initial aquarium with a default [[AquariumState]], a [[Population]] initialized by the user and a
     * default [[AvailableFood]]
     * @param herbivorousFishNumber

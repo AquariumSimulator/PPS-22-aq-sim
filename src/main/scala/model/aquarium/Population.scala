@@ -53,10 +53,11 @@ object Population:
               case _ => _addAlgae(number - 1, set + newAlgae)
 
       _addAlgae(number, Set.empty)
-    
+
     val speed: (Double, Double) = (1, 1)
 
-    val setHerbivorous = (1 to herbivorousFishesNumber).map(_ => Fish(feedingType = FeedingType.HERBIVOROUS, speed = speed)).toSet
+    val setHerbivorous =
+      (1 to herbivorousFishesNumber).map(_ => Fish(feedingType = FeedingType.HERBIVOROUS, speed = speed)).toSet
 
     val setCarnivorous = (1 to carnivorousFishesNumber).map(_ => Fish(speed = speed)).toSet
 

@@ -86,16 +86,16 @@ object Interaction:
   def apply(fish: Fish, algae: Algae): Interaction[Fish] =
     InteractionFishOnAlgaeImpl(fish, algae)
 
-  /** Create a new [[Interaction]] between two [[Fish]]. If the 2 fishes are both herbivorous or both carnivorous
-   * they can only reproduce. It the 2 fishes are different: if the carnivorous one is hungry, the herbivorous one
-   * is eaten, otherwise nothing happens.
-   *
-   * @param fish1
-   * the first fish
-   * @param fish2
-   * the second fish
-   * @return
-   * a new [[Interaction]]
-   */
+  /** Create a new [[Interaction]] between two [[Fish]]. If the 2 fishes are both herbivorous or both carnivorous they
+    * can only reproduce. It the 2 fishes are different: if the carnivorous one is hungry, the herbivorous one is eaten,
+    * otherwise nothing happens.
+    *
+    * @param fish1
+    *   the first fish
+    * @param fish2
+    *   the second fish
+    * @return
+    *   a new [[Interaction]]
+    */
   def apply(fish1: Fish, fish2: Fish): Interaction[(Option[Fish], Option[Fish])] =
     InteractionFishOnFishImpl(fish1, fish2)

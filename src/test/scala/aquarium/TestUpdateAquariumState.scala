@@ -26,27 +26,24 @@ class TestUpdateAquariumState extends AnyFunSpec:
   private val aquariumStateLowerLimit =
     AquariumState(TEMPERATURE_MIN, BRIGHTNESS_MIN, PH_MIN, IMPURITY_MIN, OXYGENATION_MIN)
   private val delta = 1
-  private val updateAquariumState = UpdateAquariumState(aquariumState)
-  private val updateAquariumStateUpperLimit = UpdateAquariumState(aquariumStateUpperLimit)
-  private val updateAquariumStateLowerLimit = UpdateAquariumState(aquariumStateLowerLimit)
 
-  describe("A UpdateAquariumState") {
+  describe("An AquariumState") {
     describe("when updateImpurity() is called") {
       describe(s"if the new value is not lower than $IMPURITY_MIN or greater than $IMPURITY_MAX") {
         it("should return a new AquariumState with impurity equal to the new one") {
-          val newAquarium = updateAquariumState.updateImpurity(newImpurity)
+          val newAquarium = aquariumState.updateImpurity(newImpurity)
           assert(newAquarium.impurity == newImpurity)
         }
       }
       describe(s"if the new value is lower than $IMPURITY_MIN or greater than $IMPURITY_MAX") {
         it("should return a new AquariumState with impurity equal to the old one") {
           assert(
-            updateAquariumStateUpperLimit
+            aquariumStateUpperLimit
               .updateImpurity(aquariumStateUpperLimit.impurity + delta)
               .impurity === aquariumStateUpperLimit.impurity
           )
           assert(
-            updateAquariumStateLowerLimit
+            aquariumStateLowerLimit
               .updateImpurity(aquariumStateLowerLimit.impurity - delta)
               .impurity === aquariumStateLowerLimit.impurity
           )
@@ -57,18 +54,18 @@ class TestUpdateAquariumState extends AnyFunSpec:
     describe("when updateTemperature() is called") {
       describe(s"if the new value is not lower than $TEMPERATURE_MIN or greater than $TEMPERATURE_MAX") {
         it(s"should return a new AquariumState with temperature set to $newTemperature") {
-          val newAquarium = updateAquariumState.updateTemperature(newTemperature)
+          val newAquarium = aquariumState.updateTemperature(newTemperature)
           assert(newAquarium.temperature == newTemperature)
         }
         describe(s"if the new value is lower than $TEMPERATURE_MIN or greater than $TEMPERATURE_MAX") {
           it("should return a new AquariumState with temperature equal to the old one") {
             assert(
-              updateAquariumStateUpperLimit
+              aquariumStateUpperLimit
                 .updateTemperature(aquariumStateUpperLimit.temperature + delta)
                 .temperature === aquariumStateUpperLimit.temperature
             )
             assert(
-              updateAquariumStateLowerLimit
+              aquariumStateLowerLimit
                 .updateTemperature(aquariumStateLowerLimit.temperature - delta)
                 .temperature === aquariumStateLowerLimit.temperature
             )
@@ -80,18 +77,18 @@ class TestUpdateAquariumState extends AnyFunSpec:
     describe("when updateBrightness() is called") {
       describe(s"if the new value is not lower than $BRIGHTNESS_MIN or greater than $BRIGHTNESS_MAX") {
         it(s"should return a new AquariumState with brightness set to $newBrightness") {
-          val newAquarium = updateAquariumState.updateBrightness(newBrightness)
+          val newAquarium = aquariumState.updateBrightness(newBrightness)
           assert(newAquarium.brightness == newBrightness)
         }
         describe(s"if the new value is lower than $BRIGHTNESS_MIN or greater than $BRIGHTNESS_MAX") {
           it("should return a new AquariumState with brightness equal to the old one") {
             assert(
-              updateAquariumStateUpperLimit
+              aquariumStateUpperLimit
                 .updateBrightness(aquariumStateUpperLimit.brightness + delta)
                 .brightness === aquariumStateUpperLimit.brightness
             )
             assert(
-              updateAquariumStateLowerLimit
+              aquariumStateLowerLimit
                 .updateBrightness(aquariumStateLowerLimit.brightness - delta)
                 .brightness === aquariumStateLowerLimit.brightness
             )
@@ -103,18 +100,18 @@ class TestUpdateAquariumState extends AnyFunSpec:
     describe("when updatePh() is called") {
       describe(s"if the new value is not lower than $PH_MIN or greater than $PH_MAX") {
         it(s"should return a new AquariumState with ph set to $newPh") {
-          val newAquarium = updateAquariumState.updatePh(newPh)
+          val newAquarium = aquariumState.updatePh(newPh)
           assert(newAquarium.ph == newPh)
         }
         describe(s"if the new value is lower than $PH_MIN or greater than $PH_MAX") {
           it("should return a new AquariumState with ph equal to the old one") {
             assert(
-              updateAquariumStateUpperLimit
+              aquariumStateUpperLimit
                 .updatePh(aquariumStateUpperLimit.ph + delta)
                 .ph === aquariumStateUpperLimit.ph
             )
             assert(
-              updateAquariumStateLowerLimit
+              aquariumStateLowerLimit
                 .updatePh(aquariumStateLowerLimit.ph - delta)
                 .ph === aquariumStateLowerLimit.ph
             )
@@ -126,18 +123,18 @@ class TestUpdateAquariumState extends AnyFunSpec:
     describe("when updateOxygenation() is called") {
       describe(s"if the new value is not lower than $OXYGENATION_MIN or greater than $OXYGENATION_MAX") {
         it(s"should return a new AquariumState with oxygenation set to $newOxygenation") {
-          val newAquarium = updateAquariumState.updateOxygenation(newOxygenation)
+          val newAquarium = aquariumState.updateOxygenation(newOxygenation)
           assert(newAquarium.oxygenation == newOxygenation)
         }
         describe(s"if the new value is lower than $OXYGENATION_MIN or greater than $OXYGENATION_MAX") {
           it("should return a new AquariumState with oxygenation equal to the old one") {
             assert(
-              updateAquariumStateUpperLimit
+              aquariumStateUpperLimit
                 .updateOxygenation(aquariumStateUpperLimit.oxygenation + delta)
                 .oxygenation === aquariumStateUpperLimit.oxygenation
             )
             assert(
-              updateAquariumStateLowerLimit
+              aquariumStateLowerLimit
                 .updateOxygenation(aquariumStateLowerLimit.oxygenation - delta)
                 .oxygenation === aquariumStateLowerLimit.oxygenation
             )

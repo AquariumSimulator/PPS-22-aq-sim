@@ -1,6 +1,6 @@
 package model.interaction.aquariumFish
 
-import model.aquarium.{AquariumParametersLimits, AquariumState, UpdateAquariumState}
+import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.fish.Fish
 import model.interaction.Interaction
 
@@ -13,7 +13,7 @@ import model.interaction.Interaction
 class InteractionFishOnAquariumImpl(aquariumState: AquariumState, fish: Fish) extends Interaction[AquariumState]:
 
   override def update(): AquariumState =
-    UpdateAquariumState(
-      UpdateAquariumState(UpdateAquariumState(aquariumState).updatePh(aquariumState.ph + fish.phShift))
-        .updateOxygenation(aquariumState.oxygenation + fish.oxygenShift)
-    ).updateImpurity(aquariumState.impurity + fish.impurityShift)
+    aquariumState
+      .updatePh(aquariumState.ph + fish.phShift)
+      .updateOxygenation(aquariumState.oxygenation + fish.oxygenShift)
+      .updateImpurity(aquariumState.impurity + fish.impurityShift)

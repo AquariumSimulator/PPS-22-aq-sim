@@ -15,7 +15,7 @@ case class Algae(base: Double, height: Int = Algae.DEFAULT_HEIGHT) extends Entit
 
 object Algae:
   val DEFAULT_HEIGHT: Int = 1
-  val MAX_HEIGHT: Int = 100
+  val MAX_HEIGHT: Int = 20
   val NUTRITION_AMOUNT: Int = 1
   val OXYGEN_MULTIPLIER: Double = 0.2
   val PH_DIVISOR: Double = 10

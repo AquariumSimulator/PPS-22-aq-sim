@@ -1,13 +1,25 @@
 package model.aquarium
 
+import model.fish.{FeedingType, Fish}
 import model.{Algae, CarnivorousFood, HerbivorousFood}
 
 import scala.language.postfixOps
 import scala.util.Random
-import model.fish.{FeedingType, Fish}
 
 /** This class represent the current population of the aquarium */
-case class Population(herbivorous: Set[Fish], carnivorous: Set[Fish], algae: Set[Algae])
+case class Population(herbivorous: Set[Fish], carnivorous: Set[Fish], algae: Set[Algae]) extends UpdatePopulation:
+  override def addInhabitant[A](newElem: A): Population =
+    newElem match
+      case f: Fish if f.feedingType == FeedingType.HERBIVOROUS => this.copy(herbivorous = this.herbivorous + f)
+      case f: Fish => this.copy(carnivorous = this.carnivorous + f)
+      case a: Algae => this.copy(algae = this.algae + a)
+
+  override def removeInhabitant[A](removeElem: A): Population =
+    removeElem match
+      case f: Fish if f.feedingType == FeedingType.HERBIVOROUS =>
+        this.copy(herbivorous = this.herbivorous.filterNot(fish => fish == f))
+      case f: Fish => this.copy(carnivorous = this.carnivorous.filterNot(fish => fish == f))
+      case a: Algae => this.copy(algae = this.algae.filterNot(algae => algae == a))
 
 /** Companion object of the case class */
 object Population:

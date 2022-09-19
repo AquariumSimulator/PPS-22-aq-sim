@@ -77,11 +77,11 @@ object Interaction:
     * herbivorous fish is hungry and, in that case, have to eat it.
     *
     * @param fish
-    * that has to eat the algae
+    *   that has to eat the algae
     * @param algae
-    * that, possibly, has to be eaten
+    *   that, possibly, has to be eaten
     * @return
-    * a new [[Interaction]]
+    *   a new [[Interaction]]
     */
   def apply(fish: Fish, algae: Algae): Interaction[Fish] =
     InteractionFishOnAlgaeImpl(fish, algae)

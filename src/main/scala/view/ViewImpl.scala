@@ -1,5 +1,7 @@
 package view
 
+import scalafx.stage.Stage
+
 import mvc.ViewModule.Requirements
 import view.View
 
@@ -7,6 +9,5 @@ import view.View
 trait ViewImpl:
   context: Requirements =>
   class ViewImpl extends View:
-
-    def show(i: Int): Unit = println(i)
+    def show(stage: Stage): Unit = GUI.start(stage)
     def update(): Unit = context.controller.notifyChange("changhed")

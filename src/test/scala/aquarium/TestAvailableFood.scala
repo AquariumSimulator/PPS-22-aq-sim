@@ -16,23 +16,13 @@ class TestAvailableFood extends AnyFunSpec:
     Set(CarnivorousFood((0, 0)), CarnivorousFood((1, 1)))
   )
 
-  val updateAvailableHerbivorousFoodForAddTest =
-    UpdateAvailableFood[HerbivorousFood](availableFoodForAddTest.herbivorousFood)
-  val updateAvailableHerbivorousFoodForRemoveTest =
-    UpdateAvailableFood[HerbivorousFood](availableFoodForRemoveTest.herbivorousFood)
   val newHerbivorousElem = HerbivorousFood((0, 1))
-  val newHerbivorousFoodWithAddedElem = updateAvailableHerbivorousFoodForAddTest.addFood(newHerbivorousElem)
-  val removeHerbivorousElem = HerbivorousFood((0, 0))
-  val newHerbivorousFoodWithRemovedElem = updateAvailableHerbivorousFoodForRemoveTest.deleteFood(removeHerbivorousElem)
-
-  val updateAvailableCarnivorousFooFordAddTest =
-    UpdateAvailableFood[CarnivorousFood](availableFoodForAddTest.carnivorousFood)
-  val updateAvailableCarnivorousFoodForRemoveTest =
-    UpdateAvailableFood[CarnivorousFood](availableFoodForRemoveTest.carnivorousFood)
   val newCarnivorousElem = CarnivorousFood(0, 1)
-  val newCarnivorousFoodWithAddedElem = updateAvailableCarnivorousFooFordAddTest.addFood(newCarnivorousElem)
+  val newFoodWithAddedElem = availableFoodForAddTest.addFood(newHerbivorousElem).addFood(newCarnivorousElem)
+  val removeHerbivorousElem = HerbivorousFood((0, 0))
   val removeCarnivorousElem = CarnivorousFood((0, 0))
-  val newCarnivorousFoodWithRemovedElem = updateAvailableCarnivorousFoodForRemoveTest.deleteFood(removeCarnivorousElem)
+  val newFoodWithRemovedElem =
+    availableFoodForRemoveTest.deleteFood(removeHerbivorousElem).deleteFood(removeCarnivorousElem)
 
   describe("A new instance of AvailableFood") {
     describe("built with two empty set") {
@@ -45,44 +35,43 @@ class TestAvailableFood extends AnyFunSpec:
       }
     }
   }
+  describe("When addFood is called on the herbivorous food set") {
+    it(
+      "should return a new AvailableFood with an updated herbivorous food set equal to the old one plus a new Food instance"
+    ) {
+      assert(newFoodWithAddedElem.herbivorousFood.size == availableFoodForAddTest.herbivorousFood.size + 1)
+    }
+    it(s"and it should contain $newHerbivorousElem") {
+      assert(newFoodWithAddedElem.herbivorousFood.contains(newHerbivorousElem))
+    }
+  }
 
-  describe("A new instance of UpdateAvailableFood") {
-    describe("when addFood is called on the herbivorous food set") {
-      it("should return a new Set[Food] equal to the old one plus a new Food instance") {
-        assert(newHerbivorousFoodWithAddedElem.size == availableFoodForAddTest.herbivorousFood.size + 1)
-      }
+  describe("When removeFood is called on on the herbivorous food set") {
+    it("should return a new AvailableFood with an updated herbivorous food set with one less element") {
+      assert(newFoodWithRemovedElem.herbivorousFood.size == availableFoodForRemoveTest.herbivorousFood.size - 1)
+    }
+    it(s"and it should not contain $newHerbivorousElem") {
+      assert(!newFoodWithRemovedElem.herbivorousFood.contains(newHerbivorousElem))
+    }
+  }
 
-      it(s"should return a new Set[Food] that contain $newHerbivorousElem ") {
-        assert(newHerbivorousFoodWithAddedElem.contains(newHerbivorousElem))
-      }
+  describe("When addFood is called on the carnivorous food set") {
+    it(
+      "should return a new AvailableFood with an updated carnivorous food set equal to the old one plus a new Food instance"
+    ) {
+      assert(newFoodWithAddedElem.carnivorousFood.size == availableFoodForAddTest.carnivorousFood.size + 1)
     }
 
-    describe(s"when removeFood is called on $newHerbivorousFoodWithRemovedElem") {
-      it("should return a new Set[Food] with one less element") {
-        assert(newHerbivorousFoodWithRemovedElem.size == availableFoodForRemoveTest.herbivorousFood.size - 1)
-      }
-
-      it(s"should return a new Set[Food] that doesn't contain $newHerbivorousElem ") {
-        assert(!newHerbivorousFoodWithRemovedElem.contains(newHerbivorousElem))
-      }
+    it(s"and it should contain $newCarnivorousElem ") {
+      assert(newFoodWithAddedElem.carnivorousFood.contains(newCarnivorousElem))
+    }
+  }
+  describe("When removeFood is called on on the carnivorous food set") {
+    it("should return a new AvailableFood with an updated carnivorous food set with one less element") {
+      assert(newFoodWithRemovedElem.carnivorousFood.size == availableFoodForRemoveTest.carnivorousFood.size - 1)
     }
 
-    describe("when addFood is called on the carnivorous food set") {
-      it("should return a new Set[Food] equal to the old one plus a new Food instance") {
-        assert(newCarnivorousFoodWithAddedElem.size == availableFoodForAddTest.carnivorousFood.size + 1)
-      }
-
-      it(s"should return a new Set[Food] that contain $newCarnivorousElem ") {
-        assert(newCarnivorousFoodWithAddedElem.contains(newCarnivorousElem))
-      }
-    }
-    describe(s"when removeFood is called on $newCarnivorousFoodWithRemovedElem") {
-      it("should return a new Set[Food] with one less element") {
-        assert(newCarnivorousFoodWithRemovedElem.size == availableFoodForRemoveTest.carnivorousFood.size - 1)
-      }
-
-      it(s"should return a new Set[Food] that doesn't contain $newCarnivorousElem ") {
-        assert(!newCarnivorousFoodWithRemovedElem.contains(newCarnivorousElem))
-      }
+    it(s"and it should contain $newCarnivorousElem ") {
+      assert(!newFoodWithRemovedElem.carnivorousFood.contains(newCarnivorousElem))
     }
   }

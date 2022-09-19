@@ -8,12 +8,14 @@ import scalafx.scene.paint.{Color, LinearGradient, Stops}
 
 import scala.util.Random
 
+import model.aquarium.AquariumDimensions
+
 object SimulationViewer:
   val canvasPane = new BorderPane:
     val canvas = new Canvas:
       managed = true
-      width = 600
-      height = 600
+      width = 500
+      height = 500
       background = new Background(
         Array(
           new BackgroundFill(
@@ -30,7 +32,7 @@ object SimulationViewer:
           )
         )
       )
-      margin = Insets(30)
+    // margin = Insets(30)
 
     center = canvas
 
@@ -39,7 +41,21 @@ object SimulationViewer:
     val greenFish = new Image("/green-fish.png")
     val redFish = new Image("/red-fish.png")
 
-    val rnd = new Random()
-    gc.drawImage(greenFish, 0, 0, 50, 50)
-    for (n <- 1 to 10) gc.drawImage(greenFish, rnd.nextDouble() * 500, rnd.nextDouble() * 400, 60, 50)
-    for (n <- 1 to 10) gc.drawImage(redFish, rnd.nextDouble() * 500, rnd.nextDouble() * 400, 60, 50)
+    drawFish(greenFish, (0, 0))
+    drawFish(greenFish, (AquariumDimensions.WIDTH - 25, 0))
+    drawFish(greenFish, (0, AquariumDimensions.HEIGHT - 25))
+    gc.drawImage(greenFish, canvas.width.value - 50, canvas.height.value - 50, 50, 50)
+    gc.drawImage(redFish, canvas.width.value / 2 - 25, canvas.height.value / 2 - 25, 50, 50)
+    // val rnd = new Random()
+    // for (n <- 1 to 10) gc.drawImage(greenFish, rnd.nextDouble() * canvas.width.value, rnd.nextDouble() * canvas.height.value, 60, 50)
+    // for (n <- 1 to 10) gc.drawImage(redFish, rnd.nextDouble() * canvas.height.value, rnd.nextDouble() * canvas.height.value, 60, 50)
+
+    private def drawFish(fishImage: Image, coordinate: (Double, Double)): Unit =
+      val canvasCoordinate: (Double, Double) = mapToCanvasCoordinate(coordinate)
+      gc.drawImage(fishImage, canvasCoordinate._1, canvasCoordinate._2, 50, 50)
+
+    private def mapToCanvasCoordinate(position: (Double, Double)): (Double, Double) =
+      (
+        position._1 / AquariumDimensions.WIDTH * canvas.width.value,
+        position._2 / AquariumDimensions.HEIGHT * canvas.height.value
+      )

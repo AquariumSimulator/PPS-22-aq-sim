@@ -8,8 +8,6 @@ import mvc.MVC.model.*
 /** Model methods implementation from [[Model]]. */
 trait ModelImpl:
   class ModelImpl extends Model:
-
-    def m() = 1
     override def initializeAquarium(
         herbivorousFishNumber: Int,
         carnivorousFishNumber: Int,

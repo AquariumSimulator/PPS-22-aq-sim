@@ -2,8 +2,8 @@ package model.aquarium
 
 import model.fish.{FeedingType, Fish}
 import model.{Algae, CarnivorousFood, HerbivorousFood}
+import model.aquarium.AquariumDimensions
 
-import scala.language.postfixOps
 import scala.util.Random
 
 /** This class represent the current population of the aquarium */
@@ -54,10 +54,18 @@ object Population:
 
       _addAlgae(number, Set.empty)
 
-    val setHerbivorous = (1 to herbivorousFishesNumber).map(_ => Fish(feedingType = FeedingType.HERBIVOROUS)).toSet
+    val speed: (Double, Double) = (10, 10)
 
-    val setCarnivorous = (1 to carnivorousFishesNumber).map(_ => Fish()).toSet
+    val setHerbivorous =
+      (1 to herbivorousFishesNumber)
+        .map(_ => Fish(feedingType = FeedingType.HERBIVOROUS, speed = speed, position = randomPosition()))
+        .toSet
+
+    val setCarnivorous = (1 to carnivorousFishesNumber).map(_ => Fish(speed = speed, position = randomPosition())).toSet
 
     val setAlgae = addAlgae(algaeNumber)
 
     Population(setHerbivorous, setCarnivorous, setAlgae)
+
+  private def randomPosition(): (Double, Double) =
+    (Random.between(0, AquariumDimensions.WIDTH), Random.between(0, AquariumDimensions.HEIGHT))

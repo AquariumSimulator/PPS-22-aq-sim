@@ -1,14 +1,16 @@
 package mvc
 
+import scalafx.application.JFXApp3
+
 /** MVC implementation through cake pattern with separation of files for a better readability. */
-object MVC extends ModelModule.Interface with ViewModule.Interface with ControllerModule.Interface:
+object MVC extends JFXApp3 with ModelModule.Interface with ViewModule.Interface with ControllerModule.Interface:
   override val model = new ModelImpl()
   override val view = new ViewImpl()
   override val controller = new ControllerImpl()
 
   /*@main Entry point*/
-  def main(args: Array[String]): Unit =
-    view.show(model.m())
+  override def start(): Unit =
+    view.show(new JFXApp3.PrimaryStage())
 
 object ModelModule:
 

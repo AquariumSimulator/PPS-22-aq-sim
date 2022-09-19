@@ -2,7 +2,7 @@ package view.widgets
 
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.control.{Label, ListView}
-import scalafx.scene.layout.*
+import scalafx.scene.layout._
 import scalafx.scene.paint.Color
 import view.utils.AquariumFonts
 

@@ -2,7 +2,7 @@ package view.widgets
 
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.control.{Button, Label, Tooltip}
-import scalafx.scene.layout.*
+import scalafx.scene.layout._
 import scalafx.scene.paint.Color
 import view.utils.{AquariumFonts, IconButton}
 import scalafx.event.ActionEvent

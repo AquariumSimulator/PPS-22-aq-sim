@@ -1,9 +1,8 @@
 package model.fish
 
-import model.CarnivorousFood
 import model.aquarium.AquariumDimensions
 import model.fish.Fish.{MAX_HUNGER, MEAT_AMOUNT}
-import model.Food
+import model.food.Food
 
 trait UpdateFish:
 

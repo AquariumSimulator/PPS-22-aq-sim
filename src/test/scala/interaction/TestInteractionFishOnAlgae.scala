@@ -1,9 +1,9 @@
 package interaction
 
-import org.scalatest.funspec.AnyFunSpec
-import model.fish.{FeedingType, Fish}
-import model.Algae
+import model.{Algae, FeedingType}
+import model.fish.Fish
 import model.interaction.Interaction
+import org.scalatest.funspec.AnyFunSpec
 
 /** Test for the interaction of the fish on a algae */
 class TestInteractionFishOnAlgae extends AnyFunSpec:

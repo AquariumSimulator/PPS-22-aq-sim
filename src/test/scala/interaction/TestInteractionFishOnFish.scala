@@ -1,9 +1,9 @@
 package interaction
 
+import model.FeedingType
 import model.fish.Fish
-import org.scalatest.funspec.AnyFunSpec
-import model.fish.FeedingType
 import model.interaction.Interaction
+import org.scalatest.funspec.AnyFunSpec
 
 class TestInteractionFishOnFish extends AnyFunSpec:
 

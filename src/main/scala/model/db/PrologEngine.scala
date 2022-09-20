@@ -141,7 +141,7 @@ object PrologEngine extends PrologEngine:
         else
           go = false
         toRet
-    }.to(List)
+    }.toList
 
   override def saveFish(fish: Fish): Unit =
     saveData(FishSerializer.serialize(fish))

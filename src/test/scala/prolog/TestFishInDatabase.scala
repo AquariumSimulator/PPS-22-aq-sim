@@ -14,6 +14,7 @@ class TestFishInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
 
   describe("The PrologEngine") {
     it("should allow a fish to be added") {
+      Given("a new fish")
       val f: Fish = Fish()
 
       When("fish is added")
@@ -27,6 +28,7 @@ class TestFishInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
     }
 
     it("should allow an herbivorous fish to be added") {
+      Given("an herbivorous fish")
       val f: Fish = Fish(feedingType = FeedingType.HERBIVOROUS)
 
       When("fish is added")
@@ -42,6 +44,7 @@ class TestFishInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
     }
 
     it("should allow a carnivorous fish to be added") {
+      Given("a carnovorous fish")
       val f: Fish = Fish(feedingType = FeedingType.CARNIVOROUS)
 
       When("fish is added")

@@ -12,7 +12,7 @@ object AquariumDimensions:
 /** Constants that represent the values assigned to a new simulation when it's created */
 object InitializeAquarium:
   /** Initial temperature value (expressed in C°) */
-  val TEMPERATURE: Int = 5
+  val TEMPERATURE: Int = 25
 
   /** Initial brightness value (expressed in %) */
   val BRIGHTNESS: Int = 50
@@ -21,7 +21,7 @@ object InitializeAquarium:
   val PH: Double = 7
 
   /** Initial impurity value (expressed in %) */
-  val IMPURITY: Int = 10
+  val IMPURITY: Int = 0
 
   /** Initial oxygenation value (expressed in mg/L) */
   val OXYGENATION: Int = 10

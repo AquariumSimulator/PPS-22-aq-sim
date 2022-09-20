@@ -91,15 +91,19 @@ trait PrologEngine:
     * @return
     *   An immutable list of herbivorous food.
     */
-  def getAllHerbFood: List[HerbivorousFood]
+  def getAllHerbivorousFood: List[HerbivorousFood]
 
   /** Retrieve all saved carnivorous food in the simulation.
     *
     * @return
     *   An immutable list of carnivorous food.
     */
-  def getAllCarnFood: List[CarnivorousFood]
-//def getGenealogicalTreeOf(f: Fish): Unit
+  def getAllCarnivorousFood: List[CarnivorousFood]
+
+//def getGenealogicalTreeOf(f: Fish): Unit // TODO
+
+  /** Removes every data that has been added to the engine. */
+  def clear: Unit
 
 object PrologEngine extends PrologEngine:
 
@@ -161,6 +165,8 @@ object PrologEngine extends PrologEngine:
 
   override def getAllAlgae: List[Algae] = List.empty
 
-  override def getAllCarnFood: List[CarnivorousFood] = List.empty
+  override def getAllCarnivorousFood: List[CarnivorousFood] = List.empty
 
-  override def getAllHerbFood: List[HerbivorousFood] = List.empty
+  override def getAllHerbivorousFood: List[HerbivorousFood] = List.empty
+
+  override def clear: Unit = engine.clearTheory()

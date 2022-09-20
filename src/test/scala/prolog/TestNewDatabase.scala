@@ -3,9 +3,8 @@ package prolog
 import org.scalatest.funspec.AnyFunSpec
 import model.db.PrologEngine
 import model.fish.Fish
-import org.scalatest.GivenWhenThen
 
-class TestNewDatabase extends AnyFunSpec with GivenWhenThen:
+class TestNewDatabase extends AnyFunSpec:
   describe("A new database") {
     it("should have 0 fish") {
       assert(PrologEngine.getAllFish.isEmpty)
@@ -24,10 +23,10 @@ class TestNewDatabase extends AnyFunSpec with GivenWhenThen:
     }
 
     it("should have 0 carnivorous food") {
-      assert(PrologEngine.getAllCarnFood.isEmpty)
+      assert(PrologEngine.getAllCarnivorousFood.isEmpty)
     }
 
     it("should have 0 herbivorous food") {
-      assert(PrologEngine.getAllHerbFood.isEmpty)
+      assert(PrologEngine.getAllHerbivorousFood.isEmpty)
     }
   }

@@ -12,9 +12,8 @@ import model.aquarium.AquariumDimensions
 import model.aquarium.Aquarium
 import model.fish.Fish
 import model.Algae
-import model.CarnivorousFood
-import model.HerbivorousFood
-import model.fish.FeedingType
+import model.FeedingType
+import model.food.Food
 
 object SimulationViewer:
 
@@ -58,8 +57,8 @@ object SimulationViewer:
     aquarium.population.herbivorous.foreach((fish: Fish) => drawFish(fish))
     aquarium.population.carnivorous.foreach((fish: Fish) => drawFish(fish))
     aquarium.population.algae.foreach((a: Algae) => drawAlgae(a))
-    aquarium.availableFood.carnivorousFood.foreach((f: CarnivorousFood) => drawFood(meat, f.position))
-    aquarium.availableFood.herbivorousFood.foreach((f: HerbivorousFood) => drawFood(herbFood, f.position))
+    aquarium.availableFood.carnivorousFood.foreach((f: Food) => drawFood(meat, f.position))
+    aquarium.availableFood.herbivorousFood.foreach((f: Food) => drawFood(herbFood, f.position))
 
   private def drawFood(foodImage: Image, coordinate: (Double, Double)): Unit =
     val canvasCoordinate: (Double, Double) = mapToCanvasCoordinate(coordinate)

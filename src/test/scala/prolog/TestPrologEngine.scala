@@ -20,10 +20,10 @@ class TestPrologEngine extends AnyFunSpec with GivenWhenThen with BeforeAndAfter
       PrologEngine.saveFish(f)
 
       Then("the fish list should have size 1")
-      assert(PrologEngine.getAllFish.size == 1)
+      assert(PrologEngine.getAllFish.size === 1)
 
       And("the only fish should be the one inserted before")
-      assert(PrologEngine.getAllFish.head == f)
+      assert(PrologEngine.getAllFish.head === f)
     }
 
     it("should allow an herbivorous fish to be added") {
@@ -33,12 +33,12 @@ class TestPrologEngine extends AnyFunSpec with GivenWhenThen with BeforeAndAfter
       PrologEngine.saveFish(f)
 
       Then("the herbivorous fish list should have size 1")
-      assert(PrologEngine.getAllHerbivorousFish.size == 1)
+      assert(PrologEngine.getAllHerbivorousFish.size === 1)
       And("the only fish should be the one inserted before")
-      assert(PrologEngine.getAllHerbivorousFish.head == f)
+      assert(PrologEngine.getAllHerbivorousFish.head === f)
 
       Then("the carnivorous fish list should have size 0")
-      assert(PrologEngine.getAllCarnivorousFish.size == 0)
+      assert(PrologEngine.getAllCarnivorousFish.isEmpty)
     }
 
     it("should allow a carnivorous fish to be added") {
@@ -48,11 +48,11 @@ class TestPrologEngine extends AnyFunSpec with GivenWhenThen with BeforeAndAfter
       PrologEngine.saveFish(f)
 
       Then("the carnivorous fish list should have size 1")
-      assert(PrologEngine.getAllCarnivorousFish.size == 1)
+      assert(PrologEngine.getAllCarnivorousFish.size === 1)
       And("the only fish should be the one inserted before")
-      assert(PrologEngine.getAllCarnivorousFish.head == f)
+      assert(PrologEngine.getAllCarnivorousFish.head === f)
 
       Then("the herbivorous fish list should have size 0")
-      assert(PrologEngine.getAllHerbivorousFish.size == 0)
+      assert(PrologEngine.getAllHerbivorousFish.isEmpty)
     }
   }

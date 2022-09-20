@@ -15,12 +15,12 @@ object FishSerializer:
   def serialize(fish: Fish): String =
     "fish('" + fish.name + "','" + fish.feedingType.toString.head + "')."
 
-  def deserialize(info: SolveInfo): Fish =
-    println("info: " + info.toString)
-    val name: String = info.getTerm("N").toString.replace("'", "")
-    val feedingType: FeedingType = info.getTerm("F").toString.replace("'", "") match
+  def deserialize(info: String): Fish =
+    val content = """.*\((.*)\).*""".r
+    val content(list) = info
+    val fields = list.split(",").iterator
+    val name: String = fields.next.replace("'", "")
+    val feedingType: FeedingType = fields.next.replace("'", "") match
       case "C" => FeedingType.CARNIVOROUS
       case "H" => FeedingType.HERBIVOROUS
-    println("name: \"" + name + "\"")
-    println("feed: \"" + feedingType + "\"")
     Fish(name = name, feedingType = feedingType)

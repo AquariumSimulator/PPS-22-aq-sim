@@ -12,6 +12,9 @@ import model.aquarium.AquariumDimensions
 import model.aquarium.Aquarium
 import model.fish.Fish
 import model.Algae
+import model.CarnivorousFood.apply
+import model.CarnivorousFood
+import model.HerbivorousFood
 
 object SimulationViewer:
 
@@ -47,12 +50,20 @@ object SimulationViewer:
   private val greenFish: Image = new Image("/img/green-fish.png")
   private val redFish: Image = new Image("/img/red-fish.png")
   private val algaeImage: Image = new Image("/img/seaweed.png")
+  private val meat: Image = new Image("/img/meat.png")
+  private val herbFood: Image = new Image("/img/lettuce.png")
 
   def renderSimulation(aquarium: Aquarium): Unit =
     gc.clearRect(0, 0, canvas.width.value, canvas.height.value)
     aquarium.population.herbivorous.foreach((fish: Fish) => drawFish(greenFish, fish.position))
     aquarium.population.carnivorous.foreach((fish: Fish) => drawFish(redFish, fish.position))
     aquarium.population.algae.foreach((a: Algae) => drawAlgae(a))
+    aquarium.availableFood.carnivorousFood.foreach((f: CarnivorousFood) => drawFood(meat, f.position))
+    aquarium.availableFood.herbivorousFood.foreach((f: HerbivorousFood) => drawFood(herbFood, f.position))
+
+  private def drawFood(foodImage: Image, coordinate: (Double, Double)): Unit =
+    val canvasCoordinate: (Double, Double) = mapToCanvasCoordinate(coordinate)
+    gc.drawImage(foodImage, canvasCoordinate._1, canvasCoordinate._2, 50, 50)
 
   private def drawAlgae(algae: Algae): Unit =
     val canvasCoordinate: (Double, Double) = mapToCanvasCoordinate(algae.position)

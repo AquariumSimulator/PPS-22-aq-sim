@@ -3,11 +3,23 @@ package model.db
 import model.Algae
 
 object AlgaeSerializer extends Serializer[Algae]:
-  /** Serializes a given [[Algae]] into a String understandable by Prolog. */
+  /** Create the theory string to be stored in prolog database for a [[Algae]].
+    *
+    * @param algae
+    *   The [[Algae]] to be stored.
+    * @return
+    *   The prolog theory of the [[Algae]].
+    */
   def serialize(algae: Algae): String =
     "algae('" + algae.base + "','" + algae.height + "')."
 
-  /** Deserializes the given String (must be Prolog-like) into a [[Algae]] object. */
+  /** Create a [[Algae]] from the theory string of prolog database.
+    *
+    * @param info
+    *   The [[Algae]] theory string.
+    * @return
+    *   The [[Algae]] from the prolog theory.
+    */
   def deserialize(info: String): Algae =
     val content = """.*\((.*)\).*""".r
     val content(list) = info

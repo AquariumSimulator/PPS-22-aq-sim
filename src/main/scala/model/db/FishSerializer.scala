@@ -4,11 +4,23 @@ import model.fish.Fish
 import model.fish.FeedingType
 
 object FishSerializer extends Serializer[Fish]:
-  /** Serializes a given [[Fish]] into a String understandable by Prolog. */
+  /** Create the theory string to be stored in prolog database for a [[Fish]].
+    *
+    * @param fish
+    *   The [[Fish]] to be stored.
+    * @return
+    *   The prolog theory of the [[Fish]].
+    */
   def serialize(fish: Fish): String =
     "fish('" + fish.name + "','" + fish.feedingType.toString.head + "')."
 
-  /** Deserializes the given String (must be Prolog-like) into a [[Fish]] object. */
+  /** Create a [[Fish]] from the theory string of prolog database.
+    *
+    * @param info
+    *   The [[Fish]] theory string.
+    * @return
+    *   The [[Fish]] from the prolog theory.
+    */
   def deserialize(info: String): Fish =
     val content = """.*\((.*)\).*""".r
     val content(list) = info

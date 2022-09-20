@@ -12,7 +12,7 @@ trait UpdateFish:
   def updateSpeed(newSpeed: (Double, Double)): Fish
   def updateHunger(newHunger: Int): Fish
   def updateSpeedAndPosition(newPosition: (Double, Double), newSpeed: (Double, Double)): Fish
-  def move(): Fish
+  def move(speedMultiplier: Double): Fish
   def eat(fish: Fish): Fish
   def eat(food: Food): Fish
 
@@ -37,9 +37,9 @@ object UpdateFish:
     override def updateSpeedAndPosition(newPosition: (Double, Double), newSpeed: (Double, Double)): Fish =
       fish.copy(position = newPosition, speed = newSpeed)
 
-    override def move(): Fish =
+    override def move(speedMultiplier: Double): Fish =
       var newPosition: (Double, Double) = calculatePosition()
-      var newSpeed: (Double, Double) = fish.speed
+      var newSpeed: (Double, Double) = (fish.speed._1 * speedMultiplier, fish.speed._2 * speedMultiplier)
       newPosition._1 match
         case x if x < 0 =>
           newPosition = (x * -1, newPosition._2)

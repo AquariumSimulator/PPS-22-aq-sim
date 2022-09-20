@@ -55,12 +55,29 @@ trait PrologEngine:
     */
   def saveCarnFood(carnFood: CarnivorousFood): Unit
 
-  /** Retrieve all saved fish in the simulation.
+  /** Retrieve all saved fish in the simulation. Note: if you don't need all the fish from the simulation, you should
+    * consider using [[PrologEngine.getAllHerbivorousFish]] or [[PrologEngine.getAllCarnivorousFish]].
     *
     * @return
     *   An immutable list of fish.
     */
   def getAllFish: List[Fish]
+
+  /** Retrieve all saved herbivorous fish in the simulation. Note: if you want to retrieve all the fish and filter them
+    * later, it is faster and better to use [[PrologEngine.getAllFish]].
+    *
+    * @return
+    *   An immutable list of herbivorous fish.
+    */
+  def getAllHerbivorousFish: List[Fish]
+
+  /** Retrieve all saved carnivorous fish in the simulation. Note: if you want to retrieve all the fish and filter them
+    * later, it is faster and better to use [[PrologEngine.getAllFish]].
+    *
+    * @return
+    *   An immutable list of carnivorous fish.
+    */
+  def getAllCarnivorousFish: List[Fish]
 
   /** Retrieve all saved algae in the simulation.
     *
@@ -137,6 +154,10 @@ object PrologEngine extends PrologEngine:
 
   override def getAllFish: List[Fish] =
     getData[Fish]("fish(X, Y).")
+
+  override def getAllHerbivorousFish: List[Fish] = List.empty
+
+  override def getAllCarnivorousFish: List[Fish] = List.empty
 
   override def getAllAlgae: List[Algae] = List.empty
 

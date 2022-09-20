@@ -2,19 +2,13 @@ package model.db
 
 import model.fish.Fish
 import model.fish.FeedingType
-import alice.tuprolog.SolveInfo
 
-trait FishSerializer:
+object FishSerializer extends Serializer[Fish]:
   /** Serializes a given [[Fish]] into a String understandable by Prolog. */
-  def serialize(fish: Fish): String
-
-  /** Deserializes the given String (must be Prolog-like) into a [[Fish]] object. */
-  def deserialize(fish: String): Fish
-
-object FishSerializer:
   def serialize(fish: Fish): String =
     "fish('" + fish.name + "','" + fish.feedingType.toString.head + "')."
 
+  /** Deserializes the given String (must be Prolog-like) into a [[Fish]] object. */
   def deserialize(info: String): Fish =
     val content = """.*\((.*)\).*""".r
     val content(list) = info

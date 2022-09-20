@@ -17,7 +17,7 @@ object SimulationEngine:
 
   private class SimulationEngineImpl(context: Requirements) extends SimulationEngine:
 
-    val aquarium: Aquarium = context.model.initializeAquarium(10, 10, 1) // by user
+    val aquarium: Aquarium = context.model.initializeAquarium(10, 10, 10) // by user
 
     override def start(): Unit =
       val thread: Thread = new Thread {

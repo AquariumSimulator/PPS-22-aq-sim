@@ -11,6 +11,7 @@ import scala.util.Random
 import model.aquarium.AquariumDimensions
 import model.aquarium.Aquarium
 import model.fish.Fish
+import model.Algae
 
 object SimulationViewer:
 
@@ -43,21 +44,19 @@ object SimulationViewer:
 
   private val gc = canvas.graphicsContext2D
 
-  private val greenFish = new Image("/img/green-fish.png")
-  private val redFish = new Image("/img/red-fish.png")
+  private val greenFish: Image = new Image("/img/green-fish.png")
+  private val redFish: Image = new Image("/img/red-fish.png")
+  private val algaeImage: Image = new Image("/img/seaweed.png")
 
   def renderSimulation(aquarium: Aquarium): Unit =
     gc.clearRect(0, 0, canvas.width.value, canvas.height.value)
     aquarium.population.herbivorous.foreach((fish: Fish) => drawFish(greenFish, fish.position))
     aquarium.population.carnivorous.foreach((fish: Fish) => drawFish(redFish, fish.position))
-    // drawFish(greenFish, (0, 0))
-    // drawFish(greenFish, (AquariumDimensions.WIDTH - 25, 0))
-    // drawFish(greenFish, (0, AquariumDimensions.HEIGHT - 25))
-    // gc.drawImage(greenFish, canvas.width.value - 50, canvas.height.value - 50, 50, 50)
-    // gc.drawImage(redFish, canvas.width.value / 2 - 25, canvas.height.value / 2 - 25, 50, 50)
-    // val rnd = new Random()
-    // for (n <- 1 to 10) gc.drawImage(greenFish, rnd.nextDouble() * canvas.width.value, rnd.nextDouble() * canvas.height.value, 60, 50)
-    // for (n <- 1 to 10) gc.drawImage(redFish, rnd.nextDouble() * canvas.height.value, rnd.nextDouble() * canvas.height.value, 60, 50)
+    aquarium.population.algae.foreach((a: Algae) => drawAlgae(a))
+
+  private def drawAlgae(algae: Algae): Unit =
+    val canvasCoordinate: (Double, Double) = mapToCanvasCoordinate(algae.position)
+    gc.drawImage(algaeImage, canvasCoordinate._1, canvasCoordinate._2, 50, 50)
 
   private def drawFish(fishImage: Image, coordinate: (Double, Double)): Unit =
     val canvasCoordinate: (Double, Double) = mapToCanvasCoordinate(coordinate)

@@ -120,16 +120,17 @@ object PrologEngine extends PrologEngine:
     new Iterator[ /*A*/ Fish] { // Bad brackets... but needed to prevent scalafmt to make code not compilable.
       var solution: SolveInfo = engine.solve(query)
       var go: Boolean = solution.isSuccess()
+      println(query)
       def hasNext = go
       def next =
         // val toRet = deserialize[A](solution)
         val toRet = FishSerializer.deserialize(solution)
-        if (solution.hasOpenAlternatives())
-          solution = engine.solveNext()
-        else
-          go = false
+        println(toRet)
+        solution.hasOpenAlternatives() match
+          case true => solution = engine.solveNext()
+          case _ => go = false
         toRet
-    }.to(List)
+    }.toList
 
   override def saveFish(fish: Fish): Unit =
     saveData(FishSerializer.serialize(fish))
@@ -146,7 +147,6 @@ object PrologEngine extends PrologEngine:
     getData("fish(N, F).")
 
   override def getAllHerbivorousFish: List[Fish] =
-    println(getData("fish(N, F/'H')."))
     getData("fish(N, F/'H').")
 
   override def getAllCarnivorousFish: List[Fish] =

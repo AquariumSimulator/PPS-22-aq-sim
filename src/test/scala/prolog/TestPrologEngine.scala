@@ -14,6 +14,7 @@ class TestPrologEngine extends AnyFunSpec with GivenWhenThen with BeforeAndAfter
 
   describe("The PrologEngine") {
     it("should allow a fish to be added") {
+      Given("a new fish")
       val f: Fish = Fish()
 
       When("fish is added")
@@ -27,6 +28,7 @@ class TestPrologEngine extends AnyFunSpec with GivenWhenThen with BeforeAndAfter
     }
 
     it("should allow an herbivorous fish to be added") {
+      Given("an herbivorous fish")
       val f: Fish = Fish(feedingType = FeedingType.HERBIVOROUS)
 
       When("fish is added")
@@ -37,11 +39,12 @@ class TestPrologEngine extends AnyFunSpec with GivenWhenThen with BeforeAndAfter
       And("the only fish should be the one inserted before")
       assert(PrologEngine.getAllHerbivorousFish.head == f)
 
-      Then("the carnivorous fish list should have size 0")
+      And("the carnivorous fish list should have size 0")
       assert(PrologEngine.getAllCarnivorousFish.size == 0)
     }
 
     it("should allow a carnivorous fish to be added") {
+      Given("a carnovorous fish")
       val f: Fish = Fish(feedingType = FeedingType.CARNIVOROUS)
 
       When("fish is added")
@@ -52,7 +55,7 @@ class TestPrologEngine extends AnyFunSpec with GivenWhenThen with BeforeAndAfter
       And("the only fish should be the one inserted before")
       assert(PrologEngine.getAllCarnivorousFish.head == f)
 
-      Then("the herbivorous fish list should have size 0")
+      And("the herbivorous fish list should have size 0")
       assert(PrologEngine.getAllHerbivorousFish.size == 0)
     }
   }

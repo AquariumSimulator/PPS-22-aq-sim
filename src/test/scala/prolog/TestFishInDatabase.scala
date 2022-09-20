@@ -7,7 +7,7 @@ import model.db.PrologEngine
 import model.fish.Fish
 import model.fish.FeedingType
 
-class TestPrologEngine extends AnyFunSpec with GivenWhenThen with BeforeAndAfterEach:
+class TestFishInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAfterEach:
 
   override def afterEach(): Unit =
     PrologEngine.clear

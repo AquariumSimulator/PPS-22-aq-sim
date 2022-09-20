@@ -12,9 +12,9 @@ import model.aquarium.AquariumDimensions
 import model.aquarium.Aquarium
 import model.fish.Fish
 import model.Algae
-import model.CarnivorousFood.apply
 import model.CarnivorousFood
 import model.HerbivorousFood
+import model.fish.FeedingType
 
 object SimulationViewer:
 
@@ -55,8 +55,8 @@ object SimulationViewer:
 
   def renderSimulation(aquarium: Aquarium): Unit =
     gc.clearRect(0, 0, canvas.width.value, canvas.height.value)
-    aquarium.population.herbivorous.foreach((fish: Fish) => drawFish(greenFish, fish.position))
-    aquarium.population.carnivorous.foreach((fish: Fish) => drawFish(redFish, fish.position))
+    aquarium.population.herbivorous.foreach((fish: Fish) => drawFish(fish))
+    aquarium.population.carnivorous.foreach((fish: Fish) => drawFish(fish))
     aquarium.population.algae.foreach((a: Algae) => drawAlgae(a))
     aquarium.availableFood.carnivorousFood.foreach((f: CarnivorousFood) => drawFood(meat, f.position))
     aquarium.availableFood.herbivorousFood.foreach((f: HerbivorousFood) => drawFood(herbFood, f.position))
@@ -67,11 +67,23 @@ object SimulationViewer:
 
   private def drawAlgae(algae: Algae): Unit =
     val canvasCoordinate: (Double, Double) = mapToCanvasCoordinate(algae.position)
-    gc.drawImage(algaeImage, canvasCoordinate._1, canvasCoordinate._2, 50, 50)
+    gc.drawImage(
+      algaeImage,
+      canvasCoordinate._1,
+      preferredHeight - canvasCoordinate._2 - algae.height,
+      30,
+      algae.height
+    )
 
-  private def drawFish(fishImage: Image, coordinate: (Double, Double)): Unit =
-    val canvasCoordinate: (Double, Double) = mapToCanvasCoordinate(coordinate)
-    gc.drawImage(fishImage, canvasCoordinate._1, canvasCoordinate._2, 50, 50)
+  private def drawFish(fish: Fish): Unit =
+    val canvasCoordinate: (Double, Double) = mapToCanvasCoordinate(fish.position)
+    gc.drawImage(
+      if (fish.feedingType == FeedingType.HERBIVOROUS) greenFish else redFish,
+      canvasCoordinate._1,
+      canvasCoordinate._2,
+      30 * fish.size,
+      30 * fish.size
+    )
 
   private def mapToCanvasCoordinate(position: (Double, Double)): (Double, Double) =
     (

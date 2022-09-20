@@ -19,7 +19,7 @@ class OxygenSlider extends BorderPane:
     bottom = 10,
     left = 15
   )
-  left = new IconLabel("/oxygen.png"):
+  left = new IconLabel("/icons/oxygen.png"):
     tooltip = new Tooltip("Aquarium oxygenation")
 
   val slider: Slider = new Slider:

@@ -3,6 +3,7 @@ package model
 import model.aquarium.*
 import model.fish.{FeedingType, Fish, UpdateFish}
 import model.interaction.Interaction
+import model.interaction.MultiplierVelocityFish.{SPEED_MULTIPLIER_IMPURITY, SPEED_MULTIPLIER_TEMPERATURE}
 import mvc.MVC.model.*
 
 /** Model methods implementation from [[Model]]. */
@@ -59,10 +60,12 @@ trait ModelImpl:
     private def genericFishStep(set: Set[Fish], aquariumState: AquariumState): Set[Fish] =
       // TODO interazione pesce <--> alghe
       // TODO interazione pesce <--> pesci
+      val multiplier =
+        SPEED_MULTIPLIER_TEMPERATURE(aquariumState.temperature) * SPEED_MULTIPLIER_IMPURITY(aquariumState.impurity)
 
       set
         .filter(fish => fish.isAlive)
-        .map(fish => Interaction(UpdateFish(fish).move(), aquariumState).update())
+        .map(fish => Interaction(UpdateFish(fish).move(multiplier), aquariumState).update())
         .filter(fish => fish.isDefined)
         .map(fish => fish.get)
 

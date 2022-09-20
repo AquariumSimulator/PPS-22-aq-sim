@@ -18,12 +18,7 @@ import scala.util.Random
 class InteractionAquariumOnFishImpl(fish: Fish, aquariumState: AquariumState) extends Interaction[Option[Fish]]:
 
   override def update(): Option[Fish] =
-    checkIfFishIsDead() match
-      case false =>
-        val multiplier =
-          SPEED_MULTIPLIER_TEMPERATURE(aquariumState.temperature) * SPEED_MULTIPLIER_IMPURITY(aquariumState.impurity)
-        Some(fish.copy(speed = (fish.speed._1 * multiplier, fish.speed._2 * multiplier)))
-      case _ => Option.empty
+    if checkIfFishIsDead() then Option.empty else Some(fish)
 
   private def checkIfFishIsDead(): Boolean = checkTooLowOxygenDeath() || checkPhDeath()
 

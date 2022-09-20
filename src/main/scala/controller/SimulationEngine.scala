@@ -23,7 +23,7 @@ object SimulationEngine:
 
     import SimulationSpeed._
 
-    val aquarium: Aquarium = context.model.initializeAquarium(10, 10, 1) // by user
+    val aquarium: Aquarium = context.model.initializeAquarium(10, 10, 10) // by user
     var speed: SimulationSpeed = HALT
 
     override def start(simSpeed: SimulationSpeed): Unit =

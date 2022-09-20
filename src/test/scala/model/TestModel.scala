@@ -1,10 +1,11 @@
 package model
 
+import model.FeedingType
 import model.aquarium.{Aquarium, AquariumState, AvailableFood, Population}
-import model.fish.{FeedingType, Fish}
-import mvc.MVC.model._
+import model.fish.Fish
+import model.food.*
+import mvc.MVC.model.*
 import org.scalatest.funspec.AnyFunSpec
-import model.food._
 
 import scala.runtime.stdLibPatches.Predef.assert
 
@@ -129,7 +130,7 @@ class TestModel extends AnyFunSpec:
         assert(
           addFood(
             aquarium,
-            HerbivorousFood()
+            Food(feedingType = FeedingType.HERBIVOROUS)
           ).availableFood.herbivorousFood.size == aquarium.availableFood.herbivorousFood.size + 1
         )
       }
@@ -139,7 +140,7 @@ class TestModel extends AnyFunSpec:
         assert(
           addFood(
             aquarium,
-            CarnivorousFood()
+            Food()
           ).availableFood.carnivorousFood.size == aquarium.availableFood.carnivorousFood.size + 1
         )
       }
@@ -147,7 +148,7 @@ class TestModel extends AnyFunSpec:
   }
   describe("When Model.removeFood is called") {
     describe("for removing herbivorous food") {
-      val newAquarium = addFood(aquarium, HerbivorousFood())
+      val newAquarium = addFood(aquarium, Food(feedingType = FeedingType.HERBIVOROUS))
       it("should return an aquarium with a list of herbivorous food without an element") {
         assert(
           removeFood(
@@ -158,7 +159,7 @@ class TestModel extends AnyFunSpec:
       }
     }
     describe("for removing carnivorous food") {
-      val newAquarium = addFood(aquarium, CarnivorousFood())
+      val newAquarium = addFood(aquarium, Food())
       it("should return an aquarium with a list of carnivorous food without an element") {
         assert(
           removeFood(

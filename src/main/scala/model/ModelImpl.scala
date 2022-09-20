@@ -2,6 +2,7 @@ package model
 
 import model.aquarium.*
 import model.fish.{Fish, UpdateFish}
+import model.food.Food
 import model.interaction.Interaction
 import model.interaction.MultiplierVelocityFish.{SPEED_MULTIPLIER_IMPURITY, SPEED_MULTIPLIER_TEMPERATURE}
 import mvc.MVC.model.*
@@ -34,10 +35,10 @@ trait ModelImpl:
     override def removeInhabitant[A](aquarium: Aquarium, inhabitant: A): Aquarium =
       aquarium.copy(population = aquarium.population.removeInhabitant(inhabitant))
 
-    override def addFood[A](aquarium: Aquarium, food: A): Aquarium =
+    override def addFood(aquarium: Aquarium, food: Food): Aquarium =
       aquarium.copy(availableFood = aquarium.availableFood.addFood(food))
 
-    override def removeFood[A](aquarium: Aquarium, food: A): Aquarium =
+    override def removeFood(aquarium: Aquarium, food: Food): Aquarium =
       aquarium.copy(availableFood = aquarium.availableFood.deleteFood(food))
 
     override def step(aquarium: Aquarium): Aquarium =

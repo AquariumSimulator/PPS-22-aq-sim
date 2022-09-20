@@ -8,19 +8,15 @@ trait UpdateAvailableFood:
   /** Add a new food in the right food set
     * @param addElem
     *   element that has to be added
-    * @tparam A
-    *   type of the element
     * @return
     *   a new [[AvailableFood]]
     */
-  def addFood[A](addElem: A): AvailableFood
+  def addFood(addElem: Food): AvailableFood
 
   /** Remove an instance of food in the right set
     * @param removeElem
     *   element that has to be removed
-    * @tparam A
-    *   type of the element
-    * @returna
+    * @return
     *   new [[AvailableFood]]
     */
-  def deleteFood[A](removeElem: A): AvailableFood
+  def deleteFood(removeElem: Food): AvailableFood

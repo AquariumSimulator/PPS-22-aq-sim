@@ -1,6 +1,7 @@
 package model.aquarium
 
-import model.food.{CarnivorousFood, HerbivorousFood}
+import model.FeedingType
+import model.food.Food
 
 /** This case class represent the food available inside the aquarium
   *
@@ -10,15 +11,16 @@ import model.food.{CarnivorousFood, HerbivorousFood}
   *   carnivorous food available
   */
 case class AvailableFood(
-    herbivorousFood: Set[HerbivorousFood] = Set.empty,
-    carnivorousFood: Set[CarnivorousFood] = Set.empty
+    herbivorousFood: Set[Food] = Set.empty,
+    carnivorousFood: Set[Food] = Set.empty
 ) extends UpdateAvailableFood:
-  override def addFood[A](addElem: A): AvailableFood =
+  override def addFood(addElem: Food): AvailableFood =
     addElem match
-      case e: HerbivorousFood => this.copy(herbivorousFood = this.herbivorousFood + e)
-      case e: CarnivorousFood => this.copy(carnivorousFood = this.carnivorousFood + e)
+      case e if e.feedingType == FeedingType.HERBIVOROUS => this.copy(herbivorousFood = this.herbivorousFood + e)
+      case e => this.copy(carnivorousFood = this.carnivorousFood + e)
 
-  override def deleteFood[A](removeElem: A): AvailableFood =
+  override def deleteFood(removeElem: Food): AvailableFood =
     removeElem match
-      case e: HerbivorousFood => this.copy(herbivorousFood = this.herbivorousFood.filterNot(elem => elem == e))
-      case e: CarnivorousFood => this.copy(carnivorousFood = this.carnivorousFood.filterNot(elem => elem == e))
+      case e if e.feedingType == FeedingType.HERBIVOROUS =>
+        this.copy(herbivorousFood = this.herbivorousFood.filterNot(elem => elem == e))
+      case e => this.copy(carnivorousFood = this.carnivorousFood.filterNot(elem => elem == e))

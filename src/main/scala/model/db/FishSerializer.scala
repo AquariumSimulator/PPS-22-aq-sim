@@ -5,10 +5,22 @@ import model.fish.FeedingType
 import alice.tuprolog.SolveInfo
 
 trait FishSerializer:
-  // TODO: write doc
+  /** Create the theory string to be stored in prolog database for a [[Fish]].
+    *
+    * @param fish
+    *   The [[Fish]] to be stored.
+    * @return
+    *   The prolog theory of the [[Fish]].
+    */
   def serialize(fish: Fish): String
 
-  // TODO: write doc
+  /** Create a [[Fish]] from the theory string of prolog database.
+    *
+    * @param fish
+    *   The [[Fish]] theory string.
+    * @return
+    *   The [[Fish]] from the prolog theory.
+    */
   def deserialize(fish: String): Fish
 
 object FishSerializer:

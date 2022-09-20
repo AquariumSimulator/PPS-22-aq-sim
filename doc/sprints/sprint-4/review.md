@@ -1,0 +1,2 @@
+# Sprint Review - 4
+Durante il quarto sprint il team ha fatto grandi passi avanti soprattutto per quanto riguarda le interazioni tra pesci e tra pesci e alghe. E' stato anche compiuto un notevole refactoring dell'architettura dell'applicazione implementando il pattern Model-View-Controller. Per questi motivi, consideriamo il *goal* del quarto sprint raggiunto, anche se non in via definitiva. L'implementazione del database Prolog ha presentato non poche difficoltà producendo, di fatto, un risultato incompleto. Sarà cura del team, durante il prossimo sprint, colmare le lacune.

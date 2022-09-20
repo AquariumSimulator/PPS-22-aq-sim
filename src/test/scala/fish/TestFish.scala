@@ -7,6 +7,7 @@ import org.scalatest.funspec.AnyFunSpec
 class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
   var f: Fish = Fish()
+  var multiplier = 1
 
   override def beforeEach(): Unit =
     f = Fish()
@@ -54,26 +55,30 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
     it("should move to the expected position when requested") {
       f = UpdateFish.apply(f).updateSpeed((1.0, 4.0))
-      f = UpdateFish.apply(f).move()
+      f = UpdateFish.apply(f).move(multiplier)
       f = UpdateFish.apply(f).updateSpeed((2.0, 3.0))
-      f = UpdateFish.apply(f).move()
+      f = UpdateFish.apply(f).move(multiplier)
       assert(f.position === (3.0, 7.0))
     }
 
-    it("should bounce back from a border with an underflow position") {
+    it("should bounce back from a border with an underflow position and change speed") {
       f = UpdateFish.apply(f).updateSpeed((2.0, 4.0))
-      f = UpdateFish.apply(f).move()
+      f = UpdateFish.apply(f).move(multiplier)
       f = UpdateFish.apply(f).updateSpeed((-5.0, -6.0))
-      f = UpdateFish.apply(f).move()
+      f = UpdateFish.apply(f).move(multiplier)
       assert(f.position === (3.0, 2.0))
+      f = UpdateFish.apply(f).move(multiplier)
+      assert(f.position === (8.0, 8.0))
     }
 
-    it("should bounce back from a border with an overflow position") {
+    it("should bounce back from a border with an overflow position and change speed") {
       f = UpdateFish.apply(f).updateSpeed((196.0, 149.0))
-      f = UpdateFish.apply(f).move()
+      f = UpdateFish.apply(f).move(multiplier)
       f = UpdateFish.apply(f).updateSpeed((5.0, 7.0))
-      f = UpdateFish.apply(f).move()
+      f = UpdateFish.apply(f).move(multiplier)
       assert(f.position === (199.0, 144.0))
+      f = UpdateFish.apply(f).move(multiplier)
+      assert(f.position === (194.0, 137.0))
     }
 
   }

@@ -1,8 +1,8 @@
-name: Aquarium Simulator build
+name: Pull Request checks
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     branches:
       - master
       - develop
@@ -19,8 +19,11 @@ jobs:
         with:
           java-version: openjdk@1.17
 
-      - name: Compile
-        run: sbt compile
+      - name: format check
+        run: sbt scalafmtCheck
+
+      - name: test format check
+        run: sbt Test/scalafmtCheck
       
-      - name: Test
-        run: sbt jacoco
+      - name: test
+        run: sbt test

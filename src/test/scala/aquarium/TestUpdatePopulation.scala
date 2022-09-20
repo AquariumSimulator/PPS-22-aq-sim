@@ -1,12 +1,12 @@
 package aquarium
 
-import model.aquarium.{Population, UpdateSpecificPopulation}
+import model.aquarium.Population
+import model.fish.{FeedingType, Fish}
 import model.{Algae, CarnivorousFood}
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
 import scala.util.Random
-import model.fish.{FeedingType, Fish}
 
 /** Test for Population (example with herbivorous fish set) */
 class TestUpdatePopulation extends AnyFunSpec:
@@ -22,85 +22,77 @@ class TestUpdatePopulation extends AnyFunSpec:
   val addCarnivorousElement = Fish()
   val addAlgaeElement = Algae(algaeBase)
 
-  val updateHerbivorousForAddTest = UpdateSpecificPopulation(population.herbivorous)
-  val newHerbivorousSetForAddTest = updateHerbivorousForAddTest + addHerbivorousElement
-  val updateHerbivorousForRemoveTest = UpdateSpecificPopulation(newHerbivorousSetForAddTest)
-  val newHerbivorousSetForRemoveTest = updateHerbivorousForRemoveTest - addHerbivorousElement
+  val newHerbivorousSetForAddTest = population.addInhabitant(addHerbivorousElement)
+  val newHerbivorousSetForRemoveTest = newHerbivorousSetForAddTest.removeInhabitant(addHerbivorousElement)
 
-  val updateCarnivorousForAddTest = UpdateSpecificPopulation(population.carnivorous)
-  val newCarnivorousSetForAddTest = updateCarnivorousForAddTest + addCarnivorousElement
-  val updateCarnivorousForRemoveTest = UpdateSpecificPopulation(newCarnivorousSetForAddTest)
-  val newCarnivorousSetForRemoveTest = updateCarnivorousForRemoveTest - addCarnivorousElement
+  val newCarnivorousSetForAddTest = population.addInhabitant(addCarnivorousElement)
+  val newCarnivorousSetForRemoveTest = newCarnivorousSetForAddTest.removeInhabitant(addCarnivorousElement)
 
-  val updateAlgaeForAddTest = UpdateSpecificPopulation(population.algae)
-  val newAlgaeSetForAddTest = updateAlgaeForAddTest + addAlgaeElement
-  val updateAlgaeForRemoveTest = UpdateSpecificPopulation(newAlgaeSetForAddTest)
-  val newAlgaeSetForRemoveTest = updateAlgaeForRemoveTest - addAlgaeElement
+  val newAlgaeSetForAddTest = population.addInhabitant(addAlgaeElement)
+  val newAlgaeSetForRemoveTest = newAlgaeSetForAddTest.removeInhabitant(addAlgaeElement)
 
-  describe("A new UpdatePopulation object") {
-    describe("with a given set of elements (set of herbivorous fish)") {
-      describe("once add method is called") {
-        describe("return a new set that") {
-          it("should have size equal to the old size + 1") {
-            assert(newHerbivorousSetForAddTest.size == population.herbivorous.size + 1)
-          }
-          it(s"should contain $addHerbivorousElement") {
-            assert(newHerbivorousSetForAddTest.contains(addHerbivorousElement))
-          }
+  describe("Considered an herbivorous fish set") {
+    describe("once the addInhabitant method is called") {
+      describe("it return a new population that have an updated herbivorous set that") {
+        it("should have size equal to the old size + 1") {
+          assert(newHerbivorousSetForAddTest.herbivorous.size == population.herbivorous.size + 1)
         }
-      }
-      describe("once remove method is called") {
-        describe("return a new set that") {
-          it("should have size equal to the old size") {
-            assert(newHerbivorousSetForRemoveTest.size == population.herbivorous.size)
-          }
-          it(s"should not contain $addHerbivorousElement") {
-            assert(!newHerbivorousSetForRemoveTest.contains(addHerbivorousElement))
-          }
+        it(s"and should contain $addHerbivorousElement") {
+          assert(newHerbivorousSetForAddTest.herbivorous.contains(addHerbivorousElement))
         }
       }
     }
-    describe("with a given set of elements (set of carnivorous fish)") {
-      describe("once add method is called") {
-        describe("return a new set that") {
-          it("should have size equal to the old size + 1") {
-            assert(newCarnivorousSetForAddTest.size == population.carnivorous.size + 1)
-          }
-          it(s"should contain $addCarnivorousElement") {
-            assert(newCarnivorousSetForAddTest.contains(addCarnivorousElement))
-          }
+    describe("once the removeInhabitant method is called") {
+      describe("it return a new population that have an updated herbivorous set that") {
+        it("should have size equal to the old size") {
+          assert(newHerbivorousSetForRemoveTest.herbivorous.size == population.herbivorous.size)
         }
-      }
-      describe("once remove method is called") {
-        describe("return a new set that") {
-          it("should have size equal to the old size") {
-            assert(newCarnivorousSetForRemoveTest.size == population.carnivorous.size)
-          }
-          it(s"should not contain $addCarnivorousElement") {
-            assert(!newCarnivorousSetForRemoveTest.contains(addCarnivorousElement))
-          }
+        it(s"and should not contain $addHerbivorousElement") {
+          assert(!newHerbivorousSetForRemoveTest.herbivorous.contains(addHerbivorousElement))
         }
       }
     }
-    describe("with a given set of elements (set of algae)") {
-      describe("once add method is called") {
-        describe("return a new set that") {
-          it("should have size equal to the old size + 1") {
-            assert(newAlgaeSetForAddTest.size == population.algae.size + 1)
-          }
-          it(s"should contain $addAlgaeElement") {
-            assert(newAlgaeSetForAddTest.contains(addAlgaeElement))
-          }
+  }
+  describe("Considered an carnivorous fish set") {
+    describe("once the addInhabitant method is called") {
+      describe("it return a new population that have an updated carnivorous set that") {
+        it("should have size equal to the old size + 1") {
+          assert(newCarnivorousSetForAddTest.carnivorous.size == population.carnivorous.size + 1)
+        }
+        it(s"and should contain $addCarnivorousElement") {
+          assert(newCarnivorousSetForAddTest.carnivorous.contains(addCarnivorousElement))
         }
       }
-      describe("once remove method is called") {
-        describe("return a new set that") {
-          it("should have size equal to the old size") {
-            assert(newAlgaeSetForRemoveTest.size == population.algae.size)
-          }
-          it(s"should not contain $addAlgaeElement") {
-            assert(!newAlgaeSetForRemoveTest.contains(addAlgaeElement))
-          }
+    }
+    describe("once the removeInhabitant method is called") {
+      describe("it return a new population that have an updated carnivorous set that") {
+        it("should have size equal to the old size") {
+          assert(newCarnivorousSetForRemoveTest.carnivorous.size == population.carnivorous.size)
+        }
+        it(s"and should not contain $addCarnivorousElement") {
+          assert(!newCarnivorousSetForRemoveTest.carnivorous.contains(addCarnivorousElement))
+        }
+      }
+    }
+  }
+  describe("Considered an algae set") {
+    describe("once the addInhabitant method is called") {
+      describe("it return a new population that have an updated algae set that") {
+        it("should have size equal to the old size + 1") {
+          assert(newAlgaeSetForAddTest.algae.size == population.algae.size + 1)
+        }
+        it(s"and should contain $addAlgaeElement") {
+          assert(newAlgaeSetForAddTest.algae.contains(addAlgaeElement))
+        }
+      }
+    }
+    describe("once removeInhabitant method is called") {
+      describe("it return a new population that have an updated algae set that") {
+        it("should have size equal to the old size") {
+          assert(newAlgaeSetForRemoveTest.algae.size == population.algae.size)
+        }
+        it(s"and should not contain $addAlgaeElement") {
+          assert(!newAlgaeSetForRemoveTest.algae.contains(addAlgaeElement))
         }
       }
     }

@@ -14,13 +14,6 @@ import model.interaction.Interaction
 class InteractionAlgaeOnAquariumImpl(aquariumState: AquariumState, algae: Algae) extends Interaction[AquariumState]:
 
   override def update(): AquariumState =
-
-    val newOxygenation = aquariumState.oxygenation + algae.oxygenShift match
-      case newLevel if newLevel > AquariumParametersLimits.OXYGENATION_MAX => aquariumState.oxygenation
-      case newLevel => newLevel
-
-    val newPh = aquariumState.ph + algae.phShift match
-      case newLevel if newLevel < 0 => aquariumState.ph
-      case newLevel => newLevel
-
-    aquariumState.copy(oxygenation = newOxygenation, ph = newPh)
+    aquariumState
+      .updateOxygenation(aquariumState.oxygenation + algae.oxygenShift)
+      .updatePh(aquariumState.ph + algae.phShift)

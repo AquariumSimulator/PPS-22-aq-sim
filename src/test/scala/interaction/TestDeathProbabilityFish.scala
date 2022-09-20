@@ -47,7 +47,7 @@ class TestDeathProbabilityFish extends AnyFunSpec:
   }
 
   describe(s"Given the list of (oxygenation, probability) $probabilitiesOxygen") {
-    describe(s"when $LOW_OXYGENATION is calculate on the oxygenation") {
+    describe(s"when LOW_OXYGENATION is calculate on the oxygenation") {
       it("should be equal to the precalculated one") {
         probabilitiesOxygen
           .foreach((oxygen, prob) => assert(LOW_OXYGENATION(oxygen) === prob +- tolerance))

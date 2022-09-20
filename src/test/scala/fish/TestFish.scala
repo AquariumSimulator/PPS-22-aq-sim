@@ -60,20 +60,24 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
       assert(f.position === (3.0, 7.0))
     }
 
-    it("should bounce back from a border with an underflow position") {
+    it("should bounce back from a border with an underflow position and change speed") {
       f = UpdateFish.apply(f).updateSpeed((2.0, 4.0))
       f = UpdateFish.apply(f).move()
       f = UpdateFish.apply(f).updateSpeed((-5.0, -6.0))
       f = UpdateFish.apply(f).move()
       assert(f.position === (3.0, 2.0))
+      f = UpdateFish.apply(f).move()
+      assert(f.position === (8.0, 8.0))
     }
 
-    it("should bounce back from a border with an overflow position") {
+    it("should bounce back from a border with an overflow position and change speed") {
       f = UpdateFish.apply(f).updateSpeed((196.0, 149.0))
       f = UpdateFish.apply(f).move()
       f = UpdateFish.apply(f).updateSpeed((5.0, 7.0))
       f = UpdateFish.apply(f).move()
       assert(f.position === (199.0, 144.0))
+      f = UpdateFish.apply(f).move()
+      assert(f.position === (194.0, 137.0))
     }
 
   }

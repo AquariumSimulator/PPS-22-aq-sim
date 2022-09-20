@@ -1,34 +1,33 @@
 package view
 
-import scalafx.Includes.*
+import scalafx.Includes._
 import scalafx.application.JFXApp3
-import scalafx.geometry.*
-import scalafx.scene.*
-import scalafx.scene.canvas.*
-import scalafx.scene.control.*
+import scalafx.geometry._
+import scalafx.scene._
+import scalafx.scene.canvas._
+import scalafx.scene.control._
 import scalafx.scene.effect.DropShadow
-import scalafx.scene.layout.*
-import scalafx.scene.paint.*
-import scalafx.scene.paint.Color.*
+import scalafx.scene.layout._
+import scalafx.scene.paint._
+import scalafx.scene.paint.Color._
 import scalafx.scene.text.{Text, TextAlignment}
-import scalafx.stage.Screen;
-import view.utils.{AquariumFonts, IconLabel}
-import view.widgets.*
+import scalafx.stage.{Stage, Screen}
 
-object GUI extends JFXApp3:
-  override def start(): Unit =
+import view.utils.{AquariumFonts, IconLabel}
+import view.widgets._
+
+object GUI:
+  def start(stage: Stage): Unit =
 
     println("Screen size: " + Screen.primary.bounds.width + "x" + Screen.primary.bounds.height)
 
     val preferredHeight: Double = Screen.primary.bounds.height * 3 / 4
     val preferredWidth: Double = Screen.primary.bounds.width * 3 / 4
 
-    stage = new JFXApp3.PrimaryStage:
-      title = "Aquarium Simulator"
-      height = preferredHeight
-      width = preferredWidth
-      resizable = false
-      scene = new Scene:
+    stage.setTitle("Aquarium Simulator")
+    stage.setResizable(false)
+    stage.setScene(
+      new Scene:
         root = new BorderPane:
           background = new Background(Array(new BackgroundFill(Color.Black, null, null)))
           padding = Insets(10)
@@ -52,5 +51,6 @@ object GUI extends JFXApp3:
               margin = Insets(10, 10, 10, 10)
               top = InfoPane.pane
               bottom = Chronicle.chronicle
+    )
 
     stage.setFullScreen(false)

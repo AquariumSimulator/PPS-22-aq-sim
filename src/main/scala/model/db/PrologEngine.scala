@@ -108,18 +108,22 @@ trait PrologEngine:
 object PrologEngine extends PrologEngine:
 
   private val engine: Prolog = new Prolog()
-  engine.addTheory(new Theory(getClass.getResource("/prolog/mainTheory.pl").openStream()))
+  loadMainTheory()
+
+  private def loadMainTheory(): Unit =
+    engine.addTheory(new Theory(getClass.getResource("/prolog/mainTheory.pl").openStream()))
 
   private def saveData(data: String): Unit =
     engine.addTheory(new Theory(data))
 
-  private def getData[A](query: String): List[A] =
-    new Iterator[A] { // Bad brackets... but needed to prevent scalafmt to make code not compilable.
+  private def getData /*[A]*/ (query: String): List[ /*A*/ Fish] =
+    new Iterator[ /*A*/ Fish] { // Bad brackets... but needed to prevent scalafmt to make code not compilable.
       var solution: SolveInfo = engine.solve(query)
       var go: Boolean = solution.isSuccess()
       def hasNext = go
       def next =
-        val toRet = deserialize[A](solution)
+        // val toRet = deserialize[A](solution)
+        val toRet = FishSerializer.deserialize(solution)
         if (solution.hasOpenAlternatives())
           solution = engine.solveNext()
         else
@@ -127,26 +131,8 @@ object PrologEngine extends PrologEngine:
         toRet
     }.to(List)
 
-  private def serialize(value: Any): String =
-    val stream: ByteArrayOutputStream = new ByteArrayOutputStream()
-    val oos: ObjectOutputStream = new ObjectOutputStream(stream)
-    oos.writeObject(value)
-    oos.close()
-    new String(
-      Base64.getEncoder.encode(stream.toByteArray),
-      UTF_8
-    )
-
-  private def deserialize[A](solInf: SolveInfo): A =
-    val str = solInf.getTerm("Y").toString().replace("\'", "")
-    val bytes = Base64.getDecoder.decode(str.getBytes(UTF_8))
-    val ois = new ObjectInputStream(new ByteArrayInputStream(bytes))
-    val value = ois.readObject
-    ois.close()
-    value.asInstanceOf[A]
-
   override def saveFish(fish: Fish): Unit =
-    saveData("fish('" + fish.name + "', '" + serialize(fish) + "').")
+    saveData(FishSerializer.serialize(fish))
 
   override def saveSonOf(parent: Fish, son: Fish): Unit = ???
 
@@ -157,11 +143,14 @@ object PrologEngine extends PrologEngine:
   override def saveCarnFood(carnFood: CarnivorousFood): Unit = ???
 
   override def getAllFish: List[Fish] =
-    getData[Fish]("fish(X, Y).")
+    getData("fish(N, F).")
 
-  override def getAllHerbivorousFish: List[Fish] = List.empty
+  override def getAllHerbivorousFish: List[Fish] =
+    println(getData("fish(N, F/'H')."))
+    getData("fish(N, F/'H').")
 
-  override def getAllCarnivorousFish: List[Fish] = List.empty
+  override def getAllCarnivorousFish: List[Fish] =
+    getData("fish(N, F/'C').")
 
   override def getAllAlgae: List[Algae] = List.empty
 
@@ -169,4 +158,6 @@ object PrologEngine extends PrologEngine:
 
   override def getAllHerbivorousFood: List[HerbivorousFood] = List.empty
 
-  override def clear: Unit = engine.clearTheory()
+  override def clear: Unit =
+    engine.clearTheory()
+    loadMainTheory()

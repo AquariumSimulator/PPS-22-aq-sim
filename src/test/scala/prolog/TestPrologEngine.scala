@@ -1,10 +1,11 @@
 package prolog
 
 import org.scalatest.funspec.AnyFunSpec
-import model.db.PrologEngine
-import model.fish.Fish
 import org.scalatest.GivenWhenThen
 import org.scalatest.BeforeAndAfterEach
+import model.db.PrologEngine
+import model.fish.Fish
+import model.fish.FeedingType
 
 class TestPrologEngine extends AnyFunSpec with GivenWhenThen with BeforeAndAfterEach:
 
@@ -12,10 +13,9 @@ class TestPrologEngine extends AnyFunSpec with GivenWhenThen with BeforeAndAfter
     PrologEngine.clear
 
   describe("The PrologEngine") {
-    Given("a new fish")
-    val f: Fish = Fish()
+    it("should allow a fish to be added") {
+      val f: Fish = Fish()
 
-    it("should allow the fish to be added") {
       When("fish is added")
       PrologEngine.saveFish(f)
 
@@ -24,5 +24,35 @@ class TestPrologEngine extends AnyFunSpec with GivenWhenThen with BeforeAndAfter
 
       And("the only fish should be the one inserted before")
       assert(PrologEngine.getAllFish.head == f)
+    }
+
+    it("should allow an herbivorous fish to be added") {
+      val f: Fish = Fish(feedingType = FeedingType.HERBIVOROUS)
+
+      When("fish is added")
+      PrologEngine.saveFish(f)
+
+      Then("the herbivorous fish list should have size 1")
+      assert(PrologEngine.getAllHerbivorousFish.size == 1)
+      And("the only fish should be the one inserted before")
+      assert(PrologEngine.getAllHerbivorousFish.head == f)
+
+      Then("the carnivorous fish list should have size 0")
+      assert(PrologEngine.getAllCarnivorousFish.size == 0)
+    }
+
+    it("should allow a carnivorous fish to be added") {
+      val f: Fish = Fish(feedingType = FeedingType.CARNIVOROUS)
+
+      When("fish is added")
+      PrologEngine.saveFish(f)
+
+      Then("the carnivorous fish list should have size 1")
+      assert(PrologEngine.getAllCarnivorousFish.size == 1)
+      And("the only fish should be the one inserted before")
+      assert(PrologEngine.getAllCarnivorousFish.head == f)
+
+      Then("the herbivorous fish list should have size 0")
+      assert(PrologEngine.getAllHerbivorousFish.size == 0)
     }
   }

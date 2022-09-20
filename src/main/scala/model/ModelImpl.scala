@@ -1,7 +1,7 @@
 package model
 
 import model.aquarium.*
-import model.fish.{FeedingType, Fish, UpdateFish}
+import model.fish.{Fish, UpdateFish}
 import model.interaction.Interaction
 import model.interaction.MultiplierVelocityFish.{SPEED_MULTIPLIER_IMPURITY, SPEED_MULTIPLIER_TEMPERATURE}
 import mvc.MVC.model.*

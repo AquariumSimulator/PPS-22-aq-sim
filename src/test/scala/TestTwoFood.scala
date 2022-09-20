@@ -2,7 +2,7 @@ import org.scalatest.funsuite.AnyFunSuite
 
 import scala.util.Random
 
-import model.{Food, HerbivorousFood, CarnivorousFood}
+import model.food.{Food, HerbivorousFood, CarnivorousFood}
 
 class TestTwoFood extends AnyFunSuite:
   val fishTypes: List[() => Food] = List(

@@ -1,7 +1,7 @@
 package aquarium
 
 import model.aquarium.{AvailableFood, UpdateAvailableFood}
-import model.{CarnivorousFood, Food, HerbivorousFood}
+import model.food.{CarnivorousFood, Food, HerbivorousFood}
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.language.postfixOps

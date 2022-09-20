@@ -2,8 +2,9 @@ package model
 
 import model.aquarium.{Aquarium, AquariumState, AvailableFood, Population}
 import model.fish.{FeedingType, Fish}
-import mvc.MVC.model.*
+import mvc.MVC.model._
 import org.scalatest.funspec.AnyFunSpec
+import model.food._
 
 import scala.runtime.stdLibPatches.Predef.assert
 

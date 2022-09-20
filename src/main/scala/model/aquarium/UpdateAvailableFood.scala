@@ -1,6 +1,6 @@
 package model.aquarium
 
-import model.Food
+import model.food.Food
 
 /** Trait that models methods for modifying he food available inside the aquarium */
 trait UpdateAvailableFood:

@@ -2,7 +2,8 @@ package aquarium
 
 import model.aquarium.Population
 import model.fish.{FeedingType, Fish}
-import model.{Algae, CarnivorousFood}
+import model.Algae
+import model.food.HerbivorousFood
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert

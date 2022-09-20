@@ -5,6 +5,7 @@ import model.Entity
 import model.aquarium.{Aquarium, AquariumDimensions}
 import model.fish.Fish.*
 import scala.util.Random
+import model.FeedingType
 
 object Fish:
   var n: Int = 0

@@ -1,7 +1,8 @@
 package model.aquarium
 
-import model.fish.{FeedingType, Fish}
-import model.{Algae, CarnivorousFood, HerbivorousFood}
+import model.fish.Fish
+import model.FeedingType
+import model.Algae
 import model.aquarium.AquariumDimensions
 
 import scala.util.Random

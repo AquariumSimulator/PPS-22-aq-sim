@@ -54,7 +54,7 @@ object Population:
 
       _addAlgae(number, Set.empty)
 
-    val speed: (Double, Double) = (10, 10)
+    val speed: (Double, Double) = (1, 1) // TODO randomica
 
     val setHerbivorous =
       (1 to herbivorousFishesNumber)

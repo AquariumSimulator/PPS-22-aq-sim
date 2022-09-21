@@ -2,6 +2,7 @@ package model
 
 import model.aquarium.{Aquarium, AquariumState, AvailableFood, Population}
 import model.fish.Fish
+import model.food.Food
 
 /** Model trait implemented in [[ModelImpl]]. */
 trait Model:
@@ -90,24 +91,20 @@ trait Model:
     *   the current aquarium
     * @param food
     *   the food that needs to be added
-    * @tparam A
-    *   type of the inhabitant
     * @return
     *   a new updated aquarium
     */
-  def addFood[A](aquarium: Aquarium, food: A): Aquarium
+  def addFood(aquarium: Aquarium, food: Food): Aquarium
 
   /** Remove an food in the right food set taking in input the old aquarium and returning a new one.
     * @param aquarium
     *   the current aquarium
     * @param food
     *   the food that needs to be removed
-    * @tparam A
-    *   type of the inhabitant
     * @return
     *   a new updated aquarium
     */
-  def removeFood[A](aquarium: Aquarium, food: A): Aquarium
+  def removeFood(aquarium: Aquarium, food: Food): Aquarium
 
   /** Step of the simulation
     * @param aquarium

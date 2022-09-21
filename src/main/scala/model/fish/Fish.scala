@@ -4,6 +4,7 @@ import model.Entity
 import model.aquarium.{Aquarium, AquariumDimensions}
 import model.fish.Fish.*
 import scala.util.Random
+import model.FeedingType
 
 object Fish:
   var n: Int = 0
@@ -11,8 +12,8 @@ object Fish:
   val MIN_SIZE: Double = 0.5
   val MAX_SIZE: Double = 2.5
   val MEAT_AMOUNT: Int = 10
-  val OXYGEN_SHIFT_CONSTANT: Double = -1.5
-  val IMPURITY_SHIFT_CONSTANT: Double = 1.2
+  val OXYGEN_SHIFT_CONSTANT: Double = -0.2
+  val IMPURITY_SHIFT_CONSTANT: Double = 0.1
   val PH_SHIFT_CONSTANT: Double = 0.2
 
   def getAndIncrementN(): Int =

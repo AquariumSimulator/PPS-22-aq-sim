@@ -1,6 +1,7 @@
 package model.interaction.fishAlgae
 
-import model.fish.{FeedingType, Fish}
+import model.fish.Fish
+import model.FeedingType
 import model.Algae
 import model.interaction.Interaction
 

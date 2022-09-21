@@ -10,7 +10,7 @@ trait UpdateFish:
   def updatePosition(newPosition: (Double, Double)): Fish
   def updateSpeed(newSpeed: (Double, Double)): Fish
   def updateHunger(newHunger: Int): Fish
-  def updateSpeedAndPosition(newPosition: (Double, Double), newSpeed: (Double, Double)): Fish
+
   def move(speedMultiplier: Double): Fish
   def eat(fish: Fish): Fish
   def eat(food: Food): Fish
@@ -24,21 +24,21 @@ object UpdateFish:
     override def calculatePosition(): (Double, Double) =
       (fish.position._1 + fish.speed._1, fish.position._2 + fish.speed._2)
 
-    override def updatePosition(newPosition: (Double, Double)): Fish =
-      fish.copy(position = newPosition)
-
     override def updateHunger(newHunger: Int): Fish =
       fish.copy(hunger = newHunger)
 
     override def updateSpeed(newSpeed: (Double, Double)): Fish =
       fish.copy(speed = newSpeed)
 
-    override def updateSpeedAndPosition(newPosition: (Double, Double), newSpeed: (Double, Double)): Fish =
-      fish.copy(position = newPosition, speed = newSpeed)
+    override def updatePosition(newPosition: (Double, Double)): Fish =
+      fish.copy(position = newPosition)
 
     override def move(speedMultiplier: Double): Fish =
       var newPosition: (Double, Double) = calculatePosition()
       var newSpeed: (Double, Double) = (fish.speed._1 * speedMultiplier, fish.speed._2 * speedMultiplier)
+      println("multiplier -> " + speedMultiplier)
+      println("origin speed -> " + fish.speed)
+      println("new speed -> " + newSpeed)
       newPosition._1 match
         case x if x < 0 =>
           newPosition = (x * -1, newPosition._2)
@@ -55,7 +55,7 @@ object UpdateFish:
           newPosition = (newPosition._1, AquariumDimensions.HEIGHT - (y - AquariumDimensions.HEIGHT))
           newSpeed = (newSpeed._1, newSpeed._2 * -1)
         case _ =>
-      updateSpeedAndPosition(newPosition, newSpeed)
+      updatePosition(newPosition)
 
     override def eat(ateFish: Fish): Fish =
       fish.copy(hunger = MAX_HUNGER min fish.hunger + (MEAT_AMOUNT * ateFish.size).floor.toInt)

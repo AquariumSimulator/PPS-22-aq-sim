@@ -11,7 +11,7 @@ object AlgaeSerializer extends Serializer[Algae]:
     *   The prolog theory of the [[Algae]].
     */
   def serialize(algae: Algae): String =
-    "algae('" + algae.base + "','" + algae.height + "')."
+    "algae(" + algae.base + "," + algae.height + ")."
 
   /** Create a [[Algae]] from the theory string of prolog database.
     *
@@ -24,6 +24,6 @@ object AlgaeSerializer extends Serializer[Algae]:
     val content = """.*\((.*)\).*""".r
     val content(list) = info
     val fields = list.split(",").iterator
-    val base: Double = fields.next.replace("'", "").toDouble
-    val height: Int = fields.next.replace("'", "").toInt
+    val base: Double = fields.next.toDouble
+    val height: Int = fields.next.toInt
     Algae(base = base, height = height)

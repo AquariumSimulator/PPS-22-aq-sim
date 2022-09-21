@@ -1,13 +1,13 @@
 package fish
 
-import model.fish.*
+import model.fish._
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec
+import model.aquarium.AquariumDimensions
 
 class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
   var f: Fish = Fish()
-  var multiplier = 1
 
   override def beforeEach(): Unit =
     f = Fish()
@@ -40,45 +40,4 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
     it("should pollute the water") {
       assert(f.impurityShift > 0)
     }
-  }
-
-  describe("A Fish") {
-    it("when has hunger 0, should not be alive") {
-      f = UpdateFish.apply(f).updateHunger(0)
-      assert(!f.isAlive)
-    }
-
-    it("should change speed when requested") {
-      f = UpdateFish.apply(f).updateSpeed((1.0, 4.0))
-      assert(f.speed === (1.0, 4.0))
-    }
-
-    it("should move to the expected position when requested") {
-      f = UpdateFish.apply(f).updateSpeed((1.0, 4.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      f = UpdateFish.apply(f).updateSpeed((2.0, 3.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      assert(f.position === (3.0, 7.0))
-    }
-
-    it("should bounce back from a border with an underflow position and change speed") {
-      f = UpdateFish.apply(f).updateSpeed((2.0, 4.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      f = UpdateFish.apply(f).updateSpeed((-5.0, -6.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      assert(f.position === (3.0, 2.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      assert(f.position === (2.0, 4.0))
-    }
-
-    it("should bounce back from a border with an overflow position and change speed") {
-      f = UpdateFish.apply(f).updateSpeed((196.0, 149.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      f = UpdateFish.apply(f).updateSpeed((5.0, 7.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      assert(f.position === (199.0, 144.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      assert(f.position === (196.0, 149.0))
-    }
-
   }

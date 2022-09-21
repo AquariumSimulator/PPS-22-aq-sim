@@ -1,6 +1,7 @@
 package model.interaction.fishFish
 
-import model.fish.{FeedingType, Fish}
+import model.fish.Fish
+import model.FeedingType
 import model.interaction.Interaction
 
 class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish) extends Interaction[(Option[Fish], Option[Fish])]:

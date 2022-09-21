@@ -1,7 +1,8 @@
 package aquarium
 
+import model.FeedingType
 import model.aquarium.{AvailableFood, UpdateAvailableFood}
-import model.{CarnivorousFood, Food, HerbivorousFood}
+import model.food.Food
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.language.postfixOps
@@ -12,17 +13,15 @@ class TestAvailableFood extends AnyFunSpec:
   val availableFoodForAddTest = AvailableFood(Set.empty, Set.empty)
 
   val availableFoodForRemoveTest = AvailableFood(
-    Set(HerbivorousFood((0, 0)), HerbivorousFood((1, 1))),
-    Set(CarnivorousFood((0, 0)), CarnivorousFood((1, 1)))
+    Set(Food(feedingType = FeedingType.HERBIVOROUS, position = (0, 0))),
+    Set(Food(feedingType = FeedingType.HERBIVOROUS, position = (0, 0)))
   )
 
-  val newHerbivorousElem = HerbivorousFood((0, 1))
-  val newCarnivorousElem = CarnivorousFood(0, 1)
+  val newHerbivorousElem = Food(feedingType = FeedingType.HERBIVOROUS, position = (0, 1))
+  val newCarnivorousElem = Food(position = (0, 1))
   val newFoodWithAddedElem = availableFoodForAddTest.addFood(newHerbivorousElem).addFood(newCarnivorousElem)
-  val removeHerbivorousElem = HerbivorousFood((0, 0))
-  val removeCarnivorousElem = CarnivorousFood((0, 0))
-  val newFoodWithRemovedElem =
-    availableFoodForRemoveTest.deleteFood(removeHerbivorousElem).deleteFood(removeCarnivorousElem)
+
+  val newFoodWithRemovedElem = newFoodWithAddedElem.deleteFood(newHerbivorousElem).deleteFood(newCarnivorousElem)
 
   describe("A new instance of AvailableFood") {
     describe("built with two empty set") {
@@ -48,7 +47,7 @@ class TestAvailableFood extends AnyFunSpec:
 
   describe("When removeFood is called on on the herbivorous food set") {
     it("should return a new AvailableFood with an updated herbivorous food set with one less element") {
-      assert(newFoodWithRemovedElem.herbivorousFood.size == availableFoodForRemoveTest.herbivorousFood.size - 1)
+      assert(newFoodWithRemovedElem.herbivorousFood.size == newFoodWithAddedElem.herbivorousFood.size - 1)
     }
     it(s"and it should not contain $newHerbivorousElem") {
       assert(!newFoodWithRemovedElem.herbivorousFood.contains(newHerbivorousElem))
@@ -68,7 +67,7 @@ class TestAvailableFood extends AnyFunSpec:
   }
   describe("When removeFood is called on on the carnivorous food set") {
     it("should return a new AvailableFood with an updated carnivorous food set with one less element") {
-      assert(newFoodWithRemovedElem.carnivorousFood.size == availableFoodForRemoveTest.carnivorousFood.size - 1)
+      assert(newFoodWithRemovedElem.carnivorousFood.size == newFoodWithAddedElem.carnivorousFood.size - 1)
     }
 
     it(s"and it should contain $newCarnivorousElem ") {

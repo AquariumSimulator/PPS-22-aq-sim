@@ -19,7 +19,7 @@ class LightSlider extends BorderPane:
     bottom = 5,
     left = 5
   )
-  top = new IconLabel("/light.png"):
+  top = new IconLabel("/icons/light.png"):
     tooltip = new Tooltip("Aquarium brightness")
 
   val slider: Slider = new Slider:

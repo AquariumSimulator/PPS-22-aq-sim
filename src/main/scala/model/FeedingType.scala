@@ -1,4 +1,4 @@
-package model.fish
+package model
 
 enum FeedingType:
   case HERBIVOROUS, CARNIVOROUS, OMNIVOROUS

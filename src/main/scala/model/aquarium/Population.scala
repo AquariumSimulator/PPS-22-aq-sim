@@ -1,7 +1,8 @@
 package model.aquarium
 
-import model.fish.{FeedingType, Fish}
-import model.{Algae, CarnivorousFood, HerbivorousFood}
+import model.fish.Fish
+import model.FeedingType
+import model.Algae
 import model.aquarium.AquariumDimensions
 
 import scala.util.Random
@@ -54,7 +55,7 @@ object Population:
 
       _addAlgae(number, Set.empty)
 
-    val speed: (Double, Double) = (10, 10)
+    val speed: (Double, Double) = (1, 1) // TODO randomica
 
     val setHerbivorous =
       (1 to herbivorousFishesNumber)

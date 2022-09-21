@@ -7,13 +7,18 @@ class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish) extends Interaction[(O
 
   override def update(): (Option[Fish], Option[Fish]) =
     (fish1.feedingType, fish2.feedingType) match
-      case (FeedingType.HERBIVOROUS, FeedingType.HERBIVOROUS) => (Option.empty, Option.empty)
-      case (FeedingType.CARNIVOROUS, FeedingType.CARNIVOROUS) => (Option.empty, Option.empty)
+      case (FeedingType.HERBIVOROUS, FeedingType.HERBIVOROUS) =>
+        checkReproduction(fish1, fish2)
+      case (FeedingType.CARNIVOROUS, FeedingType.CARNIVOROUS) =>
+        checkReproduction(fish1, fish2)
       case (FeedingType.CARNIVOROUS, FeedingType.HERBIVOROUS) =>
         checkEatFish(fish1, fish2)
       case (FeedingType.HERBIVOROUS, FeedingType.CARNIVOROUS) =>
         checkEatFish(fish2, fish1)
       case _ => (Option.empty, Option.empty)
+
+  private def checkReproduction(fish1: Fish, fish2: Fish): (Option[Fish], Option[Fish]) =
+    ???
 
   private def checkEatFish(carnivorous: Fish, herbivorous: Fish): (Option[Fish], Option[Fish]) =
     println(

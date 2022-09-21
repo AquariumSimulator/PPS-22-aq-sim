@@ -5,7 +5,7 @@ import org.scalatest.GivenWhenThen
 import org.scalatest.BeforeAndAfterEach
 import model.db.PrologEngine
 import model.fish.Fish
-import model.fish.FeedingType
+import model.FeedingType
 
 class TestFishInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAfterEach:
 

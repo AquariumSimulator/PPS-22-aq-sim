@@ -1,6 +1,6 @@
 package model.db
 
-import model.Food
+import model.food.Food
 
 object FoodSerializer extends Serializer[Food]:
   /** Create the theory string to be stored in prolog database for a [[Food]].

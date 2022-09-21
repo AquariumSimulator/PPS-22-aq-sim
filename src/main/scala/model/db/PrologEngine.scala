@@ -3,9 +3,7 @@ package model.db
 import alice.tuprolog.{Prolog, SolveInfo, Struct, Term, Theory}
 import model.fish.Fish
 import model.Algae
-import model.Food
-import model.HerbivorousFood
-import model.CarnivorousFood
+import model.food.Food
 
 import java.io.*
 import java.util.Base64
@@ -38,21 +36,12 @@ trait PrologEngine:
     */
   def saveAlgae(algae: Algae): Unit
 
-  /** Save all the information of passed herbivorous food. If the herbivorous food already exists informations are
-    * updated.
+  /** Save all the information of passed food. If the food already exists informations are updated.
     *
-    * @param herbFood
-    *   The herbivorous food to be saved.
+    * @param food
+    *   The food to be saved.
     */
-  def saveHerbFood(herbFood: HerbivorousFood): Unit
-
-  /** Save all the information of passed carnivorous food. If the carnivorous food already exists informations are
-    * updated.
-    *
-    * @param herbFood
-    *   The carnivorous food to be saved.
-    */
-  def saveCarnFood(carnFood: CarnivorousFood): Unit
+  def saveFood(food: Food): Unit
 
   /** Retrieve all saved fish in the simulation. Note: if you don't need all the fish from the simulation, you should
     * consider using [[PrologEngine.getAllHerbivorousFish]] or [[PrologEngine.getAllCarnivorousFish]].
@@ -85,19 +74,29 @@ trait PrologEngine:
     */
   def getAllAlgae: List[Algae]
 
-  /** Retrieve all saved herbivorous food in the simulation.
+  /** Retrieve all saved food in the simulation. Note: if you don't need all the food from the simulation, you should
+    * consider using [[PrologEngine.getAllHerbivorousFood]] or [[PrologEngine.getAllCarnivorousFood]].
+    *
+    * @return
+    *   An immutable list of food.
+    */
+  def getAllFood: List[Food]
+
+  /** Retrieve all saved herbivorous food in the simulation. Note: if you want to retrieve all the food and filter them
+    * later, it is faster and better to use [[PrologEngine.getAllFood]].
     *
     * @return
     *   An immutable list of herbivorous food.
     */
-  def getAllHerbivorousFood: List[HerbivorousFood]
+  def getAllHerbivorousFood: List[Food]
 
-  /** Retrieve all saved carnivorous food in the simulation.
+  /** Retrieve all saved carnivorous food in the simulation. Note: if you want to retrieve all the food and filter them
+    * later, it is faster and better to use [[PrologEngine.getAllFood]].
     *
     * @return
     *   An immutable list of carnivorous food.
     */
-  def getAllCarnivorousFood: List[CarnivorousFood]
+  def getAllCarnivorousFood: List[Food]
 
 //def getGenealogicalTreeOf(f: Fish): Unit // TODO
 
@@ -151,9 +150,7 @@ object PrologEngine extends PrologEngine:
   override def saveAlgae(algae: Algae): Unit =
     saveData(AlgaeSerializer.serialize(algae))
 
-  override def saveHerbFood(herbFood: HerbivorousFood): Unit = ???
-
-  override def saveCarnFood(carnFood: CarnivorousFood): Unit = ???
+  override def saveFood(food: Food): Unit = ???
 
   override def getAllFish: List[Fish] =
     val input: Struct = Struct("fish", Term.createTerm("N"), Term.createTerm("F"))
@@ -171,9 +168,11 @@ object PrologEngine extends PrologEngine:
     val input: Struct = Struct("algae", Term.createTerm("B"), Term.createTerm("H"))
     getAlgaeData(input)
 
-  override def getAllCarnivorousFood: List[CarnivorousFood] = List.empty
+  override def getAllFood: List[Food] = ???
 
-  override def getAllHerbivorousFood: List[HerbivorousFood] = List.empty
+  override def getAllHerbivorousFood: List[Food] = ???
+
+  override def getAllCarnivorousFood: List[Food] = ???
 
   override def clear: Unit =
     engine.clearTheory()

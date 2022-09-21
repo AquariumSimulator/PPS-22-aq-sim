@@ -1,7 +1,7 @@
 package model.db
 
 import model.fish.Fish
-import model.fish.FeedingType
+import model.FeedingType
 
 object FishSerializer extends Serializer[Fish]:
   /** Create the theory string to be stored in prolog database for a [[Fish]].

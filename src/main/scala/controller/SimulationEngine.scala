@@ -12,9 +12,7 @@ trait SimulationEngine:
   /** Called to make stop the simulation. */
   def stop(): Unit
 
-  /**
-    * Change the speed of simulation.
-    */
+  /** Change the speed of simulation. */
   def changeSpeed(simSpeed: SimulationSpeed): Unit
 
 enum SimulationSpeed:
@@ -65,9 +63,8 @@ object SimulationEngine:
 
     override def stop(): Unit =
       speed = HALT
-    
-    override def changeSpeed(simSpeed: SimulationSpeed): Unit = 
+
+    override def changeSpeed(simSpeed: SimulationSpeed): Unit =
       speed = simSpeed match
         case HALT => speed
         case _ => simSpeed
-      

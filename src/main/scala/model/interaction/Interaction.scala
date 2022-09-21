@@ -97,5 +97,5 @@ object Interaction:
     * @return
     *   a new [[Interaction]]
     */
-  def apply(fish1: Fish, fish2: Fish): Interaction[(Option[Fish], Option[Fish])] =
+  def apply(fish1: Fish, fish2: Fish): Interaction[(Option[Fish], Option[Fish], Option[Fish])] =
     InteractionFishOnFishImpl(fish1, fish2)

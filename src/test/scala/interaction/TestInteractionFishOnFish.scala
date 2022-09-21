@@ -31,9 +31,9 @@ class TestInteractionFishOnFish extends AnyFunSpec:
         Fish(feedingType = FeedingType.HERBIVOROUS, size = Fish.MAX_SIZE)
       var newInteraction = Interaction(newCarnivorous, newHerbivorous)
       var tuple = newInteraction.update()
-      assert(tuple === (Option.empty, Option.empty))
+      assert(tuple === (Option.empty, Option.empty, Option.empty))
       newInteraction = Interaction(newHerbivorous, newCarnivorous)
       tuple = newInteraction.update()
-      assert(tuple === (Option.empty, Option.empty))
+      assert(tuple === (Option.empty, Option.empty, Option.empty))
     }
   }

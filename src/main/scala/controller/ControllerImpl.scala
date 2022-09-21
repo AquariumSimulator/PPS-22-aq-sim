@@ -7,5 +7,12 @@ trait ControllerImpl:
   context: Requirements =>
   class ControllerImpl extends Controller:
 
+    val simEngine: SimulationEngine = SimulationEngine(context)
     override def startSimulation(): Unit =
-      SimulationEngine(context).start(SimulationSpeed.NORMAL)
+      simEngine.start(SimulationSpeed.NORMAL)
+
+    override def stopSimulation(): Unit =
+      simEngine.stop()
+    
+    override def changeSpeed(simSpeed: SimulationSpeed): Unit = 
+      simEngine.changeSpeed(simSpeed)

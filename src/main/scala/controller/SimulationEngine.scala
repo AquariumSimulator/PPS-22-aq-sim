@@ -12,6 +12,11 @@ trait SimulationEngine:
   /** Called to make stop the simulation. */
   def stop(): Unit
 
+  /**
+    * Change the speed of simulation.
+    */
+  def changeSpeed(simSpeed: SimulationSpeed): Unit
+
 enum SimulationSpeed:
   case HALT, SLOW, NORMAL, FAST
 
@@ -45,14 +50,13 @@ object SimulationEngine:
 
               val deltaTime = (System.nanoTime() - time) / 1_000_000
 
-              Thread.sleep(speed match
+              Thread.sleep((speed match
                 case SLOW => 1_000
                 case NORMAL => 100
                 case FAST => 10
-                case _ =>
-                  10_000
-                    - deltaTime
+                case _ => 10_000
               )
+                - deltaTime)
 
               time = System.nanoTime()
             )
@@ -61,3 +65,9 @@ object SimulationEngine:
 
     override def stop(): Unit =
       speed = HALT
+    
+    override def changeSpeed(simSpeed: SimulationSpeed): Unit = 
+      speed = simSpeed match
+        case HALT => speed
+        case _ => simSpeed
+      

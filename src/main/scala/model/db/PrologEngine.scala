@@ -126,7 +126,7 @@ object PrologEngine extends PrologEngine:
         else
           go = false
         toRet
-    }.to(List)
+    }.toList
 
   private def getAlgaeData(query: Struct): List[Algae] =
     new Iterator[Algae] { // Bad brackets... but needed to prevent scalafmt to make code not compilable.
@@ -142,6 +142,20 @@ object PrologEngine extends PrologEngine:
         toRet
     }.toList
 
+  private def getFoodData(query: Struct): List[Food] =
+    new Iterator[Food] { // Bad brackets... but needed to prevent scalafmt to make code not compilable.
+      var solution: SolveInfo = engine.solve(query)
+      var go: Boolean = solution.isSuccess
+      def hasNext: Boolean = go
+      def next: Food =
+        val toRet: Food = FoodSerializer.deserialize(solution.getSolution.toString)
+        if (solution.hasOpenAlternatives)
+          solution = engine.solveNext()
+        else
+          go = false
+        toRet
+    }.toList
+
   override def saveFish(fish: Fish): Unit =
     saveData(FishSerializer.serialize(fish))
 
@@ -150,7 +164,8 @@ object PrologEngine extends PrologEngine:
   override def saveAlgae(algae: Algae): Unit =
     saveData(AlgaeSerializer.serialize(algae))
 
-  override def saveFood(food: Food): Unit = ???
+  override def saveFood(food: Food): Unit =
+    saveData(FoodSerializer.serialize(food))
 
   override def getAllFish: List[Fish] =
     val input: Struct = Struct("fish", Term.createTerm("N"), Term.createTerm("F"))
@@ -168,11 +183,20 @@ object PrologEngine extends PrologEngine:
     val input: Struct = Struct("algae", Term.createTerm("B"), Term.createTerm("H"))
     getAlgaeData(input)
 
-  override def getAllFood: List[Food] = ???
+  override def getAllFood: List[Food] =
+    val input: Struct =
+      Struct("food", Term.createTerm("F"), Term.createTerm("A"), Term.createTerm("X"), Term.createTerm("Y"))
+    getFoodData(input)
 
-  override def getAllHerbivorousFood: List[Food] = ???
+  override def getAllHerbivorousFood: List[Food] =
+    val input: Struct =
+      Struct("food", Term.createTerm("'H'"), Term.createTerm("A"), Term.createTerm("X"), Term.createTerm("Y"))
+    getFoodData(input)
 
-  override def getAllCarnivorousFood: List[Food] = ???
+  override def getAllCarnivorousFood: List[Food] =
+    val input: Struct =
+      Struct("food", Term.createTerm("'C'"), Term.createTerm("A"), Term.createTerm("X"), Term.createTerm("Y"))
+    getFoodData(input)
 
   override def clear: Unit =
     engine.clearTheory()

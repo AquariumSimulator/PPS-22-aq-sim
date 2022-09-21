@@ -5,6 +5,7 @@ import org.scalatest.GivenWhenThen
 import org.scalatest.BeforeAndAfterEach
 import model.db.PrologEngine
 import model.food.Food
+import model.FeedingType
 
 class TestFoodInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAfterEach:
 
@@ -27,10 +28,10 @@ class TestFoodInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
     }
 
     it("should allow an herbivorous food to be added") {
-      Given("an herbivorous fish")
-      val f: Food = Food()
+      Given("an herbivorous food")
+      val f: Food = Food(feedingType = FeedingType.HERBIVOROUS)
 
-      When("fish is added")
+      When("food is added")
       PrologEngine.saveFood(f)
 
       Then("the herbivorous food list should have size 1")
@@ -42,11 +43,11 @@ class TestFoodInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
       assert(PrologEngine.getAllCarnivorousFood.isEmpty)
     }
 
-    it("should allow a carnivorous fish to be added") {
-      Given("a carnovorous fish")
-      val f: Food = Food()
+    it("should allow a carnivorous food to be added") {
+      Given("a carnovorous food")
+      val f: Food = Food(feedingType = FeedingType.CARNIVOROUS)
 
-      When("fish is added")
+      When("food is added")
       PrologEngine.saveFood(f)
 
       Then("the carnivorous food list should have size 1")

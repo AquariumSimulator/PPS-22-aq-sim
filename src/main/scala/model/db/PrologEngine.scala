@@ -5,11 +5,6 @@ import model.fish.Fish
 import model.Algae
 import model.food.Food
 
-import java.io.*
-import java.util.Base64
-import java.nio.charset.StandardCharsets.UTF_8
-import scala.collection.mutable.ListBuffer
-
 /** Database methods to store and retrieve information. */
 trait PrologEngine:
 
@@ -114,41 +109,13 @@ object PrologEngine extends PrologEngine:
   private def saveData(data: String): Unit =
     engine.addTheory(new Theory(data))
 
-  private def getFishData(query: Struct): List[Fish] =
-    new Iterator[Fish] { // Bad brackets... but needed to prevent scalafmt to make code not compilable.
+  private def getData[T](deserializer: Serializer[T])(query: Struct): List[T] =
+    new Iterator[T] { // Bad brackets... but needed to prevent scalafmt to make code not compilable.
       var solution: SolveInfo = engine.solve(query)
       var go: Boolean = solution.isSuccess
       def hasNext: Boolean = go
-      def next: Fish =
-        val toRet: Fish = FishSerializer.deserialize(solution.getSolution.toString)
-        if (solution.hasOpenAlternatives)
-          solution = engine.solveNext()
-        else
-          go = false
-        toRet
-    }.toList
-
-  private def getAlgaeData(query: Struct): List[Algae] =
-    new Iterator[Algae] { // Bad brackets... but needed to prevent scalafmt to make code not compilable.
-      var solution: SolveInfo = engine.solve(query)
-      var go: Boolean = solution.isSuccess
-      def hasNext: Boolean = go
-      def next: Algae =
-        val toRet: Algae = AlgaeSerializer.deserialize(solution.getSolution.toString)
-        if (solution.hasOpenAlternatives)
-          solution = engine.solveNext()
-        else
-          go = false
-        toRet
-    }.toList
-
-  private def getFoodData(query: Struct): List[Food] =
-    new Iterator[Food] { // Bad brackets... but needed to prevent scalafmt to make code not compilable.
-      var solution: SolveInfo = engine.solve(query)
-      var go: Boolean = solution.isSuccess
-      def hasNext: Boolean = go
-      def next: Food =
-        val toRet: Food = FoodSerializer.deserialize(solution.getSolution.toString)
+      def next: T =
+        val toRet: T = deserializer.deserialize(solution.getSolution.toString)
         if (solution.hasOpenAlternatives)
           solution = engine.solveNext()
         else
@@ -169,34 +136,34 @@ object PrologEngine extends PrologEngine:
 
   override def getAllFish: List[Fish] =
     val input: Struct = Struct("fish", Term.createTerm("N"), Term.createTerm("F"))
-    getFishData(input)
+    getData(FishSerializer)(input)
 
   override def getAllHerbivorousFish: List[Fish] =
     val input: Struct = Struct("fish", Term.createTerm("N"), Term.createTerm("'H'"))
-    getFishData(input)
+    getData(FishSerializer)(input)
 
   override def getAllCarnivorousFish: List[Fish] =
     val input: Struct = Struct("fish", Term.createTerm("N"), Term.createTerm("'C'"))
-    getFishData(input)
+    getData(FishSerializer)(input)
 
   override def getAllAlgae: List[Algae] =
     val input: Struct = Struct("algae", Term.createTerm("B"), Term.createTerm("H"))
-    getAlgaeData(input)
+    getData(AlgaeSerializer)(input)
 
   override def getAllFood: List[Food] =
     val input: Struct =
       Struct("food", Term.createTerm("F"), Term.createTerm("A"), Term.createTerm("X"), Term.createTerm("Y"))
-    getFoodData(input)
+    getData(FoodSerializer)(input)
 
   override def getAllHerbivorousFood: List[Food] =
     val input: Struct =
       Struct("food", Term.createTerm("'H'"), Term.createTerm("A"), Term.createTerm("X"), Term.createTerm("Y"))
-    getFoodData(input)
+    getData(FoodSerializer)(input)
 
   override def getAllCarnivorousFood: List[Food] =
     val input: Struct =
       Struct("food", Term.createTerm("'C'"), Term.createTerm("A"), Term.createTerm("X"), Term.createTerm("Y"))
-    getFoodData(input)
+    getData(FoodSerializer)(input)
 
   override def clear: Unit =
     engine.clearTheory()

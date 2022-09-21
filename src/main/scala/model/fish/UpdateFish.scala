@@ -36,9 +36,6 @@ object UpdateFish:
     override def move(speedMultiplier: Double): Fish =
       var newPosition: (Double, Double) = calculatePosition()
       var newSpeed: (Double, Double) = (fish.speed._1 * speedMultiplier, fish.speed._2 * speedMultiplier)
-      println("multiplier -> " + speedMultiplier)
-      println("origin speed -> " + fish.speed)
-      println("new speed -> " + newSpeed)
       newPosition._1 match
         case x if x < 0 =>
           newPosition = (x * -1, newPosition._2)

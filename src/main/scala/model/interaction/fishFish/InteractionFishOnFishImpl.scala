@@ -17,9 +17,6 @@ class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish) extends Interaction[(O
       case _ => (Option.empty, Option.empty)
 
   private def checkEatFish(carnivorous: Fish, herbivorous: Fish): (Option[Fish], Option[Fish]) =
-    println(
-      "Is carnivorous hungry? " + isCarnivorousHungry(carnivorous, herbivorous) + ", hunger: " + carnivorous.hunger
-    )
     if (isCarnivorousHungry(carnivorous, herbivorous))
       (
         Some(carnivorous.copy(hunger = carnivorous.hunger + (herbivorous.size * Fish.MEAT_AMOUNT).toInt)),

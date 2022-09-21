@@ -7,13 +7,13 @@ import org.scalatest.funspec.AnyFunSpec
 
 class TestInteractionFishOnFish extends AnyFunSpec:
 
-  private val carnivorousFish =
-    Fish(feedingType = FeedingType.CARNIVOROUS, hunger = 70)
+  private var carnivorousFish =
+    Fish(hunger = 70)
 
-  private val herbivorousFish =
+  private var herbivorousFish =
     Fish(feedingType = FeedingType.HERBIVOROUS, size = Fish.MAX_SIZE)
 
-  private val interaction = Interaction(carnivorousFish, herbivorousFish)
+  private var interaction = Interaction(carnivorousFish, herbivorousFish)
 
   describe("A carnivorous fish") {
     it("should eat an herbivorous fish when he is hungry") {
@@ -25,15 +25,12 @@ class TestInteractionFishOnFish extends AnyFunSpec:
     }
 
     it("shouldn't eat an herbivorous fish when he isn't hungry") {
-      val newCarnivorous =
-        Fish(feedingType = FeedingType.CARNIVOROUS, hunger = 90)
-      val newHerbivorous =
-        Fish(feedingType = FeedingType.HERBIVOROUS, size = Fish.MAX_SIZE)
-      var newInteraction = Interaction(newCarnivorous, newHerbivorous)
-      var tuple = newInteraction.update()
+      carnivorousFish = carnivorousFish.copy(hunger = 90)
+      interaction = Interaction(carnivorousFish, herbivorousFish)
+      var tuple = interaction.update()
       assert(tuple === (Option.empty, Option.empty, Option.empty))
-      newInteraction = Interaction(newHerbivorous, newCarnivorous)
-      tuple = newInteraction.update()
+      interaction = Interaction(herbivorousFish, carnivorousFish)
+      tuple = interaction.update()
       assert(tuple === (Option.empty, Option.empty, Option.empty))
     }
   }

@@ -11,7 +11,6 @@ import scalafx.stage.StageStyle
 import view.utils.IconButton
 
 object BottomBar:
-
   var uselessBoolean: Boolean = true // TODO: remove when no more needed
 
   val addFishButton: BottomBarButton = BottomBarButton("/icons/add-fish.png")

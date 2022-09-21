@@ -11,5 +11,5 @@ import view.widgets.SimulationViewer
 trait ViewImpl:
   context: Requirements =>
   class ViewImpl extends View:
-    def show(stage: Stage): Unit = GUI.start(stage)
+    def show(stage: Stage): Unit = GUI.start(stage, context)
     def renderSimulation(aquarium: Aquarium): Unit = SimulationViewer.renderSimulation(aquarium)

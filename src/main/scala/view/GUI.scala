@@ -16,8 +16,10 @@ import scalafx.stage.{Stage, Screen}
 import view.utils.{AquariumFonts, IconLabel}
 import view.widgets._
 
+import mvc.ViewModule.Requirements
+
 object GUI:
-  def start(stage: Stage): Unit =
+  def start(stage: Stage, context: Requirements): Unit =
 
     println("Screen size: " + Screen.primary.bounds.width + "x" + Screen.primary.bounds.height)
 

@@ -41,12 +41,12 @@ object GUI:
             textFill = Color.rgb(0, 150, 255)
             margin = Insets(0, 5, 15, 5)
           center = new BorderPane:
-            left = new LightSlider
+            left = LightSlider()
             center = new BorderPane:
               top = SimulationViewer.canvasPane
               bottom = new TilePane:
-                left = new TemperatureSlider
-                right = new OxygenSlider
+                left = TemperatureSlider()
+                right = OxygenSlider()
             right = new BorderPane:
               margin = Insets(10, 10, 10, 10)
               top = InfoPane.pane

@@ -12,38 +12,47 @@ import scalafx.scene.paint.Color
 import view.utils.IconLabel
 import view.widgets.slider.SliderUtils
 
-class TemperatureSlider extends BorderPane:
-  margin = Insets.apply(
-    top = 15,
-    right = 15,
-    bottom = 10,
-    left = 15
-  )
-  left = new IconLabel("/icons/temperature.png"):
-    tooltip = new Tooltip("Aquarium temperature")
+trait TemperatureSlider extends BorderPane:
+  def update(newValue: Double): Unit
 
-  val slider: Slider = new Slider:
-    min = 0
-    max = 30
-    value = 25
-    tooltip = SliderUtils.getTooltip(this.getValue, "°")
-    background = new Background(
-      Array(
-        new BackgroundFill(
-          new LinearGradient(
-            stops = Stops(
-              Color.Blue,
-              Color.Red
-            )
-          ),
-          null,
-          null
+object TemperatureSlider:
+
+  def apply(): TemperatureSlider = TemperatureSliderImpl()
+
+  private class TemperatureSliderImpl extends TemperatureSlider:
+    margin = Insets.apply(
+      top = 15,
+      right = 15,
+      bottom = 10,
+      left = 15
+    )
+    left = new IconLabel("/icons/temperature.png"):
+      tooltip = new Tooltip("Aquarium temperature")
+
+    val slider: Slider = new Slider:
+      min = 0
+      max = 30
+      value = 25
+      tooltip = SliderUtils.getTooltip(this.getValue, "°")
+      background = new Background(
+        Array(
+          new BackgroundFill(
+            new LinearGradient(
+              stops = Stops(
+                Color.Blue,
+                Color.Red
+              )
+            ),
+            null,
+            null
+          )
         )
       )
+    slider.valueProperty.addListener((_, oldVal: Number, newVal: Number) =>
+      println("Changed temperature from " + oldVal + " to " + newVal)
+      slider.tooltip = SliderUtils.getTooltip(newVal, "°")
     )
-  slider.valueProperty.addListener((_, oldVal: Number, newVal: Number) =>
-    println("Changed temperature from " + oldVal + " to " + newVal)
-    slider.tooltip = SliderUtils.getTooltip(newVal, "°")
-  )
 
-  right = slider
+    right = slider
+
+    def update(newValue: Double): Unit = println("updating temperatureslider to " + newValue)

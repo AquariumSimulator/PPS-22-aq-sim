@@ -41,10 +41,12 @@ object UpdateFish:
     //   fish.copy(position = newPosition)
 
     override def move(speedMultiplier: Double): Fish =
-      var newSpeed: (Double, Double) = (fish.speed._1 * speedMultiplier, fish.speed._2 * speedMultiplier)
-      var newPosition: (Double, Double) = calculatePosition(newSpeed)
+      var newSpeed: (Double, Double) = fish.speed
+      var newPosition: (Double, Double) = calculatePosition(
+        (fish.speed._1 * speedMultiplier, fish.speed._2 * speedMultiplier)
+      )
 
-      // boundary check
+      // boundary check (x)
       newPosition._1 match
         case x if x < 0 =>
           newPosition = (0, newPosition._2)
@@ -54,6 +56,7 @@ object UpdateFish:
           newSpeed = (newSpeed._1 * -1, newSpeed._2)
         case _ =>
 
+      // boundary check (y)
       newPosition._2 match
         case y if y < 0 =>
           newPosition = (newPosition._1, 0)
@@ -63,6 +66,7 @@ object UpdateFish:
           newSpeed = (newSpeed._1, newSpeed._2 * -1)
         case _ =>
 
+      // creating a new fish with the new position and the new speed
       Fish(
         position = newPosition,
         speed = newSpeed,
@@ -76,7 +80,7 @@ object UpdateFish:
       Fish(
         position = fish.position,
         speed = fish.speed,
-        hunger = MAX_HUNGER min fish.hunger + (MEAT_AMOUNT * eatenFish.size).floor.toInt,
+        hunger = MAX_HUNGER min (fish.hunger + (MEAT_AMOUNT * eatenFish.size).floor.toInt),
         age = fish.age,
         size = fish.size,
         feedingType = fish.feedingType
@@ -86,7 +90,7 @@ object UpdateFish:
       Fish(
         position = fish.position,
         speed = fish.speed,
-        hunger = MAX_HUNGER min fish.hunger + food.nutritionAmount,
+        hunger = MAX_HUNGER min (fish.hunger + food.nutritionAmount),
         age = fish.age,
         size = fish.size,
         feedingType = fish.feedingType

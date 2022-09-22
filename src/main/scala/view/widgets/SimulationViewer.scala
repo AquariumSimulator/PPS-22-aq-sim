@@ -80,7 +80,7 @@ object SimulationViewer:
       if (fish.feedingType == FeedingType.HERBIVOROUS) greenFish else redFish,
       canvasCoordinate._1,
       canvasCoordinate._2,
-      30 * fish.size,
+      if (fish.speed._1 > 0) 30 * fish.size else -30 * fish.size,
       30 * fish.size
     )
 

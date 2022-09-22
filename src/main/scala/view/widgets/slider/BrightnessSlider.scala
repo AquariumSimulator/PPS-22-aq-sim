@@ -12,14 +12,14 @@ import scalafx.scene.paint.Color
 import view.utils.IconLabel
 import view.widgets.slider.SliderUtils
 
-trait LightSlider extends BorderPane:
+trait BrightnessSlider extends BorderPane:
   def update(newValue: Double): Unit
 
-object LightSlider:
+object BrightnessSlider:
 
-  def apply(): LightSlider = LightSliderImpl()
+  def apply(): BrightnessSlider = BrightnessSliderImpl()
 
-  private class LightSliderImpl extends LightSlider:
+  private class BrightnessSliderImpl extends BrightnessSlider:
     margin = Insets.apply(
       top = 0,
       right = 15,

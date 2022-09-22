@@ -41,7 +41,7 @@ object GUI:
             textFill = Color.rgb(0, 150, 255)
             margin = Insets(0, 5, 15, 5)
           center = new BorderPane:
-            left = LightSlider()
+            left = BrightnessSlider()
             center = new BorderPane:
               top = SimulationViewer.canvasPane
               bottom = new TilePane:

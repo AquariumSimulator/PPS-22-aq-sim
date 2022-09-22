@@ -1,13 +1,14 @@
 package controller
 
-import mvc.ControllerModule.Requirements
+import mvc.ControllerModule.ControllerRequirements
 
 /** Controller methods implementation from [[Controller]]. */
 trait ControllerImpl:
-  context: Requirements =>
+  context: ControllerRequirements =>
+  given ControllerRequirements = context
   class ControllerImpl extends Controller:
 
-    val simEngine: SimulationEngine = SimulationEngine(context)
+    val simEngine: SimulationEngine = SimulationEngine(context.model.initializeAquarium(10, 10, 10))
     override def startSimulation(): Unit =
       simEngine.start(SimulationSpeed.NORMAL)
 

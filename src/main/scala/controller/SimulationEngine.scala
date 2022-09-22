@@ -1,7 +1,8 @@
 package controller
 
-import mvc.ControllerModule.Requirements
+import mvc.ControllerModule.ControllerRequirements
 import model.aquarium.Aquarium
+import mvc.MVC.{given_ControllerRequirements => context}
 
 /** Control of simulation loop, speed, stop and resume. */
 trait SimulationEngine:
@@ -20,13 +21,12 @@ enum SimulationSpeed:
 
 object SimulationEngine:
 
-  def apply(context: Requirements): SimulationEngine = new SimulationEngineImpl(context)
+  def apply(aquarium: Aquarium): SimulationEngine = new SimulationEngineImpl(aquarium)
 
-  private class SimulationEngineImpl(context: Requirements) extends SimulationEngine:
+  private class SimulationEngineImpl(var aquarium: Aquarium) extends SimulationEngine:
 
     import SimulationSpeed._
 
-    val aquarium: Aquarium = context.model.initializeAquarium(10, 10, 10) // by user
     var speed: SimulationSpeed = HALT
 
     override def start(simSpeed: SimulationSpeed): Unit =
@@ -37,11 +37,15 @@ object SimulationEngine:
       var time = System.nanoTime()
       val thread: Thread = new Thread {
         override def run(): Unit =
+          println("Simulation started")
           Iterator
             .iterate(aquarium)(context.model.step)
             .foreach((aq: Aquarium) =>
               speed match
-                case HALT => return
+                case HALT =>
+                  println("Simulation stopped")
+                  aquarium = aq
+                  return
                 case _ =>
 
               context.view.renderSimulation(aq)

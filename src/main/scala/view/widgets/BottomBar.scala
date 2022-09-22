@@ -9,8 +9,10 @@ import scalafx.Includes._
 import scalafx.event.ActionEvent
 import scalafx.stage.StageStyle
 import view.utils.IconButton
+import mvc.MVC.{given_ViewRequirements => context}
 
 object BottomBar:
+
   var uselessBoolean: Boolean = true // TODO: remove when no more needed
 
   val addFishButton: BottomBarButton = BottomBarButton("/icons/add-fish.png")
@@ -37,6 +39,7 @@ object BottomBar:
   playButton.onAction = (event: ActionEvent) =>
     uselessBoolean match
       case true =>
+        context.controller.startSimulation()
         println("Clicked play")
         IconButton.setImage(
           playButton,
@@ -46,6 +49,7 @@ object BottomBar:
         )
         playButton.tooltip = Tooltip("Pause the simulation")
       case false =>
+        context.controller.stopSimulation()
         println("Clicked pause")
         IconButton.setImage(
           playButton,
@@ -75,10 +79,11 @@ object BottomBar:
   cleanButton.tooltip = Tooltip("Clean the aquarium")
   cleanButton.onAction = (event: ActionEvent) => println("Clicked clean")
 
-  val bottomBar = new TilePane:
-    background = new Background(Array(new BackgroundFill(Color.Grey, null, null)))
-    children ++= Seq(
-      addFishButton, removeFishButton, playButton, foodButton, cleanButton
-    )
+  val bottomBar: TilePane =
+    new TilePane:
+      background = new Background(Array(new BackgroundFill(Color.Grey, null, null)))
+      children ++= Seq(
+        addFishButton, removeFishButton, playButton, foodButton, cleanButton
+      )
 
   bottomBar.alignment = Pos.Center

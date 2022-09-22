@@ -1,4 +1,4 @@
-package view.widgets
+package view.widgets.slider
 
 import scalafx.geometry.Insets
 import scalafx.scene.control.{Slider, Tooltip}

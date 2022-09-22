@@ -15,6 +15,7 @@ import scalafx.stage.{Stage, Screen}
 
 import view.utils.{AquariumFonts, IconLabel}
 import view.widgets._
+import view.widgets.slider._
 
 object GUI:
   def start(stage: Stage): Unit =

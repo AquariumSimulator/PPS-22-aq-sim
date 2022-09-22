@@ -41,3 +41,15 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
       assert(f.impurityShift > 0)
     }
   }
+
+  describe("A Fish") {
+    it("when has hunger 0, should not be alive") {
+      var f: Fish = Fish(hunger = 0)
+      assert(!f.isAlive)
+    }
+
+    it("when has hunger greater than 0, should not be alive") {
+      var f: Fish = Fish(hunger = 15)
+      assert(f.isAlive)
+    }
+  }

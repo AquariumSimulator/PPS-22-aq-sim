@@ -21,12 +21,7 @@ object OxygenationSlider:
   def apply(): OxygenationSlider = OxygenationSliderImpl()
 
   private class OxygenationSliderImpl extends OxygenationSlider:
-    margin = Insets(
-      top = 15,
-      right = 15,
-      bottom = 10,
-      left = 15
-    )
+    margin = Insets(15)
 
     private val slider: Slider = new Slider:
       min = 0
@@ -54,9 +49,7 @@ object OxygenationSlider:
     )
 
     children ++= Seq(
-      new IconLabel("/icons/oxygen.png"):
-        tooltip = new Tooltip("Aquarium oxygenation")
-      ,
+      IconLabel("/icons/oxygen.png", "Aquarium oxygenation"),
       slider
     )
 

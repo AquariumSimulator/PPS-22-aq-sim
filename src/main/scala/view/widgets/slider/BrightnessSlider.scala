@@ -26,10 +26,9 @@ object BrightnessSlider:
       bottom = 5,
       left = 5
     )
-    top = new IconLabel("/icons/light.png"):
-      tooltip = new Tooltip("Aquarium brightness")
+    top = IconLabel("/icons/light.png", "Aquarium brightness")
 
-    val slider: Slider = new Slider:
+    private val slider: Slider = new Slider:
       min = 0
       max = 100
       value = 50

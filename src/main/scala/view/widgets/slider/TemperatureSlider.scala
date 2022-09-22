@@ -21,14 +21,9 @@ object TemperatureSlider:
   def apply(): TemperatureSlider = TemperatureSliderImpl()
 
   private class TemperatureSliderImpl extends TemperatureSlider:
-    margin = Insets(
-      top = 15,
-      right = 15,
-      bottom = 10,
-      left = 15
-    )
+    margin = Insets(15)
 
-    val slider: Slider = new Slider:
+    private val slider: Slider = new Slider:
       min = 0
       max = 30
       value = 25
@@ -53,9 +48,7 @@ object TemperatureSlider:
     )
 
     children ++= Seq(
-      new IconLabel("/icons/temperature.png"):
-        tooltip = new Tooltip("Aquarium temperature")
-      ,
+      IconLabel("/icons/temperature.png", "Aquarium temperature"),
       slider
     )
 

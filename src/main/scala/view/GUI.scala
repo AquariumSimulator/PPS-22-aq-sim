@@ -46,7 +46,7 @@ object GUI:
               top = SimulationViewer.canvasPane
               bottom = new TilePane:
                 left = TemperatureSlider()
-                right = OxygenSlider()
+                right = OxygenationSlider()
             right = new BorderPane:
               margin = Insets(10, 10, 10, 10)
               top = InfoPane.pane

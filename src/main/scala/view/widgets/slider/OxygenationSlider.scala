@@ -1,4 +1,4 @@
-package view.widgets
+package view.widgets.slider
 
 import scalafx.geometry.Insets
 import scalafx.scene.control.{Slider, Tooltip}
@@ -12,14 +12,14 @@ import scalafx.scene.paint.Color
 import view.utils.IconLabel
 import view.widgets.slider.SliderUtils
 
-trait OxygenSlider extends BorderPane:
+trait OxygenationSlider extends BorderPane:
   def update(newValue: Double): Unit
 
-object OxygenSlider:
+object OxygenationSlider:
 
-  def apply(): OxygenSlider = OxygenSliderImpl()
+  def apply(): OxygenationSlider = OxygenationSliderImpl()
 
-  private class OxygenSliderImpl extends OxygenSlider:
+  private class OxygenationSliderImpl extends OxygenationSlider:
     margin = Insets.apply(
       top = 15,
       right = 15,

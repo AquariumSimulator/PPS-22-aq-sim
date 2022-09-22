@@ -1,6 +1,5 @@
 package model.fish
 
-import javafx.util.Pair
 import model.Entity
 import model.aquarium.{Aquarium, AquariumDimensions}
 import model.fish.Fish.*

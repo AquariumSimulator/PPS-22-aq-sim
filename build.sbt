@@ -4,6 +4,7 @@ ThisBuild / scalaVersion := "3.1.3"
 
 libraryDependencies ++= Seq(
   "org.scalafx" %% "scalafx" % "18.0.1-R28",
+  "it.unibo.alice.tuprolog" % "tuprolog" % "3.3.0",
   "org.scalatest" %% "scalatest" % "3.2.13" % Test
 )
 

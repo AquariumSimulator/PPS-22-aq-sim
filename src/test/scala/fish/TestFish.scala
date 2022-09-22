@@ -3,7 +3,8 @@ package fish
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec
 import model.aquarium.AquariumDimensions
-import model.fish._
+import model.fish.{Fish, UpdateFish}
+import model.fish.Fish.{MAX_HUNGER, MEAT_AMOUNT}
 import model.food.Food
 
 class TestFish extends AnyFunSpec with BeforeAndAfterEach:
@@ -54,9 +55,27 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
       assert(f.isAlive)
     }
 
-    it("should have more hunger after having eaten") {
+    it("should have more hunger after having eaten food") {
       var f: Fish = Fish(hunger = 15)
       var food: Food = Food(nutritionAmount = 10)
       assert(UpdateFish(f).eat(food).hunger === f.hunger + food.nutritionAmount)
+    }
+
+    it("should not have more than MAX_HUNGER after having eaten food") {
+      var f: Fish = Fish(hunger = MAX_HUNGER - 5)
+      var food: Food = Food(nutritionAmount = 10)
+      assert(UpdateFish(f).eat(food).hunger === MAX_HUNGER)
+    }
+
+    it("should have more hunger after having eaten another fish") {
+      var f: Fish = Fish(hunger = 15)
+      var other: Fish = Fish(size = 1.5)
+      assert(UpdateFish(f).eat(other).hunger === f.hunger + other.size * MEAT_AMOUNT)
+    }
+
+    it("should not have more than MAX_HUNGER after having eaten another fish") {
+      var f: Fish = Fish(hunger = MAX_HUNGER - 5)
+      var other: Fish = Fish(size = 1.5)
+      assert(UpdateFish(f).eat(other).hunger === MAX_HUNGER)
     }
   }

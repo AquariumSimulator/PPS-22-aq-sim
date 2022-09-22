@@ -18,6 +18,7 @@ class InfoCell(val title: String, val initial_value: Double, val unit: String) e
   bottom = bottomLabel
 
   def update(new_value: Double): Unit =
-    bottomLabel.text = new_value.toString + " " + unit
+    println("Updating " + title + " with " + f"$new_value%3.1f")
+    bottomLabel.text = f"$new_value%3.1f " + unit
 
   update(initial_value)

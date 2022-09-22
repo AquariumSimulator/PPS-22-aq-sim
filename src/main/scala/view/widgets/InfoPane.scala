@@ -8,6 +8,11 @@ import view.utils.{AquariumFonts, IconButton}
 import scalafx.event.ActionEvent
 import scalafx.Includes._
 
+import model.aquarium.Aquarium
+
+trait InfoPane:
+  def updateInfo(newAquarium: Aquarium): Unit
+
 object InfoPane:
 
   val statisticsButton: IconButton = IconButton("icons/chart.png")
@@ -17,6 +22,13 @@ object InfoPane:
   val downloadButton: IconButton = IconButton("icons/download.png")
   downloadButton.tooltip = new Tooltip("Download simulation data")
   downloadButton.onAction = (event: ActionEvent) => println("Clicked download data")
+
+  val populationLabel: InfoCell = new InfoCell("Population", 0, "fish")
+  val temperatureLabel: InfoCell = new InfoCell("Temperature", 25, "°")
+  val brightnessLabel: InfoCell = new InfoCell("Brightness", 50, "%")
+  val phLabel: InfoCell = new InfoCell("pH", 5.6, "")
+  val impurityLabel: InfoCell = new InfoCell("Impurity", 20, "%")
+  val oxygenationLabel: InfoCell = new InfoCell("Oxygenation", 12, "mg/L")
 
   val pane = new BorderPane:
     padding = Insets(10, 10, 10, 10)
@@ -34,16 +46,24 @@ object InfoPane:
       padding = Insets(20, 0, 10, 0)
       addRow(
         0,
-        new InfoCell("Population", 0, "fish"),
-        new InfoCell("Temperature", 25, "°")
+        populationLabel,
+        temperatureLabel
       )
       addRow(
         1,
-        new InfoCell("Brightness", 50, "%"),
-        new InfoCell("pH", 5.6, "")
+        brightnessLabel,
+        phLabel
       )
       addRow(
         2,
-        new InfoCell("Impurity", 20, "%"),
-        new InfoCell("Oxygenation", 12, "mg/L")
+        impurityLabel,
+        oxygenationLabel
       )
+
+  def updateInfo(newAquarium: Aquarium): Unit =
+    populationLabel.update(newAquarium.population.carnivorous.size + newAquarium.population.herbivorous.size)
+    temperatureLabel.update(newAquarium.aquariumState.temperature)
+    brightnessLabel.update(newAquarium.aquariumState.brightness)
+    phLabel.update(newAquarium.aquariumState.ph)
+    impurityLabel.update(newAquarium.aquariumState.impurity)
+    oxygenationLabel.update(newAquarium.aquariumState.oxygenation)

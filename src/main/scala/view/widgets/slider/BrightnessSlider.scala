@@ -20,7 +20,7 @@ object BrightnessSlider:
   def apply(): BrightnessSlider = BrightnessSliderImpl()
 
   private class BrightnessSliderImpl extends BrightnessSlider:
-    margin = Insets.apply(
+    margin = Insets(
       top = 0,
       right = 15,
       bottom = 5,

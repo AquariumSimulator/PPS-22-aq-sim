@@ -11,8 +11,9 @@ import scalafx.scene.paint.Color
 
 import view.utils.IconLabel
 import view.widgets.slider.SliderUtils
+import scalafx.scene.layout.TilePane
 
-trait TemperatureSlider extends BorderPane:
+trait TemperatureSlider extends TilePane:
   def update(newValue: Double): Unit
 
 object TemperatureSlider:
@@ -20,14 +21,12 @@ object TemperatureSlider:
   def apply(): TemperatureSlider = TemperatureSliderImpl()
 
   private class TemperatureSliderImpl extends TemperatureSlider:
-    margin = Insets.apply(
+    margin = Insets(
       top = 15,
       right = 15,
       bottom = 10,
       left = 15
     )
-    left = new IconLabel("/icons/temperature.png"):
-      tooltip = new Tooltip("Aquarium temperature")
 
     val slider: Slider = new Slider:
       min = 0
@@ -53,6 +52,11 @@ object TemperatureSlider:
       slider.tooltip = SliderUtils.getTooltip(newVal, "°")
     )
 
-    right = slider
+    children ++= Seq(
+      new IconLabel("/icons/temperature.png"):
+        tooltip = new Tooltip("Aquarium temperature")
+      ,
+      slider
+    )
 
     def update(newValue: Double): Unit = println("updating temperatureslider to " + newValue)

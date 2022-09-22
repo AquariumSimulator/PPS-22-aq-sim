@@ -11,8 +11,9 @@ import scalafx.scene.paint.Color
 
 import view.utils.IconLabel
 import view.widgets.slider.SliderUtils
+import scalafx.scene.layout.TilePane
 
-trait OxygenationSlider extends BorderPane:
+trait OxygenationSlider extends TilePane:
   def update(newValue: Double): Unit
 
 object OxygenationSlider:
@@ -20,16 +21,14 @@ object OxygenationSlider:
   def apply(): OxygenationSlider = OxygenationSliderImpl()
 
   private class OxygenationSliderImpl extends OxygenationSlider:
-    margin = Insets.apply(
+    margin = Insets(
       top = 15,
       right = 15,
       bottom = 10,
       left = 15
     )
-    left = new IconLabel("/icons/oxygen.png"):
-      tooltip = new Tooltip("Aquarium oxygenation")
 
-    val slider: Slider = new Slider:
+    private val slider: Slider = new Slider:
       min = 0
       max = 50
       value = 12
@@ -54,6 +53,11 @@ object OxygenationSlider:
       slider.tooltip = SliderUtils.getTooltip(newVal, "mg/L")
     )
 
-    right = slider
+    children ++= Seq(
+      new IconLabel("/icons/oxygen.png"):
+        tooltip = new Tooltip("Aquarium oxygenation")
+      ,
+      slider
+    )
 
     def update(newValue: Double): Unit = println("updating oxygenslider to " + newValue)

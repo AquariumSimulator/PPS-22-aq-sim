@@ -1,9 +1,10 @@
 package fish
 
-import model.fish._
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec
 import model.aquarium.AquariumDimensions
+import model.fish._
+import model.food.Food
 
 class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
@@ -51,5 +52,11 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
     it("when has hunger greater than 0, should not be alive") {
       var f: Fish = Fish(hunger = 15)
       assert(f.isAlive)
+    }
+
+    it("should have more hunger after having eaten") {
+      var f: Fish = Fish(hunger = 15)
+      var food: Food = Food(nutritionAmount = 10)
+      assert(UpdateFish(f).eat(food).hunger === f.hunger + food.nutritionAmount)
     }
   }

@@ -15,20 +15,20 @@ trait InfoPane:
 
 object InfoPane:
 
-  val statisticsButton: IconButton = IconButton("icons/chart.png")
+  private val statisticsButton: IconButton = IconButton("icons/chart.png")
   statisticsButton.tooltip = new Tooltip("View statistics")
   statisticsButton.onAction = (event: ActionEvent) => println("Clicked view statistics")
 
-  val downloadButton: IconButton = IconButton("icons/download.png")
+  private val downloadButton: IconButton = IconButton("icons/download.png")
   downloadButton.tooltip = new Tooltip("Download simulation data")
   downloadButton.onAction = (event: ActionEvent) => println("Clicked download data")
 
-  val populationLabel: InfoCell = new InfoCell("Population", 0, "fish")
-  val temperatureLabel: InfoCell = new InfoCell("Temperature", 25, "°")
-  val brightnessLabel: InfoCell = new InfoCell("Brightness", 50, "%")
-  val phLabel: InfoCell = new InfoCell("pH", 5.6, "")
-  val impurityLabel: InfoCell = new InfoCell("Impurity", 20, "%")
-  val oxygenationLabel: InfoCell = new InfoCell("Oxygenation", 12, "mg/L")
+  private val populationLabel: InfoCell = InfoCell("Population", 0, "fish")
+  private val temperatureLabel: InfoCell = InfoCell("Temperature", 25, "°")
+  private val brightnessLabel: InfoCell = InfoCell("Brightness", 50, "%")
+  private val phLabel: InfoCell = InfoCell("pH", 5.6, "")
+  private val impurityLabel: InfoCell = InfoCell("Impurity", 20, "%")
+  private val oxygenationLabel: InfoCell = InfoCell("Oxygenation", 12, "mg/L")
 
   val pane = new BorderPane:
     padding = Insets(10, 10, 10, 10)

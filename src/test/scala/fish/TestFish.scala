@@ -1,13 +1,15 @@
 package fish
 
-import model.fish.*
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec
+import model.aquarium.AquariumDimensions
+import model.fish.{Fish, UpdateFish}
+import model.fish.Fish.{MAX_HUNGER, MEAT_AMOUNT}
+import model.food.Food
 
 class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
   var f: Fish = Fish()
-  var multiplier = 1
 
   override def beforeEach(): Unit =
     f = Fish()
@@ -44,41 +46,36 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
   describe("A Fish") {
     it("when has hunger 0, should not be alive") {
-      f = UpdateFish.apply(f).updateHunger(0)
+      var f: Fish = Fish(hunger = 0)
       assert(!f.isAlive)
     }
 
-    it("should change speed when requested") {
-      f = UpdateFish.apply(f).updateSpeed((1.0, 4.0))
-      assert(f.speed === (1.0, 4.0))
+    it("when has hunger greater than 0, should not be alive") {
+      var f: Fish = Fish(hunger = 15)
+      assert(f.isAlive)
     }
 
-    it("should move to the expected position when requested") {
-      f = UpdateFish.apply(f).updateSpeed((1.0, 4.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      f = UpdateFish.apply(f).updateSpeed((2.0, 3.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      assert(f.position === (3.0, 7.0))
+    it("should have more hunger after having eaten food") {
+      var f: Fish = Fish(hunger = 15)
+      var food: Food = Food(nutritionAmount = 10)
+      assert(UpdateFish(f).eat(food).hunger === f.hunger + food.nutritionAmount)
     }
 
-    it("should bounce back from a border with an underflow position and change speed") {
-      f = UpdateFish.apply(f).updateSpeed((2.0, 4.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      f = UpdateFish.apply(f).updateSpeed((-5.0, -6.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      assert(f.position === (3.0, 2.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      assert(f.position === (2.0, 4.0))
+    it("should not have more than MAX_HUNGER after having eaten food") {
+      var f: Fish = Fish(hunger = MAX_HUNGER - 5)
+      var food: Food = Food(nutritionAmount = 10)
+      assert(UpdateFish(f).eat(food).hunger === MAX_HUNGER)
     }
 
-    it("should bounce back from a border with an overflow position and change speed") {
-      f = UpdateFish.apply(f).updateSpeed((196.0, 149.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      f = UpdateFish.apply(f).updateSpeed((5.0, 7.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      assert(f.position === (199.0, 144.0))
-      f = UpdateFish.apply(f).move(multiplier)
-      assert(f.position === (196.0, 149.0))
+    it("should have more hunger after having eaten another fish") {
+      var f: Fish = Fish(hunger = 15)
+      var other: Fish = Fish(size = 1.5)
+      assert(UpdateFish(f).eat(other).hunger === f.hunger + other.size * MEAT_AMOUNT)
     }
 
+    it("should not have more than MAX_HUNGER after having eaten another fish") {
+      var f: Fish = Fish(hunger = MAX_HUNGER - 5)
+      var other: Fish = Fish(size = 1.5)
+      assert(UpdateFish(f).eat(other).hunger === MAX_HUNGER)
+    }
   }

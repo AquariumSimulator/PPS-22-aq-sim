@@ -13,7 +13,7 @@ import view.utils.IconLabel
 import view.widgets.slider.SliderUtils
 import scalafx.scene.layout.TilePane
 
-trait TemperatureSlider extends TilePane:
+trait TemperatureSlider extends BorderPane:
   def update(newValue: Double): Unit
 
 object TemperatureSlider:
@@ -47,9 +47,7 @@ object TemperatureSlider:
       slider.tooltip = SliderUtils.getTooltip(newVal, "°")
     )
 
-    children ++= Seq(
-      IconLabel("/icons/temperature.png", "Aquarium temperature"),
-      slider
-    )
+    left = IconLabel("/icons/temperature.png", "Aquarium temperature")
+    right = slider
 
     def update(newValue: Double): Unit = println("updating temperatureslider to " + newValue)

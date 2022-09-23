@@ -13,7 +13,7 @@ import view.utils.IconLabel
 import view.widgets.slider.SliderUtils
 import scalafx.scene.layout.TilePane
 
-trait OxygenationSlider extends TilePane:
+trait OxygenationSlider extends BorderPane:
   def update(newValue: Double): Unit
 
 object OxygenationSlider:
@@ -48,9 +48,7 @@ object OxygenationSlider:
       slider.tooltip = SliderUtils.getTooltip(newVal, "mg/L")
     )
 
-    children ++= Seq(
-      IconLabel("/icons/oxygen.png", "Aquarium oxygenation"),
-      slider
-    )
+    left = IconLabel("/icons/oxygen.png", "Aquarium oxygenation")
+    right = slider
 
     def update(newValue: Double): Unit = println("updating oxygenslider to " + newValue)

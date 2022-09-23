@@ -3,8 +3,7 @@ package controller
 /** Controller trait implemented in [[ControllerImpl]]. */
 trait Controller:
 
-  /** Start the simulation in a separated [[Thread]]. If simulation was halted, it resumes.
-    */
+  /** Start the simulation in a separated [[Thread]]. If simulation was halted, it resumes. */
   def startSimulation(): Unit
 
   /** Halt the simulation. */

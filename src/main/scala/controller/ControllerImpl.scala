@@ -2,6 +2,7 @@ package controller
 
 import mvc.ControllerModule.ControllerRequirements
 import model.aquarium.Aquarium
+import mvc.MVC.{given_ControllerRequirements => context}
 
 /** Controller methods implementation from [[Controller]]. */
 trait ControllerImpl:

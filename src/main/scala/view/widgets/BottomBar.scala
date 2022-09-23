@@ -9,6 +9,7 @@ import scalafx.Includes._
 import scalafx.event.ActionEvent
 import scalafx.stage.StageStyle
 import view.utils.IconButton
+import mvc.ViewModule.ViewRequirements
 import mvc.MVC.{given_ViewRequirements => context}
 
 object BottomBar:

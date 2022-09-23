@@ -2,7 +2,7 @@ package controller
 
 import mvc.ControllerModule.ControllerRequirements
 import model.aquarium.Aquarium
-import mvc.MVC.{given_ControllerRequirements => context}
+//import mvc.MVC.{given_ControllerRequirements => context}
 
 /** Control of simulation loop, speed, stop and resume. */
 trait SimulationEngine:
@@ -27,9 +27,9 @@ enum SimulationSpeed:
 
 object SimulationEngine:
 
-  def apply(aquarium: Aquarium): SimulationEngine = new SimulationEngineImpl(aquarium)
+  def apply(aquarium: Aquarium)(using context: ControllerRequirements): SimulationEngine = new SimulationEngineImpl(aquarium)
 
-  private class SimulationEngineImpl(var aquarium: Aquarium) extends SimulationEngine:
+  private class SimulationEngineImpl(var aquarium: Aquarium)(using context: ControllerRequirements) extends SimulationEngine:
 
     import SimulationSpeed._
 

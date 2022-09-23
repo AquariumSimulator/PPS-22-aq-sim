@@ -23,7 +23,7 @@ class TestInteractionFishOnAlgae extends AnyFunSpec:
     it("should eat an algae when he is hungry") {
       val updatedFishAndAlgae = interaction.update()
       assert(updatedFishAndAlgae._1.hunger == 60)
-      assert(updatedFishAndAlgae._2.height == 0)
+      assert(updatedFishAndAlgae._2.isEmpty)
     }
 
     it("shouldn't eat an algae when he isn't hungry") {
@@ -34,6 +34,6 @@ class TestInteractionFishOnAlgae extends AnyFunSpec:
       val newInteraction = Interaction(newFish, algae)
       val updatedFishAndAlgae = newInteraction.update()
       assert(updatedFishAndAlgae._1.hunger == 95)
-      assert(updatedFishAndAlgae._2.height == 10)
+      assert(updatedFishAndAlgae._2.get.height == 10)
     }
   }

@@ -14,7 +14,7 @@ import view.widgets.slider.SliderUtils
 import scalafx.scene.layout.TilePane
 
 trait TemperatureSlider extends BorderPane:
-  def update(newValue: Double): Unit
+  def update(newValue: Number): Unit
 
 object TemperatureSlider:
 
@@ -43,11 +43,14 @@ object TemperatureSlider:
         )
       )
     slider.valueProperty.addListener((_, oldVal: Number, newVal: Number) =>
-      println("Changed temperature from " + oldVal + " to " + newVal)
-      slider.tooltip = SliderUtils.getTooltip(newVal, "°")
+      println("user asked to change temperature")
+      // aquarium.updateTemperature(newVal)
     )
 
     left = IconLabel("/icons/temperature.png", "Aquarium temperature")
     right = slider
 
-    def update(newValue: Double): Unit = println("updating temperatureslider to " + newValue)
+    def update(newValue: Number): Unit =
+      println("changing TemperatureSlider to " + newValue)
+      slider.value = newValue.asInstanceOf[Double]
+      slider.tooltip = SliderUtils.getTooltip(newValue, "°")

@@ -13,7 +13,7 @@ import view.utils.IconLabel
 import view.widgets.slider.SliderUtils
 
 trait BrightnessSlider extends BorderPane:
-  def update(newValue: Double): Unit
+  def update(newValue: Number): Unit
 
 object BrightnessSlider:
 
@@ -49,10 +49,13 @@ object BrightnessSlider:
       )
       orientation = Orientation.Vertical
     slider.valueProperty.addListener((_, oldVal: Number, newVal: Number) =>
-      println("Changed brightness from " + oldVal + " to " + newVal)
-      slider.tooltip = SliderUtils.getTooltip(newVal, "%")
+      println("user asked to change brightness")
+      // aquarium.updateBrightness(newVal)
     )
 
     center = slider
 
-    def update(newValue: Double): Unit = println("updating lightslider to " + newValue)
+    def update(newValue: Number): Unit =
+      println("changing BrightnessSlider to " + newValue)
+      slider.value = newValue.asInstanceOf[Double]
+      slider.tooltip = SliderUtils.getTooltip(newValue, "%")

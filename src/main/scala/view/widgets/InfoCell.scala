@@ -25,7 +25,6 @@ object InfoCell:
     bottom = bottomLabel
 
     def update(newValue: Double): Unit =
-      println("Updating " + title + " with " + f"$newValue%3.1f")
       bottomLabel.text = f"$newValue%3.1f " + unit
 
     update(initialValue)

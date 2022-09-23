@@ -17,7 +17,16 @@ import view.utils.{AquariumFonts, IconLabel}
 import view.widgets._
 import view.widgets.slider._
 
+trait GUI:
+  def start(stage: Stage): Unit
+  def updateSliders(temperature: Number, brightness: Number, oxygenation: Number): Unit
+
 object GUI:
+
+  private val brightnessSlider: BrightnessSlider = BrightnessSlider()
+  private val temperatureSlider: TemperatureSlider = TemperatureSlider()
+  private val oxygenationSlider: OxygenationSlider = OxygenationSlider()
+
   def start(stage: Stage): Unit =
 
     println("Screen size: " + Screen.primary.bounds.width + "x" + Screen.primary.bounds.height)
@@ -42,12 +51,12 @@ object GUI:
             textFill = Color.rgb(0, 150, 255)
             margin = Insets(0, 5, 15, 5)
           center = new BorderPane:
-            left = BrightnessSlider()
+            left = brightnessSlider
             center = new BorderPane:
               top = SimulationViewer.canvasPane
               bottom = new BorderPane:
-                left = TemperatureSlider()
-                right = OxygenationSlider()
+                left = temperatureSlider
+                right = oxygenationSlider
             right = new BorderPane:
               margin = Insets(10, 10, 10, 10)
               top = InfoPane.pane
@@ -55,3 +64,8 @@ object GUI:
     )
 
     stage.setFullScreen(false)
+
+  def updateSliders(temperature: Number, brightness: Number, oxygenation: Number): Unit =
+    temperatureSlider.update(temperature)
+    brightnessSlider.update(brightness)
+    oxygenationSlider.update(oxygenation)

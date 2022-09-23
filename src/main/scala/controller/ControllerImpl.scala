@@ -1,6 +1,7 @@
 package controller
 
 import mvc.ControllerModule.ControllerRequirements
+import model.aquarium.Aquarium
 
 /** Controller methods implementation from [[Controller]]. */
 trait ControllerImpl:
@@ -17,3 +18,9 @@ trait ControllerImpl:
 
     override def changeSpeed(simSpeed: SimulationSpeed): Unit =
       simEngine.changeSpeed(simSpeed)
+
+    override def isRunning(): Boolean =
+      simEngine.isRunning()
+
+    override def getAquarium(): Aquarium =
+      simEngine.getAquarium()

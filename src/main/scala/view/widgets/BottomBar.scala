@@ -13,8 +13,6 @@ import mvc.MVC.{given_ViewRequirements => context}
 
 object BottomBar:
 
-  var uselessBoolean: Boolean = true // TODO: remove when no more needed
-
   val addFishButton: BottomBarButton = BottomBarButton("/icons/add-fish.png")
   addFishButton.tooltip = new Tooltip("Add fish or algae")
   addFishButton.onAction = (event: ActionEvent) =>
@@ -37,20 +35,9 @@ object BottomBar:
   val playButton: BottomBarButton = BottomBarButton("/icons/play.png")
   playButton.tooltip = Tooltip("Play the simulation")
   playButton.onAction = (event: ActionEvent) =>
-    uselessBoolean match
+    context.controller.isRunning() match
       case true =>
-        context.controller.startSimulation()
-        println("Clicked play")
-        IconButton.setImage(
-          playButton,
-          "/icons/pause.png",
-          BottomBarButton.DEFAULT_HEIGHT,
-          BottomBarButton.DEFAULT_WIDTH
-        )
-        playButton.tooltip = Tooltip("Pause the simulation")
-      case false =>
         context.controller.stopSimulation()
-        println("Clicked pause")
         IconButton.setImage(
           playButton,
           "/icons/play.png",
@@ -58,7 +45,15 @@ object BottomBar:
           BottomBarButton.DEFAULT_WIDTH
         )
         playButton.tooltip = Tooltip("Play the simulation")
-    uselessBoolean = !uselessBoolean
+      case false =>
+        context.controller.startSimulation()
+        IconButton.setImage(
+          playButton,
+          "/icons/pause.png",
+          BottomBarButton.DEFAULT_HEIGHT,
+          BottomBarButton.DEFAULT_WIDTH
+        )
+        playButton.tooltip = Tooltip("Pause the simulation")
 
   val foodButton: BottomBarButton = BottomBarButton("/icons/food.png")
   foodButton.tooltip = new Tooltip("Add food")

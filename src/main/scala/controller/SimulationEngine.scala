@@ -16,6 +16,12 @@ trait SimulationEngine:
   /** Change the speed of simulation. */
   def changeSpeed(simSpeed: SimulationSpeed): Unit
 
+  /** True if simulation is running. */
+  def isRunning(): Boolean
+
+  /** Get current [[Aquarium]]. */
+  def getAquarium(): Aquarium
+
 enum SimulationSpeed:
   case HALT, SLOW, NORMAL, FAST
 
@@ -41,10 +47,11 @@ object SimulationEngine:
           Iterator
             .iterate(aquarium)(context.model.step)
             .foreach((aq: Aquarium) =>
+              aquarium = aq
+
               speed match
                 case HALT =>
                   println("Simulation stopped")
-                  aquarium = aq
                   return
                 case _ =>
 
@@ -72,3 +79,11 @@ object SimulationEngine:
       speed = simSpeed match
         case HALT => speed
         case _ => simSpeed
+
+    override def isRunning(): Boolean =
+      speed match
+        case HALT => false
+        case _ => true
+
+    override def getAquarium(): Aquarium =
+      aquarium

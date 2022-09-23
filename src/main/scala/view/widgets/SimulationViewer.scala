@@ -15,6 +15,8 @@ import model.Algae
 import model.FeedingType
 import model.food.Food
 
+import mvc.MVC.{given_ViewRequirements => context}
+
 object SimulationViewer:
 
   private val preferredWidth: Int = 500
@@ -51,6 +53,8 @@ object SimulationViewer:
   private val algaeImage: Image = new Image("/img/seaweed.png")
   private val meat: Image = new Image("/img/meat.png")
   private val herbFood: Image = new Image("/img/lettuce.png")
+
+  renderSimulation(context.controller.getAquarium())
 
   def renderSimulation(aquarium: Aquarium): Unit =
     gc.clearRect(0, 0, canvas.width.value, canvas.height.value)

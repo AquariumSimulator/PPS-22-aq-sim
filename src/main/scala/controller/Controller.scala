@@ -1,5 +1,7 @@
 package controller
 
+import model.aquarium.Aquarium
+
 /** Controller trait implemented in [[ControllerImpl]]. */
 trait Controller:
 
@@ -15,3 +17,17 @@ trait Controller:
     *   The new speed of simulation.
     */
   def changeSpeed(simSpeed: SimulationSpeed): Unit
+
+  /** Check if the simulation is currently running or not.
+    *
+    * @return
+    *   True if simulation is running.
+    */
+  def isRunning(): Boolean
+
+  /** Get the current [[Aquarium]].
+    *
+    * @return
+    *   The [[Aquarium]].
+    */
+  def getAquarium(): Aquarium

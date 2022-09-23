@@ -30,7 +30,7 @@ case class Fish(
     size: Double = Random.between(MIN_SIZE, MAX_SIZE),
     position: (Double, Double) = (0.0, 0.0),
     feedingType: FeedingType = FeedingType.CARNIVOROUS,
-    reproductionFactor:Int = 30,
+    reproductionFactor: Int = 30
 ) extends Entity:
   val oxygenShift: Double = OXYGEN_SHIFT_CONSTANT * size
   val impurityShift: Double = IMPURITY_SHIFT_CONSTANT * size

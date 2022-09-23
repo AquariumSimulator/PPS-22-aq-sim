@@ -27,7 +27,7 @@ case class Fish(
     hunger: Int = MAX_HUNGER,
     age: Int = 0,
     speed: (Double, Double) = (0.0, 0.0),
-    size: Double = Random.between(MIN_SIZE, MAX_SIZE),
+    size: (Double, Double) = (Random.between(MIN_SIZE, MAX_SIZE), Random.between(MIN_SIZE, MAX_SIZE)),
     position: (Double, Double) = (0.0, 0.0),
     feedingType: FeedingType = FeedingType.CARNIVOROUS,
     reproductionFactor: Int = 30

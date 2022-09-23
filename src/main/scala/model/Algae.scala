@@ -9,6 +9,7 @@ package model
   */
 case class Algae(base: Double, height: Int = Algae.DEFAULT_HEIGHT) extends Entity:
   val position: (Double, Double) = (base, 0)
+  val size: (Double, Double) = (height, height)
   val oxygenShift: Double = Algae.OXYGEN_MULTIPLIER * height
   val impurityShift: Double = 0.0
   val phShift: Double = -height / Algae.PH_DIVISOR

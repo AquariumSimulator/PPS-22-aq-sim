@@ -11,10 +11,10 @@ import model.interaction.Interaction
   * @param algae
   *   the [[Algae]] that has to be eaten
   */
-class InteractionFishOnAlgaeImpl(fish: Fish, algae: Algae) extends Interaction[(Fish, Algae)]:
+class InteractionFishOnAlgaeImpl(fish: Fish, algae: Algae) extends Interaction[(Fish, Option[Algae])]:
 
-  override def update(): (Fish, Algae) =
+  override def update(): (Fish, Option[Algae]) =
     fish.feedingType match
       case FeedingType.HERBIVOROUS if Fish.MAX_HUNGER - fish.hunger >= (algae.height * Algae.NUTRITION_AMOUNT) =>
-        (fish.copy(hunger = fish.hunger + algae.height * Algae.NUTRITION_AMOUNT), algae.copy(height = 0))
-      case _ => (fish, algae)
+        (fish.copy(hunger = fish.hunger + algae.height * Algae.NUTRITION_AMOUNT), Option.empty)
+      case _ => (fish, Some(algae))

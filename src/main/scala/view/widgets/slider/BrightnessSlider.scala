@@ -1,6 +1,6 @@
 package view.widgets.slider
 
-import scalafx.geometry.Insets
+import scalafx.geometry.{Insets, Orientation}
 import scalafx.scene.control.{Slider, Tooltip}
 import scalafx.scene.layout.BorderPane
 import scalafx.scene.layout.Background
@@ -11,30 +11,35 @@ import scalafx.scene.paint.Color
 
 import view.utils.IconLabel
 import view.widgets.slider.SliderUtils
-import scalafx.scene.layout.TilePane
 
-trait TemperatureSlider extends BorderPane:
+trait BrightnessSlider extends BorderPane:
   def update(newValue: Number): Unit
 
-object TemperatureSlider:
+object BrightnessSlider:
 
-  def apply(): TemperatureSlider = TemperatureSliderImpl()
+  def apply(): BrightnessSlider = BrightnessSliderImpl()
 
-  private class TemperatureSliderImpl extends TemperatureSlider:
-    margin = Insets(15)
+  private class BrightnessSliderImpl extends BrightnessSlider:
+    margin = Insets(
+      top = 0,
+      right = 15,
+      bottom = 5,
+      left = 5
+    )
+    top = IconLabel("/icons/light.png", "Aquarium brightness")
 
     private val slider: Slider = new Slider:
       min = 0
-      max = 30
-      value = 25
-      tooltip = SliderUtils.getTooltip(this.getValue, "°")
+      max = 100
+      value = 50
+      tooltip = SliderUtils.getTooltip(this.getValue, "%")
       background = new Background(
         Array(
           new BackgroundFill(
             new LinearGradient(
               stops = Stops(
-                Color.Blue,
-                Color.Red
+                Color.Yellow,
+                Color.Black
               )
             ),
             null,
@@ -42,15 +47,15 @@ object TemperatureSlider:
           )
         )
       )
+      orientation = Orientation.Vertical
     slider.valueProperty.addListener((_, oldVal: Number, newVal: Number) =>
-      println("user asked to change temperature")
-      // aquarium.updateTemperature(newVal)
+      println("user asked to change brightness")
+      // aquarium.updateBrightness(newVal)
     )
 
-    left = IconLabel("/icons/temperature.png", "Aquarium temperature")
-    right = slider
+    center = slider
 
     def update(newValue: Number): Unit =
-      println("changing TemperatureSlider to " + newValue)
+      println("changing BrightnessSlider to " + newValue)
       slider.value = newValue.asInstanceOf[Double]
-      slider.tooltip = SliderUtils.getTooltip(newValue, "°")
+      slider.tooltip = SliderUtils.getTooltip(newValue, "%")

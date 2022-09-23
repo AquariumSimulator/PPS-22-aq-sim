@@ -13,28 +13,29 @@ import view.utils.IconLabel
 import view.widgets.slider.SliderUtils
 import scalafx.scene.layout.TilePane
 
-trait TemperatureSlider extends BorderPane:
+trait OxygenationSlider extends BorderPane:
   def update(newValue: Number): Unit
 
-object TemperatureSlider:
+object OxygenationSlider:
 
-  def apply(): TemperatureSlider = TemperatureSliderImpl()
+  def apply(): OxygenationSlider = OxygenationSliderImpl()
 
-  private class TemperatureSliderImpl extends TemperatureSlider:
+  private class OxygenationSliderImpl extends OxygenationSlider:
     margin = Insets(15)
 
     private val slider: Slider = new Slider:
       min = 0
-      max = 30
-      value = 25
-      tooltip = SliderUtils.getTooltip(this.getValue, "°")
+      max = 50
+      value = 12
+      tooltip = SliderUtils.getTooltip(this.getValue, "mg/L")
       background = new Background(
         Array(
           new BackgroundFill(
             new LinearGradient(
+              proportional = true,
               stops = Stops(
-                Color.Blue,
-                Color.Red
+                Color.White,
+                Color.Grey
               )
             ),
             null,
@@ -43,14 +44,14 @@ object TemperatureSlider:
         )
       )
     slider.valueProperty.addListener((_, oldVal: Number, newVal: Number) =>
-      println("user asked to change temperature")
-      // aquarium.updateTemperature(newVal)
+      println("user asked to change oxygenation")
+      // aquarium.updateOxygenation(newVal)
     )
 
-    left = IconLabel("/icons/temperature.png", "Aquarium temperature")
+    left = IconLabel("/icons/oxygen.png", "Aquarium oxygenation")
     right = slider
 
     def update(newValue: Number): Unit =
-      println("changing TemperatureSlider to " + newValue)
+      println("changing OxgenationSlider to " + newValue)
       slider.value = newValue.asInstanceOf[Double]
-      slider.tooltip = SliderUtils.getTooltip(newValue, "°")
+      slider.tooltip = SliderUtils.getTooltip(newValue, "mg/L")

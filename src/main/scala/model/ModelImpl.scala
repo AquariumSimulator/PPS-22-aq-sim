@@ -7,6 +7,8 @@ import model.interaction.Interaction
 import model.interaction.MultiplierVelocityFish.{SPEED_MULTIPLIER_IMPURITY, SPEED_MULTIPLIER_TEMPERATURE}
 import mvc.MVC.model.*
 
+import scala.annotation.tailrec
+
 /** Model methods implementation from [[Model]]. */
 trait ModelImpl:
   class ModelImpl extends Model:
@@ -42,36 +44,149 @@ trait ModelImpl:
       aquarium.copy(availableFood = aquarium.availableFood.deleteFood(food))
 
     override def step(aquarium: Aquarium): Aquarium =
-      // TODO refactoring
-      var newState = aquarium.aquariumState
-      aquarium.population.algae.foreach(a => newState = Interaction(newState, a).update())
-      aquarium.population.herbivorous.foreach(h => newState = Interaction(newState, h).update())
-      aquarium.population.carnivorous.foreach(c => newState = Interaction(newState, c).update())
+      val newState =
+        newAquariumState(
+          aquarium.population.herbivorous.concat(aquarium.population.carnivorous),
+          newAquariumState(aquarium.population.algae, aquarium.aquariumState)((s: AquariumState, a: Algae) =>
+            Interaction(s, a).update()
+          )
+        )((s: AquariumState, f: Fish) => Interaction(s, f).update())
 
-      val newPopulation = Population(
-        genericFishStep(aquarium.population.herbivorous, newState),
-        genericFishStep(aquarium.population.carnivorous, newState),
-        algaeStep(aquarium.population.algae, newState)
-      )
+      val isFoodNear = (food: Food, fish: Fish) => food.position == fish.position
+      val carnivorous =
+        foodInteraction(aquarium.population.carnivorous, aquarium.availableFood.carnivorousFood)(isFoodNear)
+      val herbivorous =
+        foodInteraction(aquarium.population.herbivorous, aquarium.availableFood.herbivorousFood)(isFoodNear)
 
-      // TODO INTERAZIONI PESCI
+      val fishAlgaeInteraction =
+        calculateInteractionAlgae(herbivorous._1, aquarium.population.algae)((f: Fish, a: Algae) =>
+          f.position._1 == a.base
+        )
+      val fishFishInteraction =
+        calculateInteractionFish(carnivorous._1.concat(fishAlgaeInteraction._1))((f1: Fish, f2: Fish) =>
+          f1.position == f2.position
+        )
 
-      aquarium.copy(aquariumState = newState, population = newPopulation)
-
-    private def genericFishStep(set: Set[Fish], aquariumState: AquariumState): Set[Fish] =
-      // TODO interazione pesce <--> alghe
-      // TODO interazione pesce <--> pesci
       val multiplier =
-        SPEED_MULTIPLIER_TEMPERATURE(aquariumState.temperature) * SPEED_MULTIPLIER_IMPURITY(aquariumState.impurity)
+        SPEED_MULTIPLIER_TEMPERATURE(newState.temperature) *
+          SPEED_MULTIPLIER_IMPURITY(newState.impurity)
 
-      set
-        .filter(fish => fish.isAlive)
-        .map(fish => Interaction(UpdateFish(fish).move(multiplier), aquariumState).update())
-        .filter(fish => fish.isDefined)
-        .map(fish => fish.get)
+      val newHerbivorous =
+        entityStep(fishFishInteraction.filter(f => f.feedingType == FeedingType.HERBIVOROUS), newState)((f: Fish) =>
+          f.isAlive
+        )((f: Fish, a: AquariumState) => Interaction(UpdateFish(f).move(multiplier), a).update())
+      // TODO shift della fame deve essere una costante
+      // TODO aggiorna valore riproduzione
+      val newCarnivorous =
+        entityStep(fishFishInteraction.filter(f => f.feedingType == FeedingType.CARNIVOROUS), newState)((f: Fish) =>
+          f.isAlive
+        )((f: Fish, a: AquariumState) =>
+          Interaction(UpdateFish(UpdateFish(f).updateHunger(f.hunger - 5)).move(multiplier), a).update()
+        )
+      val newAlgae =
+        entityStep(fishAlgaeInteraction._2, newState)((a: Algae) => a.height > 0)((al: Algae, a: AquariumState) =>
+          Interaction(al, a).update()
+        )
 
-    private def algaeStep(set: Set[Algae], aquariumState: AquariumState): Set[Algae] =
-      set
-        .map(algae => Interaction(algae, aquariumState).update())
-        .filter(algae => algae.isDefined)
-        .map(algae => algae.get)
+      val newAvailableFood: AvailableFood = AvailableFood(herbivorous._2, carnivorous._2)
+      val newPopulation: Population = Population(newHerbivorous, newCarnivorous, newAlgae)
+
+      Aquarium(newState, newPopulation, newAvailableFood)
+
+    private def foodInteraction(set: Set[Fish], foodSet: Set[Food])(
+        isNear: (Food, Fish) => Boolean
+    ): (Set[Fish], Set[Food]) =
+      if set.isEmpty || foodSet.isEmpty then
+        var newFoodSet = foodSet
+        var newSet = set
+        for
+          fish <- set
+          food <- foodSet
+          if isNear(food, fish)
+        do
+          newSet = newSet - fish
+          newSet = newSet + UpdateFish(fish).eat(food)
+          newFoodSet = newFoodSet - food
+        (newSet, newFoodSet)
+      else (set, foodSet)
+
+    private def newAquariumState[A](population: Set[A], initialState: AquariumState)(
+        func: (AquariumState, A) => AquariumState
+    ): AquariumState =
+      @tailrec
+      def _newAquariumState[A](population: Set[A], aquariumState: AquariumState)(
+          func: (AquariumState, A) => AquariumState
+      ): AquariumState =
+        population match
+          case p if p.nonEmpty => _newAquariumState(p.tail, func(aquariumState, p.head))(func)
+          case _ => aquariumState
+
+      _newAquariumState(population, initialState)(func)
+
+    private def entityStep[A](set: Set[A], aquariumState: AquariumState)(
+        isAlive: A => Boolean
+    )(action: (A, AquariumState) => Option[A]): Set[A] =
+      for
+        elem <- set
+        if isAlive(elem)
+        newElem <- action(elem, aquariumState)
+      yield newElem
+
+    def calculateInteractionAlgae(setFish: Set[Fish], setAlgae: Set[Algae])(
+        isNear: (Fish, Algae) => Boolean
+    ): (Set[Fish], Set[Algae]) =
+      var newFish: Set[Fish] = Set.empty
+      var newAlgae = setAlgae
+      @tailrec
+      def _calculateInteraction(fish: Fish, setAlgae: Set[Algae], newSetAlgae: Set[Algae]): (Fish, Set[Algae]) =
+        setAlgae match
+          case s if s.nonEmpty =>
+            if isNear(fish, s.head) then
+              val interaction = Interaction(fish, s.head).update()
+              _calculateInteraction(
+                interaction._1,
+                s.tail,
+                if interaction._2.isDefined then newSetAlgae + interaction._2.get else newSetAlgae
+              )
+            else _calculateInteraction(fish, s.tail, newSetAlgae + s.head)
+          case _ => (fish, newSetAlgae)
+
+      for
+        fish <- setFish
+        res = _calculateInteraction(fish, newAlgae, Set.empty)
+      do
+        newFish = newFish + res._1
+        newAlgae = res._2
+
+      (newFish, newAlgae)
+
+    def calculateInteractionFish(setFish: Set[Fish])(isNear: (Fish, Fish) => Boolean): Set[Fish] =
+      var newSet: Set[Fish] = Set.empty
+
+      @tailrec
+      def _calculateInteraction(
+          fish: Option[Fish],
+          setFish: Set[Fish],
+          newSetFish: Set[Fish]
+      ): (Option[Fish], Set[Fish]) =
+        setFish match
+          case s if s.nonEmpty && fish.isDefined =>
+            if fish.get != s.head && isNear(fish.get, s.head) then
+              val interaction = Interaction(fish.get, s.head).update()
+              if interaction._3.isDefined then newSet = newSet + interaction._3.get
+              _calculateInteraction(
+                interaction._1,
+                s.tail,
+                if interaction._2.isDefined then newSetFish + interaction._2.get else newSetFish
+              )
+            else _calculateInteraction(fish, s.tail, newSetFish + s.head)
+          case _ => (fish, newSetFish)
+
+      for
+        fish <- setFish
+        res = _calculateInteraction(Some(fish), setFish, Set.empty)
+      do
+        newSet = res._2
+        if res._1.isDefined then newSet = newSet + res._1.get
+
+      newSet

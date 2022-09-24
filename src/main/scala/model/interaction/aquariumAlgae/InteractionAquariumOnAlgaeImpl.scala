@@ -30,4 +30,4 @@ class InteractionAquariumOnAlgaeImpl(aquariumState: AquariumState, algae: Algae)
     val calculatePercentage = (b: Int) => (Algae.MAX_GROWTH * b) / AquariumParametersLimits.BRIGHTNESS_MAX
     algae.height match
       case Algae.MAX_HEIGHT => 0
-      case brightnessLevel => algae.height + calculatePercentage(brightnessLevel)
+      case brightnessLevel => calculatePercentage(brightnessLevel)

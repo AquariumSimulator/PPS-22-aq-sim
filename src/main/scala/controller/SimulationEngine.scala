@@ -27,9 +27,12 @@ enum SimulationSpeed:
 
 object SimulationEngine:
 
-  def apply(aquarium: Aquarium)(using context: ControllerRequirements): SimulationEngine = new SimulationEngineImpl(aquarium)
+  def apply(aquarium: Aquarium)(using context: ControllerRequirements): SimulationEngine = new SimulationEngineImpl(
+    aquarium
+  )
 
-  private class SimulationEngineImpl(var aquarium: Aquarium)(using context: ControllerRequirements) extends SimulationEngine:
+  private class SimulationEngineImpl(var aquarium: Aquarium)(using context: ControllerRequirements)
+      extends SimulationEngine:
 
     import SimulationSpeed._
 

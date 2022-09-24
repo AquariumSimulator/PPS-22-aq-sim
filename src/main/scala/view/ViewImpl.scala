@@ -3,7 +3,7 @@ package view
 import scalafx.stage.Stage
 import scalafx.application.Platform
 
-import mvc.ViewModule.Requirements
+import mvc.ViewModule.ViewRequirements
 import model.aquarium.Aquarium
 import view.View
 import view.widgets.SimulationViewer
@@ -14,7 +14,8 @@ import view.widgets.slider.OxygenationSlider
 
 /** View methods implementation from [[View]]. */
 trait ViewImpl:
-  context: Requirements =>
+  context: ViewRequirements =>
+  given ViewRequirements = context
   class ViewImpl extends View:
     def show(stage: Stage): Unit = GUI.start(stage)
     def renderSimulation(aquarium: Aquarium): Unit =

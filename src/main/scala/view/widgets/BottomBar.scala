@@ -9,10 +9,10 @@ import scalafx.Includes._
 import scalafx.event.ActionEvent
 import scalafx.stage.StageStyle
 import view.utils.IconButton
+import mvc.ViewModule.ViewRequirements
+import mvc.MVC.{given_ViewRequirements => context}
 
 object BottomBar:
-
-  var uselessBoolean: Boolean = true // TODO: remove when no more needed
 
   val addFishButton: BottomBarButton = BottomBarButton("/icons/add-fish.png")
   addFishButton.tooltip = new Tooltip("Add fish or algae")
@@ -36,18 +36,9 @@ object BottomBar:
   val playButton: BottomBarButton = BottomBarButton("/icons/play.png")
   playButton.tooltip = Tooltip("Play the simulation")
   playButton.onAction = (event: ActionEvent) =>
-    uselessBoolean match
+    context.controller.isRunning() match
       case true =>
-        println("Clicked play")
-        IconButton.setImage(
-          playButton,
-          "/icons/pause.png",
-          BottomBarButton.DEFAULT_HEIGHT,
-          BottomBarButton.DEFAULT_WIDTH
-        )
-        playButton.tooltip = Tooltip("Pause the simulation")
-      case false =>
-        println("Clicked pause")
+        context.controller.stopSimulation()
         IconButton.setImage(
           playButton,
           "/icons/play.png",
@@ -55,7 +46,15 @@ object BottomBar:
           BottomBarButton.DEFAULT_WIDTH
         )
         playButton.tooltip = Tooltip("Play the simulation")
-    uselessBoolean = !uselessBoolean
+      case false =>
+        context.controller.startSimulation()
+        IconButton.setImage(
+          playButton,
+          "/icons/pause.png",
+          BottomBarButton.DEFAULT_HEIGHT,
+          BottomBarButton.DEFAULT_WIDTH
+        )
+        playButton.tooltip = Tooltip("Pause the simulation")
 
   val foodButton: BottomBarButton = BottomBarButton("/icons/food.png")
   foodButton.tooltip = new Tooltip("Add food")
@@ -76,10 +75,11 @@ object BottomBar:
   cleanButton.tooltip = Tooltip("Clean the aquarium")
   cleanButton.onAction = (event: ActionEvent) => println("Clicked clean")
 
-  val bottomBar = new TilePane:
-    background = new Background(Array(new BackgroundFill(Color.Grey, null, null)))
-    children ++= Seq(
-      addFishButton, removeFishButton, playButton, foodButton, cleanButton
-    )
+  val bottomBar: TilePane =
+    new TilePane:
+      background = new Background(Array(new BackgroundFill(Color.Grey, null, null)))
+      children ++= Seq(
+        addFishButton, removeFishButton, playButton, foodButton, cleanButton
+      )
 
   bottomBar.alignment = Pos.Center

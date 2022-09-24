@@ -5,19 +5,26 @@ import scalafx.scene.control.Label
 import scalafx.scene.layout.BorderPane
 import view.utils.AquariumFonts
 
-class InfoCell(val title: String, val initial_value: Double, val unit: String) extends BorderPane:
-  top = new Label:
-    alignmentInParent = Pos.Center
-    text = title
-    font = AquariumFonts.bold(10.0)
+trait InfoCell extends BorderPane:
+  def update(newValue: Double): Unit
 
-  val bottomLabel: Label = new Label:
-    alignmentInParent = Pos.Center
-    font = AquariumFonts.normal(15.0)
+object InfoCell:
 
-  bottom = bottomLabel
+  def apply(title: String, initialValue: Double, unit: String): InfoCell = InfoCellImpl(title, initialValue, unit)
 
-  def update(new_value: Double): Unit =
-    bottomLabel.text = new_value.toString + " " + unit
+  private class InfoCellImpl(val title: String, val initialValue: Double, val unit: String) extends InfoCell:
+    top = new Label:
+      alignmentInParent = Pos.Center
+      text = title
+      font = AquariumFonts.bold(10.0)
 
-  update(initial_value)
+    val bottomLabel: Label = new Label:
+      alignmentInParent = Pos.Center
+      font = AquariumFonts.normal(15.0)
+
+    bottom = bottomLabel
+
+    def update(newValue: Double): Unit =
+      bottomLabel.text = f"$newValue%3.1f " + unit
+
+    update(initialValue)

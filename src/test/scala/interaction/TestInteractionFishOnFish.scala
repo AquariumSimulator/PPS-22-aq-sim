@@ -7,33 +7,43 @@ import org.scalatest.funspec.AnyFunSpec
 
 class TestInteractionFishOnFish extends AnyFunSpec:
 
-  private val carnivorousFish =
-    Fish(feedingType = FeedingType.CARNIVOROUS, hunger = 70)
+  private var carnivorousFish =
+    Fish(hunger = 70)
 
   private val herbivorousFish =
     Fish(feedingType = FeedingType.HERBIVOROUS, size = Fish.MAX_SIZE)
 
-  private val interaction = Interaction(carnivorousFish, herbivorousFish)
+  private var interaction1 = Interaction(carnivorousFish, herbivorousFish)
+  private var interaction2 = Interaction(herbivorousFish, carnivorousFish)
 
   describe("A carnivorous fish") {
-    it("should eat an herbivorous fish when he is hungry") {
-      val tuple = interaction.update()
-      val fullFish = tuple._1
-      val deadFish = tuple._2
-      assert(fullFish.get.hunger == 95)
-      assert(deadFish.get.hunger == 0)
+    describe("should eat an herbivorous fish when he is hungry") {
+      it("if he's the one who start the interaction") {
+        val tuple = interaction1.update()
+        assert(tuple._1.get.hunger == 95)
+        assert(tuple._2.isEmpty)
+      }
+
+      it("if he isn't the one who start the interaction") {
+        val tuple = interaction2.update()
+        assert(tuple._1.get.hunger == 95)
+        assert(tuple._2.isEmpty)
+      }
     }
 
-    it("shouldn't eat an herbivorous fish when he isn't hungry") {
-      val newCarnivorous =
-        Fish(feedingType = FeedingType.CARNIVOROUS, hunger = 90)
-      val newHerbivorous =
-        Fish(feedingType = FeedingType.HERBIVOROUS, size = Fish.MAX_SIZE)
-      var newInteraction = Interaction(newCarnivorous, newHerbivorous)
-      var tuple = newInteraction.update()
-      assert(tuple === (Option.empty, Option.empty))
-      newInteraction = Interaction(newHerbivorous, newCarnivorous)
-      tuple = newInteraction.update()
-      assert(tuple === (Option.empty, Option.empty))
+    describe("shouldn't eat an herbivorous fish when he is hungry") {
+      it("if he's the one who start the interaction") {
+        carnivorousFish = carnivorousFish.copy(hunger = 90)
+        interaction1 = Interaction(carnivorousFish, herbivorousFish)
+        var tuple = interaction1.update()
+        assert(tuple === (Option.empty, Option.empty, Option.empty))
+      }
+
+      it("if he isn't the one who start the interaction") {
+        carnivorousFish = carnivorousFish.copy(hunger = 90)
+        interaction2 = Interaction(herbivorousFish, carnivorousFish)
+        var tuple = interaction2.update()
+        assert(tuple === (Option.empty, Option.empty, Option.empty))
+      }
     }
   }

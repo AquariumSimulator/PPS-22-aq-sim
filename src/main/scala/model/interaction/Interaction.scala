@@ -83,7 +83,7 @@ object Interaction:
     * @return
     *   a new [[Interaction]]
     */
-  def apply(fish: Fish, algae: Algae): Interaction[(Fish, Algae)] =
+  def apply(fish: Fish, algae: Algae): Interaction[(Fish, Option[Algae])] =
     InteractionFishOnAlgaeImpl(fish, algae)
 
   /** Create a new [[Interaction]] between two [[Fish]]. If the 2 fishes are both herbivorous or both carnivorous they
@@ -97,5 +97,5 @@ object Interaction:
     * @return
     *   a new [[Interaction]]
     */
-  def apply(fish1: Fish, fish2: Fish): Interaction[(Option[Fish], Option[Fish])] =
+  def apply(fish1: Fish, fish2: Fish): Interaction[(Option[Fish], Option[Fish], Option[Fish])] =
     InteractionFishOnFishImpl(fish1, fish2)

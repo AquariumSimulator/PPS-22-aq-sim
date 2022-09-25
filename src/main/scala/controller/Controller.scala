@@ -31,3 +31,10 @@ trait Controller:
     *   The [[Aquarium]].
     */
   def getAquarium(): Aquarium
+
+  /** Set the current aquarium
+    *
+    * @param updatedAquarium
+    *   new current aquarium
+    */
+  def setAquarium(updatedAquarium: Aquarium): Unit

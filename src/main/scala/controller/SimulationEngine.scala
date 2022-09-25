@@ -22,6 +22,12 @@ trait SimulationEngine:
   /** Get current [[Aquarium]]. */
   def getAquarium(): Aquarium
 
+  /** Set the current aquarium
+    * @param updatedAquarium
+    *   new current aquarium
+    */
+  def setAquarium(updatedAquarium: Aquarium): Unit
+
 enum SimulationSpeed:
   case HALT, SLOW, NORMAL, FAST
 
@@ -90,3 +96,6 @@ object SimulationEngine:
 
     override def getAquarium(): Aquarium =
       aquarium
+
+    override def setAquarium(updatedAquarium: Aquarium): Unit =
+      aquarium = updatedAquarium

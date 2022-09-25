@@ -1,16 +1,22 @@
 package view.widgets
 
+import model.{Algae, FeedingType}
+import model.aquarium.{Aquarium, Population, AquariumDimensions}
+import model.fish.Fish
+import mvc.MVC
+import mvc.MVC.given_ViewRequirements as context
+import mvc.ViewModule.ViewRequirements
+import scalafx.Includes.*
+import scalafx.event.ActionEvent
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.control.{Button, ChoiceDialog, Tooltip}
 import scalafx.scene.layout.{Background, BackgroundFill, TilePane}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Circle
-import scalafx.Includes._
-import scalafx.event.ActionEvent
 import scalafx.stage.StageStyle
 import view.utils.IconButton
-import mvc.ViewModule.ViewRequirements
-import mvc.MVC.{given_ViewRequirements => context}
+
+import scala.util.Random
 
 object BottomBar:
 
@@ -25,9 +31,21 @@ object BottomBar:
       headerText = "Choose the type"
     // initStyle(StageStyle.Utility)
     val choice: Option[String] = dialog.showAndWait()
-    choice match
-      case Some(str) => println("Chosen " + str)
-      case None => println("Chosen nothing")
+
+    val newInhabitant = choice match
+      case Some(str) if str == "Herbivorous Fish" =>
+        Some(
+          Fish(
+            position = Population.randomPosition(),
+            speed = Population.randomSpeed(),
+            feedingType = FeedingType.HERBIVOROUS
+          )
+        )
+      case Some(str) if str == "Carnivorous Fish" =>
+        Some(Fish(position = Population.randomPosition(), speed = Population.randomSpeed()))
+      case Some(_) => Some(Algae(Random.between(0, AquariumDimensions.WIDTH)))
+      case None => None
+    if newInhabitant.isDefined then addInhabitant(newInhabitant.get)
 
   val removeFishButton: BottomBarButton = BottomBarButton("/icons/remove-fish.png")
   removeFishButton.tooltip = Tooltip("Remove fish")
@@ -68,7 +86,9 @@ object BottomBar:
     // initStyle(StageStyle.Utility)
     val choice: Option[String] = dialog.showAndWait()
     choice match
-      case Some(str) => println("Chosen " + str)
+      // TODO devo portare l'aquario qui... come faccio?
+      case Some(str) if str == "Herbivorous Food" => println("Chosen H")
+      case Some(_) => println("Chosen C")
       case None => println("Chosen nothing")
 
   val cleanButton: BottomBarButton = BottomBarButton("/icons/clean.png")
@@ -83,3 +103,8 @@ object BottomBar:
       )
 
   bottomBar.alignment = Pos.Center
+
+  private def addInhabitant[A](inhabitant: A): Unit =
+    val aquarium = MVC.controller.getAquarium()
+    val newPopulation = aquarium.population.addInhabitant(inhabitant)
+    MVC.controller.setAquarium(aquarium.copy(population = newPopulation))

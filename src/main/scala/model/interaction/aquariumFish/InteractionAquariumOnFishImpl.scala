@@ -18,8 +18,7 @@ import scala.util.Random
 class InteractionAquariumOnFishImpl(fish: Fish, aquariumState: AquariumState) extends Interaction[Option[Fish]]:
 
   override def update(): Option[Fish] =
-    if checkIfFishIsDead() then
-      Option.empty
+    if checkIfFishIsDead() then Option.empty
     else Some(fish)
 
   private def checkIfFishIsDead(): Boolean = checkTooLowOxygenDeath() || checkPhDeath()

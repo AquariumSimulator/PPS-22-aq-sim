@@ -3,9 +3,8 @@ package model.interaction.aquariumFish
 import model.aquarium.AquariumState
 import model.fish.Fish
 import model.interaction.DeathProbabilityFish.*
-import model.interaction.{DeathProbabilityFish, Interaction}
 import model.interaction.MultiplierVelocityFish.*
-import model.interaction.Interaction
+import model.interaction.{DeathProbabilityFish, Interaction}
 
 import scala.util.Random
 
@@ -18,7 +17,8 @@ import scala.util.Random
 class InteractionAquariumOnFishImpl(fish: Fish, aquariumState: AquariumState) extends Interaction[Option[Fish]]:
 
   override def update(): Option[Fish] =
-    if checkIfFishIsDead() then Option.empty else Some(fish)
+    if checkIfFishIsDead() then Option.empty
+    else Some(fish)
 
   private def checkIfFishIsDead(): Boolean = checkTooLowOxygenDeath() || checkPhDeath()
 
@@ -37,4 +37,7 @@ class InteractionAquariumOnFishImpl(fish: Fish, aquariumState: AquariumState) ex
       case _ => false
 
   private def checkWithRandom(value: Double): Boolean =
-    Random.between(1, 100) < value
+    val rangeMin = 0.01
+    val rangeMax = 100
+    val randomValue: Double = rangeMin + (rangeMax - rangeMin) * Random.nextDouble
+    randomValue < value

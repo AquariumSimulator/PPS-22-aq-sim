@@ -9,13 +9,15 @@ import model.FeedingType
 object Fish:
   var n: Int = 0
   val MAX_HUNGER: Int = 100
+  val HUNGER_SHIFT: Int = 1
   val MIN_SIZE: Double = 0.5
   val MAX_SIZE: Double = 2.5
   val MEAT_AMOUNT: Int = 10
-  val OXYGEN_SHIFT_CONSTANT: Double = -0.2
-  val IMPURITY_SHIFT_CONSTANT: Double = 0.1
-  val PH_SHIFT_CONSTANT: Double = 0.2
+  val OXYGEN_SHIFT_CONSTANT: Double = -0.02
+  val IMPURITY_SHIFT_CONSTANT: Double = 0.01
+  val PH_SHIFT_CONSTANT: Double = 0.02
   val MAX_REPRODUCTION_FACTOR: Int = 100
+  val REPRODUCTION_FACTOR_SHIFT: Int = 5
   val REPRODUCTION_COST: Int = 50
 
   def getAndIncrementN(): Int =

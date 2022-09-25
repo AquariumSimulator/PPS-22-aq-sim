@@ -46,15 +46,16 @@ trait ModelImpl:
     private def updateAquariumState(aquarium: Aquarium): AquariumState =
       newAquariumState(
         aquarium.population.herbivorous.concat(aquarium.population.carnivorous),
-        newAquariumState(
-          aquarium.population.algae, aquarium.aquariumState)(
-          (s: AquariumState, a: Algae) => Interaction(s, a).update()))(
-        (s: AquariumState, f: Fish) => Interaction(s, f).update())
+        newAquariumState(aquarium.population.algae, aquarium.aquariumState)((s: AquariumState, a: Algae) =>
+          Interaction(s, a).update()
+        )
+      )((s: AquariumState, f: Fish) => Interaction(s, f).update())
 
     private val isFoodNear = (food: Food, fish: Fish) => food.position == fish.position
 
-    private val multiplier = (aqState: AquariumState) => SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
-      SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
+    private val multiplier = (aqState: AquariumState) =>
+      SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
+        SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
 
     override def step(aquarium: Aquarium): Aquarium =
 
@@ -66,51 +67,57 @@ trait ModelImpl:
         foodInteraction(aquarium.population.herbivorous, aquarium.availableFood.herbivorousFood)(isFoodNear)
 
       val fishAlgaeInteraction =
-        calculateInteractionAlgae(updateHerbivorous._1, aquarium.population.algae)(
-          (f: Fish, a: Algae) => f.position._1 == a.base)
+        calculateInteractionAlgae(updateHerbivorous._1, aquarium.population.algae)((f: Fish, a: Algae) =>
+          f.position._1 == a.base
+        )
 
       val fishFishInteraction =
-        calculateInteractionFish(updatedCarnivorous._1.concat(fishAlgaeInteraction._1).toList)(
-          (f1: Fish, f2: Fish) => f1.position == f2.position)
+        calculateInteractionFish(updatedCarnivorous._1.concat(fishAlgaeInteraction._1).toList)((f1: Fish, f2: Fish) =>
+          f1.position == f2.position
+        )
 
       val newHerbivorous =
-        entityStep(
-          fishFishInteraction.filter(
-            f => f.feedingType == FeedingType.HERBIVOROUS),
-          updatedAquariumState)(
-          (f: Fish) => f.isAlive)(
-          (f: Fish, a: AquariumState) =>
-            Interaction(
+        entityStep(fishFishInteraction.filter(f => f.feedingType == FeedingType.HERBIVOROUS), updatedAquariumState)(
+          (f: Fish) => f.isAlive
+        )((f: Fish, a: AquariumState) =>
+          Interaction(
+            UpdateFish(
               UpdateFish(
-                UpdateFish(
-                  UpdateFish(f)
-                    .updateReproductionFactor(
-                      f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT))
-                  .updateHunger(f.hunger - Fish.HUNGER_SHIFT))
-                .move(multiplier(updatedAquariumState)), a)
-              .update())
+                UpdateFish(f)
+                  .updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
+              )
+                .updateHunger(f.hunger - Fish.HUNGER_SHIFT)
+            )
+              .move(multiplier(updatedAquariumState)),
+            a
+          )
+            .update()
+        )
 
       val newCarnivorous =
-        entityStep(fishFishInteraction.filter(
-          f => f.feedingType == FeedingType.CARNIVOROUS),
-          updatedAquariumState)(
-          (f: Fish) => f.isAlive)(
-          (f: Fish, a: AquariumState) =>
-            Interaction(
+        entityStep(fishFishInteraction.filter(f => f.feedingType == FeedingType.CARNIVOROUS), updatedAquariumState)(
+          (f: Fish) => f.isAlive
+        )((f: Fish, a: AquariumState) =>
+          Interaction(
+            UpdateFish(
               UpdateFish(
-                UpdateFish(
-                  UpdateFish(f)
-                    .updateReproductionFactor(
-                      f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT))
-                  .updateHunger(f.hunger - Fish.HUNGER_SHIFT))
-                .move(multiplier(updatedAquariumState)), a)
-              .update())
+                UpdateFish(f)
+                  .updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
+              )
+                .updateHunger(f.hunger - Fish.HUNGER_SHIFT)
+            )
+              .move(multiplier(updatedAquariumState)),
+            a
+          )
+            .update()
+        )
 
       val newAlgae =
-        entityStep(fishAlgaeInteraction._2, updatedAquariumState)(
-          (a: Algae) => a.height > 0)(
-          (al: Algae, a: AquariumState) => Interaction(al, a)
-            .update())
+        entityStep(fishAlgaeInteraction._2, updatedAquariumState)((a: Algae) => a.height > 0)(
+          (al: Algae, a: AquariumState) =>
+            Interaction(al, a)
+              .update()
+        )
 
       val newAvailableFood: AvailableFood = AvailableFood(updateHerbivorous._2, updatedCarnivorous._2)
       val newPopulation: Population = Population(newHerbivorous, newCarnivorous, newAlgae)

@@ -11,7 +11,7 @@ case class Algae(base: Double, height: Int = Algae.DEFAULT_HEIGHT) extends Entit
   val position: (Double, Double) = (base, 0)
   val oxygenShift: Double = Algae.OXYGEN_MULTIPLIER * height
   val impurityShift: Double = 0.0
-  val phShift: Double = - height / Algae.PH_DIVISOR
+  val phShift: Double = -height / Algae.PH_DIVISOR
 
 object Algae:
   val DEFAULT_HEIGHT: Int = 1

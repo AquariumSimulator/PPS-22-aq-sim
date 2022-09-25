@@ -19,8 +19,8 @@ class InteractionAquariumOnFishImpl(fish: Fish, aquariumState: AquariumState) ex
 
   override def update(): Option[Fish] =
     if checkIfFishIsDead() then
-      println(fish.name +  "morto")
-      Option.empty else Some(fish)
+      Option.empty
+    else Some(fish)
 
   private def checkIfFishIsDead(): Boolean = checkTooLowOxygenDeath() || checkPhDeath()
 

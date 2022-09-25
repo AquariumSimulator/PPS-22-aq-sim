@@ -3,9 +3,8 @@ package model.interaction.aquariumFish
 import model.aquarium.AquariumState
 import model.fish.Fish
 import model.interaction.DeathProbabilityFish.*
-import model.interaction.{DeathProbabilityFish, Interaction}
 import model.interaction.MultiplierVelocityFish.*
-import model.interaction.Interaction
+import model.interaction.{DeathProbabilityFish, Interaction}
 
 import scala.util.Random
 

@@ -14,7 +14,7 @@ import scalafx.scene.text.{Text, TextAlignment}
 import scalafx.stage.{Stage, Screen}
 
 import view.utils.{AquariumFonts, IconLabel}
-import view.widgets._
+import view.widgets.{BottomBar, SimulationViewer, InfoPane, Chronicle}
 import view.widgets.slider._
 
 trait GUI:

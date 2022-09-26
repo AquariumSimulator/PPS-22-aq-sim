@@ -1,7 +1,9 @@
 package controller
 
 import mvc.ControllerModule.ControllerRequirements
-import model.aquarium.Aquarium
+import model.aquarium.{Aquarium, AquariumState, AvailableFood, Population}
+
+import scala.language.postfixOps
 //import mvc.MVC.{given_ControllerRequirements => context}
 
 /** Control of simulation loop, speed, stop and resume. */
@@ -21,12 +23,6 @@ trait SimulationEngine:
 
   /** Get current [[Aquarium]]. */
   def getAquarium(): Aquarium
-
-  /** Set the current aquarium
-    * @param updatedAquarium
-    *   new current aquarium
-    */
-  def setAquarium(updatedAquarium: Aquarium): Unit
 
 enum SimulationSpeed:
   case HALT, SLOW, NORMAL, FAST
@@ -96,6 +92,3 @@ object SimulationEngine:
 
     override def getAquarium(): Aquarium =
       aquarium
-
-    override def setAquarium(updatedAquarium: Aquarium): Unit =
-      aquarium = updatedAquarium

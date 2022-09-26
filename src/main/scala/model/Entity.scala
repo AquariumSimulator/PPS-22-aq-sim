@@ -26,8 +26,4 @@ trait Entity:
     *   True whether the two entities are colliding, false otherwise.
     */
   def collidesWith(other: Entity): Boolean =
-    position match
-      case (x, y)
-          if x > other.position._1 && x < (other.position._1 + other.size._1) && y > other.position._2 && y < (other.position._2 + other.size._2) =>
-        true
-      case _ => false
+    position._1 < other.position._1 + other.size._1 && position._1 + size._1 > other.position._1 && position._2 < other.position._2 + other.size._2 && position._2 + size._2 > other.position._2

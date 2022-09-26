@@ -1,8 +1,9 @@
 package view.widgets
 
 import model.{Algae, FeedingType}
-import model.aquarium.{Aquarium, Population, AquariumDimensions}
+import model.aquarium.{Aquarium, AquariumDimensions, Population}
 import model.fish.Fish
+import model.food.Food
 import mvc.MVC
 import mvc.MVC.given_ViewRequirements as context
 import mvc.ViewModule.ViewRequirements
@@ -45,7 +46,8 @@ object BottomBar:
         Some(Fish(position = Population.randomPosition(), speed = Population.randomSpeed()))
       case Some(_) => Some(Algae(Random.between(0, AquariumDimensions.WIDTH)))
       case None => None
-    if newInhabitant.isDefined then addInhabitant(newInhabitant.get)
+    if newInhabitant.isDefined
+    then context.controller.addInhabitant(newInhabitant.get)
 
   val removeFishButton: BottomBarButton = BottomBarButton("/icons/remove-fish.png")
   removeFishButton.tooltip = Tooltip("Remove fish")
@@ -85,15 +87,16 @@ object BottomBar:
       headerText = "Choose the food type"
     // initStyle(StageStyle.Utility)
     val choice: Option[String] = dialog.showAndWait()
-    choice match
-      // TODO devo portare l'aquario qui... come faccio?
-      case Some(str) if str == "Herbivorous Food" => println("Chosen H")
-      case Some(_) => println("Chosen C")
-      case None => println("Chosen nothing")
+    val food = choice match
+      case Some(str) if str == "Herbivorous Food" => Some(Food(feedingType = FeedingType.HERBIVOROUS))
+      case Some(_) => Some(Food())
+      case None => None
+    if food.isDefined
+    then context.controller.addFood(food.get)
 
   val cleanButton: BottomBarButton = BottomBarButton("/icons/clean.png")
   cleanButton.tooltip = Tooltip("Clean the aquarium")
-  cleanButton.onAction = (event: ActionEvent) => println("Clicked clean")
+  cleanButton.onAction = (event: ActionEvent) => context.controller.clean()
 
   val bottomBar: TilePane =
     new TilePane:
@@ -103,8 +106,3 @@ object BottomBar:
       )
 
   bottomBar.alignment = Pos.Center
-
-  private def addInhabitant[A](inhabitant: A): Unit =
-    val aquarium = MVC.controller.getAquarium()
-    val newPopulation = aquarium.population.addInhabitant(inhabitant)
-    MVC.controller.setAquarium(aquarium.copy(population = newPopulation))

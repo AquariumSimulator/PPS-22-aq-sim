@@ -69,13 +69,13 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
     it("should have more hunger after having eaten another fish") {
       var f: Fish = Fish(hunger = 15)
-      var other: Fish = Fish(size = 1.5)
-      assert(UpdateFish(f).eat(other).hunger === f.hunger + other.size * MEAT_AMOUNT)
+      var other: Fish = Fish(size = (6, 6))
+      assert(UpdateFish(f).eat(other).hunger === f.hunger + other.size._1 * other.size._2 * MEAT_AMOUNT)
     }
 
     it("should not have more than MAX_HUNGER after having eaten another fish") {
       var f: Fish = Fish(hunger = MAX_HUNGER - 5)
-      var other: Fish = Fish(size = 1.5)
+      var other: Fish = Fish(size = (6, 6))
       assert(UpdateFish(f).eat(other).hunger === MAX_HUNGER)
     }
   }

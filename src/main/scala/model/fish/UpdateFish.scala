@@ -80,7 +80,7 @@ object UpdateFish:
       Fish(
         position = fish.position,
         speed = fish.speed,
-        hunger = MAX_HUNGER min (fish.hunger + (MEAT_AMOUNT * eatenFish.size).floor.toInt),
+        hunger = MAX_HUNGER min (fish.hunger + (MEAT_AMOUNT * eatenFish.size._1 * eatenFish.size._2).floor.toInt),
         age = fish.age,
         size = fish.size,
         feedingType = fish.feedingType

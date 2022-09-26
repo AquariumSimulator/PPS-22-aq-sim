@@ -11,7 +11,7 @@ class TestInteractionFishOnFish extends AnyFunSpec:
     Fish(hunger = 70)
 
   private val herbivorousFish =
-    Fish(feedingType = FeedingType.HERBIVOROUS, size = Fish.MAX_SIZE)
+    Fish(feedingType = FeedingType.HERBIVOROUS, size = (Fish.MAX_SIZE, Fish.MAX_SIZE))
 
   private var interaction1 = Interaction(carnivorousFish, herbivorousFish)
   private var interaction2 = Interaction(herbivorousFish, carnivorousFish)

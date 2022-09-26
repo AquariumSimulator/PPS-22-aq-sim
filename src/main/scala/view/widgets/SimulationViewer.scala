@@ -80,8 +80,8 @@ object SimulationViewer:
       if (fish.feedingType == FeedingType.HERBIVOROUS) greenFish else redFish,
       canvasCoordinate._1,
       canvasCoordinate._2,
-      if (fish.speed._1 > 0) 30 * fish.size else -30 * fish.size,
-      30 * fish.size
+      if (fish.speed._1 > 0) fish.size._1 else -fish.size._1,
+      fish.size._2
     )
 
   private def mapToCanvasCoordinate(position: (Double, Double)): (Double, Double) =

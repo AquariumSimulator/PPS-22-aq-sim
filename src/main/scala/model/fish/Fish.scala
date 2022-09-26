@@ -12,10 +12,12 @@ object Fish:
   val MIN_SIZE: Double = 5
   val MAX_SIZE: Double = 20
   val MEAT_AMOUNT: Double = 0.05
-  val OXYGEN_SHIFT_CONSTANT: Double = -0.02
-  val IMPURITY_SHIFT_CONSTANT: Double = 0.01
-  val PH_SHIFT_CONSTANT: Double = 0.02
+  val HUNGER_SHIFT: Int = 1
+  val OXYGEN_SHIFT_CONSTANT: Double = -0.01
+  val IMPURITY_SHIFT_CONSTANT: Double = 0.001
+  val PH_SHIFT_CONSTANT: Double = 0.01
   val MAX_REPRODUCTION_FACTOR: Int = 100
+  val REPRODUCTION_FACTOR_SHIFT: Int = 5
   val REPRODUCTION_COST: Int = 50
 
   def getAndIncrementN(): Int =

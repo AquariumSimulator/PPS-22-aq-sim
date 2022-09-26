@@ -11,7 +11,6 @@ object MVC extends JFXApp3 with ModelModule.Interface with ViewModule.Interface 
   /*@main Entry point*/
   override def start(): Unit =
     view.show(new JFXApp3.PrimaryStage())
-    controller.startSimulation()
 
 object ModelModule:
 
@@ -31,12 +30,12 @@ object ControllerModule:
   trait Provider:
     val controller: Controller
 
-  type Requirements = ViewModule.Provider with ModelModule.Provider
+  type ControllerRequirements = ViewModule.Provider with ModelModule.Provider
 
   import controller.ControllerImpl
 
   trait Interface extends Provider with ControllerImpl:
-    self: Requirements =>
+    self: ControllerRequirements =>
 
 object ViewModule:
 
@@ -45,9 +44,9 @@ object ViewModule:
   trait Provider:
     val view: View
 
-  type Requirements = ControllerModule.Provider
+  type ViewRequirements = ControllerModule.Provider
 
   import view.ViewImpl
 
   trait Interface extends Provider with ViewImpl:
-    self: Requirements =>
+    self: ViewRequirements =>

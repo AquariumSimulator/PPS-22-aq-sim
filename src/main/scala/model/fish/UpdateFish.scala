@@ -10,6 +10,7 @@ trait UpdateFish:
   // def updatePosition(newPosition: (Double, Double)): Fish
   // def updateSpeed(newSpeed: (Double, Double)): Fish
   def updateHunger(newHunger: Int): Fish
+  def updateReproductionFactor(newReproductionFactor: Int): Fish
 
   def move(speedMultiplier: Double): Fish
   def eat(fish: Fish): Fish
@@ -26,9 +27,23 @@ object UpdateFish:
 
     override def updateHunger(newHunger: Int): Fish =
       Fish(
+        name = fish.name,
+        reproductionFactor = fish.reproductionFactor,
         position = fish.position,
         speed = fish.speed,
         hunger = newHunger,
+        age = fish.age,
+        size = fish.size,
+        feedingType = fish.feedingType
+      )
+
+    override def updateReproductionFactor(newReproductionFactor: Int): Fish =
+      Fish(
+        name = fish.name,
+        reproductionFactor = newReproductionFactor,
+        position = fish.position,
+        speed = fish.speed,
+        hunger = fish.hunger,
         age = fish.age,
         size = fish.size,
         feedingType = fish.feedingType
@@ -68,30 +83,36 @@ object UpdateFish:
 
       // creating a new fish with the new position and the new speed
       Fish(
+        name = fish.name,
         position = newPosition,
         speed = newSpeed,
         hunger = fish.hunger,
         age = fish.age,
         size = fish.size,
+        reproductionFactor = fish.reproductionFactor,
         feedingType = fish.feedingType
       )
 
     override def eat(eatenFish: Fish): Fish =
       Fish(
+        name = fish.name,
         position = fish.position,
         speed = fish.speed,
         hunger = MAX_HUNGER min (fish.hunger + (MEAT_AMOUNT * eatenFish.size._1 * eatenFish.size._2).floor.toInt),
         age = fish.age,
         size = fish.size,
+        reproductionFactor = fish.reproductionFactor,
         feedingType = fish.feedingType
       )
 
     override def eat(food: Food): Fish =
       Fish(
+        name = fish.name,
         position = fish.position,
         speed = fish.speed,
         hunger = MAX_HUNGER min (fish.hunger + food.nutritionAmount),
         age = fish.age,
         size = fish.size,
+        reproductionFactor = fish.reproductionFactor,
         feedingType = fish.feedingType
       )

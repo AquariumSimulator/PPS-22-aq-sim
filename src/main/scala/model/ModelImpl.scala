@@ -2,7 +2,7 @@ package model
 
 import model.aquarium.*
 import model.fish.{Fish, UpdateFish}
-import model.food.Food
+import model.food.{Food, UpdateFood}
 import model.interaction.Interaction
 import model.interaction.MultiplierVelocityFish.{SPEED_MULTIPLIER_IMPURITY, SPEED_MULTIPLIER_TEMPERATURE}
 import mvc.MVC.model.*
@@ -12,6 +12,11 @@ import scala.annotation.tailrec
 /** Model methods implementation from [[Model]]. */
 trait ModelImpl:
   class ModelImpl extends Model:
+    private val isFoodNear = (food: Food, fish: Fish) => food.position == fish.position
+    private val multiplier = (aqState: AquariumState) =>
+      SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
+        SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
+
     override def initializeAquarium(
         herbivorousFishNumber: Int,
         carnivorousFishNumber: Int,
@@ -42,20 +47,6 @@ trait ModelImpl:
 
     override def removeFood(aquarium: Aquarium, food: Food): Aquarium =
       aquarium.copy(availableFood = aquarium.availableFood.deleteFood(food))
-
-    private def updateAquariumState(aquarium: Aquarium): AquariumState =
-      newAquariumState(
-        aquarium.population.herbivorous.concat(aquarium.population.carnivorous),
-        newAquariumState(aquarium.population.algae, aquarium.aquariumState)((s: AquariumState, a: Algae) =>
-          Interaction(s, a).update()
-        )
-      )((s: AquariumState, f: Fish) => Interaction(s, f).update())
-
-    private val isFoodNear = (food: Food, fish: Fish) => food.position == fish.position
-
-    private val multiplier = (aqState: AquariumState) =>
-      SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
-        SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
 
     override def step(aquarium: Aquarium): Aquarium =
 
@@ -119,10 +110,38 @@ trait ModelImpl:
               .update()
         )
 
-      val newAvailableFood: AvailableFood = AvailableFood(updateHerbivorous._2, updatedCarnivorous._2)
+      val newFood =
+        for food <- updateHerbivorous._2.concat(updatedCarnivorous._2)
+        yield UpdateFood(food).move(1)
+
+      val newAvailableFood: AvailableFood = AvailableFood(
+        newFood.filter(f => f.feedingType == FeedingType.HERBIVOROUS),
+        newFood.filter(f => f.feedingType == FeedingType.CARNIVOROUS)
+      )
       val newPopulation: Population = Population(newHerbivorous, newCarnivorous, newAlgae)
 
       Aquarium(updatedAquariumState, newPopulation, newAvailableFood)
+
+    private def updateAquariumState(aquarium: Aquarium): AquariumState =
+      newAquariumState(
+        aquarium.population.herbivorous.concat(aquarium.population.carnivorous),
+        newAquariumState(aquarium.population.algae, aquarium.aquariumState)((s: AquariumState, a: Algae) =>
+          Interaction(s, a).update()
+        )
+      )((s: AquariumState, f: Fish) => Interaction(s, f).update())
+
+    private def newAquariumState[A](population: Set[A], initialState: AquariumState)(
+        func: (AquariumState, A) => AquariumState
+    ): AquariumState =
+      @tailrec
+      def _newAquariumState[A](population: Set[A], aquariumState: AquariumState)(
+          func: (AquariumState, A) => AquariumState
+      ): AquariumState =
+        population match
+          case p if p.nonEmpty => _newAquariumState(p.tail, func(aquariumState, p.head))(func)
+          case _ => aquariumState
+
+      _newAquariumState(population, initialState)(func)
 
     private def foodInteraction(set: Set[Fish], foodSet: Set[Food])(
         isNear: (Food, Fish) => Boolean
@@ -140,19 +159,6 @@ trait ModelImpl:
           newFoodSet = newFoodSet - food
         (newSet, newFoodSet)
       else (set, foodSet)
-
-    private def newAquariumState[A](population: Set[A], initialState: AquariumState)(
-        func: (AquariumState, A) => AquariumState
-    ): AquariumState =
-      @tailrec
-      def _newAquariumState[A](population: Set[A], aquariumState: AquariumState)(
-          func: (AquariumState, A) => AquariumState
-      ): AquariumState =
-        population match
-          case p if p.nonEmpty => _newAquariumState(p.tail, func(aquariumState, p.head))(func)
-          case _ => aquariumState
-
-      _newAquariumState(population, initialState)(func)
 
     private def entityStep[A](set: Set[A], aquariumState: AquariumState)(
         isAlive: A => Boolean

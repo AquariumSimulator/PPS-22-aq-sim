@@ -34,9 +34,9 @@ case class Fish(
     feedingType: FeedingType = FeedingType.CARNIVOROUS,
     reproductionFactor: Int = 30
 ) extends Entity:
-  val oxygenShift: Double = OXYGEN_SHIFT_CONSTANT * size._1 * size._2
-  val impurityShift: Double = IMPURITY_SHIFT_CONSTANT * size._1 * size._2
-  val phShift: Double = PH_SHIFT_CONSTANT * size._1 * size._2
+  val oxygenShift: Double = OXYGEN_SHIFT_CONSTANT * size._1
+  val impurityShift: Double = IMPURITY_SHIFT_CONSTANT * size._1
+  val phShift: Double = PH_SHIFT_CONSTANT * size._1
 
   def isAlive: Boolean = hunger > 0
 

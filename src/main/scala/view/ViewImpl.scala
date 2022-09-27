@@ -21,10 +21,10 @@ trait ViewImpl:
     def renderSimulation(aquarium: Aquarium): Unit =
       SimulationViewer.renderSimulation(aquarium)
       Platform.runLater(() -> InfoPane.updateInfo(aquarium))
-      Platform.runLater(
-        () -> GUI.updateSliders(
-          aquarium.aquariumState.temperature,
-          aquarium.aquariumState.brightness,
-          aquarium.aquariumState.oxygenation
-        )
-      )
+//      Platform.runLater(
+//        () -> GUI.updateSliders(
+//          //aquarium.aquariumState.temperature,
+//          //aquarium.aquariumState.brightness,
+//          aquarium.aquariumState.oxygenation
+//        )
+//      )

@@ -2,7 +2,7 @@ package model
 
 import model.aquarium.*
 import model.fish.{Fish, UpdateFish}
-import model.food.Food
+import model.food.{Food, UpdateFood}
 import model.interaction.Interaction
 import model.interaction.MultiplierVelocityFish.{SPEED_MULTIPLIER_IMPURITY, SPEED_MULTIPLIER_TEMPERATURE}
 import mvc.MVC.model.*
@@ -15,21 +15,19 @@ trait ModelImpl:
   class ModelImpl extends Model:
 
     private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
+
     private val isFoodNear = (food: Food, fish: Fish) => food.position == fish.position
     private val multiplier = (aqState: AquariumState) =>
       SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
         SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
-
     override def addUserInteraction(interaction: Aquarium => Aquarium): Unit =
       queue.add(interaction)
-
     override def initializeAquarium(
         herbivorousFishNumber: Int,
         carnivorousFishNumber: Int,
         algaeNumber: Int
     ): Aquarium =
       Aquarium(herbivorousFishNumber, carnivorousFishNumber, algaeNumber)
-
     override def step(aquarium: Aquarium): Aquarium =
 
       val updatedAquariumState: AquariumState = updateAquariumState(aquarium)
@@ -92,7 +90,14 @@ trait ModelImpl:
               .update()
         )
 
-      val newAvailableFood: AvailableFood = AvailableFood(updateHerbivorous._2, updatedCarnivorous._2)
+      val newFood =
+        for food <- updateHerbivorous._2.concat(updatedCarnivorous._2)
+        yield UpdateFood(food).move(1)
+
+      val newAvailableFood: AvailableFood = AvailableFood(
+        newFood.filter(f => f.feedingType == FeedingType.HERBIVOROUS),
+        newFood.filter(f => f.feedingType == FeedingType.CARNIVOROUS)
+      )
       val newPopulation: Population = Population(newHerbivorous, newCarnivorous, newAlgae)
 
       val stepAquarium = Aquarium(updatedAquariumState, newPopulation, newAvailableFood)

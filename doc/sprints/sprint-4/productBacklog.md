@@ -2,7 +2,6 @@
 
 | Product Backlog Item | Sprint Task | Developer | Initial Estimate of Effort | Remaining Effort Estimate |
 | - | - | - | - | - |
-| Identificazione requisiti base e architettura | Definizione architettura | - | 2 | - |
 | Realizzazione GUI JVM-based | Sistemazione dettagli | Barbari | 1 | 0 |
 | | Realizzazione della Simulation View | Benvenuti | 2 | 0 |
 | Implementazione motore della simulazione | Interazione Pesce ⇐⇒ Pesce | Lamagna | 4 | 2 |

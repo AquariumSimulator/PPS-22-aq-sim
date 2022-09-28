@@ -23,3 +23,8 @@ Compile / compile := (Compile/compile dependsOn Compile/scalafmt).value
 Test / compile := (Test/compile dependsOn Test/scalafmt).value
 
 fork := true
+
+ThisBuild / assemblyMergeStrategy := {
+  case PathList("META-INF", _*) => MergeStrategy.discard
+  case _                        => MergeStrategy.first
+}

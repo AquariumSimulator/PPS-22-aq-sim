@@ -24,6 +24,15 @@ case class Population(herbivorous: Set[Fish], carnivorous: Set[Fish], algae: Set
 
 /** Companion object of the case class */
 object Population:
+
+  /** Calculate a random position for a fish */
+  def randomPosition(): (Double, Double) =
+    (Random.between(0, AquariumDimensions.WIDTH), Random.between(0, AquariumDimensions.HEIGHT))
+
+  /** Calculate a random speed for a fish */
+  def randomSpeed(): (Double, Double) =
+    (Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED), Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED))
+
   /** Create a new [[Population]] from a given number of species
     *
     * @param herbivorousFishesNumber
@@ -55,18 +64,14 @@ object Population:
 
       _addAlgae(number, Set.empty)
 
-    val speed: (Double, Double) = (1, 1) // TODO randomica
-
     val setHerbivorous =
       (1 to herbivorousFishesNumber)
-        .map(_ => Fish(feedingType = FeedingType.HERBIVOROUS, speed = speed, position = randomPosition()))
+        .map(_ => Fish(feedingType = FeedingType.HERBIVOROUS, speed = randomSpeed(), position = randomPosition()))
         .toSet
 
-    val setCarnivorous = (1 to carnivorousFishesNumber).map(_ => Fish(speed = speed, position = randomPosition())).toSet
+    val setCarnivorous =
+      (1 to carnivorousFishesNumber).map(_ => Fish(speed = randomSpeed(), position = randomPosition())).toSet
 
     val setAlgae = addAlgae(algaeNumber)
 
     Population(setHerbivorous, setCarnivorous, setAlgae)
-
-  private def randomPosition(): (Double, Double) =
-    (Random.between(0, AquariumDimensions.WIDTH), Random.between(0, AquariumDimensions.HEIGHT))

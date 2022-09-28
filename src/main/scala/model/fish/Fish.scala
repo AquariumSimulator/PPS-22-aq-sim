@@ -19,6 +19,8 @@ object Fish:
   val MAX_REPRODUCTION_FACTOR: Int = 100
   val REPRODUCTION_FACTOR_SHIFT: Int = 5
   val REPRODUCTION_COST: Int = 50
+  val MAX_SPEED: Int = 5
+  val MIN_SPEED: Int = 1
 
   def getAndIncrementN(): Int =
     n = n + 1

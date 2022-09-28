@@ -1,7 +1,9 @@
 package controller
 
 import mvc.ControllerModule.ControllerRequirements
-import model.aquarium.Aquarium
+import model.aquarium.{Aquarium, AquariumState, AvailableFood, Population}
+
+import scala.language.postfixOps
 //import mvc.MVC.{given_ControllerRequirements => context}
 
 /** Control of simulation loop, speed, stop and resume. */

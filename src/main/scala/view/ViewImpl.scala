@@ -23,8 +23,8 @@ trait ViewImpl:
       Platform.runLater(() -> InfoPane.updateInfo(aquarium))
       Platform.runLater(
         () -> GUI.updateSliders(
-          aquarium.aquariumState.temperature,
-          aquarium.aquariumState.brightness,
+          // aquarium.aquariumState.temperature,
+          // aquarium.aquariumState.brightness,
           aquarium.aquariumState.oxygenation
         )
       )

@@ -1,5 +1,6 @@
 package view.widgets.slider
 
+import model.aquarium.{AquariumParametersLimits, InitializeAquarium}
 import scalafx.geometry.{Insets, Orientation}
 import scalafx.scene.control.{Slider, Tooltip}
 import scalafx.scene.layout.BorderPane
@@ -8,9 +9,13 @@ import scalafx.scene.layout.BackgroundFill
 import scalafx.scene.paint.LinearGradient
 import scalafx.scene.paint.Stops
 import scalafx.scene.paint.Color
-
 import view.utils.IconLabel
 import view.widgets.slider.SliderUtils
+import mvc.MVC
+import mvc.MVC.given_ViewRequirements as context
+import mvc.ViewModule.ViewRequirements
+
+import scala.language.postfixOps
 
 trait BrightnessSlider extends BorderPane:
   def update(newValue: Number): Unit
@@ -29,9 +34,9 @@ object BrightnessSlider:
     top = IconLabel("/icons/light.png", "Aquarium brightness")
 
     private val slider: Slider = new Slider:
-      min = 0
-      max = 100
-      value = 50
+      min = AquariumParametersLimits.BRIGHTNESS_MIN - 1
+      max = AquariumParametersLimits.BRIGHTNESS_MAX
+      value = InitializeAquarium.BRIGHTNESS
       tooltip = SliderUtils.getTooltip(this.getValue, "%")
       background = new Background(
         Array(
@@ -49,13 +54,13 @@ object BrightnessSlider:
       )
       orientation = Orientation.Vertical
     slider.valueProperty.addListener((_, oldVal: Number, newVal: Number) =>
-      println("user asked to change brightness")
-      // aquarium.updateBrightness(newVal)
+      // println("user asked to change brightness -> " + newVal)
+      context.controller.updateBrightness(newVal.doubleValue())
     )
 
     center = slider
 
     def update(newValue: Number): Unit =
-      println("changing BrightnessSlider to " + newValue)
+      // println("changing BrightnessSlider to " + newValue)
       slider.value = newValue.asInstanceOf[Double]
       slider.tooltip = SliderUtils.getTooltip(newValue, "%")

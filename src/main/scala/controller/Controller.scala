@@ -1,6 +1,7 @@
 package controller
 
 import model.aquarium.Aquarium
+import model.food.Food
 
 /** Controller trait implemented in [[ControllerImpl]]. */
 trait Controller:
@@ -31,3 +32,55 @@ trait Controller:
     *   The [[Aquarium]].
     */
   def getAquarium(): Aquarium
+
+  /** Updates the temperature of the aquarium
+    * @param temperature
+    *   the new temperature value
+    */
+  def updateTemperature(temperature: Double): Unit
+
+  /** Updates the brightness of the aquarium
+    * @param brightness
+    *   the new brightness value
+    * @param aquarium
+    *   the current aquarium
+    * @return
+    *   a new updated aquarium
+    */
+
+  /** Updates the brightness of the aquarium
+    * @param brightness
+    *   the new brightness value
+    */
+  def updateBrightness(brightness: Double): Unit
+
+  /** Updates the impurity of the aquarium setting the impurity set to 0 */
+  def clean(): Unit
+
+  /** Updates the impurity of the aquarium setting the impurity set to 0
+    * @param oxygenation
+    *   the new oxygenation value
+    */
+  def updateOxygenation(oxygenation: Double): Unit
+
+  /** Add a new inhabitant in the right population set
+    * @param inhabitant
+    *   the inhabitant that needs to be added
+    * @tparam A
+    *   type of the inhabitant
+    */
+  def addInhabitant[A](inhabitant: A): Unit
+
+  /** Remove an inhabitant in the right population set
+    * @param inhabitant
+    *   the inhabitant that needs to be removed
+    * @tparam A
+    *   type of the inhabitant
+    */
+  def removeInhabitant[A](inhabitant: A): Unit
+
+  /** Add a new food in the right food set
+    * @param food
+    *   the food that needs to be added
+    */
+  def addFood(food: Food): Unit

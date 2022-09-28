@@ -7,50 +7,30 @@ import model.interaction.Interaction
 import model.interaction.MultiplierVelocityFish.{SPEED_MULTIPLIER_IMPURITY, SPEED_MULTIPLIER_TEMPERATURE}
 import mvc.MVC.model.*
 
+import java.util.concurrent.ConcurrentLinkedQueue
 import scala.annotation.tailrec
 
 /** Model methods implementation from [[Model]]. */
 trait ModelImpl:
   class ModelImpl extends Model:
+
+    private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
+
     private val isFoodNear = (food: Food, fish: Fish) => food.position == fish.position
     private val multiplier = (aqState: AquariumState) =>
       SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
         SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
-
+    override def addUserInteraction(interaction: Aquarium => Aquarium): Unit =
+      queue.add(interaction)
     override def initializeAquarium(
         herbivorousFishNumber: Int,
         carnivorousFishNumber: Int,
         algaeNumber: Int
     ): Aquarium =
       Aquarium(herbivorousFishNumber, carnivorousFishNumber, algaeNumber)
-
-    override def updateTemperatureByUser(temperature: Double, aquarium: Aquarium): Aquarium =
-      aquarium.copy(aquariumState = aquarium.aquariumState.updateTemperature(temperature))
-
-    override def updateBrightnessByUser(brightness: Double, aquarium: Aquarium): Aquarium =
-      aquarium.copy(aquariumState = aquarium.aquariumState.updateBrightness(brightness))
-
-    override def cleanByUser(aquarium: Aquarium): Aquarium =
-      aquarium.copy(aquariumState = aquarium.aquariumState.updateImpurity(0))
-
-    override def updateOxygenationByUser(oxygenation: Double, aquarium: Aquarium): Aquarium =
-      aquarium.copy(aquariumState = aquarium.aquariumState.updateOxygenation(oxygenation))
-
-    override def addInhabitant[A](aquarium: Aquarium, inhabitant: A): Aquarium =
-      aquarium.copy(population = aquarium.population.addInhabitant(inhabitant))
-
-    override def removeInhabitant[A](aquarium: Aquarium, inhabitant: A): Aquarium =
-      aquarium.copy(population = aquarium.population.removeInhabitant(inhabitant))
-
-    override def addFood(aquarium: Aquarium, food: Food): Aquarium =
-      aquarium.copy(availableFood = aquarium.availableFood.addFood(food))
-
-    override def removeFood(aquarium: Aquarium, food: Food): Aquarium =
-      aquarium.copy(availableFood = aquarium.availableFood.deleteFood(food))
-
     override def step(aquarium: Aquarium): Aquarium =
 
-      val updatedAquariumState = updateAquariumState(aquarium)
+      val updatedAquariumState: AquariumState = updateAquariumState(aquarium)
 
       val updatedCarnivorous =
         foodInteraction(aquarium.population.carnivorous, aquarium.availableFood.carnivorousFood)(isFoodNear)
@@ -120,7 +100,11 @@ trait ModelImpl:
       )
       val newPopulation: Population = Population(newHerbivorous, newCarnivorous, newAlgae)
 
-      Aquarium(updatedAquariumState, newPopulation, newAvailableFood)
+      val stepAquarium = Aquarium(updatedAquariumState, newPopulation, newAvailableFood)
+
+      queue.isEmpty match
+        case true => stepAquarium
+        case _ => Iterator.iterate(stepAquarium, queue.size() + 1)(queue.poll()).toList.last
 
     private def updateAquariumState(aquarium: Aquarium): AquariumState =
       newAquariumState(

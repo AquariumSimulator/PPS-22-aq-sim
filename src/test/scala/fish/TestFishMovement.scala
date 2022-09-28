@@ -10,7 +10,7 @@ class TestFishMovement extends AnyFunSpec:
 
   describe("A Fish") {
     it("should move to the expected position when requested") {
-      var f: Fish = Fish(position = (1, 4), speed = (2, 3))
+      var f: Fish = Fish(position = (1, 4), speed = (2, 3), size = (10, 10))
       f = UpdateFish(f).move(multiplier)
       assert(f.position === (3.0, 7.0))
     }
@@ -37,7 +37,7 @@ class TestFishMovement extends AnyFunSpec:
       describe("is greater than AquariumDimensions.WIDTH") {
         var f: Fish = UpdateFish(Fish(position = (AquariumDimensions.WIDTH + 5, 12), speed = (2, -3))).move(multiplier)
         it("should get back to AquariumDimensions.WIDTH") {
-          assert(f.position._1 === AquariumDimensions.WIDTH)
+          assert(f.position._1 === AquariumDimensions.WIDTH - f.size._1)
         }
         it("should bounce back with a negative speed") {
           assert(f.speed._1 === -2)
@@ -67,7 +67,7 @@ class TestFishMovement extends AnyFunSpec:
       describe("is greater than AquariumDimensions.HEIGHT") {
         var f: Fish = UpdateFish(Fish(position = (12, AquariumDimensions.HEIGHT + 5), speed = (-2, 3))).move(multiplier)
         it("should get back to AquariumDimensions.HEIGHT") {
-          assert(f.position._2 === AquariumDimensions.HEIGHT)
+          assert(f.position._2 === AquariumDimensions.HEIGHT - f.size._2)
         }
         it("should bounce back with a negative speed") {
           assert(f.speed._2 === -3)

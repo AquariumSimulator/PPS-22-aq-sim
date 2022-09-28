@@ -62,13 +62,18 @@ object SimulationEngine:
 
               val deltaTime = (System.nanoTime() - time) / 1_000_000
 
-              Thread.sleep((speed match
-                case SLOW => 1_000
-                case NORMAL => 100
-                case FAST => 10
-                case _ => 10_000
+              Thread.sleep(
+                Math.max(
+                  0,
+                  (speed match
+                    case SLOW => 1_000
+                    case NORMAL => 100
+                    case FAST => 10
+                    case _ => 10_000
+                  )
+                    - deltaTime
+                )
               )
-                - deltaTime)
 
               time = System.nanoTime()
             )

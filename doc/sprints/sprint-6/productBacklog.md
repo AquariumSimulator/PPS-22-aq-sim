@@ -11,7 +11,7 @@
 |  | Luce/sporco | Benvenuti | 3 | - |
 |  | Rimozione pesci/piante cliccandoci | Albertini | 3 | - |
 |  | Slider funzionanti | Albertini | 1 | - |
-|  | Cambiamento velocità | Benvenuti | 2 | - |
+|  | Cambiamento velocità | Benvenuti | 2 | 0 |
 |  | Informazioni sotto ai pesci | Barbari | 2 | - |
 |  | grafici dati database | Lamagna | 5 | - |
 | Fixes | Età dei pesci | Lamagna | 2 | - |

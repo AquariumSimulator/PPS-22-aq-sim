@@ -19,6 +19,9 @@ trait Controller:
     */
   def changeSpeed(simSpeed: SimulationSpeed): Unit
 
+  /** Get speed of simulation. */
+  def getSpeed(): SimulationSpeed
+
   /** Check if the simulation is currently running or not.
     *
     * @return

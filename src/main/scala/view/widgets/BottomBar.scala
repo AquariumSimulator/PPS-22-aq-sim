@@ -18,6 +18,7 @@ import scalafx.stage.StageStyle
 import view.utils.IconButton
 
 import scala.util.Random
+import controller.SimulationSpeed
 
 object BottomBar:
 
@@ -49,9 +50,39 @@ object BottomBar:
     if newInhabitant.isDefined
     then context.controller.addInhabitant(newInhabitant.get)
 
-  val removeFishButton: BottomBarButton = BottomBarButton("/icons/remove-fish.png")
-  removeFishButton.tooltip = Tooltip("Remove fish")
-  removeFishButton.onAction = (event: ActionEvent) => println("Clicked remove-fish")
+  val changeSpeedButton: BottomBarButton = BottomBarButton("/icons/speed2.png")
+  changeSpeedButton.disable = true
+  changeSpeedButton.tooltip = Tooltip("Increase speed")
+  changeSpeedButton.onAction = (event: ActionEvent) =>
+    context.controller.getSpeed() match
+      case SimulationSpeed.SLOW =>
+        context.controller.changeSpeed(SimulationSpeed.NORMAL)
+        IconButton.setImage(
+          changeSpeedButton,
+          "/icons/speed2.png",
+          BottomBarButton.DEFAULT_HEIGHT,
+          BottomBarButton.DEFAULT_WIDTH
+        )
+        changeSpeedButton.tooltip = Tooltip("Increase speed")
+      case SimulationSpeed.NORMAL =>
+        context.controller.changeSpeed(SimulationSpeed.FAST)
+        IconButton.setImage(
+          changeSpeedButton,
+          "/icons/speed3.png",
+          BottomBarButton.DEFAULT_HEIGHT,
+          BottomBarButton.DEFAULT_WIDTH
+        )
+        changeSpeedButton.tooltip = Tooltip("Increase speed")
+      case SimulationSpeed.FAST =>
+        context.controller.changeSpeed(SimulationSpeed.SLOW)
+        IconButton.setImage(
+          changeSpeedButton,
+          "/icons/speed1.png",
+          BottomBarButton.DEFAULT_HEIGHT,
+          BottomBarButton.DEFAULT_WIDTH
+        )
+        changeSpeedButton.tooltip = Tooltip("Increase speed")
+      case _ =>
 
   val playButton: BottomBarButton = BottomBarButton("/icons/play.png")
   playButton.tooltip = Tooltip("Play the simulation")
@@ -66,6 +97,7 @@ object BottomBar:
           BottomBarButton.DEFAULT_WIDTH
         )
         playButton.tooltip = Tooltip("Play the simulation")
+        changeSpeedButton.disable = true
       case false =>
         context.controller.startSimulation()
         IconButton.setImage(
@@ -75,6 +107,7 @@ object BottomBar:
           BottomBarButton.DEFAULT_WIDTH
         )
         playButton.tooltip = Tooltip("Pause the simulation")
+        changeSpeedButton.disable = false
 
   val foodButton: BottomBarButton = BottomBarButton("/icons/food.png")
   foodButton.tooltip = new Tooltip("Add food")
@@ -102,7 +135,7 @@ object BottomBar:
     new TilePane:
       background = new Background(Array(new BackgroundFill(Color.Grey, null, null)))
       children ++= Seq(
-        addFishButton, removeFishButton, playButton, foodButton, cleanButton
+        addFishButton, changeSpeedButton, playButton, foodButton, cleanButton
       )
 
   bottomBar.alignment = Pos.Center

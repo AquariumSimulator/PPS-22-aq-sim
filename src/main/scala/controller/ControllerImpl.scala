@@ -21,6 +21,9 @@ trait ControllerImpl:
     override def changeSpeed(simSpeed: SimulationSpeed): Unit =
       simEngine.changeSpeed(simSpeed)
 
+    override def getSpeed(): SimulationSpeed =
+      simEngine.getSpeed()
+
     override def isRunning(): Boolean =
       simEngine.isRunning()
 

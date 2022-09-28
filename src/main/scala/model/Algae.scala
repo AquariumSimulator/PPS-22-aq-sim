@@ -21,4 +21,5 @@ object Algae:
   val OXYGEN_MULTIPLIER: Double = 0.02
   val PH_DIVISOR: Double = 50
   val LOWER_BRIGHTNESS_LEVEL: Int = 5
-  val MAX_GROWTH: Int = 10
+  val MAX_GROWTH: Int = 5
+  val MIN_GROWTH: Int = 1

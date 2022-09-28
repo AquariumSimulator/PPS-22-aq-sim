@@ -1,16 +1,23 @@
 package view.widgets
 
+import model.{Algae, FeedingType}
+import model.aquarium.{Aquarium, AquariumDimensions, Population}
+import model.fish.Fish
+import model.food.Food
+import mvc.MVC
+import mvc.MVC.given_ViewRequirements as context
+import mvc.ViewModule.ViewRequirements
+import scalafx.Includes.*
+import scalafx.event.ActionEvent
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.control.{Button, ChoiceDialog, Tooltip}
 import scalafx.scene.layout.{Background, BackgroundFill, TilePane}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Circle
-import scalafx.Includes._
-import scalafx.event.ActionEvent
 import scalafx.stage.StageStyle
 import view.utils.IconButton
-import mvc.ViewModule.ViewRequirements
-import mvc.MVC.{given_ViewRequirements => context}
+
+import scala.util.Random
 
 object BottomBar:
 
@@ -25,9 +32,22 @@ object BottomBar:
       headerText = "Choose the type"
     // initStyle(StageStyle.Utility)
     val choice: Option[String] = dialog.showAndWait()
-    choice match
-      case Some(str) => println("Chosen " + str)
-      case None => println("Chosen nothing")
+
+    val newInhabitant = choice match
+      case Some(str) if str == "Herbivorous Fish" =>
+        Some(
+          Fish(
+            position = Population.randomPosition(),
+            speed = Population.randomSpeed(),
+            feedingType = FeedingType.HERBIVOROUS
+          )
+        )
+      case Some(str) if str == "Carnivorous Fish" =>
+        Some(Fish(position = Population.randomPosition(), speed = Population.randomSpeed()))
+      case Some(_) => Some(Algae(Random.between(0, AquariumDimensions.WIDTH)))
+      case None => None
+    if newInhabitant.isDefined
+    then context.controller.addInhabitant(newInhabitant.get)
 
   val removeFishButton: BottomBarButton = BottomBarButton("/icons/remove-fish.png")
   removeFishButton.tooltip = Tooltip("Remove fish")
@@ -67,13 +87,16 @@ object BottomBar:
       headerText = "Choose the food type"
     // initStyle(StageStyle.Utility)
     val choice: Option[String] = dialog.showAndWait()
-    choice match
-      case Some(str) => println("Chosen " + str)
-      case None => println("Chosen nothing")
+    val food = choice match
+      case Some(str) if str == "Herbivorous Food" => Some(Food(feedingType = FeedingType.HERBIVOROUS))
+      case Some(_) => Some(Food())
+      case None => None
+    if food.isDefined
+    then context.controller.addFood(food.get)
 
   val cleanButton: BottomBarButton = BottomBarButton("/icons/clean.png")
   cleanButton.tooltip = Tooltip("Clean the aquarium")
-  cleanButton.onAction = (event: ActionEvent) => println("Clicked clean")
+  cleanButton.onAction = (event: ActionEvent) => context.controller.clean()
 
   val bottomBar: TilePane =
     new TilePane:

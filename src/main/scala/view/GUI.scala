@@ -65,7 +65,7 @@ object GUI:
 
     stage.setFullScreen(false)
 
-//  def updateSliders(/*temperature: Number, brightness: Number, */oxygenation: Number): Unit =
-//    //temperatureSlider.update(temperature)
-//    //brightnessSlider.update(brightness)
-//    oxygenationSlider.update(oxygenation)
+  def updateSliders( /*temperature: Number, brightness: Number, */ oxygenation: Number): Unit =
+    // temperatureSlider.update(temperature)
+    // brightnessSlider.update(brightness)
+    oxygenationSlider.update(oxygenation)

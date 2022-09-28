@@ -49,8 +49,7 @@ object OxygenationSlider:
         )
       )
     slider.valueProperty.addListener((_, oldVal: Number, newVal: Number) =>
-      println("user asked to change oxygenation: " + newVal)
-      context.controller.updateOxygenation(newVal.doubleValue())
+      if oldVal != newVal then context.controller.updateOxygenation(newVal.doubleValue())
     )
 
     left = IconLabel("/icons/oxygen.png", "Aquarium oxygenation")
@@ -58,5 +57,5 @@ object OxygenationSlider:
 
     def update(newValue: Number): Unit =
       // println("changing OxgenationSlider to " + newValue)
-      slider.value = newValue.asInstanceOf[Double] //attiva il listener TODO fix
+      slider.value = newValue.asInstanceOf[Double]
       slider.tooltip = SliderUtils.getTooltip(newValue, "mg/L")

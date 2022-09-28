@@ -10,7 +10,8 @@ object Fish:
   var n: Int = 0
   val MAX_HUNGER: Int = 100
   val MIN_SIZE: Double = 5
-  val MAX_SIZE: Double = 20
+  val MAX_HEIGHT: Double = 10
+  val MAX_WIDTH: Double = 20
   val MEAT_AMOUNT: Double = 0.05
   val HUNGER_SHIFT: Int = 1
   val OXYGEN_SHIFT_CONSTANT: Double = -0.01
@@ -31,7 +32,7 @@ case class Fish(
     hunger: Int = MAX_HUNGER,
     age: Int = 0,
     speed: (Double, Double) = (0.0, 0.0),
-    size: (Double, Double) = (Random.between(MIN_SIZE, MAX_SIZE), Random.between(MIN_SIZE, MAX_SIZE)),
+    size: (Double, Double) = (Random.between(MIN_SIZE, MAX_WIDTH), Random.between(MIN_SIZE, MAX_HEIGHT)),
     position: (Double, Double) = (0.0, 0.0),
     feedingType: FeedingType = FeedingType.CARNIVOROUS,
     reproductionFactor: Int = 30

@@ -29,9 +29,7 @@ class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
     if (isCarnivorousHungry(carnivorous, herbivorous))
       (
         Some(
-          carnivorous.copy(hunger =
-            carnivorous.hunger + (herbivorous.size._1 * herbivorous.size._2 * Fish.MEAT_AMOUNT).toInt
-          )
+          carnivorous.copy(hunger = carnivorous.hunger + (herbivorous.size._1 * Fish.MEAT_AMOUNT).toInt)
         ),
         Option.empty,
         Option.empty
@@ -39,7 +37,7 @@ class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
     else (Option.empty, Option.empty, Option.empty)
 
   private def isCarnivorousHungry(carnivorous: Fish, herbivorous: Fish): Boolean =
-    (Fish.MAX_HUNGER - carnivorous.hunger) >= (herbivorous.size._1 * herbivorous.size._2 * Fish.MEAT_AMOUNT)
+    (Fish.MAX_HUNGER - carnivorous.hunger) >= (herbivorous.size._1 * Fish.MEAT_AMOUNT)
 
   private def checkFishPosition(fish1: Fish, fish2: Fish): (Fish, Fish) =
     fish1.feedingType match

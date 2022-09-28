@@ -79,13 +79,18 @@ object SimulationViewer:
     )
 
   private def drawFish(fish: Fish): Unit =
-    val canvasCoordinate: (Double, Double) = mapToCanvasCoordinate(fish.position)
+    var positionOnCanvas: (Double, Double) = mapToCanvasCoordinate(fish.position)
+    var sizeOnCanvas: (Double, Double) = mapToCanvasCoordinate(fish.size)
+    val image: Image = if (fish.feedingType == FeedingType.HERBIVOROUS) greenFish else redFish
+    if fish.speed._1 < 0 then
+      positionOnCanvas = (positionOnCanvas._1 + sizeOnCanvas._1, positionOnCanvas._2)
+      sizeOnCanvas = (-sizeOnCanvas._1, sizeOnCanvas._2)
     gc.drawImage(
-      if (fish.feedingType == FeedingType.HERBIVOROUS) greenFish else redFish,
-      canvasCoordinate._1,
-      canvasCoordinate._2,
-      if (fish.speed._1 > 0) fish.size._1 else -fish.size._1,
-      fish.size._2
+      image,
+      positionOnCanvas._1,
+      positionOnCanvas._2,
+      sizeOnCanvas._1,
+      sizeOnCanvas._2
     )
 
   private def mapToCanvasCoordinate(position: (Double, Double)): (Double, Double) =

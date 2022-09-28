@@ -13,7 +13,7 @@ trait UpdateFish:
   def updateReproductionFactor(newReproductionFactor: Int): Fish
 
   def move(speedMultiplier: Double): Fish
-  def eat(fish: Fish): Fish
+  // def eat(fish: Fish): Fish
   def eat(food: Food): Fish
 
 object UpdateFish:
@@ -93,17 +93,17 @@ object UpdateFish:
         feedingType = fish.feedingType
       )
 
-    override def eat(eatenFish: Fish): Fish =
-      Fish(
-        name = fish.name,
-        position = fish.position,
-        speed = fish.speed,
-        hunger = MAX_HUNGER min (fish.hunger + (MEAT_AMOUNT * eatenFish.size._1 * eatenFish.size._2).floor.toInt),
-        age = fish.age,
-        size = fish.size,
-        reproductionFactor = fish.reproductionFactor,
-        feedingType = fish.feedingType
-      )
+    // override def eat(eatenFish: Fish): Fish =
+    //   Fish(
+    //     name = fish.name,
+    //     position = fish.position,
+    //     speed = fish.speed,
+    //     hunger = MAX_HUNGER.min(fish.hunger + (MEAT_AMOUNT * eatenFish.size._1).floor.toInt),
+    //     age = fish.age,
+    //     size = fish.size,
+    //     reproductionFactor = fish.reproductionFactor,
+    //     feedingType = fish.feedingType
+    //   )
 
     override def eat(food: Food): Fish =
       Fish(

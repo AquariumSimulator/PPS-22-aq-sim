@@ -1,8 +1,9 @@
 package fish
 
 import org.scalatest.funspec.AnyFunSpec
-import model.fish._
+import model.fish.{Fish, UpdateFish}
 import model.food.Food
+import model.FeedingType
 
 class TestUpdateFish extends AnyFunSpec:
   describe("UpdateFish") {
@@ -14,11 +15,7 @@ class TestUpdateFish extends AnyFunSpec:
     it("should return a new Fish with an updated hunger when updating hunger") {
       val f: Fish = Fish()
       assert(f.hunger != UpdateFish(f).updateHunger(5).hunger)
-    }
-
-    it("should return a new Fish with an updated hunger when eating another Fish") {
-      val f: Fish = Fish(hunger = 0)
-      assert(f.hunger !== UpdateFish(f).eat(Fish()).hunger)
+      assert(UpdateFish(f).updateHunger(5).hunger == 5)
     }
 
     it("should return a new Fish with an updated hunger when eating food") {

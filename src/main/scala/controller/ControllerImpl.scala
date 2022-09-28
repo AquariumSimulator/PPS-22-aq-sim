@@ -11,7 +11,7 @@ trait ControllerImpl:
   given ControllerRequirements = context
   class ControllerImpl extends Controller:
 
-    val simEngine: SimulationEngine = SimulationEngine(context.model.initializeAquarium(0, 0, 0))
+    val simEngine: SimulationEngine = SimulationEngine(context.model.initializeAquarium(10, 10, 10))
     override def startSimulation(): Unit =
       simEngine.start(SimulationSpeed.NORMAL)
 

@@ -11,7 +11,7 @@ class TestInteractionFishOnFish extends AnyFunSpec:
     Fish(hunger = 70)
 
   private val herbivorousFish =
-    Fish(feedingType = FeedingType.HERBIVOROUS, size = (Fish.MAX_SIZE, Fish.MAX_SIZE))
+    Fish(feedingType = FeedingType.HERBIVOROUS, size = (Fish.MAX_WIDTH, Fish.MAX_HEIGHT))
 
   private var interaction1 = Interaction(carnivorousFish, herbivorousFish)
   private var interaction2 = Interaction(herbivorousFish, carnivorousFish)
@@ -20,7 +20,7 @@ class TestInteractionFishOnFish extends AnyFunSpec:
     describe("should eat an herbivorous fish when he is hungry") {
       it("if he's the one who start the interaction") {
         val tuple = interaction1.update()
-        assert(tuple._1.get.hunger == 70 + Fish.MEAT_AMOUNT * herbivorousFish.size._1 * herbivorousFish.size._2)
+        assert(tuple._1.get.hunger == 70 + Fish.MEAT_AMOUNT * herbivorousFish.size._1)
         assert(tuple._2.isEmpty)
       }
 

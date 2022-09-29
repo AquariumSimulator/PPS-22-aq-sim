@@ -61,7 +61,7 @@ Dall'intervista con Filippo Benvenuti, il Product Owner, sono stati dedotti i se
 * 2.2. aggiungere e rimuovere pesci in tempo reale
 * 2.3. memorizzazione dati dell'acquario all’interno di un database:
    * 2.3.1. possibilità di estrarre informazioni
-   * 2.3.2. visionare grafici sull'andamento dei dati salvati
+   * 2.3.2. visionare grafico sull'andamento della popolazione
 * 2.4. visualizzazione in tempo reale di:
    * 2.4.1. numero di esseri viventi divisi per specie
    * 2.4.2. temperatura dell’acqua

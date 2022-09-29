@@ -5,7 +5,7 @@
 | Database prolog | Implementazione | Benvenuti/Barbari | 2 | - |
 |  | Estrazione informazioni | Barbari/Benvenuti | 3 | - |
 | Raffinamenti GUI | Collegamento View⇐⇒Controller | Albertini/Barbari | 2 | - |
-| Model | Implementazione movimento Cibo | Benvenuti | 1 | - |
+| Model | Implementazione movimento Cibo | Benvenuti | 1 | 0 |
 | Consegna | Prova Fat Jar | - | 3 | - |
 | GUI | Popolazione entità | Albertini | 3 | - |
 |  | Luce/sporco | Benvenuti | 3 | - |

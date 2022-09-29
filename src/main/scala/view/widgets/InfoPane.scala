@@ -69,8 +69,8 @@ object InfoPane:
 
   def updateInfo(newAquarium: Aquarium): Unit =
     herbivorousFishLabel.update(newAquarium.population.herbivorous.size)
-    herbivorousFishLabel.update(newAquarium.population.carnivorous.size)
-    herbivorousFishLabel.update(newAquarium.population.algae.size)
+    carnivorousFishLabel.update(newAquarium.population.carnivorous.size)
+    algaeLabel.update(newAquarium.population.algae.size)
     temperatureLabel.update(newAquarium.aquariumState.temperature)
     brightnessLabel.update(newAquarium.aquariumState.brightness)
     phLabel.update(newAquarium.aquariumState.ph)

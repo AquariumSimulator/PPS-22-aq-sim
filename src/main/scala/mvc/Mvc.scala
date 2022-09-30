@@ -12,6 +12,10 @@ object MVC extends JFXApp3 with ModelModule.Interface with ViewModule.Interface 
   override def start(): Unit =
     view.show(new JFXApp3.PrimaryStage())
 
+  /** Automatically stops the simulation when closing frame. */
+  override def stopApp(): Unit =
+    controller.stopSimulation()
+
 object ModelModule:
 
   import model.Model

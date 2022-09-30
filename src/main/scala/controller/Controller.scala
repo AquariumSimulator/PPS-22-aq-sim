@@ -7,7 +7,7 @@ import model.food.Food
 trait Controller:
 
   /** Start the simulation in a separated [[Thread]]. If simulation was halted, it resumes. */
-  def startSimulation(): Unit
+  def startSimulation(simSpeed: SimulationSpeed): Unit
 
   /** Halt the simulation. */
   def stopSimulation(): Unit

@@ -12,8 +12,8 @@ trait ControllerImpl:
   class ControllerImpl extends Controller:
 
     val simEngine: SimulationEngine = SimulationEngine(context.model.initializeAquarium(0, 0, 0))
-    override def startSimulation(): Unit =
-      simEngine.start(SimulationSpeed.NORMAL)
+    override def startSimulation(simSpeed: SimulationSpeed): Unit =
+      simEngine.start(simSpeed)
 
     override def stopSimulation(): Unit =
       simEngine.stop()

@@ -19,12 +19,12 @@ class StatisticsView extends Stage:
           alignment = Pos.Center
           alignmentInParent = Pos.Center
           padding = Insets(15)
-        val lineChart: LineChart[Number, Number] = LineChart[Number, Number](NumberAxis("X"), NumberAxis("Y")) // :
-        // padding = Insets(15)
+        val lineChart: LineChart[Number, Number] =
+          LineChart[Number, Number](NumberAxis("Iteration"), NumberAxis("Population"))
         lineChart.getData
           .add(
             XYChart.Series[Number, Number](
-              "Population",
+              "Herbivorous",
               ObservableBuffer(
                 XYChart.Data[Number, Number](1, 23),
                 XYChart.Data[Number, Number](2, 14),
@@ -33,6 +33,28 @@ class StatisticsView extends Stage:
               )
             )
           )
+        lineChart.getData.add(
+          XYChart.Series[Number, Number](
+            "Carnivorous",
+            ObservableBuffer(
+              XYChart.Data[Number, Number](1, 18),
+              XYChart.Data[Number, Number](2, 22),
+              XYChart.Data[Number, Number](3, 15),
+              XYChart.Data[Number, Number](4, 4)
+            )
+          )
+        )
+        lineChart.getData.add(
+          XYChart.Series[Number, Number](
+            "Algae",
+            ObservableBuffer(
+              XYChart.Data[Number, Number](1, 8),
+              XYChart.Data[Number, Number](2, 17),
+              XYChart.Data[Number, Number](3, 26),
+              XYChart.Data[Number, Number](4, 30)
+            )
+          )
+        )
         center = lineChart
         bottom = new TilePane:
           children ++= Seq(CheckBox("Herbivorous"), CheckBox("Carnivorous"), CheckBox("Algae"))

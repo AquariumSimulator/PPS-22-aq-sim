@@ -15,7 +15,7 @@ object Fish:
   val MEAT_AMOUNT: Int = 10
   val OXYGEN_SHIFT_CONSTANT: Double = -0.02
   val IMPURITY_SHIFT_CONSTANT: Double = 0.01
-  val PH_SHIFT_CONSTANT: Double = 0.02
+  val PH_SHIFT_CONSTANT: Double = 0.1
   val MAX_REPRODUCTION_FACTOR: Int = 100
   val REPRODUCTION_FACTOR_SHIFT: Int = 5
   val REPRODUCTION_COST: Int = 50

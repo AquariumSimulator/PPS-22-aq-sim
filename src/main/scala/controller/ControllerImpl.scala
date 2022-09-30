@@ -1,6 +1,6 @@
 package controller
 
-import model.aquarium.Aquarium
+import model.aquarium.{Aquarium, InitializeAquarium}
 import model.food.Food
 import mvc.ControllerModule.ControllerRequirements
 import mvc.MVC.given_ControllerRequirements as context
@@ -10,16 +10,25 @@ trait ControllerImpl:
   context: ControllerRequirements =>
   given ControllerRequirements = context
   class ControllerImpl extends Controller:
-
-    val simEngine: SimulationEngine = SimulationEngine(context.model.initializeAquarium(10, 10, 10))
-    override def startSimulation(): Unit =
-      simEngine.start(SimulationSpeed.NORMAL)
+    
+    val simEngine: SimulationEngine = SimulationEngine(
+      context.model.initializeAquarium(
+        InitializeAquarium.HERBIVOROUS_FISH,
+        InitializeAquarium.CARNIVOROUS_FISH,
+        InitializeAquarium.ALGAE
+      )
+    )
+    override def startSimulation(simSpeed: SimulationSpeed): Unit =
+      simEngine.start(simSpeed)
 
     override def stopSimulation(): Unit =
       simEngine.stop()
 
     override def changeSpeed(simSpeed: SimulationSpeed): Unit =
       simEngine.changeSpeed(simSpeed)
+
+    override def getSpeed(): SimulationSpeed =
+      simEngine.getSpeed()
 
     override def isRunning(): Boolean =
       simEngine.isRunning()

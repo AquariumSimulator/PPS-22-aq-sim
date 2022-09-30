@@ -23,7 +23,9 @@ object InfoPane:
   downloadButton.tooltip = new Tooltip("Download simulation data")
   downloadButton.onAction = (event: ActionEvent) => println("Clicked download data")
 
-  private val populationLabel: InfoCell = InfoCell("Population", 0, "fish")
+  private val herbivorousFishLabel: InfoCell = InfoCell("Herbivorous fish", 0, "fish")
+  private val carnivorousFishLabel: InfoCell = InfoCell("Carnivorous fish", 0, "fish")
+  private val algaeLabel: InfoCell = InfoCell("Algae", 0, "fish")
   private val temperatureLabel: InfoCell = InfoCell("Temperature", 25, "°")
   private val brightnessLabel: InfoCell = InfoCell("Brightness", 50, "%")
   private val phLabel: InfoCell = InfoCell("pH", 5.6, "")
@@ -46,22 +48,29 @@ object InfoPane:
       padding = Insets(20, 0, 10, 0)
       addRow(
         0,
-        populationLabel,
-        temperatureLabel
+        herbivorousFishLabel,
+        carnivorousFishLabel
       )
       addRow(
         1,
+        algaeLabel,
+        temperatureLabel
+      )
+      addRow(
+        2,
         brightnessLabel,
         phLabel
       )
       addRow(
-        2,
+        3,
         impurityLabel,
         oxygenationLabel
       )
 
   def updateInfo(newAquarium: Aquarium): Unit =
-    populationLabel.update(newAquarium.population.carnivorous.size + newAquarium.population.herbivorous.size)
+    herbivorousFishLabel.update(newAquarium.population.herbivorous.size)
+    carnivorousFishLabel.update(newAquarium.population.carnivorous.size)
+    algaeLabel.update(newAquarium.population.algae.size)
     temperatureLabel.update(newAquarium.aquariumState.temperature)
     brightnessLabel.update(newAquarium.aquariumState.brightness)
     phLabel.update(newAquarium.aquariumState.ph)

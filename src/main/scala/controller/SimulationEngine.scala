@@ -18,6 +18,9 @@ trait SimulationEngine:
   /** Change the speed of simulation. */
   def changeSpeed(simSpeed: SimulationSpeed): Unit
 
+  /** Get simulation speed. */
+  def getSpeed(): SimulationSpeed
+
   /** True if simulation is running. */
   def isRunning(): Boolean
 
@@ -89,6 +92,9 @@ object SimulationEngine:
       speed = simSpeed match
         case HALT => speed
         case _ => simSpeed
+
+    override def getSpeed(): SimulationSpeed =
+      speed
 
     override def isRunning(): Boolean =
       speed match

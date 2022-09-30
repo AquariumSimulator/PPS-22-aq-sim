@@ -1,3 +1,5 @@
+package food
+
 import model.FeedingType
 import model.food.Food
 import org.scalatest.funsuite.AnyFunSuite

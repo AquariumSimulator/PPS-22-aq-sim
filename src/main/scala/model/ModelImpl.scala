@@ -72,8 +72,10 @@ trait ModelImpl:
           Interaction(
             UpdateFish(
               UpdateFish(
-                UpdateFish(f)
-                  .updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
+                if f.reproductionFactor < Fish.MAX_REPRODUCTION_FACTOR then
+                  UpdateFish(f)
+                    .updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
+                else f
               )
                 .updateHunger(f.hunger - Fish.HUNGER_SHIFT)
             )
@@ -181,30 +183,35 @@ trait ModelImpl:
 
       (newFish, newAlgae)
 
-    def calculateInteractionFish(setFish: List[Fish])(isNear: (Fish, Fish) => Boolean): Set[Fish] =
-      var newFish: List[Fish] = setFish
+    def calculateInteractionFish(fish: List[Fish])(isNear: (Fish, Fish) => Boolean): Set[Fish] =
+      var newFish: List[Fish] = fish
+      var children: List[Fish] = List.empty
       @tailrec
-      def _calculateInteraction(fish: Option[Fish], setFish: List[Fish], newSetFish: List[Fish]): List[Fish] =
-        setFish match
+      def _calculateInteraction(fish: Option[Fish], remainingFish: List[Fish], newListFish: List[Fish]): List[Fish] =
+        remainingFish match
           case s if s.nonEmpty =>
             fish match
               case Some(f) =>
                 f match
                   case f if f == s.head || !isNear(f, s.head) =>
-                    _calculateInteraction(Some(f), setFish.tail, newSetFish :+ s.head)
+                    _calculateInteraction(Some(f), remainingFish.tail, newListFish :+ s.head)
                   case f =>
                     val res = Interaction(f, s.head).update()
-                    var newSet = newSetFish
-                    if res._2.isDefined then newSet = newSet :+ res._2.get
-                    if res._3.isDefined then newSet = newSet :+ res._3.get
-                    _calculateInteraction(res._1, s.tail, newSet)
-              case _ => newSetFish
+                    var newList: List[Fish] = newListFish
+                    if res._2.isDefined then newList = newList :+ res._2.get
+                    if res._3.isDefined then children = children :+ res._3.get
+                    _calculateInteraction(res._1, s.tail, newList)
+              case _ =>
+                _calculateInteraction(Some(s.head), s.tail, newFish)
           case _ if fish.isDefined =>
-            newSetFish.filter(f => f.name != fish.get.name) :+ fish.get
-          case _ => newSetFish
+            newListFish.filter(f => f.name != fish.get.name) :+ fish.get
+          case _ =>
+            newListFish
 
-      for name <- setFish.map(f => f.name)
+      for name <- fish.map(f => f.name)
       do
         if newFish.exists(f => f.name == name) then
           newFish = _calculateInteraction(Some(newFish.filter(f => f.name == name).head), newFish, List.empty)
-      newFish.toSet
+      if (children.size + newFish.size) < AquariumParametersLimits.FISH_MAX
+      then newFish.concat(children).toSet
+      else newFish.toSet

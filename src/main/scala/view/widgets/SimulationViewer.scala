@@ -19,6 +19,8 @@ import scala.language.postfixOps
 
 object SimulationViewer:
 
+  private val CLICK_RANGE = 30
+
   private val preferredWidth: Int = 500
   private val preferredHeight: Int = 500
 
@@ -68,8 +70,8 @@ object SimulationViewer:
     val entitiesClicked: Set[Entity] = entities.filter(e =>
       val mappedCoord = mapToCanvasCoordinate(e.position)
       Math
-        .abs(mappedCoord._1 - coordinates._1) <= 30 &&
-      (Math.abs(mappedCoord._2 - coordinates._2) <= 30 || mappedCoord._2 == 0)
+        .abs(mappedCoord._1 - coordinates._1) <= CLICK_RANGE &&
+      (Math.abs(mappedCoord._2 - coordinates._2) <= CLICK_RANGE || mappedCoord._2 == 0)
     )
     entitiesClicked.headOption
 

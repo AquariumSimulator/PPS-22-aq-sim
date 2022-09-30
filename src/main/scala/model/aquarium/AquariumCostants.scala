@@ -11,6 +11,16 @@ object AquariumDimensions:
 
 /** Constants that represent the values assigned to a new simulation when it's created */
 object InitializeAquarium:
+
+  /** Initial number of herbivorous fish in the aquarium */
+  val HERBIVOROUS_FISH: Int = 0
+
+  /** Initial number of carnivorous fish in the aquarium */
+  val CARNIVOROUS_FISH: Int = 0
+
+  /** Initial number of algae in the aquarium */
+  val ALGAE: Int = 0
+
   /** Initial temperature value (expressed in C°) */
   val TEMPERATURE: Int = 25
 
@@ -28,6 +38,12 @@ object InitializeAquarium:
 
 /** Constants that represents the limit values of the various parameters of the aquarium */
 object AquariumParametersLimits:
+
+  /** Maximus number of fish in the aquarium */
+  val FISH_MAX: Int = 100
+
+  /** Maximus number of algae in the aquarium */
+  val ALGAE_MAX: Int = 25
 
   /** Minimum value of the temperature (expressed in C°) */
   val TEMPERATURE_MIN: Int = 1

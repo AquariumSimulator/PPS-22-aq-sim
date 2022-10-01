@@ -4,7 +4,7 @@ import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec
 import model.aquarium.AquariumDimensions
 import model.fish.{Fish, UpdateFish}
-import model.fish.Fish.{MAX_HUNGER, MEAT_AMOUNT}
+import model.fish.Fish.{MAX_SATIETY, MEAT_AMOUNT}
 import model.food.Food
 
 class TestFish extends AnyFunSpec with BeforeAndAfterEach:
@@ -19,8 +19,8 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
       assert(f.age === 0)
     }
 
-    it("should have max hunger") {
-      assert(f.hunger === Fish.MAX_HUNGER)
+    it("should have max satiety") {
+      assert(f.satiety === Fish.MAX_SATIETY)
     }
 
     it("should be alive") {
@@ -45,37 +45,37 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
   }
 
   describe("A Fish") {
-    it("when has hunger 0, should not be alive") {
-      var f: Fish = Fish(hunger = 0)
+    it("when has satiety 0, should not be alive") {
+      val f: Fish = Fish(satiety = 0)
       assert(!f.isAlive)
     }
 
-    it("when has hunger greater than 0, should not be alive") {
-      var f: Fish = Fish(hunger = 15)
+    it("when has satiety greater than 0, should be alive") {
+      val f: Fish = Fish(satiety = 15)
       assert(f.isAlive)
     }
 
-    it("should have more hunger after having eaten food") {
-      var f: Fish = Fish(hunger = 15)
-      var food: Food = Food(nutritionAmount = 10)
-      assert(UpdateFish(f).eat(food).hunger === f.hunger + food.nutritionAmount)
+    it("should have more satiety after having eaten food") {
+      val f: Fish = Fish(satiety = 15)
+      val food: Food = Food(nutritionAmount = 10)
+      assert(UpdateFish(f).eat(food).satiety === f.satiety + food.nutritionAmount)
     }
 
-    it("should not have more than MAX_HUNGER after having eaten food") {
-      var f: Fish = Fish(hunger = MAX_HUNGER - 5)
-      var food: Food = Food(nutritionAmount = 10)
-      assert(UpdateFish(f).eat(food).hunger === MAX_HUNGER)
+    it("should not have more than MAX_SATIETY after having eaten food") {
+      val f: Fish = Fish(satiety = MAX_SATIETY - 5)
+      val food: Food = Food(nutritionAmount = 10)
+      assert(UpdateFish(f).eat(food).satiety === MAX_SATIETY)
     }
 
-    it("should have more hunger after having eaten another fish") {
-      var f: Fish = Fish(hunger = 15)
-      var other: Fish = Fish(size = 1.5)
-      assert(UpdateFish(f).eat(other).hunger === f.hunger + other.size * MEAT_AMOUNT)
+    it("should have more satiety after having eaten another fish") {
+      val f: Fish = Fish(satiety = 15)
+      val other: Fish = Fish(size = 1.5)
+      assert(UpdateFish(f).eat(other).satiety === f.satiety + other.size * MEAT_AMOUNT)
     }
 
-    it("should not have more than MAX_HUNGER after having eaten another fish") {
-      var f: Fish = Fish(hunger = MAX_HUNGER - 5)
-      var other: Fish = Fish(size = 1.5)
-      assert(UpdateFish(f).eat(other).hunger === MAX_HUNGER)
+    it("should not have more than MAX_SATIETY after having eaten another fish") {
+      val f: Fish = Fish(satiety = MAX_SATIETY - 5)
+      val other: Fish = Fish(size = 1.5)
+      assert(UpdateFish(f).eat(other).satiety === MAX_SATIETY)
     }
   }

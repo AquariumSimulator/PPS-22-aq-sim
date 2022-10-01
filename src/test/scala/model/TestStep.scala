@@ -16,21 +16,21 @@ class TestStep extends AnyFunSpec:
 
   private val aquariumState = AquariumState()
 
-  private val hunger = 5
+  private val satiety = 5
 
   private val hFishHungry: Fish = Fish(
     position = (0, 0),
     feedingType = FeedingType.HERBIVOROUS,
-    hunger = hunger,
+    satiety = satiety,
     reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
   )
   private val hFishReproduction: Fish = Fish(
     position = (0, 0),
     feedingType = FeedingType.HERBIVOROUS,
-    hunger = hunger,
+    satiety = satiety,
     reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
   )
-  private val cFishHungry: Fish = Fish(position = (1, 1), hunger = hunger)
+  private val cFishHungry: Fish = Fish(position = (1, 1), satiety = satiety)
   private val hFishNotHungry: Fish = Fish(position = (0, 1), feedingType = FeedingType.HERBIVOROUS)
   private val cFishNotHungry: Fish = Fish(position = (1, 0))
   private val hFishEaten: Fish = Fish(position = (1, 1), feedingType = FeedingType.HERBIVOROUS)
@@ -74,21 +74,21 @@ class TestStep extends AnyFunSpec:
       assert(newAquarium.availableFood.carnivorousFood.size == food.carnivorousFood.size - 1)
     }
 
-    it("a fish that didn't eat anything ha as lower hunger") {
+    it("a fish that didn't eat anything ha as lower satiety") {
       // a fish that wasn't hungry and two new fish
       val fishNumber = 2 + 1
       assert(
-        newAquarium.population.herbivorous.count(f => f.hunger == Fish.MAX_HUNGER - Fish.HUNGER_SHIFT) == fishNumber
+        newAquarium.population.herbivorous.count(f => f.satiety == Fish.MAX_SATIETY - Fish.SATIETY_SHIFT) == fishNumber
       )
-      assert(newAquarium.population.carnivorous.count(f => f.hunger == Fish.MAX_HUNGER - Fish.HUNGER_SHIFT) == 1)
+      assert(newAquarium.population.carnivorous.count(f => f.satiety == Fish.MAX_SATIETY - Fish.SATIETY_SHIFT) == 1)
     }
 
-    it("an herbivorous fish that ate food and algae has an upper hunger") {
+    it("an herbivorous fish that ate food and algae has an upper satiety") {
       newAquarium.population.herbivorous
-        .filterNot(f => f.hunger == Fish.MAX_HUNGER - Fish.HUNGER_SHIFT)
+        .filterNot(f => f.satiety == Fish.MAX_SATIETY - Fish.SATIETY_SHIFT)
         .foreach(f =>
           assert(
-            f.hunger == hFishHungry.hunger + (algaeEaten.height * Algae.NUTRITION_AMOUNT) + hFoodEaten.nutritionAmount - Fish.HUNGER_SHIFT
+            f.satiety == hFishHungry.satiety + (algaeEaten.height * Algae.NUTRITION_AMOUNT) + hFoodEaten.nutritionAmount - Fish.SATIETY_SHIFT
           )
         )
     }
@@ -103,7 +103,7 @@ class TestStep extends AnyFunSpec:
       )
     }
 
-    it("an carnivorous fish that ate a fish has an upper hunger") {
+    it("an carnivorous fish that ate a fish has an upper satiety") {
       assert(!newAquarium.population.herbivorous.contains(hFishEaten))
     }
 

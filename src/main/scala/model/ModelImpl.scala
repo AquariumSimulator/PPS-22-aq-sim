@@ -57,7 +57,7 @@ trait ModelImpl:
                 UpdateFish(f)
                   .updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
               )
-                .updateHunger(f.hunger - Fish.HUNGER_SHIFT)
+                .updateSatiety(f.satiety - Fish.SATIETY_SHIFT)
             )
               .move(multiplier(updatedAquariumState)),
             a
@@ -77,7 +77,7 @@ trait ModelImpl:
                     .updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
                 else f
               )
-                .updateHunger(f.hunger - Fish.HUNGER_SHIFT)
+                .updateSatiety(f.satiety - Fish.SATIETY_SHIFT)
             )
               .move(multiplier(updatedAquariumState)),
             a
@@ -138,7 +138,7 @@ trait ModelImpl:
         for
           fish <- set
           food <- foodSet
-          if fish.hunger < Fish.MAX_HUNGER - food.nutritionAmount && isNear(food, fish)
+          if fish.satiety < Fish.MAX_SATIETY - food.nutritionAmount && isNear(food, fish)
         do
           newSet = newSet - fish
           newSet = newSet + UpdateFish(fish).eat(food)

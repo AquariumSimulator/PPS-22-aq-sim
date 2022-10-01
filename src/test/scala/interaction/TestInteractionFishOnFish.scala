@@ -26,7 +26,7 @@ class TestInteractionFishOnFish extends AnyFunSpec:
 
       it("if he isn't the one who start the interaction") {
         val tuple = interaction2.update()
-        assert(tuple._1.get.hunger == 90)
+        assert(tuple._1.get.hunger == carnivorousFish.hunger + (herbivorousFish.size._1 * Fish.MEAT_AMOUNT))
         assert(tuple._2.isEmpty)
       }
     }
@@ -35,14 +35,14 @@ class TestInteractionFishOnFish extends AnyFunSpec:
       it("if he's the one who start the interaction") {
         carnivorousFish = carnivorousFish.copy(hunger = 90)
         interaction1 = Interaction(carnivorousFish, herbivorousFish)
-        var tuple = interaction1.update()
+        val tuple = interaction1.update()
         assert(tuple === (Option.empty, Option.empty, Option.empty))
       }
 
       it("if he isn't the one who start the interaction") {
         carnivorousFish = carnivorousFish.copy(hunger = 90)
         interaction2 = Interaction(herbivorousFish, carnivorousFish)
-        var tuple = interaction2.update()
+        val tuple = interaction2.update()
         assert(tuple === (Option.empty, Option.empty, Option.empty))
       }
     }

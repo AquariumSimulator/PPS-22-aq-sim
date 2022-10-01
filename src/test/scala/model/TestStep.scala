@@ -7,76 +7,56 @@ import model.food.*
 import model.interaction.Interaction
 import mvc.MVC.model.*
 import org.scalactic.Tolerance.convertNumericToPlusOrMinusWrapper
-import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
 
 /** Test for [[ModelImpl]] */
-class TestStep extends AnyFunSpec with BeforeAndAfterEach:
+class TestStep extends AnyFunSpec:
 
-  private var aquariumState: AquariumState = _
+  private val aquariumState = AquariumState(ph = 0, oxygenation = 15)
 
-  private val hunger: Int = 5
+  private val hunger = 5
 
-  private var hFishHungry: Fish = _
-  private var hFishReproduction: Fish = _
-  private var cFishHungry: Fish = _
-  private var hFishNotHungry: Fish = _
-  private var cFishNotHungry: Fish = _
-  private var hFishEaten: Fish = _
-  private var algaeEaten: Algae = _
-  private var algaeNotEaten: Algae = _
-  private var hFoodEaten: Food = _
-  private var cFoodEaten: Food = _
-  private var hFoodNotEaten: Food = _
-  private var cFoodNotEaten: Food = _
+  private val hFishHungry: Fish = Fish(
+    position = (0, 0),
+    feedingType = FeedingType.HERBIVOROUS,
+    hunger = hunger,
+    reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
+  )
+  private val hFishReproduction: Fish = Fish(
+    position = (0, 0),
+    feedingType = FeedingType.HERBIVOROUS,
+    hunger = hunger,
+    reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
+  )
+  private val cFishHungry: Fish = Fish(position = (1, 1), hunger = hunger)
+  private val hFishEaten: Fish = Fish(position = (1, 1), feedingType = FeedingType.HERBIVOROUS)
 
-  private var population: Population = _
-  private var food: AvailableFood = _
+  private val hFishNotHungry: Fish = Fish(position = (0, 1), feedingType = FeedingType.HERBIVOROUS)
+  private val cFishNotHungry: Fish = Fish(position = (1, 0))
 
-  private var aquarium: Aquarium = _
+  private val algaeEaten: Algae = Algae()
+  private val algaeNotEaten: Algae = Algae(base = 1)
 
-  private var newAquarium: Aquarium = _
-  private var entitySet: Set[Entity] = _
+  private val hFoodEaten: Food = Food(position = (0, 0), feedingType = FeedingType.HERBIVOROUS)
+  private val cFoodEaten: Food = Food(position = (1, 1))
+  private val hFoodNotEaten: Food = Food(position = (0, 1), feedingType = FeedingType.HERBIVOROUS)
+  private val cFoodNotEaten: Food = Food(position = (1, 0))
 
-  override def beforeEach(): Unit =
-    aquariumState = AquariumState()
-
-    hFishHungry = Fish(
-      position = (0, 0),
-      feedingType = FeedingType.HERBIVOROUS,
-      hunger = hunger,
-      reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
-    )
-    hFishReproduction = Fish(
-      position = (0, 0),
-      feedingType = FeedingType.HERBIVOROUS,
-      hunger = hunger,
-      reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
-    )
-    cFishHungry = Fish(position = (1, 1), hunger = hunger)
-    hFishNotHungry = Fish(position = (0, 1), feedingType = FeedingType.HERBIVOROUS)
-    cFishNotHungry = Fish(position = (1, 0))
-    hFishEaten = Fish(position = (1, 1), feedingType = FeedingType.HERBIVOROUS)
-    algaeEaten = Algae()
-    algaeNotEaten = Algae(2)
-    hFoodEaten = Food(position = (0, 0), feedingType = FeedingType.HERBIVOROUS)
-    cFoodEaten = Food(position = (1, 1))
-    hFoodNotEaten = Food(position = (0, 1), feedingType = FeedingType.HERBIVOROUS)
-    cFoodNotEaten = Food(position = (1, 0))
-
-    population = Population(
+  private val population =
+    Population(
       Set(hFishHungry, hFishNotHungry, hFishEaten, hFishReproduction),
       Set(cFishHungry, cFishNotHungry),
       Set(algaeEaten, algaeNotEaten)
     )
-    food = AvailableFood(Set(hFoodEaten, hFoodNotEaten), Set(cFoodEaten, cFoodNotEaten))
+  private val food =
+    AvailableFood(Set(hFoodEaten, hFoodNotEaten), Set(cFoodEaten, cFoodNotEaten))
 
-    aquarium = Aquarium(aquariumState, population, food)
+  private val aquarium = Aquarium(aquariumState, population, food)
 
-    newAquarium = step(aquarium)
-    entitySet = population.herbivorous.concat(population.carnivorous).concat(population.algae)
+  private val newAquarium = step(aquarium)
+  private val entitySet = population.herbivorous.concat(population.carnivorous).concat(population.algae)
 
   describe("When step() is called it return a new Aquarium where") {
     it("the new AquariumState is updated by all the inhabitant of the aquarium") {

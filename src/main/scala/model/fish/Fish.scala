@@ -12,11 +12,11 @@ object Fish:
   //val MIN_SIZE: Double = 5
   val MAX_HEIGHT: Double = 10
   val MAX_WIDTH: Double = 20
-  //val MEAT_AMOUNT: Double = 0.05
+  val MEAT_AMOUNT: Double = 0.6
   val HUNGER_SHIFT: Int = 1
   val MIN_SIZE: Double = 0.5
   val MAX_SIZE: Double = 2.5
-  val MEAT_AMOUNT: Int = 10
+  //val MEAT_AMOUNT: Int = 10
   val OXYGEN_SHIFT_CONSTANT: Double = -0.02
   val IMPURITY_SHIFT_CONSTANT: Double = 0.01
   val PH_SHIFT_CONSTANT: Double = 0.1

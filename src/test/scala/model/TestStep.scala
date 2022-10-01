@@ -30,19 +30,19 @@ class TestStep extends AnyFunSpec:
     hunger = hunger,
     reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
   )
-  private val cFishHungry: Fish = Fish(position = (1, 1), hunger = hunger)
-  private val hFishEaten: Fish = Fish(position = (1, 1), feedingType = FeedingType.HERBIVOROUS)
+  private val cFishHungry: Fish = Fish(position = (11, 11), hunger = hunger)
+  private val hFishEaten: Fish = Fish(position = (11, 11), feedingType = FeedingType.HERBIVOROUS)
 
-  private val hFishNotHungry: Fish = Fish(position = (0, 1), feedingType = FeedingType.HERBIVOROUS)
-  private val cFishNotHungry: Fish = Fish(position = (1, 0))
+  private val hFishNotHungry: Fish = Fish(position = (0, 100), feedingType = FeedingType.HERBIVOROUS)
+  private val cFishNotHungry: Fish = Fish(position = (100, 0))
 
   private val algaeEaten: Algae = Algae()
   private val algaeNotEaten: Algae = Algae(base = 1)
 
   private val hFoodEaten: Food = Food(position = (0, 0), feedingType = FeedingType.HERBIVOROUS)
-  private val cFoodEaten: Food = Food(position = (1, 1))
-  private val hFoodNotEaten: Food = Food(position = (0, 1), feedingType = FeedingType.HERBIVOROUS)
-  private val cFoodNotEaten: Food = Food(position = (1, 0))
+  private val cFoodEaten: Food = Food(position = (11, 11))
+  private val hFoodNotEaten: Food = Food(position = (0, 100), feedingType = FeedingType.HERBIVOROUS)
+  private val cFoodNotEaten: Food = Food(position = (100, 0))
 
   private val population =
     Population(

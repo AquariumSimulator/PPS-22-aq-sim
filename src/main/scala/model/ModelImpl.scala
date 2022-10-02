@@ -9,6 +9,7 @@ import mvc.MVC.model.*
 
 import java.util.concurrent.ConcurrentLinkedQueue
 import scala.annotation.tailrec
+import scala.language.postfixOps
 
 /** Model methods implementation from [[Model]]. */
 trait ModelImpl:
@@ -29,6 +30,7 @@ trait ModelImpl:
     ): Aquarium =
       Aquarium(herbivorousFishNumber, carnivorousFishNumber, algaeNumber)
     override def step(aquarium: Aquarium): Aquarium =
+      println("-> " + aquarium.population.herbivorous.concat(aquarium.population.carnivorous).size)
 
       val updatedAquariumState: AquariumState = updateAquariumState(aquarium)
 
@@ -42,10 +44,30 @@ trait ModelImpl:
           f.position._1 == a.base
         )
 
-      val fishFishInteraction =
-        calculateInteractionFish(updatedCarnivorous._1.concat(fishAlgaeInteraction._1).toList)((f1: Fish, f2: Fish) =>
-          f1.position == f2.position
+      var fishFishInteraction = updatedCarnivorous._1.concat(fishAlgaeInteraction._1)
+      println("-> " + fishFishInteraction.size)
+
+      updatedCarnivorous._1.concat(fishAlgaeInteraction._1).toList.tails
+        .filter(_.nonEmpty)
+        .flatMap(f => f.tail.map((f.head, _)))
+        .filter(tuple => tuple._1.collidesWith(tuple._2)).toList
+        .foreach(tuple =>
+          //TODO refactoring
+          val newFish = Interaction(tuple._1, tuple._2).update()
+          if newFish._1.isEmpty
+          then
+            fishFishInteraction = fishFishInteraction - tuple._1
+          else
+            fishFishInteraction = fishFishInteraction - tuple._1 + newFish._1.get
+          if newFish._2.isEmpty
+          then fishFishInteraction = fishFishInteraction - tuple._2
+          else
+            fishFishInteraction = fishFishInteraction - tuple._2 + newFish._2.get
+          if newFish._3.isDefined && fishFishInteraction.size < AquariumParametersLimits.FISH_MAX
+          then
+            fishFishInteraction = fishFishInteraction + newFish._3.get
         )
+      println("--> " + fishFishInteraction.size)
 
       val newHerbivorous =
         entityStep(fishFishInteraction.filter(f => f.feedingType == FeedingType.HERBIVOROUS), updatedAquariumState)(
@@ -103,6 +125,7 @@ trait ModelImpl:
       val newPopulation: Population = Population(newHerbivorous, newCarnivorous, newAlgae)
 
       val stepAquarium = Aquarium(updatedAquariumState, newPopulation, newAvailableFood)
+      println("________")
 
       queue.isEmpty match
         case true => stepAquarium
@@ -182,36 +205,3 @@ trait ModelImpl:
         newAlgae = res._2
 
       (newFish, newAlgae)
-
-    def calculateInteractionFish(fish: List[Fish])(isNear: (Fish, Fish) => Boolean): Set[Fish] =
-      var newFish: List[Fish] = fish
-      var children: List[Fish] = List.empty
-      @tailrec
-      def _calculateInteraction(fish: Option[Fish], remainingFish: List[Fish], newListFish: List[Fish]): List[Fish] =
-        remainingFish match
-          case s if s.nonEmpty =>
-            fish match
-              case Some(f) =>
-                f match
-                  case f if f == s.head || !isNear(f, s.head) =>
-                    _calculateInteraction(Some(f), remainingFish.tail, newListFish :+ s.head)
-                  case f =>
-                    val res = Interaction(f, s.head).update()
-                    var newList: List[Fish] = newListFish
-                    if res._2.isDefined then newList = newList :+ res._2.get
-                    if res._3.isDefined then children = children :+ res._3.get
-                    _calculateInteraction(res._1, s.tail, newList)
-              case _ =>
-                _calculateInteraction(Some(s.head), s.tail, newFish)
-          case _ if fish.isDefined =>
-            newListFish.filter(f => f.name != fish.get.name) :+ fish.get
-          case _ =>
-            newListFish
-
-      for name <- fish.map(f => f.name)
-      do
-        if newFish.exists(f => f.name == name) then
-          newFish = _calculateInteraction(Some(newFish.filter(f => f.name == name).head), newFish, List.empty)
-      if (children.size + newFish.size) < AquariumParametersLimits.FISH_MAX
-      then newFish.concat(children).toSet
-      else newFish.toSet

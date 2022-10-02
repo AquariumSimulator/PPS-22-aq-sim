@@ -78,8 +78,8 @@ class TestStep extends AnyFunSpec:
     }
 
     it("a fish that didn't eat anything has lower hunger") {
-      // a fish that wasn't hungry and two new fish
-      val fishNumber = 2 + 1
+      // a fish that wasn't hungry and a new fish
+      val fishNumber = 1 + 1
       assert(
         newAquarium.population.herbivorous.count(f => f.hunger == Fish.MAX_HUNGER - Fish.HUNGER_SHIFT) == fishNumber
       )
@@ -115,11 +115,11 @@ class TestStep extends AnyFunSpec:
         .filter(f => f.name == hFishHungry.name || f.name == hFishReproduction.name)
         .foreach(f =>
           assert(
-            f.reproductionFactor == Fish.MAX_REPRODUCTION_FACTOR - (Fish.REPRODUCTION_COST * 2) + Fish.REPRODUCTION_FACTOR_SHIFT
+            f.reproductionFactor == Fish.MAX_REPRODUCTION_FACTOR - Fish.REPRODUCTION_COST + Fish.REPRODUCTION_FACTOR_SHIFT
           )
         )
-      // two fish were born but one was eaten
-      assert(newAquarium.population.herbivorous.size == aquarium.population.herbivorous.size + 2 - 1)
+      // one fish was born but one was eaten
+      assert(newAquarium.population.herbivorous.size == aquarium.population.herbivorous.size + 1 - 1)
     }
 
   }

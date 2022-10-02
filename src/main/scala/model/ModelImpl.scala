@@ -35,9 +35,9 @@ trait ModelImpl:
       val updatedAquariumState: AquariumState = updateAquariumState(aquarium)
 
       val updatedCarnivorous =
-        foodInteraction(aquarium.population.carnivorous, aquarium.availableFood.carnivorousFood)(isFoodNear)
+        foodInteraction(aquarium.population.carnivorous, aquarium.availableFood.carnivorousFood)
       val updateHerbivorous =
-        foodInteraction(aquarium.population.herbivorous, aquarium.availableFood.herbivorousFood)(isFoodNear)
+        foodInteraction(aquarium.population.herbivorous, aquarium.availableFood.herbivorousFood)
 
       val fishAlgaeInteraction =
         calculateInteractionAlgae(updateHerbivorous._1, aquarium.population.algae)((f: Fish, a: Algae) =>
@@ -152,17 +152,16 @@ trait ModelImpl:
 
       _newAquariumState(population, initialState)(func)
 
-    private def foodInteraction(set: Set[Fish], foodSet: Set[Food])(
-        isNear: (Food, Fish) => Boolean
-    ): (Set[Fish], Set[Food]) =
+    private def foodInteraction(set: Set[Fish], foodSet: Set[Food]) =
       if set.nonEmpty && foodSet.nonEmpty then
         var newFoodSet = foodSet
         var newSet = set
         for
           fish <- set
           food <- foodSet
-          if fish.hunger < Fish.MAX_HUNGER - food.nutritionAmount && isNear(food, fish)
+          if fish.hunger < Fish.MAX_HUNGER - food.nutritionAmount && fish.collidesWith(food)
         do
+          println(fish.name + "  ha MANGIATO -> "+ fish.feedingType + " - " + food.feedingType)
           newSet = newSet - fish
           newSet = newSet + UpdateFish(fish).eat(food)
           newFoodSet = newFoodSet - food

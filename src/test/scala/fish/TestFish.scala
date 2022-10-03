@@ -46,36 +46,36 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
   describe("A Fish") {
     it("when has hunger 0, should not be alive") {
-      var f: Fish = Fish(hunger = 0)
+      val f: Fish = Fish(hunger = 0)
       assert(!f.isAlive)
     }
 
     it("when has hunger greater than 0, should not be alive") {
-      var f: Fish = Fish(hunger = 15)
+      val f: Fish = Fish(hunger = 15)
       assert(f.isAlive)
     }
 
     it("should have more hunger after having eaten food") {
-      var f: Fish = Fish(hunger = 15)
-      var food: Food = Food(nutritionAmount = 10)
+      val f: Fish = Fish(hunger = 15)
+      val food: Food = Food(nutritionAmount = 10)
       assert(UpdateFish(f).eat(food).hunger === f.hunger + food.nutritionAmount)
     }
 
     it("should not have more than MAX_HUNGER after having eaten food") {
-      var f: Fish = Fish(hunger = MAX_HUNGER - 5)
-      var food: Food = Food(nutritionAmount = 10)
+      val f: Fish = Fish(hunger = MAX_HUNGER - 5)
+      val food: Food = Food(nutritionAmount = 10)
       assert(UpdateFish(f).eat(food).hunger === MAX_HUNGER)
     }
 
     it("should have more hunger after having eaten another fish") {
-      var f: Fish = Fish(hunger = 15)
-      var other: Fish = Fish(size = 1.5)
+      val f: Fish = Fish(hunger = 15)
+      val other: Fish = Fish(size = 1.5)
       assert(UpdateFish(f).eat(other).hunger === f.hunger + other.size * MEAT_AMOUNT)
     }
 
     it("should not have more than MAX_HUNGER after having eaten another fish") {
-      var f: Fish = Fish(hunger = MAX_HUNGER - 5)
-      var other: Fish = Fish(size = 1.5)
+      val f: Fish = Fish(hunger = MAX_HUNGER - 5)
+      val other: Fish = Fish(size = 1.5)
       assert(UpdateFish(f).eat(other).hunger === MAX_HUNGER)
     }
   }

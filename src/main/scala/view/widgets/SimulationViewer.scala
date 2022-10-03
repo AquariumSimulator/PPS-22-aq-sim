@@ -19,8 +19,6 @@ import scala.language.postfixOps
 
 object SimulationViewer:
 
-  private val CLICK_RANGE = 30
-
   private val preferredWidth: Int = 500
   private val preferredHeight: Int = 500
 
@@ -64,14 +62,16 @@ object SimulationViewer:
 
   renderSimulation(context.controller.getAquarium())
 
-  private def findEntityClicked(coordinates: (Double, Double)): Option[Entity] =
+  def findEntityClicked(coordinates: (Double, Double)): Option[Entity] =
     val population = context.controller.getAquarium().population
     val entities: Set[Entity] = population.algae.concat(population.carnivorous).concat(population.herbivorous)
     val entitiesClicked: Set[Entity] = entities.filter(e =>
-      val mappedCoord = mapToCanvasCoordinate(e.position)
-      Math
-        .abs(mappedCoord._1 - coordinates._1) <= CLICK_RANGE &&
-      (Math.abs(mappedCoord._2 - coordinates._2) <= CLICK_RANGE || mappedCoord._2 == 0)
+      val topLeft: (Double, Double) = mapToCanvasCoordinate(e.position)
+      val bottomRight: (Double, Double) = mapToCanvasCoordinate(e.position._1 + e.size._1, e.position._2 + e.size._2)
+      (coordinates._1 > topLeft._1 && coordinates._1 < bottomRight._1) &&
+      (coordinates._2 > topLeft._2 && coordinates._2 < bottomRight._2) ||
+      (coordinates._2 > (preferredHeight - bottomRight._2)) &&
+      (coordinates._1 < (topLeft._1 + bottomRight._2 / 2)) && (coordinates._1 > topLeft._1)
     )
     entitiesClicked.headOption
 

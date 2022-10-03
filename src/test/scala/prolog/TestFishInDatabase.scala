@@ -10,7 +10,7 @@ import model.FeedingType
 class TestFishInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAfterEach:
 
   override def afterEach(): Unit =
-    PrologEngine.clear
+    PrologEngine.clear()
 
   describe("The PrologEngine") {
     it("should allow a fish to be added") {

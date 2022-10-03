@@ -98,7 +98,7 @@ trait PrologEngine:
   def getAllCarnivorousFood: List[Food]
 
   /** Removes every data that has been added to the engine. */
-  def clear: Unit
+  def clear(): Unit
 
 object PrologEngine extends PrologEngine:
 
@@ -161,5 +161,5 @@ object PrologEngine extends PrologEngine:
       Struct("food", Term.createTerm("'C'"), Term.createTerm("A"), Term.createTerm("X"), Term.createTerm("Y"))
     getData(FoodSerializer)(input)
 
-  override def clear: Unit =
+  override def clear(): Unit =
     engine.clearTheory()

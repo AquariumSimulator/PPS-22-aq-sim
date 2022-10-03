@@ -9,7 +9,7 @@ import model.Algae
 class TestAlgaeInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAfterEach:
 
   override def afterEach(): Unit =
-    PrologEngine.clear
+    PrologEngine.clear()
 
   describe("The PrologEngine") {
     it("should allow an algae to be added") {

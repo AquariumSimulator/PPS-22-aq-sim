@@ -37,7 +37,7 @@ class TestStep extends AnyFunSpec:
   private val cFishNotHungry: Fish = Fish(position = (100, 0))
 
   private val algaeEaten: Algae = Algae()
-  private val algaeNotEaten: Algae = Algae(base = 1)
+  private val algaeNotEaten: Algae = Algae(base = 20)
 
   private val hFoodEaten: Food = Food(position = (0, 0), feedingType = FeedingType.HERBIVOROUS)
   private val cFoodEaten: Food = Food(position = (11, 11))

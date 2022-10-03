@@ -4,16 +4,21 @@ import model.fish.Fish
 import model.FeedingType
 import model.Algae
 import model.aquarium.AquariumDimensions
+import model.aquarium.AquariumParametersLimits.*
 
+import scala.annotation.tailrec
+import scala.language.postfixOps
 import scala.util.Random
 
 /** This class represent the current population of the aquarium */
 case class Population(herbivorous: Set[Fish], carnivorous: Set[Fish], algae: Set[Algae]) extends UpdatePopulation:
   override def addInhabitant[A](newElem: A): Population =
+    val currentFishNumber: Int = this.carnivorous.size + this.herbivorous.size
     newElem match
-      case f: Fish if f.feedingType == FeedingType.HERBIVOROUS => this.copy(herbivorous = this.herbivorous + f)
-      case f: Fish => this.copy(carnivorous = this.carnivorous + f)
-      case a: Algae => this.copy(algae = this.algae + a)
+      case f: Fish if f.feedingType == FeedingType.HERBIVOROUS && currentFishNumber < FISH_MAX =>
+        this.copy(herbivorous = this.herbivorous + f)
+      case f: Fish if currentFishNumber < FISH_MAX => this.copy(carnivorous = this.carnivorous + f)
+      case a: Algae if this.algae.size < ALGAE_MAX => this.copy(algae = this.algae + a)
 
   override def removeInhabitant[A](removeElem: A): Population =
     removeElem match
@@ -52,6 +57,7 @@ object Population:
       *   set of algae
       */
     def addAlgae(number: Int): Set[Algae] =
+      @tailrec
       def _addAlgae(number: Int, set: Set[Algae]): Set[Algae] =
         val newAlgae =
           Algae(Random.between(0, AquariumDimensions.WIDTH), Random.between(Algae.DEFAULT_HEIGHT, Algae.MAX_HEIGHT))

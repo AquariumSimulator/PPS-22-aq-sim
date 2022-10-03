@@ -86,9 +86,11 @@ object BottomBar:
 
   val playButton: BottomBarButton = BottomBarButton("/icons/play.png")
   playButton.tooltip = Tooltip("Play the simulation")
+  var speedBeforeStop: SimulationSpeed = SimulationSpeed.NORMAL
   playButton.onAction = (event: ActionEvent) =>
     context.controller.isRunning() match
       case true =>
+        speedBeforeStop = context.controller.getSpeed()
         context.controller.stopSimulation()
         IconButton.setImage(
           playButton,
@@ -99,7 +101,7 @@ object BottomBar:
         playButton.tooltip = Tooltip("Play the simulation")
         changeSpeedButton.disable = true
       case false =>
-        context.controller.startSimulation()
+        context.controller.startSimulation(speedBeforeStop)
         IconButton.setImage(
           playButton,
           "/icons/pause.png",

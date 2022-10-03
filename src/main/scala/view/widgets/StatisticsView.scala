@@ -8,6 +8,7 @@ import scalafx.scene.control.{Label, CheckBox}
 import scalafx.scene.chart.{LineChart, NumberAxis, XYChart}
 import scalafx.geometry.{Pos, Insets}
 import view.utils.AquariumFonts
+import mvc.MVC.given_ViewRequirements as context
 
 class StatisticsView extends Stage:
   this.setScene(
@@ -21,37 +22,30 @@ class StatisticsView extends Stage:
           padding = Insets(15)
         val lineChart: LineChart[Number, Number] =
           LineChart[Number, Number](NumberAxis("Iteration"), NumberAxis("Population"))
+
+        val populationTrend: List[(Int, Int, Int)] = context.controller.getPopulationTrend()
         lineChart.getData
           .add(
             XYChart.Series[Number, Number](
               "Herbivorous",
-              ObservableBuffer(
-                XYChart.Data[Number, Number](1, 23),
-                XYChart.Data[Number, Number](2, 14),
-                XYChart.Data[Number, Number](3, 17),
-                XYChart.Data[Number, Number](4, 7)
+              ObservableBuffer().addAll(
+                populationTrend.zipWithIndex.map((value, idx) => XYChart.Data[Number, Number](idx, value._1)).toList
               )
             )
           )
         lineChart.getData.add(
           XYChart.Series[Number, Number](
             "Carnivorous",
-            ObservableBuffer(
-              XYChart.Data[Number, Number](1, 18),
-              XYChart.Data[Number, Number](2, 22),
-              XYChart.Data[Number, Number](3, 15),
-              XYChart.Data[Number, Number](4, 4)
+            ObservableBuffer().addAll(
+              populationTrend.zipWithIndex.map((value, idx) => XYChart.Data[Number, Number](idx, value._2)).toList
             )
           )
         )
         lineChart.getData.add(
           XYChart.Series[Number, Number](
             "Algae",
-            ObservableBuffer(
-              XYChart.Data[Number, Number](1, 8),
-              XYChart.Data[Number, Number](2, 17),
-              XYChart.Data[Number, Number](3, 26),
-              XYChart.Data[Number, Number](4, 30)
+            ObservableBuffer().addAll(
+              populationTrend.zipWithIndex.map((value, idx) => XYChart.Data[Number, Number](idx, value._3)).toList
             )
           )
         )

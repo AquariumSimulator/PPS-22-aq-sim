@@ -9,10 +9,13 @@ import mvc.MVC.model.*
 
 import java.util.concurrent.ConcurrentLinkedQueue
 import scala.annotation.tailrec
+import model.db.PrologEngine
 
 /** Model methods implementation from [[Model]]. */
 trait ModelImpl:
   class ModelImpl extends Model:
+
+    override def getDatabase(): PrologEngine = PrologEngine
 
     private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
 
@@ -20,14 +23,17 @@ trait ModelImpl:
     private val multiplier = (aqState: AquariumState) =>
       SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
         SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
+
     override def addUserInteraction(interaction: Aquarium => Aquarium): Unit =
       queue.add(interaction)
+
     override def initializeAquarium(
         herbivorousFishNumber: Int,
         carnivorousFishNumber: Int,
         algaeNumber: Int
     ): Aquarium =
       Aquarium(herbivorousFishNumber, carnivorousFishNumber, algaeNumber)
+
     override def step(aquarium: Aquarium): Aquarium =
 
       val updatedAquariumState: AquariumState = updateAquariumState(aquarium)

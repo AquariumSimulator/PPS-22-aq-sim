@@ -27,6 +27,9 @@ trait SimulationEngine:
   /** Get current [[Aquarium]]. */
   def getAquarium(): Aquarium
 
+  /** Get number of iterations. */
+  def getIterations(): Int
+
 enum SimulationSpeed:
   case HALT, SLOW, NORMAL, FAST
 
@@ -42,6 +45,9 @@ object SimulationEngine:
     import SimulationSpeed._
 
     var speed: SimulationSpeed = HALT
+    var iteration: Int = 0
+
+    override def getIterations(): Int = iteration
 
     override def start(simSpeed: SimulationSpeed): Unit =
       speed match
@@ -54,8 +60,10 @@ object SimulationEngine:
           println("Simulation started")
           Iterator
             .iterate(aquarium)(context.model.step)
-            .foreach((aq: Aquarium) =>
+            .zipWithIndex
+            .foreach((aq: Aquarium, index: Int) =>
               aquarium = aq
+              iteration = index
 
               speed match
                 case HALT =>

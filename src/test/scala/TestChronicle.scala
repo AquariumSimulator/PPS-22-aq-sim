@@ -12,15 +12,15 @@ class TestChronicle extends AnyFunSpec:
     }
 
     it("should have one element after the addition of it") {
-      chronicle = UpdateChronicle(chronicle).addEvent("Fish1 is born")
+      chronicle = chronicle.addEvent("Fish1 is born")
       assert(chronicle.events.size == 1)
       assert(chronicle.events.last === "Fish1 is born")
     }
 
     it("should have more element after multiple additions") {
-      chronicle = UpdateChronicle(chronicle).addEvent("A new fish is born")
-      chronicle = UpdateChronicle(chronicle).addEvent("Fish1 is dead")
-      chronicle = UpdateChronicle(chronicle).addEvent("Fish2 ate Fish1")
+      chronicle = chronicle.addEvent("A new fish is born")
+      chronicle = chronicle.addEvent("Fish1 is dead")
+      chronicle = chronicle.addEvent("Fish2 ate Fish1")
       assert(chronicle.events.size == 4)
     }
   }

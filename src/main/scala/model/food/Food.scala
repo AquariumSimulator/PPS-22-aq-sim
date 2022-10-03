@@ -19,6 +19,7 @@ case class Food(
 
   import Food._
 
-  def oxygenShift: Double = 0.0
-  def impurityShift: Double = nutritionAmount * IMPURITY_CONSTANT
-  def phShift: Double = 0.0
+  val size: (Double, Double) = (5, 5)
+  val oxygenShift: Double = 0.0
+  val impurityShift: Double = nutritionAmount * IMPURITY_CONSTANT
+  val phShift: Double = 0.0

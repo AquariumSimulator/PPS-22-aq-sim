@@ -9,6 +9,7 @@ import mvc.MVC.model.*
 
 import java.util.concurrent.ConcurrentLinkedQueue
 import scala.annotation.tailrec
+import scala.language.postfixOps
 
 /** Model methods implementation from [[Model]]. */
 trait ModelImpl:
@@ -16,7 +17,6 @@ trait ModelImpl:
 
     private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
 
-    private val isFoodNear = (food: Food, fish: Fish) => food.position == fish.position
     private val multiplier = (aqState: AquariumState) =>
       SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
         SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
@@ -33,19 +33,14 @@ trait ModelImpl:
       val updatedAquariumState: AquariumState = updateAquariumState(aquarium)
 
       val updatedCarnivorous =
-        foodInteraction(aquarium.population.carnivorous, aquarium.availableFood.carnivorousFood)(isFoodNear)
+        foodInteraction(aquarium.population.carnivorous, aquarium.availableFood.carnivorousFood)
       val updateHerbivorous =
-        foodInteraction(aquarium.population.herbivorous, aquarium.availableFood.herbivorousFood)(isFoodNear)
+        foodInteraction(aquarium.population.herbivorous, aquarium.availableFood.herbivorousFood)
 
       val fishAlgaeInteraction =
-        calculateInteractionAlgae(updateHerbivorous._1, aquarium.population.algae)((f: Fish, a: Algae) =>
-          f.position._1 == a.base
-        )
+        fishAlgaeInteractions(updateHerbivorous._1, aquarium.population.algae)
 
-      val fishFishInteraction =
-        calculateInteractionFish(updatedCarnivorous._1.concat(fishAlgaeInteraction._1).toList)((f1: Fish, f2: Fish) =>
-          f1.position == f2.position
-        )
+      val fishFishInteraction = fishFishInteractions(updatedCarnivorous._1.concat(fishAlgaeInteraction._1))
 
       val newHerbivorous =
         entityStep(fishFishInteraction.filter(f => f.feedingType == FeedingType.HERBIVOROUS), updatedAquariumState)(
@@ -129,17 +124,16 @@ trait ModelImpl:
 
       _newAquariumState(population, initialState)(func)
 
-    private def foodInteraction(set: Set[Fish], foodSet: Set[Food])(
-        isNear: (Food, Fish) => Boolean
-    ): (Set[Fish], Set[Food]) =
+    private def foodInteraction(set: Set[Fish], foodSet: Set[Food]) =
       if set.nonEmpty && foodSet.nonEmpty then
         var newFoodSet = foodSet
         var newSet = set
         for
           fish <- set
           food <- foodSet
-          if fish.satiety < Fish.MAX_SATIETY - food.nutritionAmount && isNear(food, fish)
+          if fish.satiety < Fish.MAX_SATIETY - food.nutritionAmount && fish.collidesWith(food)
         do
+          println(fish.name + "  ha MANGIATO " + fish.feedingType + " - " + food.feedingType)
           newSet = newSet - fish
           newSet = newSet + UpdateFish(fish).eat(food)
           newFoodSet = newFoodSet - food
@@ -154,64 +148,61 @@ trait ModelImpl:
         if isAlive(elem)
         newElem <- action(elem, aquariumState)
       yield newElem
+  private def fishAlgaeInteractions(fish: Set[Fish], algae: Set[Algae]): (Set[Fish], Set[Algae]) =
+    var newFish: Set[Fish] = fish
+    var newAlgae: Set[Algae] = algae
+    var tuples = for
+      f <- fish
+      a <- algae
+      if f.collidesWith(a)
+    yield (f, a)
 
-    def calculateInteractionAlgae(setFish: Set[Fish], setAlgae: Set[Algae])(
-        isNear: (Fish, Algae) => Boolean
-    ): (Set[Fish], Set[Algae]) =
-      var newFish: Set[Fish] = Set.empty
-      var newAlgae = setAlgae
-      @tailrec
-      def _calculateInteraction(fish: Fish, setAlgae: Set[Algae], newSetAlgae: Set[Algae]): (Fish, Set[Algae]) =
-        setAlgae match
-          case s if s.nonEmpty =>
-            if isNear(fish, s.head) then
-              val interaction = Interaction(fish, s.head).update()
-              _calculateInteraction(
-                interaction._1,
-                s.tail,
-                if interaction._2.isDefined then newSetAlgae + interaction._2.get else newSetAlgae
-              )
-            else _calculateInteraction(fish, s.tail, newSetAlgae + s.head)
-          case _ => (fish, newSetAlgae)
+    for
+      tuple <- tuples
+      res = Interaction(tuple._1, tuple._2).update()
+    do
+      newFish = newFish.filterNot(f => f.name == tuple._1.name) + res._1
+      tuples = tuples
+        .map(t =>
+          t match
+            case t if t._1.name == tuple._1.name => (res._1, t._2)
+            case _ => t
+        )
+      if res._2.isEmpty then
+        newAlgae = newAlgae - tuple._2
+        tuples = tuples.filterNot(t => t._2 == tuple._2)
+    (newFish, newAlgae)
 
-      for
-        fish <- setFish
-        res = _calculateInteraction(fish, newAlgae, Set.empty)
-      do
-        newFish = newFish + res._1
-        newAlgae = res._2
+  private def fishFishInteractions(set: Set[Fish]): Set[Fish] =
+    var tuples = set.toList.tails
+      .filter(_.nonEmpty)
+      .flatMap(f => f.tail.map((f.head, _)))
+      .filter(tuple => tuple._1.collidesWith(tuple._2))
+      .toList
+    var fishFishInteraction = set
+    def checkAndUpdate(oldFish: String, newFish: Option[Fish]): Unit =
+      if newFish.isEmpty then tuples = tuples.filter(t => t._1.name != oldFish && t._2.name != oldFish)
+      else
+        tuples = tuples
+          .map(t =>
+            t match
+              case t if t._1.name == oldFish => (newFish.get, t._2)
+              case t if t._2.name == oldFish => (t._1, newFish.get)
+              case _ => t
+          )
+        fishFishInteraction = fishFishInteraction + newFish.get
 
-      (newFish, newAlgae)
+    for
+      tuple <- tuples
+      res = Interaction(tuple._1, tuple._2).update()
+    do
+      fishFishInteraction = fishFishInteraction.filterNot(f => f.name == tuple._1.name)
+      fishFishInteraction = fishFishInteraction.filterNot(f => f.name == tuple._2.name)
 
-    def calculateInteractionFish(fish: List[Fish])(isNear: (Fish, Fish) => Boolean): Set[Fish] =
-      var newFish: List[Fish] = fish
-      var children: List[Fish] = List.empty
-      @tailrec
-      def _calculateInteraction(fish: Option[Fish], remainingFish: List[Fish], newListFish: List[Fish]): List[Fish] =
-        remainingFish match
-          case s if s.nonEmpty =>
-            fish match
-              case Some(f) =>
-                f match
-                  case f if f == s.head || !isNear(f, s.head) =>
-                    _calculateInteraction(Some(f), remainingFish.tail, newListFish :+ s.head)
-                  case f =>
-                    val res = Interaction(f, s.head).update()
-                    var newList: List[Fish] = newListFish
-                    if res._2.isDefined then newList = newList :+ res._2.get
-                    if res._3.isDefined then children = children :+ res._3.get
-                    _calculateInteraction(res._1, s.tail, newList)
-              case _ =>
-                _calculateInteraction(Some(s.head), s.tail, newFish)
-          case _ if fish.isDefined =>
-            newListFish.filter(f => f.name != fish.get.name) :+ fish.get
-          case _ =>
-            newListFish
+      checkAndUpdate(tuple._1.name, res._1)
+      checkAndUpdate(tuple._2.name, res._2)
 
-      for name <- fish.map(f => f.name)
-      do
-        if newFish.exists(f => f.name == name) then
-          newFish = _calculateInteraction(Some(newFish.filter(f => f.name == name).head), newFish, List.empty)
-      if (children.size + newFish.size) < AquariumParametersLimits.FISH_MAX
-      then newFish.concat(children).toSet
-      else newFish.toSet
+      if res._3.isDefined && fishFishInteraction.size < AquariumParametersLimits.FISH_MAX
+      then fishFishInteraction = fishFishInteraction + res._3.get
+
+    fishFishInteraction

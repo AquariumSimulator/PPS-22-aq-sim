@@ -13,7 +13,7 @@ trait UpdateFish:
   def updateReproductionFactor(newReproductionFactor: Int): Fish
 
   def move(speedMultiplier: Double): Fish
-  def eat(fish: Fish): Fish
+  // def eat(fish: Fish): Fish
   def eat(food: Food): Fish
 
 object UpdateFish:
@@ -66,8 +66,8 @@ object UpdateFish:
         case x if x < 0 =>
           newPosition = (0, newPosition._2)
           newSpeed = (newSpeed._1 * -1, newSpeed._2)
-        case x if x > AquariumDimensions.WIDTH =>
-          newPosition = (AquariumDimensions.WIDTH, newPosition._2)
+        case x if x + fish.size._1 > AquariumDimensions.WIDTH =>
+          newPosition = (AquariumDimensions.WIDTH - fish.size._1, newPosition._2)
           newSpeed = (newSpeed._1 * -1, newSpeed._2)
         case _ =>
 
@@ -76,8 +76,8 @@ object UpdateFish:
         case y if y < 0 =>
           newPosition = (newPosition._1, 0)
           newSpeed = (newSpeed._1, newSpeed._2 * -1)
-        case y if y > AquariumDimensions.HEIGHT =>
-          newPosition = (newPosition._1, AquariumDimensions.HEIGHT)
+        case y if y + fish.size._2 > AquariumDimensions.HEIGHT =>
+          newPosition = (newPosition._1, AquariumDimensions.HEIGHT - fish.size._2)
           newSpeed = (newSpeed._1, newSpeed._2 * -1)
         case _ =>
 
@@ -93,17 +93,17 @@ object UpdateFish:
         feedingType = fish.feedingType
       )
 
-    override def eat(eatenFish: Fish): Fish =
-      Fish(
-        name = fish.name,
-        position = fish.position,
-        speed = fish.speed,
-        satiety = MAX_SATIETY min (fish.satiety + (MEAT_AMOUNT * eatenFish.size).floor.toInt),
-        age = fish.age,
-        size = fish.size,
-        reproductionFactor = fish.reproductionFactor,
-        feedingType = fish.feedingType
-      )
+    // override def eat(eatenFish: Fish): Fish =
+    //   Fish(
+    //     name = fish.name,
+    //     position = fish.position,
+    //     speed = fish.speed,
+    //     hunger = MAX_HUNGER.min(fish.hunger + (MEAT_AMOUNT * eatenFish.size._1).floor.toInt),
+    //     age = fish.age,
+    //     size = fish.size,
+    //     reproductionFactor = fish.reproductionFactor,
+    //     feedingType = fish.feedingType
+    //   )
 
     override def eat(food: Food): Fish =
       Fish(

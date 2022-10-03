@@ -1,7 +1,7 @@
 package model.fish
 
 import model.aquarium.AquariumDimensions
-import model.fish.Fish.{MAX_HUNGER, MEAT_AMOUNT}
+import model.fish.Fish.{MAX_SATIETY, MEAT_AMOUNT}
 import model.food.Food
 
 trait UpdateFish:
@@ -9,11 +9,11 @@ trait UpdateFish:
   // def calculatePosition(speed: (Double, Double)): (Double, Double)
   // def updatePosition(newPosition: (Double, Double)): Fish
   // def updateSpeed(newSpeed: (Double, Double)): Fish
-  def updateHunger(newHunger: Int): Fish
+  def updateSatiety(newSatiety: Int): Fish
   def updateReproductionFactor(newReproductionFactor: Int): Fish
 
   def move(speedMultiplier: Double): Fish
-  def eat(fish: Fish): Fish
+  // def eat(fish: Fish): Fish
   def eat(food: Food): Fish
 
 object UpdateFish:
@@ -25,13 +25,13 @@ object UpdateFish:
     private /*override*/ def calculatePosition(speed: (Double, Double)): (Double, Double) =
       (fish.position._1 + speed._1, fish.position._2 + speed._2)
 
-    override def updateHunger(newHunger: Int): Fish =
+    override def updateSatiety(newSatiety: Int): Fish =
       Fish(
         name = fish.name,
         reproductionFactor = fish.reproductionFactor,
         position = fish.position,
         speed = fish.speed,
-        hunger = newHunger,
+        satiety = newSatiety,
         age = fish.age,
         size = fish.size,
         feedingType = fish.feedingType
@@ -43,7 +43,7 @@ object UpdateFish:
         reproductionFactor = newReproductionFactor,
         position = fish.position,
         speed = fish.speed,
-        hunger = fish.hunger,
+        satiety = fish.satiety,
         age = fish.age,
         size = fish.size,
         feedingType = fish.feedingType
@@ -66,8 +66,8 @@ object UpdateFish:
         case x if x < 0 =>
           newPosition = (0, newPosition._2)
           newSpeed = (newSpeed._1 * -1, newSpeed._2)
-        case x if x > AquariumDimensions.WIDTH =>
-          newPosition = (AquariumDimensions.WIDTH, newPosition._2)
+        case x if x + fish.size._1 > AquariumDimensions.WIDTH =>
+          newPosition = (AquariumDimensions.WIDTH - fish.size._1, newPosition._2)
           newSpeed = (newSpeed._1 * -1, newSpeed._2)
         case _ =>
 
@@ -76,8 +76,8 @@ object UpdateFish:
         case y if y < 0 =>
           newPosition = (newPosition._1, 0)
           newSpeed = (newSpeed._1, newSpeed._2 * -1)
-        case y if y > AquariumDimensions.HEIGHT =>
-          newPosition = (newPosition._1, AquariumDimensions.HEIGHT)
+        case y if y + fish.size._2 > AquariumDimensions.HEIGHT =>
+          newPosition = (newPosition._1, AquariumDimensions.HEIGHT - fish.size._2)
           newSpeed = (newSpeed._1, newSpeed._2 * -1)
         case _ =>
 
@@ -86,31 +86,31 @@ object UpdateFish:
         name = fish.name,
         position = newPosition,
         speed = newSpeed,
-        hunger = fish.hunger,
+        satiety = fish.satiety,
         age = fish.age,
         size = fish.size,
         reproductionFactor = fish.reproductionFactor,
         feedingType = fish.feedingType
       )
 
-    override def eat(eatenFish: Fish): Fish =
-      Fish(
-        name = fish.name,
-        position = fish.position,
-        speed = fish.speed,
-        hunger = MAX_HUNGER min (fish.hunger + (MEAT_AMOUNT * eatenFish.size).floor.toInt),
-        age = fish.age,
-        size = fish.size,
-        reproductionFactor = fish.reproductionFactor,
-        feedingType = fish.feedingType
-      )
+    // override def eat(eatenFish: Fish): Fish =
+    //   Fish(
+    //     name = fish.name,
+    //     position = fish.position,
+    //     speed = fish.speed,
+    //     hunger = MAX_HUNGER.min(fish.hunger + (MEAT_AMOUNT * eatenFish.size._1).floor.toInt),
+    //     age = fish.age,
+    //     size = fish.size,
+    //     reproductionFactor = fish.reproductionFactor,
+    //     feedingType = fish.feedingType
+    //   )
 
     override def eat(food: Food): Fish =
       Fish(
         name = fish.name,
         position = fish.position,
         speed = fish.speed,
-        hunger = MAX_HUNGER min (fish.hunger + food.nutritionAmount),
+        satiety = MAX_SATIETY min (fish.satiety + food.nutritionAmount),
         age = fish.age,
         size = fish.size,
         reproductionFactor = fish.reproductionFactor,

@@ -38,7 +38,7 @@ class TestStep extends AnyFunSpec:
 
   private val algaeEaten: Algae = Algae()
   private val algaeNotEaten: Algae = Algae(base = 20)
-  
+
   private val hFoodEaten: Food = Food(position = (0, 0), feedingType = FeedingType.HERBIVOROUS)
   private val cFoodEaten: Food = Food(position = (11, 11))
   private val hFoodNotEaten: Food = Food(position = (0, 100), feedingType = FeedingType.HERBIVOROUS)
@@ -76,7 +76,7 @@ class TestStep extends AnyFunSpec:
       assert(newAquarium.availableFood.herbivorousFood.size == food.herbivorousFood.size - 1)
       assert(newAquarium.availableFood.carnivorousFood.size == food.carnivorousFood.size - 1)
     }
-    
+
     it("a fish that didn't eat anything has lower satiety") {
       // a fish that wasn't hungry and a new fish
       val fishNumber = 1 + 1

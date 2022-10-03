@@ -92,7 +92,7 @@ object UpdateFish:
         reproductionFactor = fish.reproductionFactor,
         feedingType = fish.feedingType
       )
-    
+
     // override def eat(eatenFish: Fish): Fish =
     //   Fish(
     //     name = fish.name,

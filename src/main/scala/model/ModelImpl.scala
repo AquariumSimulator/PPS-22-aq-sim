@@ -47,15 +47,10 @@ trait ModelImpl:
           (f: Fish) => f.isAlive
         )((f: Fish, a: AquariumState) =>
           Interaction(
-            UpdateFish(
-              UpdateFish(
-                UpdateFish(f)
-                  .updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
-              )
-                .updateSatiety(f.satiety - Fish.SATIETY_SHIFT)
-            )
-              .move(multiplier(updatedAquariumState)),
-            a
+                f.updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
+                    .updateSatiety(f.satiety - Fish.SATIETY_SHIFT)
+                    .move(multiplier(updatedAquariumState)),
+                a
           )
             .update()
         )
@@ -64,17 +59,14 @@ trait ModelImpl:
         entityStep(fishFishInteraction.filter(f => f.feedingType == FeedingType.CARNIVOROUS), updatedAquariumState)(
           (f: Fish) => f.isAlive
         )((f: Fish, a: AquariumState) =>
+          val fish =
+            if f.reproductionFactor < Fish.MAX_REPRODUCTION_FACTOR then
+              f.updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
+            else f
           Interaction(
-            UpdateFish(
-              UpdateFish(
-                if f.reproductionFactor < Fish.MAX_REPRODUCTION_FACTOR then
-                  UpdateFish(f)
-                    .updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
-                else f
-              )
+            fish
                 .updateSatiety(f.satiety - Fish.SATIETY_SHIFT)
-            )
-              .move(multiplier(updatedAquariumState)),
+                .move(multiplier(updatedAquariumState)),
             a
           )
             .update()
@@ -135,7 +127,7 @@ trait ModelImpl:
         do
           println(fish.name + "  ha MANGIATO " + fish.feedingType + " - " + food.feedingType)
           newSet = newSet - fish
-          newSet = newSet + UpdateFish(fish).eat(food)
+          newSet = newSet + fish.eat(food)
           newFoodSet = newFoodSet - food
         (newSet, newFoodSet)
       else (set, foodSet)

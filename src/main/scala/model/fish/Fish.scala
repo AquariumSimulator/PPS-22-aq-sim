@@ -39,7 +39,7 @@ case class Fish(
     position: (Double, Double) = (0.0, 0.0),
     feedingType: FeedingType = FeedingType.CARNIVOROUS,
     reproductionFactor: Int = 30
-) extends Entity:
+) extends Entity with UpdateFish:
   val oxygenShift: Double = OXYGEN_SHIFT_CONSTANT * size._1
   val impurityShift: Double = IMPURITY_SHIFT_CONSTANT * size._1
   val phShift: Double = PH_SHIFT_CONSTANT * size._1

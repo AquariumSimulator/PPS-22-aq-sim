@@ -7,19 +7,19 @@ import model.fish.Fish
 class TestNewDatabase extends AnyFunSpec:
   describe("A new database") {
     it("should have 0 fish") {
-      assert(PrologEngine.getAllFish.isEmpty)
+      assert(PrologEngine.getAllFish().isEmpty)
     }
 
     it("should have 0 herbivorous fish") {
-      assert(PrologEngine.getAllHerbivorousFish.isEmpty)
+      assert(PrologEngine.getAllHerbivorousFish().isEmpty)
     }
 
     it("should have 0 carnivorous fish") {
-      assert(PrologEngine.getAllCarnivorousFish.isEmpty)
+      assert(PrologEngine.getAllCarnivorousFish().isEmpty)
     }
 
     it("should have 0 algae") {
-      assert(PrologEngine.getAllAlgae.isEmpty)
+      assert(PrologEngine.getAllAlgae().isEmpty)
     }
 
     it("should have 0 carnivorous food") {

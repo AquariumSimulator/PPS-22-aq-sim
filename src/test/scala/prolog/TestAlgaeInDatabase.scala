@@ -19,9 +19,9 @@ class TestAlgaeInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAf
       PrologEngine.saveAlgae(a)
 
       Then("the fish list should have size 1")
-      assert(PrologEngine.getAllAlgae.size === 1)
+      assert(PrologEngine.getAllAlgae().size === 1)
 
       And("the only fish should be the one inserted before")
-      assert(PrologEngine.getAllAlgae.head === a)
+      assert(PrologEngine.getAllAlgae().head === a)
     }
   }

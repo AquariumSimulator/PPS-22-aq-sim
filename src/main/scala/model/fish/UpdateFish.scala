@@ -26,28 +26,10 @@ object UpdateFish:
       (fish.position._1 + speed._1, fish.position._2 + speed._2)
 
     override def updateSatiety(newSatiety: Int): Fish =
-      Fish(
-        name = fish.name,
-        reproductionFactor = fish.reproductionFactor,
-        position = fish.position,
-        speed = fish.speed,
-        satiety = newSatiety,
-        age = fish.age,
-        size = fish.size,
-        feedingType = fish.feedingType
-      )
+      fish.copy(satiety = newSatiety)
 
     override def updateReproductionFactor(newReproductionFactor: Int): Fish =
-      Fish(
-        name = fish.name,
-        reproductionFactor = newReproductionFactor,
-        position = fish.position,
-        speed = fish.speed,
-        satiety = fish.satiety,
-        age = fish.age,
-        size = fish.size,
-        feedingType = fish.feedingType
-      )
+      fish.copy(reproductionFactor = newReproductionFactor)
 
     // override def updateSpeed(newSpeed: (Double, Double)): Fish =
     //   fish.copy(speed = newSpeed)
@@ -61,7 +43,6 @@ object UpdateFish:
         (fish.speed._1 * speedMultiplier, fish.speed._2 * speedMultiplier)
       )
 
-      // boundary check (x)
       newPosition._1 match
         case x if x < 0 =>
           newPosition = (0, newPosition._2)
@@ -71,7 +52,6 @@ object UpdateFish:
           newSpeed = (newSpeed._1 * -1, newSpeed._2)
         case _ =>
 
-      // boundary check (y)
       newPosition._2 match
         case y if y < 0 =>
           newPosition = (newPosition._1, 0)
@@ -81,38 +61,7 @@ object UpdateFish:
           newSpeed = (newSpeed._1, newSpeed._2 * -1)
         case _ =>
 
-      // creating a new fish with the new position and the new speed
-      Fish(
-        name = fish.name,
-        position = newPosition,
-        speed = newSpeed,
-        satiety = fish.satiety,
-        age = fish.age,
-        size = fish.size,
-        reproductionFactor = fish.reproductionFactor,
-        feedingType = fish.feedingType
-      )
-
-    // override def eat(eatenFish: Fish): Fish =
-    //   Fish(
-    //     name = fish.name,
-    //     position = fish.position,
-    //     speed = fish.speed,
-    //     hunger = MAX_HUNGER.min(fish.hunger + (MEAT_AMOUNT * eatenFish.size._1).floor.toInt),
-    //     age = fish.age,
-    //     size = fish.size,
-    //     reproductionFactor = fish.reproductionFactor,
-    //     feedingType = fish.feedingType
-    //   )
+      fish.copy(position = newPosition, speed = newSpeed)
 
     override def eat(food: Food): Fish =
-      Fish(
-        name = fish.name,
-        position = fish.position,
-        speed = fish.speed,
-        satiety = MAX_SATIETY min (fish.satiety + food.nutritionAmount),
-        age = fish.age,
-        size = fish.size,
-        reproductionFactor = fish.reproductionFactor,
-        feedingType = fish.feedingType
-      )
+      fish.copy(satiety = MAX_SATIETY min (fish.satiety + food.nutritionAmount))

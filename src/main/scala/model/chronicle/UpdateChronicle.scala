@@ -1,5 +1,6 @@
 package model.chronicle
 
+/** Trait that models methods for the chronicle */
 trait UpdateChronicle:
 
   /** Add an event to the chronicle

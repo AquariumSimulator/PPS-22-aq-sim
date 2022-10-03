@@ -38,7 +38,7 @@ trait ModelImpl:
         foodInteraction(aquarium.population.herbivorous, aquarium.availableFood.herbivorousFood)
 
       val fishAlgaeInteraction =
-        calculateInteractionAlgae(updateHerbivorous._1, aquarium.population.algae)
+        fishAlgaeInteractions(updateHerbivorous._1, aquarium.population.algae)
 
       val fishFishInteraction = fishFishInteractions(updatedCarnivorous._1.concat(fishAlgaeInteraction._1))
 
@@ -148,32 +148,30 @@ trait ModelImpl:
         if isAlive(elem)
         newElem <- action(elem, aquariumState)
       yield newElem
+  private def fishAlgaeInteractions(fish: Set[Fish], algae: Set[Algae]): (Set[Fish], Set[Algae]) =
+    var newFish: Set[Fish] = fish
+    var newAlgae: Set[Algae] = algae
+    var tuples = for
+      f <- fish
+      a <- algae
+      if f.collidesWith(a)
+    yield (f, a)
 
-    def calculateInteractionAlgae(setFish: Set[Fish], setAlgae: Set[Algae]): (Set[Fish], Set[Algae]) =
-      var newFish: Set[Fish] = Set.empty
-      var newAlgae = setAlgae
-      @tailrec
-      def _calculateInteraction(fish: Fish, setAlgae: Set[Algae], newSetAlgae: Set[Algae]): (Fish, Set[Algae]) =
-        setAlgae match
-          case s if s.nonEmpty =>
-            if fish.collidesWith(s.head) then
-              val interaction = Interaction(fish, s.head).update()
-              _calculateInteraction(
-                interaction._1,
-                s.tail,
-                if interaction._2.isDefined then newSetAlgae + interaction._2.get else newSetAlgae
-              )
-            else _calculateInteraction(fish, s.tail, newSetAlgae + s.head)
-          case _ => (fish, newSetAlgae)
-
-      for
-        fish <- setFish
-        res = _calculateInteraction(fish, newAlgae, Set.empty)
-      do
-        newFish = newFish + res._1
-        newAlgae = res._2
-
-      (newFish, newAlgae)
+    for
+      tuple <- tuples
+      res = Interaction(tuple._1, tuple._2).update()
+    do
+      newFish = newFish.filterNot(f => f.name == tuple._1.name) + res._1
+      tuples = tuples
+        .map(t =>
+          t match
+            case t if t._1.name == tuple._1.name => (res._1, t._2)
+            case _ => t
+        )
+      if res._2.isEmpty then
+        newAlgae = newAlgae - tuple._2
+        tuples = tuples.filterNot(t => t._2 == tuple._2)
+    (newFish, newAlgae)
 
   private def fishFishInteractions(set: Set[Fish]): Set[Fish] =
     var tuples = set.toList.tails

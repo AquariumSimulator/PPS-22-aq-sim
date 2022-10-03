@@ -10,7 +10,7 @@ trait ControllerImpl:
   context: ControllerRequirements =>
   given ControllerRequirements = context
   class ControllerImpl extends Controller:
-    
+
     val simEngine: SimulationEngine = SimulationEngine(
       context.model.initializeAquarium(
         InitializeAquarium.HERBIVOROUS_FISH,

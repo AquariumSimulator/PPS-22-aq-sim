@@ -13,23 +13,14 @@ trait PrologEngine:
     * @param fish
     *   The fish to be saved.
     */
-  def saveFish(fish: Fish): Unit
-
-  /** Save a new relationship of parenting between two fishes.
-    *
-    * @param parent
-    *   The parent fish.
-    * @param son
-    *   The son fish.
-    */
-  def saveSonOf(parent: Fish, son: Fish): Unit
+  def saveFish(fish: Fish, iteration: Int): Unit
 
   /** Save all the information of passed algae. If the algae already exists informations are updated.
     *
     * @param algae
     *   The algae to be saved.
     */
-  def saveAlgae(algae: Algae): Unit
+  def saveAlgae(algae: Algae, iteration: Int): Unit
 
   /** Save all the information of passed food. If the food already exists informations are updated.
     *
@@ -106,18 +97,12 @@ trait PrologEngine:
     */
   def getAllCarnivorousFood: List[Food]
 
-//def getGenealogicalTreeOf(f: Fish): Unit // TODO
-
   /** Removes every data that has been added to the engine. */
   def clear: Unit
 
 object PrologEngine extends PrologEngine:
 
   private val engine: Prolog = new Prolog()
-  loadMainTheory()
-
-  private def loadMainTheory(): Unit =
-    engine.addTheory(new Theory(getClass.getResource("/prolog/mainTheory.pl").openStream()))
 
   private def saveData(data: String): Unit =
     engine.addTheory(new Theory(data))
@@ -136,12 +121,10 @@ object PrologEngine extends PrologEngine:
         toRet
     }.toList
 
-  override def saveFish(fish: Fish): Unit =
+  override def saveFish(fish: Fish, iteration: Int = 0): Unit =
     saveData(FishSerializer.serialize(fish))
 
-  override def saveSonOf(parent: Fish, son: Fish): Unit = ???
-
-  override def saveAlgae(algae: Algae): Unit =
+  override def saveAlgae(algae: Algae, iteration: Int = 0): Unit =
     saveData(AlgaeSerializer.serialize(algae))
 
   override def saveFood(food: Food): Unit =
@@ -180,4 +163,3 @@ object PrologEngine extends PrologEngine:
 
   override def clear: Unit =
     engine.clearTheory()
-    loadMainTheory()

@@ -47,10 +47,10 @@ trait ModelImpl:
           (f: Fish) => f.isAlive
         )((f: Fish, a: AquariumState) =>
           Interaction(
-                f.updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
-                    .updateSatiety(f.satiety - Fish.SATIETY_SHIFT)
-                    .move(multiplier(updatedAquariumState)),
-                a
+            f.updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
+              .updateSatiety(f.satiety - Fish.SATIETY_SHIFT)
+              .move(multiplier(updatedAquariumState)),
+            a
           )
             .update()
         )
@@ -65,8 +65,8 @@ trait ModelImpl:
             else f
           Interaction(
             fish
-                .updateSatiety(f.satiety - Fish.SATIETY_SHIFT)
-                .move(multiplier(updatedAquariumState)),
+              .updateSatiety(f.satiety - Fish.SATIETY_SHIFT)
+              .move(multiplier(updatedAquariumState)),
             a
           )
             .update()

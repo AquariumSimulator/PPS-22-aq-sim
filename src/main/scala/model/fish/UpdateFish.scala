@@ -7,37 +7,37 @@ import model.food.Food
 /** Trait that models methods for the fishes */
 trait UpdateFish:
   /** Set the new satiety of the fish
-   *
-   * @param newSatiety
-   * the new satiety of the fish
-   * @return
-   * a new [[Fish]]
-   */
+    *
+    * @param newSatiety
+    *   the new satiety of the fish
+    * @return
+    *   a new [[Fish]]
+    */
   def updateSatiety(newSatiety: Int): Fish
 
   /** Set the new reproduction factor of the fish
-   *
-   * @param newReproductionFactor
-   * the new reproduction factor of the fish
-   * @return
-   * a new [[Fish]]
-   */
+    *
+    * @param newReproductionFactor
+    *   the new reproduction factor of the fish
+    * @return
+    *   a new [[Fish]]
+    */
   def updateReproductionFactor(newReproductionFactor: Int): Fish
 
   /** Moves a fish in a new position
-   *
-   * @param speedMultiplier
-   * the speed multiplier of the fish
-   * @return
-   * a new [[Fish]]
-   */
+    *
+    * @param speedMultiplier
+    *   the speed multiplier of the fish
+    * @return
+    *   a new [[Fish]]
+    */
   def move(speedMultiplier: Double): Fish
 
   /** Set the new reproduction factor of the fish
-   *
-   * @param food
-   * the food eaten by the fish
-   * @return
-   * a new [[Fish]]
-   */
+    *
+    * @param food
+    *   the food eaten by the fish
+    * @return
+    *   a new [[Fish]]
+    */
   def eat(food: Food): Fish

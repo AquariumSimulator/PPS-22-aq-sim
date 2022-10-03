@@ -44,7 +44,7 @@ class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
     else (Some(carnivorous), Some(herbivorous), Option.empty)
 
   private def isCarnivorousHungry(carnivorous: Fish, herbivorous: Fish): Boolean =
-    (Fish.MAX_HUNGER - carnivorous.satiety) >= (herbivorous.size._1 * Fish.MEAT_AMOUNT)
+    (Fish.MAX_SATIETY - carnivorous.satiety) >= (herbivorous.size._1 * Fish.MEAT_AMOUNT)
 
   private def checkFishPosition(fish1: Fish, fish2: Fish): (Fish, Fish) =
     fish1.feedingType match

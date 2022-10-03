@@ -15,6 +15,6 @@ class InteractionFishOnAlgaeImpl(fish: Fish, algae: Algae) extends Interaction[(
 
   override def update(): (Fish, Option[Algae]) =
     fish.feedingType match
-      case FeedingType.HERBIVOROUS if Fish.MAX_HUNGER - fish.satiety >= (algae.height * Algae.NUTRITION_AMOUNT) =>
+      case FeedingType.HERBIVOROUS if Fish.MAX_SATIETY - fish.satiety >= (algae.height * Algae.NUTRITION_AMOUNT) =>
         (fish.copy(satiety = fish.satiety + algae.height * Algae.NUTRITION_AMOUNT), Option.empty)
       case _ => (fish, Some(algae))

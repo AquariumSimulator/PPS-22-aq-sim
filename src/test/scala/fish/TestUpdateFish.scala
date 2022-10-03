@@ -12,13 +12,13 @@ class TestUpdateFish extends AnyFunSpec:
       assert(f.position != UpdateFish(f).move(1).position)
     }
 
-    it("should return a new Fish with an updated hunger when updating hunger") {
+    it("should return a new Fish with an updated satiety when updating satiety") {
       val f: Fish = Fish()
-      assert(f.satiety != UpdateFish(f).updateHunger(5).satiety)
-      assert(UpdateFish(f).updateHunger(5).satiety == 5)
+      assert(f.satiety != UpdateFish(f).updateSatiety(5).satiety)
+      assert(UpdateFish(f).updateSatiety(5).satiety == 5)
     }
 
-    it("should return a new Fish with an updated hunger when eating food") {
+    it("should return a new Fish with an updated satiety when eating food") {
       val f: Fish = Fish(satiety = 5)
       assert(f.satiety != UpdateFish(f).eat(Food(feedingType = f.feedingType)).satiety)
     }

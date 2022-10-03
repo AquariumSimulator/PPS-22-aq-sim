@@ -13,13 +13,13 @@ object AquariumDimensions:
 object InitializeAquarium:
 
   /** Initial number of herbivorous fish in the aquarium */
-  val HERBIVOROUS_FISH: Int = 0
+  val HERBIVOROUS_FISH: Int = 20
 
   /** Initial number of carnivorous fish in the aquarium */
-  val CARNIVOROUS_FISH: Int = 0
+  val CARNIVOROUS_FISH: Int = 20
 
   /** Initial number of algae in the aquarium */
-  val ALGAE: Int = 0
+  val ALGAE: Int = 20
 
   /** Initial temperature value (expressed in C°) */
   val TEMPERATURE: Int = 25

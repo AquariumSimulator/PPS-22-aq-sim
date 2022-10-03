@@ -1,7 +1,7 @@
 package model.fish
 
 import model.aquarium.AquariumDimensions
-import model.fish.Fish.{MAX_HUNGER, MEAT_AMOUNT}
+import model.fish.Fish.{MAX_SATIETY, MEAT_AMOUNT}
 import model.food.Food
 
 trait UpdateFish:
@@ -9,7 +9,7 @@ trait UpdateFish:
   // def calculatePosition(speed: (Double, Double)): (Double, Double)
   // def updatePosition(newPosition: (Double, Double)): Fish
   // def updateSpeed(newSpeed: (Double, Double)): Fish
-  def updateHunger(newHunger: Int): Fish
+  def updateSatiety(newSatiety: Int): Fish
   def updateReproductionFactor(newReproductionFactor: Int): Fish
 
   def move(speedMultiplier: Double): Fish
@@ -25,13 +25,13 @@ object UpdateFish:
     private /*override*/ def calculatePosition(speed: (Double, Double)): (Double, Double) =
       (fish.position._1 + speed._1, fish.position._2 + speed._2)
 
-    override def updateHunger(newHunger: Int): Fish =
+    override def updateSatiety(newSatiety: Int): Fish =
       Fish(
         name = fish.name,
         reproductionFactor = fish.reproductionFactor,
         position = fish.position,
         speed = fish.speed,
-        satiety = newHunger,
+        satiety = newSatiety,
         age = fish.age,
         size = fish.size,
         feedingType = fish.feedingType
@@ -92,7 +92,7 @@ object UpdateFish:
         reproductionFactor = fish.reproductionFactor,
         feedingType = fish.feedingType
       )
-
+    
     // override def eat(eatenFish: Fish): Fish =
     //   Fish(
     //     name = fish.name,
@@ -110,7 +110,7 @@ object UpdateFish:
         name = fish.name,
         position = fish.position,
         speed = fish.speed,
-        satiety = MAX_HUNGER min (fish.satiety + food.nutritionAmount),
+        satiety = MAX_SATIETY min (fish.satiety + food.nutritionAmount),
         age = fish.age,
         size = fish.size,
         reproductionFactor = fish.reproductionFactor,

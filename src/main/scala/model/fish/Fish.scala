@@ -9,14 +9,12 @@ import model.FeedingType
 object Fish:
   var n: Int = 0
   val MAX_HUNGER: Int = 100
-  //val MIN_SIZE: Double = 5
   val MAX_HEIGHT: Double = 10
   val MAX_WIDTH: Double = 20
   val MEAT_AMOUNT: Double = 0.6
   val HUNGER_SHIFT: Int = 1
   val MIN_SIZE: Double = 0.5
   val MAX_SIZE: Double = 2.5
-  //val MEAT_AMOUNT: Int = 10
   val OXYGEN_SHIFT_CONSTANT: Double = -0.02
   val IMPURITY_SHIFT_CONSTANT: Double = 0.01
   val PH_SHIFT_CONSTANT: Double = 0.1
@@ -32,7 +30,7 @@ object Fish:
 
 case class Fish(
     name: String = "fish-" + getAndIncrementN(),
-    hunger: Int = MAX_HUNGER,
+    satiety: Int = MAX_HUNGER,
     age: Int = 0,
     speed: (Double, Double) = (0.0, 0.0),
     size: (Double, Double) = (Random.between(MIN_SIZE, MAX_WIDTH), Random.between(MIN_SIZE, MAX_HEIGHT)),
@@ -44,7 +42,10 @@ case class Fish(
   val impurityShift: Double = IMPURITY_SHIFT_CONSTANT * size._1
   val phShift: Double = PH_SHIFT_CONSTANT * size._1
 
-  def isAlive: Boolean = hunger > 0
+  def isAlive: Boolean =
+    val a = satiety > 0
+    if !a then println(this.name + " è morto di fame")
+    a
 
   override def equals(that: Any): Boolean =
     that match

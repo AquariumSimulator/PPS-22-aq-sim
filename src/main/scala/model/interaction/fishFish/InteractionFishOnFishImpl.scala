@@ -22,7 +22,13 @@ class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
         (
           Some(fish1.copy(reproductionFactor = fish1.reproductionFactor - Fish.REPRODUCTION_COST)),
           Some(fish2.copy(reproductionFactor = fish1.reproductionFactor - Fish.REPRODUCTION_COST)),
-          Some(Fish(feedingType = fish1.feedingType, speed = Population.randomSpeed(), position = Population.randomPosition()))
+          Some(
+            Fish(
+              feedingType = fish1.feedingType,
+              speed = Population.randomSpeed(),
+              position = Population.randomPosition()
+            )
+          )
         )
 
   private def checkEatFish(fish1: Fish, fish2: Fish): (Option[Fish], Option[Fish], Option[Fish]) =
@@ -30,7 +36,7 @@ class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
     if (isCarnivorousHungry(carnivorous, herbivorous))
       (
         Some(
-          carnivorous.copy(hunger = carnivorous.hunger + (herbivorous.size._1 * Fish.MEAT_AMOUNT).toInt)
+          carnivorous.copy(satiety = carnivorous.satiety + (herbivorous.size._1 * Fish.MEAT_AMOUNT).toInt)
         ),
         Option.empty,
         Option.empty
@@ -38,7 +44,7 @@ class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
     else (Some(carnivorous), Some(herbivorous), Option.empty)
 
   private def isCarnivorousHungry(carnivorous: Fish, herbivorous: Fish): Boolean =
-    (Fish.MAX_HUNGER - carnivorous.hunger) >= (herbivorous.size._1 * Fish.MEAT_AMOUNT)
+    (Fish.MAX_HUNGER - carnivorous.satiety) >= (herbivorous.size._1 * Fish.MEAT_AMOUNT)
 
   private def checkFishPosition(fish1: Fish, fish2: Fish): (Fish, Fish) =
     fish1.feedingType match

@@ -21,16 +21,16 @@ class TestStep extends AnyFunSpec:
   private val hFishHungry: Fish = Fish(
     position = (0, 0),
     feedingType = FeedingType.HERBIVOROUS,
-    hunger = hunger,
+    satiety = hunger,
     reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
   )
   private val hFishReproduction: Fish = Fish(
     position = (0, 0),
     feedingType = FeedingType.HERBIVOROUS,
-    hunger = hunger,
+    satiety = hunger,
     reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
   )
-  private val cFishHungry: Fish = Fish(position = (11, 11), hunger = hunger)
+  private val cFishHungry: Fish = Fish(position = (11, 11), satiety = hunger)
   private val hFishEaten: Fish = Fish(position = (11, 11), feedingType = FeedingType.HERBIVOROUS)
 
   private val hFishNotHungry: Fish = Fish(position = (0, 100), feedingType = FeedingType.HERBIVOROUS)
@@ -81,17 +81,17 @@ class TestStep extends AnyFunSpec:
       // a fish that wasn't hungry and a new fish
       val fishNumber = 1 + 1
       assert(
-        newAquarium.population.herbivorous.count(f => f.hunger == Fish.MAX_HUNGER - Fish.HUNGER_SHIFT) == fishNumber
+        newAquarium.population.herbivorous.count(f => f.satiety == Fish.MAX_HUNGER - Fish.HUNGER_SHIFT) == fishNumber
       )
-      assert(newAquarium.population.carnivorous.count(f => f.hunger == Fish.MAX_HUNGER - Fish.HUNGER_SHIFT) == 1)
+      assert(newAquarium.population.carnivorous.count(f => f.satiety == Fish.MAX_HUNGER - Fish.HUNGER_SHIFT) == 1)
     }
 
     it("an herbivorous fish that ate food and algae has an upper hunger") {
       newAquarium.population.herbivorous
-        .filterNot(f => f.hunger == Fish.MAX_HUNGER - Fish.HUNGER_SHIFT)
+        .filterNot(f => f.satiety == Fish.MAX_HUNGER - Fish.HUNGER_SHIFT)
         .foreach(f =>
           assert(
-            f.hunger == hFishHungry.hunger + (algaeEaten.height * Algae.NUTRITION_AMOUNT) + hFoodEaten.nutritionAmount - Fish.HUNGER_SHIFT
+            f.satiety == hFishHungry.satiety + (algaeEaten.height * Algae.NUTRITION_AMOUNT) + hFoodEaten.nutritionAmount - Fish.HUNGER_SHIFT
           )
         )
     }

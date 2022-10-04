@@ -50,6 +50,9 @@ object DeathProbabilityFish:
   /** Max value of the age of a fish */
   val MAX_AGE_FISH: Int = 1000
 
+  /** Min value of the fish age at which the fish can begin to die of old age */
+  val MIN_AGE_FISH: Int = 100
+
   /** Max probability of a fish to die if the age is 1000 */
   val PROB_AGE: Int = 100
 

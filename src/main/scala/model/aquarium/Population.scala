@@ -4,7 +4,9 @@ import model.fish.Fish
 import model.FeedingType
 import model.Algae
 import model.aquarium.AquariumDimensions
-import model.aquarium.AquariumParametersLimits._
+import model.aquarium.AquariumParametersLimits.*
+
+import scala.annotation.tailrec
 import scala.language.postfixOps
 import scala.util.Random
 
@@ -55,6 +57,7 @@ object Population:
       *   set of algae
       */
     def addAlgae(number: Int): Set[Algae] =
+      @tailrec
       def _addAlgae(number: Int, set: Set[Algae]): Set[Algae] =
         val newAlgae =
           Algae(Random.between(0, AquariumDimensions.WIDTH), Random.between(Algae.DEFAULT_HEIGHT, Algae.MAX_HEIGHT))

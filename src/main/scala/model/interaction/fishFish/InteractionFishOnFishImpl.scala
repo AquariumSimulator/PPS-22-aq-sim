@@ -2,6 +2,7 @@ package model.interaction.fishFish
 
 import model.fish.Fish
 import model.FeedingType
+import model.aquarium.Population
 import model.interaction.Interaction
 
 class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
@@ -21,21 +22,29 @@ class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
         (
           Some(fish1.copy(reproductionFactor = fish1.reproductionFactor - Fish.REPRODUCTION_COST)),
           Some(fish2.copy(reproductionFactor = fish1.reproductionFactor - Fish.REPRODUCTION_COST)),
-          Some(Fish(feedingType = fish1.feedingType))
+          Some(
+            Fish(
+              feedingType = fish1.feedingType,
+              speed = Population.randomSpeed(),
+              position = Population.randomPosition()
+            )
+          )
         )
 
   private def checkEatFish(fish1: Fish, fish2: Fish): (Option[Fish], Option[Fish], Option[Fish]) =
     val (carnivorous: Fish, herbivorous: Fish) = checkFishPosition(fish1, fish2)
     if (isCarnivorousHungry(carnivorous, herbivorous))
       (
-        Some(carnivorous.copy(satiety = carnivorous.satiety + (herbivorous.size * Fish.MEAT_AMOUNT).toInt)),
+        Some(
+          carnivorous.copy(satiety = carnivorous.satiety + (herbivorous.size._1 * Fish.MEAT_AMOUNT).toInt)
+        ),
         Option.empty,
         Option.empty
       )
-    else (Option.empty, Option.empty, Option.empty)
+    else (Some(carnivorous), Some(herbivorous), Option.empty)
 
   private def isCarnivorousHungry(carnivorous: Fish, herbivorous: Fish): Boolean =
-    (Fish.MAX_SATIETY - carnivorous.satiety) >= (herbivorous.size * Fish.MEAT_AMOUNT)
+    (Fish.MAX_SATIETY - carnivorous.satiety) >= (herbivorous.size._1 * Fish.MEAT_AMOUNT)
 
   private def checkFishPosition(fish1: Fish, fish2: Fish): (Fish, Fish) =
     fish1.feedingType match

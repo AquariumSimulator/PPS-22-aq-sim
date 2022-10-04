@@ -89,9 +89,13 @@ trait ModelImpl:
     private def updateAquariumState(aquarium: Aquarium): AquariumState =
       newAquariumState(
         aquarium.population.herbivorous.concat(aquarium.population.carnivorous),
-        newAquariumState(aquarium.population.algae, aquarium.aquariumState)((s: AquariumState, a: Algae) =>
-          Interaction(s, a).update()
-        )
+        newAquariumState(
+          aquarium.population.algae,
+          newAquariumState(
+            aquarium.availableFood.carnivorousFood.concat(aquarium.availableFood.herbivorousFood),
+            aquarium.aquariumState
+          )((a: AquariumState, f: Food) => Interaction(a, f).update())
+        )((s: AquariumState, a: Algae) => Interaction(s, a).update())
       )((s: AquariumState, f: Fish) => Interaction(s, f).update())
 
     private def newAquariumState[A](population: Set[A], initialState: AquariumState)(

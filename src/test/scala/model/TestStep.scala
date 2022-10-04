@@ -17,6 +17,7 @@ class TestStep extends AnyFunSpec:
   private val aquariumState = AquariumState(ph = 0, oxygenation = 15)
 
   private val satiety = 5
+  private val fishAge = 0
 
   private val hFishHungry: Fish = Fish(
     position = (0, 0),
@@ -70,6 +71,12 @@ class TestStep extends AnyFunSpec:
       assert(newAquarium.aquariumState.ph === aqState.ph +- 0.25)
       assert(newAquarium.aquariumState.impurity === aqState.impurity +- 0.1)
       assert(newAquarium.aquariumState.oxygenation === aqState.oxygenation +- 0.25)
+    }
+
+    it(s"all fish have age equals to the previous one plus ${Fish.AGE_SHIFT}") {
+      newAquarium.population.herbivorous
+        .concat(newAquarium.population.carnivorous)
+        .foreach(f => assert(f.age == fishAge + Fish.AGE_SHIFT))
     }
 
     it("the food near to the fish should be eaten") {

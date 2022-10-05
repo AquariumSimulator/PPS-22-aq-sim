@@ -30,7 +30,16 @@ trait ModelImpl:
       Aquarium(herbivorousFishNumber, carnivorousFishNumber, algaeNumber)
     override def step(aquarium: Aquarium): Aquarium =
 
-      val updatedAquariumState: AquariumState = updateAquariumState(aquarium)
+      val entities = aquarium.population.carnivorous
+        .concat(aquarium.population.herbivorous)
+        .concat(aquarium.population.algae)
+        .concat(aquarium.availableFood.carnivorousFood)
+        .concat(aquarium.availableFood.herbivorousFood)
+
+      val updatedAquariumState: AquariumState = newAquariumState(
+        entities,
+        aquarium.aquariumState
+      )((s: AquariumState, e: Entity) => Interaction(s, e).update())
 
       val updatedCarnivorous =
         foodInteraction(aquarium.population.carnivorous, aquarium.availableFood.carnivorousFood)
@@ -85,18 +94,6 @@ trait ModelImpl:
       queue.isEmpty match
         case true => stepAquarium
         case _ => Iterator.iterate(stepAquarium, queue.size() + 1)(queue.poll()).toList.last
-
-    private def updateAquariumState(aquarium: Aquarium): AquariumState =
-      newAquariumState(
-        aquarium.population.herbivorous.concat(aquarium.population.carnivorous),
-        newAquariumState(
-          aquarium.population.algae,
-          newAquariumState(
-            aquarium.availableFood.carnivorousFood.concat(aquarium.availableFood.herbivorousFood),
-            aquarium.aquariumState
-          )((a: AquariumState, f: Food) => Interaction(a, f).update())
-        )((s: AquariumState, a: Algae) => Interaction(s, a).update())
-      )((s: AquariumState, f: Fish) => Interaction(s, f).update())
 
     private def newAquariumState[A](population: Set[A], initialState: AquariumState)(
         func: (AquariumState, A) => AquariumState

@@ -7,6 +7,7 @@ import model.fish.Fish.*
 import scala.util.Random
 import model.FeedingType
 import model.food.Food
+import model.interaction.DeathProbabilityFish
 
 object Fish:
   var n: Int = 0
@@ -46,7 +47,8 @@ case class Fish(
   val oxygenShift: Double = OXYGEN_SHIFT_CONSTANT * size._1
   val impurityShift: Double = IMPURITY_SHIFT_CONSTANT * size._1
   val phShift: Double = PH_SHIFT_CONSTANT * size._1
-  def isAlive: Boolean = satiety > 0
+  def isAlive: Boolean = satiety > 0 &&
+    Random.between(0, DeathProbabilityFish.PROB_AGE) > DeathProbabilityFish.FISH_AGE(age)
 
   override def equals(that: Any): Boolean =
     that match

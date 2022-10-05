@@ -47,8 +47,11 @@ case class Fish(
   val oxygenShift: Double = OXYGEN_SHIFT_CONSTANT * size._1
   val impurityShift: Double = IMPURITY_SHIFT_CONSTANT * size._1
   val phShift: Double = PH_SHIFT_CONSTANT * size._1
-  def isAlive: Boolean = satiety > 0 &&
-    Random.between(0, DeathProbabilityFish.PROB_AGE) > DeathProbabilityFish.FISH_AGE(age)
+  def isAlive: Boolean = satiety > 0 && !isFishDeadOfOldAge
+
+  private def isFishDeadOfOldAge: Boolean =
+    age > DeathProbabilityFish.MIN_AGE_FISH &&
+      Random.between(0, DeathProbabilityFish.PROB_AGE) < DeathProbabilityFish.FISH_AGE(age)
 
   override def equals(that: Any): Boolean =
     that match

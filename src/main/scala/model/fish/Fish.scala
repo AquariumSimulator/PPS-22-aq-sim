@@ -17,6 +17,7 @@ object Fish:
   val SATIETY_SHIFT: Int = 1
   val MIN_SIZE: Double = 0.5
   val MAX_SIZE: Double = 2.5
+  val AGE_FISH: Int = 1
   val OXYGEN_SHIFT_CONSTANT: Double = -0.02
   val IMPURITY_SHIFT_CONSTANT: Double = 0.01
   val PH_SHIFT_CONSTANT: Double = 0.1

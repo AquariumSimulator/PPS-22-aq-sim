@@ -11,8 +11,11 @@ import model.food.Food
   * @param availableFood
   *   represent the current food amount available in the aquarium
   */
-case class Aquarium(aquariumState: AquariumState, population: Population, override val availableFood: Set[Food] = Set.empty)
-    extends AvailableFood
+case class Aquarium(
+    aquariumState: AquariumState,
+    population: Population,
+    override val availableFood: Set[Food] = Set.empty
+) extends AvailableFood
 
 /** Companion object of the case class */
 object Aquarium:

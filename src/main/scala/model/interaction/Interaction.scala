@@ -3,12 +3,14 @@ package model.interaction
 import model.Algae
 import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.fish.Fish
+import model.food.Food
 import model.interaction.aquariumAlgae.InteractionAlgaeOnAquariumImpl
 import model.interaction.aquariumAlgae.InteractionAquariumOnAlgaeImpl
 import model.interaction.aquariumFish.InteractionFishOnAquariumImpl
 import model.interaction.fishAlgae.InteractionFishOnAlgaeImpl
 import model.interaction.aquariumFish.InteractionAquariumOnFishImpl
 import model.interaction.fishFish.InteractionFishOnFishImpl
+import model.interaction.aquariumFood.InteractionFoodOnAquariumImpl
 
 /** Trait that models an interaction between two elements
   * @tparam A
@@ -59,6 +61,17 @@ object Interaction:
     */
   def apply(aquariumState: AquariumState, fish: Fish): Interaction[AquariumState] =
     InteractionFishOnAquariumImpl(aquariumState, fish)
+
+  /** Create a new interaction meant to update the oxygenation level and the ph and the impurity level.
+    * @param aquariumState
+    *   that has to be updated
+    * @param food
+    *   that modifies the aquarium state
+    * @return
+    *   a new interaction
+    */
+  def apply(aquariumState: AquariumState, food: Food): Interaction[AquariumState] =
+    InteractionFoodOnAquariumImpl(aquariumState: AquariumState, food: Food)
 
   /** Create a new [[Interaction]] by a given [[Fish]] and [[AquariumState]]. This interaction is meant to check if the
     * fish is alive and update its speed.

@@ -66,4 +66,4 @@ trait ControllerImpl:
       )
 
     override def addFood(food: Food): Unit =
-      context.model.addUserInteraction((aq: Aquarium) => aq.copy(availableFood = aq.availableFood.addFood(food)))
+      context.model.addUserInteraction((aq: Aquarium) => aq.copy(availableFood = aq.addFood(food)))

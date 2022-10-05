@@ -1,55 +1,75 @@
 package model.aquarium
 
-import model.fish.Fish
-import model.FeedingType
-import model.Algae
 import model.aquarium.AquariumDimensions
 import model.aquarium.AquariumParametersLimits.*
+import model.fish.Fish
+import model.{Algae, Entity, FeedingType}
 
 import scala.annotation.tailrec
 import scala.language.postfixOps
 import scala.util.Random
 
-/** This class represent the current population of the aquarium */
-case class Population(herbivorous: Set[Fish], carnivorous: Set[Fish], algae: Set[Algae]) extends UpdatePopulation:
+/** Trait that models the set of fish of the aquarium */
+trait SelectFishType:
+  /** Set of fish of the aquarium */
+  val fish: Set[Fish]
+
+  /** Method that
+    * @return
+    *   the herbivorous fish of the aquarium
+    */
+  def herbivorous: Set[Fish] =
+    selectType(FeedingType.HERBIVOROUS)
+
+  /** Method that give a feeding type return a set containing all the fish of that type
+    * @param feedingType
+    *   of the fish that have to be returned
+    * @return
+    *   set containing all the fish of the specified feeding type
+    */
+  private def selectType(feedingType: FeedingType): Set[Fish] =
+    fish.filter(f => f.feedingType == feedingType)
+
+  /** Method that
+    * @return
+    *   the carnivorous fish of the aquarium
+    */
+  def carnivorous: Set[Fish] =
+    selectType(FeedingType.CARNIVOROUS)
+
+/** This class represent the current population of the aquarium
+  * @param fish
+  *   set of all the fish of the aquarium
+  * @param algae
+  *   set of all the algae of the aquarium
+  */
+case class Population(override val fish: Set[Fish], algae: Set[Algae]) extends SelectFishType with UpdatePopulation:
   override def addInhabitant[A](newElem: A): Population =
-    val currentFishNumber: Int = this.carnivorous.size + this.herbivorous.size
+    val currentFishNumber: Int = this.fish.size
     newElem match
-      case f: Fish if f.feedingType == FeedingType.HERBIVOROUS && currentFishNumber < FISH_MAX =>
-        this.copy(herbivorous = this.herbivorous + f)
-      case f: Fish if currentFishNumber < FISH_MAX => this.copy(carnivorous = this.carnivorous + f)
+      case f: Fish if currentFishNumber < FISH_MAX => this.copy(fish = this.fish + f)
       case a: Algae if this.algae.size < ALGAE_MAX => this.copy(algae = this.algae + a)
 
   override def removeInhabitant[A](removeElem: A): Population =
     removeElem match
-      case f: Fish if f.feedingType == FeedingType.HERBIVOROUS =>
-        this.copy(herbivorous = this.herbivorous.filterNot(fish => fish == f))
-      case f: Fish => this.copy(carnivorous = this.carnivorous.filterNot(fish => fish == f))
+      case f: Fish => this.copy(fish = this.fish.filterNot(fish => fish == f))
       case a: Algae => this.copy(algae = this.algae.filterNot(algae => algae == a))
 
 /** Companion object of the case class */
 object Population:
 
-  /** Calculate a random position for a fish */
-  def randomPosition(): (Double, Double) =
-    (Random.between(0, AquariumDimensions.WIDTH), Random.between(0, AquariumDimensions.HEIGHT))
-
-  /** Calculate a random speed for a fish */
-  def randomSpeed(): (Double, Double) =
-    (Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED), Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED))
-
   /** Create a new [[Population]] from a given number of species
     *
-    * @param herbivorousFishesNumber
+    * @param herbivorousFishNumber
     *   number of herbivorous fishes
-    * @param carnivorousFishesNumber
+    * @param carnivorousFishNumber
     *   number of carnivorous fishes
     * @param algaeNumber
     *   number of algae
     * @return
     *   a new [[Population]]
     */
-  def apply(herbivorousFishesNumber: Int, carnivorousFishesNumber: Int, algaeNumber: Int): Population =
+  def apply(herbivorousFishNumber: Int, carnivorousFishNumber: Int, algaeNumber: Int): Population =
     /** Method used to create all the algae required so that no two algae are in the same location
       * @param number
       *   of algae required
@@ -70,14 +90,20 @@ object Population:
 
       _addAlgae(number, Set.empty)
 
-    val setHerbivorous =
-      (1 to herbivorousFishesNumber)
+    val setFish =
+      (1 to herbivorousFishNumber)
         .map(_ => Fish(feedingType = FeedingType.HERBIVOROUS, speed = randomSpeed(), position = randomPosition()))
+        .concat((1 to carnivorousFishNumber).map(_ => Fish(speed = randomSpeed(), position = randomPosition())))
         .toSet
-
-    val setCarnivorous =
-      (1 to carnivorousFishesNumber).map(_ => Fish(speed = randomSpeed(), position = randomPosition())).toSet
 
     val setAlgae = addAlgae(algaeNumber)
 
-    Population(setHerbivorous, setCarnivorous, setAlgae)
+    Population(setFish, setAlgae)
+
+  /** Calculate a random position for a fish */
+  def randomPosition(): (Double, Double) =
+    (Random.between(0, AquariumDimensions.WIDTH), Random.between(0, AquariumDimensions.HEIGHT))
+
+  /** Calculate a random speed for a fish */
+  def randomSpeed(): (Double, Double) =
+    (Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED), Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED))

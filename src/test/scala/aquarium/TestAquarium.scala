@@ -44,12 +44,8 @@ class TestAquarium extends AnyFunSpec:
       }
 
       describe("with a given availableFood that") {
-        it("should have an empty herbivorous food set") {
-          assert(aquarium.availableFood.herbivorousFood.isEmpty)
-        }
-
-        it("should have an empty carnivorous food set") {
-          assert(aquarium.availableFood.carnivorousFood.isEmpty)
+        it("should be empty food set") {
+          assert(aquarium.availableFood.isEmpty)
         }
       }
     }

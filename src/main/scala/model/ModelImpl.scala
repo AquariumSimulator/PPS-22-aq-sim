@@ -29,13 +29,17 @@ trait ModelImpl:
     ): Aquarium =
       Aquarium(herbivorousFishNumber, carnivorousFishNumber, algaeNumber)
     override def step(aquarium: Aquarium): Aquarium =
-
-      val updatedAquariumState: AquariumState = updateAquariumState(aquarium)
+      val updatedAquariumState: AquariumState = newAquariumState(
+        aquarium.population.fish
+          .concat(aquarium.population.algae)
+          .concat(aquarium.availableFood),
+        aquarium.aquariumState
+      )((s: AquariumState, e: Entity) => Interaction(s, e).update())
 
       val updatedCarnivorous =
-        foodInteraction(aquarium.population.carnivorous, aquarium.availableFood.carnivorousFood)
+        foodInteraction(aquarium.population.carnivorous, aquarium.carnivorousFood)
       val updateHerbivorous =
-        foodInteraction(aquarium.population.herbivorous, aquarium.availableFood.herbivorousFood)
+        foodInteraction(aquarium.population.herbivorous, aquarium.herbivorousFood)
 
       val fishAlgaeInteraction =
         fishAlgaeInteractions(updateHerbivorous._1, aquarium.population.algae)
@@ -70,33 +74,13 @@ trait ModelImpl:
         for food <- updateHerbivorous._2.concat(updatedCarnivorous._2)
         yield UpdateFood(food).move(1)
 
-      val newAvailableFood: AvailableFood = AvailableFood(
-        newFood.filter(f => f.feedingType == FeedingType.HERBIVOROUS),
-        newFood.filter(f => f.feedingType == FeedingType.CARNIVOROUS)
-      )
-      val newPopulation: Population = Population(
-        newFish.filter(f => f.feedingType == FeedingType.HERBIVOROUS),
-        newFish.filter(f => f.feedingType == FeedingType.CARNIVOROUS),
-        newAlgae
-      )
+      val newPopulation: Population = Population(newFish, newAlgae)
 
-      val stepAquarium = Aquarium(updatedAquariumState, newPopulation, newAvailableFood)
+      val stepAquarium = Aquarium(updatedAquariumState, newPopulation, newFood)
 
       queue.isEmpty match
         case true => stepAquarium
         case _ => Iterator.iterate(stepAquarium, queue.size() + 1)(queue.poll()).toList.last
-
-    private def updateAquariumState(aquarium: Aquarium): AquariumState =
-      newAquariumState(
-        aquarium.population.herbivorous.concat(aquarium.population.carnivorous),
-        newAquariumState(
-          aquarium.population.algae,
-          newAquariumState(
-            aquarium.availableFood.carnivorousFood.concat(aquarium.availableFood.herbivorousFood),
-            aquarium.aquariumState
-          )((a: AquariumState, f: Food) => Interaction(a, f).update())
-        )((s: AquariumState, a: Algae) => Interaction(s, a).update())
-      )((s: AquariumState, f: Fish) => Interaction(s, f).update())
 
     private def newAquariumState[A](population: Set[A], initialState: AquariumState)(
         func: (AquariumState, A) => AquariumState
@@ -120,7 +104,6 @@ trait ModelImpl:
           food <- foodSet
           if fish.satiety < Fish.MAX_SATIETY - food.nutritionAmount && fish.collidesWith(food)
         do
-          println(fish.name + "  ha MANGIATO " + fish.feedingType + " - " + food.feedingType)
           newSet = newSet - fish
           newSet = newSet + fish.eat(food)
           newFoodSet = newFoodSet - food

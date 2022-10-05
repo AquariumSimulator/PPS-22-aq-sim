@@ -6,8 +6,8 @@ Durante il sesto sprint si è deciso di concentrare i propri sforzi al soddisfac
 - GUI
   - miglior visualizzazione composizione popolazione su GUI
   - Mettere in evidenza luce e sporco dalla GUI
-  - togliere pesci/piante clickandoci sopra
-  - slider luminosita/temperature e ossigeno
+  - togliere pesci/piante cliccandoci sopra
+  - slider luminosità, temperatura e ossigeno
   - tasto per cambiare la velocità
   - visualizzare informazioni pesce sotto al pesce
 - fixes

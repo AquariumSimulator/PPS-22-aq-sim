@@ -24,6 +24,9 @@ trait ControllerImpl:
     override def stopSimulation(): Unit =
       simEngine.stop()
 
+    override def pauseSimulation(): Unit =
+      simEngine.pause()
+
     override def changeSpeed(simSpeed: SimulationSpeed): Unit =
       simEngine.changeSpeed(simSpeed)
 

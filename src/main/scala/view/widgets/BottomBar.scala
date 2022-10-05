@@ -91,7 +91,7 @@ object BottomBar:
     context.controller.isRunning() match
       case true =>
         speedBeforeStop = context.controller.getSpeed()
-        context.controller.stopSimulation()
+        context.controller.pauseSimulation()
         IconButton.setImage(
           playButton,
           "/icons/play.png",

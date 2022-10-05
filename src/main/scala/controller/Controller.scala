@@ -9,6 +9,9 @@ trait Controller:
   /** Start the simulation in a separated [[Thread]]. If simulation was halted, it resumes. */
   def startSimulation(simSpeed: SimulationSpeed): Unit
 
+  /** Pause the simulation. */
+  def pauseSimulation(): Unit
+
   /** Halt the simulation. */
   def stopSimulation(): Unit
 

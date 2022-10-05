@@ -1,6 +1,6 @@
 package interaction
 
-import model._
+import model.*
 import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.interaction.Interaction
 import org.scalatest.BeforeAndAfterEach
@@ -9,23 +9,15 @@ import org.scalatest.funspec.AnyFunSpec
 /** Test for the interaction of an algae on the aquarium state */
 class TestInteractionAlgaeOnAquarium extends AnyFunSpec with BeforeAndAfterEach:
 
-  private var aquariumState: AquariumState = _
-  private var aquariumStateLimitsTest: AquariumState = _
+  private val aquariumState: AquariumState = AquariumState(5, 50, 7, 10, 10)
+  private val aquariumStateLimitsTest: AquariumState =
+    AquariumState(5, 3, AquariumParametersLimits.PH_MIN, 10, AquariumParametersLimits.OXYGENATION_MAX)
 
-  private var algae: Algae = _
+  private val algae: Algae = Algae(0, Algae.MAX_HEIGHT / 2)
 
-  private var interactionAlgaeAquarium: Interaction[AquariumState] = _
-  private var interactionAlgaeAquariumLimitsTest: Interaction[AquariumState] = _
-
-  override def beforeEach(): Unit =
-    aquariumState = AquariumState(5, 50, 7, 10, 10)
-    aquariumStateLimitsTest =
-      AquariumState(5, 3, AquariumParametersLimits.PH_MIN, 10, AquariumParametersLimits.OXYGENATION_MAX)
-
-    algae = Algae(0, Algae.MAX_HEIGHT / 2)
-
-    interactionAlgaeAquarium = Interaction(aquariumState, algae)
-    interactionAlgaeAquariumLimitsTest = Interaction(aquariumStateLimitsTest, algae)
+  private val interactionAlgaeAquarium: Interaction[AquariumState] = Interaction(aquariumState, algae)
+  private val interactionAlgaeAquariumLimitsTest: Interaction[AquariumState] =
+    Interaction(aquariumStateLimitsTest, algae)
 
   describe("An instance of InteractionAlgaeOnAquarium") {
     describe("with a given AquariumState") {

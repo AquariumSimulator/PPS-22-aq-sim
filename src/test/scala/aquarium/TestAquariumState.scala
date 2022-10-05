@@ -8,13 +8,13 @@ import scala.runtime.stdLibPatches.Predef.assert
 /** Test for [[AquariumState]] */
 class TestAquariumState extends AnyFunSpec:
 
-  val temperature = 5
-  val brightness = 50
-  val ph = 7
-  val impurity = 10
-  val oxygenation = 10
+  private val temperature = 5
+  private val brightness = 50
+  private val ph = 7
+  private val impurity = 10
+  private val oxygenation = 10
 
-  val aquariumState = AquariumState(temperature, brightness, ph, impurity, oxygenation)
+  private val aquariumState = AquariumState(temperature, brightness, ph, impurity, oxygenation)
 
   describe("A new AquariumState") {
 

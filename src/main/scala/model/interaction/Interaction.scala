@@ -1,16 +1,14 @@
 package model.interaction
 
-import model.Algae
 import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.fish.Fish
 import model.food.Food
-import model.interaction.aquariumAlgae.InteractionAlgaeOnAquariumImpl
 import model.interaction.aquariumAlgae.InteractionAquariumOnAlgaeImpl
-import model.interaction.aquariumFish.InteractionFishOnAquariumImpl
-import model.interaction.fishAlgae.InteractionFishOnAlgaeImpl
+import model.interaction.aquariumEntity.InteractionEntityOnAquariumImpl
 import model.interaction.aquariumFish.InteractionAquariumOnFishImpl
+import model.interaction.fishAlgae.InteractionFishOnAlgaeImpl
 import model.interaction.fishFish.InteractionFishOnFishImpl
-import model.interaction.aquariumFood.InteractionFoodOnAquariumImpl
+import model.{Algae, Entity}
 
 /** Trait that models an interaction between two elements
   * @tparam A
@@ -25,18 +23,6 @@ trait Interaction[A]:
 
 /** Companion object of [[Interaction]] */
 object Interaction:
-
-  /** Create a new interaction meant to update the oxygenation level and the ph.
-    * @param aquariumState
-    *   the current state of the aquarium that has to be updated
-    * @param algae
-    *   that modifies the aquarium state
-    * @return
-    *   a new interaction[[Interaction]]
-    */
-
-  def apply(aquariumState: AquariumState, algae: Algae): Interaction[AquariumState] =
-    InteractionAlgaeOnAquariumImpl(aquariumState, algae)
 
   /** Create a new interaction meant to check if the algae is alive (brightness level) and make it grow if it's
     * possible.
@@ -54,24 +40,13 @@ object Interaction:
   /** Create a new interaction meant to update the oxygenation level and the ph and the impurity level.
     * @param aquariumState
     *   that has to be updated
-    * @param fish
+    * @param entity
     *   that modifies the aquarium state
     * @return
     *   a new interaction
     */
-  def apply(aquariumState: AquariumState, fish: Fish): Interaction[AquariumState] =
-    InteractionFishOnAquariumImpl(aquariumState, fish)
-
-  /** Create a new interaction meant to update the oxygenation level and the ph and the impurity level.
-    * @param aquariumState
-    *   that has to be updated
-    * @param food
-    *   that modifies the aquarium state
-    * @return
-    *   a new interaction
-    */
-  def apply(aquariumState: AquariumState, food: Food): Interaction[AquariumState] =
-    InteractionFoodOnAquariumImpl(aquariumState: AquariumState, food: Food)
+  def apply(aquariumState: AquariumState, entity: Entity): Interaction[AquariumState] =
+    InteractionEntityOnAquariumImpl(aquariumState: AquariumState, entity: Entity)
 
   /** Create a new [[Interaction]] by a given [[Fish]] and [[AquariumState]]. This interaction is meant to check if the
     * fish is alive and update its speed.

@@ -1,21 +1,19 @@
 package view.widgets
 
 import javafx.scene.input.MouseEvent
+import model.aquarium.{Aquarium, AquariumDimensions}
+import model.fish.Fish
+import model.food.Food
+import model.{Algae, Entity, FeedingType}
+import mvc.MVC.given_ViewRequirements as context
 import scalafx.geometry.Insets
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.image.Image
 import scalafx.scene.layout.{Background, BackgroundFill, BorderPane}
 import scalafx.scene.paint.{Color, LinearGradient, Stops}
 
-import scala.util.Random
-import model.aquarium.AquariumDimensions
-import model.aquarium.Aquarium
-import model.fish.Fish
-import model.{Algae, Entity, FeedingType}
-import model.food.Food
-import mvc.MVC.given_ViewRequirements as context
-
 import scala.language.postfixOps
+import scala.util.Random
 
 object SimulationViewer:
 
@@ -80,8 +78,8 @@ object SimulationViewer:
     aquarium.population.herbivorous.foreach((fish: Fish) => drawFish(fish))
     aquarium.population.carnivorous.foreach((fish: Fish) => drawFish(fish))
     aquarium.population.algae.foreach((a: Algae) => drawAlgae(a))
-    aquarium.availableFood.carnivorousFood.foreach((f: Food) => drawFood(meat, f.position))
-    aquarium.availableFood.herbivorousFood.foreach((f: Food) => drawFood(herbFood, f.position))
+    aquarium.carnivorousFood.foreach((f: Food) => drawFood(meat, f.position))
+    aquarium.herbivorousFood.foreach((f: Food) => drawFood(herbFood, f.position))
 
   private def drawFood(foodImage: Image, coordinate: (Double, Double)): Unit =
     val canvasCoordinate: (Double, Double) = mapToCanvasCoordinate(coordinate)

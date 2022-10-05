@@ -48,20 +48,15 @@ class TestStep extends AnyFunSpec:
 
   private val population =
     Population(
-      Set(hFishHungry, hFishNotHungry, hFishEaten, hFishReproduction),
-      Set(cFishHungry, cFishNotHungry),
+      Set(hFishHungry, hFishNotHungry, hFishEaten, hFishReproduction, cFishHungry, cFishNotHungry),
       Set(algaeEaten, algaeNotEaten)
     )
-  private val food =
-    AvailableFood(Set(hFoodEaten, hFoodNotEaten), Set(cFoodEaten, cFoodNotEaten))
+  private val food = Set(hFoodEaten, hFoodNotEaten, cFoodEaten, cFoodNotEaten)
 
   private val aquarium = Aquarium(aquariumState, population, food)
 
   private val newAquarium = step(aquarium)
-  private val entitySet = population.herbivorous
-    .concat(population.carnivorous)
-    .concat(population.algae)
-    .concat(food.herbivorousFood.concat(food.carnivorousFood))
+  private val entitySet = population.fish.concat(population.algae).concat(food)
 
   describe("When step() is called it return a new Aquarium where") {
     it("the new AquariumState is updated by all the inhabitant of the aquarium") {
@@ -83,8 +78,8 @@ class TestStep extends AnyFunSpec:
     }
 
     it("the food near to the fish should be eaten") {
-      assert(newAquarium.availableFood.herbivorousFood.size == food.herbivorousFood.size - 1)
-      assert(newAquarium.availableFood.carnivorousFood.size == food.carnivorousFood.size - 1)
+      assert(newAquarium.herbivorousFood.size == food.count(f => f.feedingType == FeedingType.HERBIVOROUS) - 1)
+      assert(newAquarium.carnivorousFood.size == food.count(f => f.feedingType == FeedingType.CARNIVOROUS) - 1)
     }
 
     it("a fish that didn't eat anything has lower satiety") {

@@ -4,7 +4,6 @@ import mvc.ControllerModule.ControllerRequirements
 import model.aquarium.{Aquarium, AquariumState, AvailableFood, Population}
 
 import scala.language.postfixOps
-//import mvc.MVC.{given_ControllerRequirements => context}
 
 /** Control of simulation loop, speed, stop and resume. */
 trait SimulationEngine:
@@ -12,7 +11,10 @@ trait SimulationEngine:
   /** Called to make start or resume the simulation. */
   def start(simSpeed: SimulationSpeed): Unit
 
-  /** Called to make stop the simulation. */
+  /** Called to pause the simulation. */
+  def pause(): Unit
+
+  /** Called to terminate the simulation. */
   def stop(): Unit
 
   /** Change the speed of simulation. */
@@ -28,11 +30,11 @@ trait SimulationEngine:
   def getAquarium(): Aquarium
 
 enum SimulationSpeed:
-  case HALT, SLOW, NORMAL, FAST
+  case HALT, SLOW, NORMAL, FAST, STOP
 
 object SimulationEngine:
 
-  def apply(aquarium: Aquarium)(using context: ControllerRequirements): SimulationEngine = new SimulationEngineImpl(
+  def apply(aquarium: Aquarium)(using context: ControllerRequirements): SimulationEngine = SimulationEngineImpl(
     aquarium
   )
 
@@ -43,50 +45,69 @@ object SimulationEngine:
 
     var speed: SimulationSpeed = HALT
 
+    val thread: Thread = new Thread {
+      override def run(): Unit =
+        var time = System.nanoTime()
+        println("Simulation started")
+        Iterator
+          .iterate(aquarium)(context.model.step)
+          .foreach((aq: Aquarium) =>
+            aquarium = aq
+
+            speed match
+              case HALT =>
+                println("Simulation stopped.")
+                try Thread.sleep(Long.MaxValue)
+                catch
+                  case ex: InterruptedException =>
+                    speed match
+                      case STOP =>
+                        println("Simulation finished.")
+                        return
+                      case _ => println("Simulation started.")
+              case STOP =>
+                println("Simulation finished.")
+                return
+              case _ =>
+
+            context.view.renderSimulation(aq)
+
+            val deltaTime = (System.nanoTime() - time) / 1_000_000
+
+            Thread.sleep(
+              Math.max(
+                0,
+                (speed match
+                  case SLOW => 1_000
+                  case NORMAL => 100
+                  case FAST => 10
+                  case _ => 10_000
+                )
+                  - deltaTime
+              )
+            )
+
+            time = System.nanoTime()
+          )
+    }
+
     override def start(simSpeed: SimulationSpeed): Unit =
       speed match
         case HALT =>
           speed = simSpeed
-        case _ => return
-      var time = System.nanoTime()
-      val thread: Thread = new Thread {
-        override def run(): Unit =
-          println("Simulation started")
-          Iterator
-            .iterate(aquarium)(context.model.step)
-            .foreach((aq: Aquarium) =>
-              aquarium = aq
+          thread.isAlive() match
+            case true => thread.interrupt
+            case false => thread.start
+        case _ =>
 
-              speed match
-                case HALT =>
-                  println("Simulation stopped")
-                  return
-                case _ =>
-
-              context.view.renderSimulation(aq)
-
-              val deltaTime = (System.nanoTime() - time) / 1_000_000
-
-              Thread.sleep(
-                Math.max(
-                  0,
-                  (speed match
-                    case SLOW => 1_000
-                    case NORMAL => 100
-                    case FAST => 10
-                    case _ => 10_000
-                  )
-                    - deltaTime
-                )
-              )
-
-              time = System.nanoTime()
-            )
-      }
-      thread.start
+    override def pause(): Unit =
+      speed = HALT
 
     override def stop(): Unit =
-      speed = HALT
+      speed match
+        case HALT => thread.interrupt
+        case _ =>
+      speed = STOP
 
     override def changeSpeed(simSpeed: SimulationSpeed): Unit =
       speed = simSpeed match

@@ -3,6 +3,7 @@ package model.aquarium
 import model.food.Food
 
 trait UpdateAvailableFood:
+
   /** Given a new [[Food]], it is added to the set of the available food in the aquarium
     *
     * @param food

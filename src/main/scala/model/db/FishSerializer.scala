@@ -8,11 +8,13 @@ object FishSerializer extends Serializer[Fish]:
     *
     * @param fish
     *   The [[Fish]] to be stored.
+    * @param iteration
+    *   The iteration the [[Fish]] object refers to.
     * @return
     *   The prolog theory of the [[Fish]].
     */
-  def serialize(fish: Fish): String =
-    "fish('" + fish.name + "','" + fish.feedingType.toString.head + "')."
+  def serialize(fish: Fish, iteration: Int): String =
+    "fish('" + fish.name + "','" + fish.feedingType.toString.head + "'," + iteration + ")."
 
   /** Create a [[Fish]] from the theory string of prolog database.
     *

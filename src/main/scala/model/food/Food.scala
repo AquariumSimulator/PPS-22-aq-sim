@@ -8,7 +8,7 @@ import model.aquarium.{AquariumDimensions => aqDim}
 object Food:
   val MIN_NUTRITION_AMOUNT: Int = 5
   val MAX_NUTRITION_AMOUNT: Int = 15
-  val IMPURITY_CONSTANT: Double = 0.3
+  val IMPURITY_CONSTANT: Double = 0.1
   val SPEED: (Double, Double) = (0.0, 0.2)
 
 case class Food(

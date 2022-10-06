@@ -1,21 +1,19 @@
 package view.widgets
 
+import javafx.scene.input.MouseEvent
+import model.aquarium.{Aquarium, AquariumDimensions}
+import model.fish.Fish
+import model.food.Food
+import model.{Algae, Entity, FeedingType}
+import mvc.MVC.given_ViewRequirements as context
 import scalafx.geometry.Insets
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.image.Image
 import scalafx.scene.layout.{Background, BackgroundFill, BorderPane}
 import scalafx.scene.paint.{Color, LinearGradient, Stops}
 
+import scala.language.postfixOps
 import scala.util.Random
-
-import model.aquarium.AquariumDimensions
-import model.aquarium.Aquarium
-import model.fish.Fish
-import model.Algae
-import model.FeedingType
-import model.food.Food
-
-import mvc.MVC.{given_ViewRequirements => context}
 
 object SimulationViewer:
 
@@ -46,6 +44,12 @@ object SimulationViewer:
       )
     )
 
+  canvasPane.setOnMouseClicked((mouseEvent: MouseEvent) =>
+    findEntityClicked(mouseEvent.getX, mouseEvent.getY) match
+      case Some(e: Entity) => context.controller.removeInhabitant(e)
+      case None => ()
+  )
+
   private val gc = canvas.graphicsContext2D
 
   private val greenFish: Image = new Image("/img/green-fish.png")
@@ -56,13 +60,26 @@ object SimulationViewer:
 
   renderSimulation(context.controller.getAquarium())
 
+  def findEntityClicked(coordinates: (Double, Double)): Option[Entity] =
+    val population = context.controller.getAquarium().population
+    val entities: Set[Entity] = population.algae.concat(population.carnivorous).concat(population.herbivorous)
+    val entitiesClicked: Set[Entity] = entities.filter(e =>
+      val topLeft: (Double, Double) = mapToCanvasCoordinate(e.position)
+      val bottomRight: (Double, Double) = mapToCanvasCoordinate(e.position._1 + e.size._1, e.position._2 + e.size._2)
+      (coordinates._1 > topLeft._1 && coordinates._1 < bottomRight._1) &&
+      (coordinates._2 > topLeft._2 && coordinates._2 < bottomRight._2) ||
+      (coordinates._2 > (preferredHeight - bottomRight._2)) &&
+      (coordinates._1 < (topLeft._1 + bottomRight._2 / 2)) && (coordinates._1 > topLeft._1)
+    )
+    entitiesClicked.headOption
+
   def renderSimulation(aquarium: Aquarium): Unit =
     gc.clearRect(0, 0, canvas.width.value, canvas.height.value)
     aquarium.population.herbivorous.foreach((fish: Fish) => drawFish(fish))
     aquarium.population.carnivorous.foreach((fish: Fish) => drawFish(fish))
     aquarium.population.algae.foreach((a: Algae) => drawAlgae(a))
-    aquarium.availableFood.carnivorousFood.foreach((f: Food) => drawFood(meat, f.position))
-    aquarium.availableFood.herbivorousFood.foreach((f: Food) => drawFood(herbFood, f.position))
+    aquarium.carnivorousFood.foreach((f: Food) => drawFood(meat, f.position))
+    aquarium.herbivorousFood.foreach((f: Food) => drawFood(herbFood, f.position))
 
   private def drawFood(foodImage: Image, coordinate: (Double, Double)): Unit =
     val canvasCoordinate: (Double, Double) = mapToCanvasCoordinate(coordinate)
@@ -79,13 +96,18 @@ object SimulationViewer:
     )
 
   private def drawFish(fish: Fish): Unit =
-    val canvasCoordinate: (Double, Double) = mapToCanvasCoordinate(fish.position)
+    var positionOnCanvas: (Double, Double) = mapToCanvasCoordinate(fish.position)
+    var sizeOnCanvas: (Double, Double) = mapToCanvasCoordinate(fish.size)
+    val image: Image = if (fish.feedingType == FeedingType.HERBIVOROUS) greenFish else redFish
+    if fish.speed._1 < 0 then
+      positionOnCanvas = (positionOnCanvas._1 + sizeOnCanvas._1, positionOnCanvas._2)
+      sizeOnCanvas = (-sizeOnCanvas._1, sizeOnCanvas._2)
     gc.drawImage(
-      if (fish.feedingType == FeedingType.HERBIVOROUS) greenFish else redFish,
-      canvasCoordinate._1,
-      canvasCoordinate._2,
-      if (fish.speed._1 > 0) 30 * fish.size else -30 * fish.size,
-      30 * fish.size
+      image,
+      positionOnCanvas._1,
+      positionOnCanvas._2,
+      sizeOnCanvas._1,
+      sizeOnCanvas._2
     )
 
   private def mapToCanvasCoordinate(position: (Double, Double)): (Double, Double) =

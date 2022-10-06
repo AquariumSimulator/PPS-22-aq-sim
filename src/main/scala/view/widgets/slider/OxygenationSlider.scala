@@ -1,20 +1,15 @@
 package view.widgets.slider
 
 import model.aquarium.{AquariumParametersLimits, InitializeAquarium}
-import scalafx.geometry.Insets
-import scalafx.scene.control.{Slider, Tooltip}
-import scalafx.scene.layout.BorderPane
-import scalafx.scene.layout.Background
-import scalafx.scene.layout.BackgroundFill
-import scalafx.scene.paint.LinearGradient
-import scalafx.scene.paint.Stops
-import scalafx.scene.paint.Color
 import mvc.MVC
 import mvc.MVC.given_ViewRequirements as context
 import mvc.ViewModule.ViewRequirements
+import scalafx.geometry.Insets
+import scalafx.scene.control.{Slider, Tooltip}
+import scalafx.scene.layout.{Background, BackgroundFill, BorderPane, TilePane}
+import scalafx.scene.paint.{Color, LinearGradient, Stops}
 import view.utils.IconLabel
 import view.widgets.slider.SliderUtils
-import scalafx.scene.layout.TilePane
 
 import scala.language.postfixOps
 
@@ -48,8 +43,10 @@ object OxygenationSlider:
           )
         )
       )
-    slider.valueProperty.addListener((_, oldVal: Number, newVal: Number) =>
-      if oldVal != newVal then context.controller.updateOxygenation(newVal.doubleValue())
+
+    slider.valueProperty.addListener((_, _, newVal: Number) =>
+      if context.controller.getAquarium().aquariumState.oxygenation != newVal then
+        context.controller.updateOxygenation(newVal.doubleValue())
     )
 
     left = IconLabel("/icons/oxygen.png", "Aquarium oxygenation")

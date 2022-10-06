@@ -3,22 +3,20 @@ package interaction
 import model.*
 import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.interaction.Interaction
+import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec
 
-import scala.runtime.stdLibPatches.Predef.assert
-
 /** Test for the interaction of an algae on the aquarium state */
-class TestInteractionAlgaeOnAquarium extends AnyFunSpec:
+class TestInteractionAlgaeOnAquarium extends AnyFunSpec with BeforeAndAfterEach:
 
-  private val aquariumState = AquariumState(5, 50, 7, 10, 10)
-  private val aquariumStateLimitsTest =
+  private val aquariumState: AquariumState = AquariumState(5, 50, 7, 10, 10)
+  private val aquariumStateLimitsTest: AquariumState =
     AquariumState(5, 3, AquariumParametersLimits.PH_MIN, 10, AquariumParametersLimits.OXYGENATION_MAX)
 
-  private val algae = Algae(0, Algae.MAX_HEIGHT / 2)
+  private val algae: Algae = Algae(0, Algae.MAX_HEIGHT / 2)
 
-  private val interactionAlgaeAquarium =
-    Interaction(aquariumState, algae)
-  private val interactionAlgaeAquariumLimitsTest =
+  private val interactionAlgaeAquarium: Interaction[AquariumState] = Interaction(aquariumState, algae)
+  private val interactionAlgaeAquariumLimitsTest: Interaction[AquariumState] =
     Interaction(aquariumStateLimitsTest, algae)
 
   describe("An instance of InteractionAlgaeOnAquarium") {

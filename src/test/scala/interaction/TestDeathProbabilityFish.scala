@@ -17,6 +17,7 @@ class TestDeathProbabilityFish extends AnyFunSpec:
   private val multiplier = 10
   private val deltaPh = 0.05
   private val deltaOxygen = 0.55
+  private val deltaAge = 0.1
   private val inc = (n: Double, inc: Double) => n + inc
   private val calcProb = (n: Double, delta: Double) => n - delta
 
@@ -35,6 +36,9 @@ class TestDeathProbabilityFish extends AnyFunSpec:
       (oxygen: Double, prob: Double) => (inc(oxygen, 1), calcProb(prob, deltaOxygen))
     )
 
+  private val probabilitiesAge =
+    List.iterate((0, 0.0), MAX_AGE_FISH)((age: Int, prob: Double) => (age + 1, prob + deltaAge))
+
   describe(s"Given a list of ph values") {
     describe(s"when the probability of the death of the fish is calculate on the ph") {
       it("should be equal to the precalculated one") {
@@ -51,6 +55,15 @@ class TestDeathProbabilityFish extends AnyFunSpec:
       it("should be equal to the precalculated one") {
         probabilitiesOxygen
           .foreach((oxygen, prob) => assert(LOW_OXYGENATION(oxygen) === prob +- tolerance))
+      }
+    }
+  }
+
+  describe(s"Given the list of (age, probability) $probabilitiesAge") {
+    describe(s"when FISH_AGE is calculate on the age") {
+      it("should be equal to the precalculated one") {
+        probabilitiesAge
+          .foreach((age, prob) => assert(FISH_AGE(age) === prob +- tolerance))
       }
     }
   }

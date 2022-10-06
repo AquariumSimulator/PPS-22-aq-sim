@@ -10,7 +10,7 @@ class TestInteractionFishOnAlgae extends AnyFunSpec:
 
   private val fish = Fish(
     feedingType = FeedingType.HERBIVOROUS,
-    hunger = 50
+    satiety = 50
   )
   private val algae = Algae(
     base = 20,
@@ -22,18 +22,18 @@ class TestInteractionFishOnAlgae extends AnyFunSpec:
   describe("An herbivorous fish") {
     it("should eat an algae when he is hungry") {
       val updatedFishAndAlgae = interaction.update()
-      assert(updatedFishAndAlgae._1.hunger == 60)
+      assert(updatedFishAndAlgae._1.satiety == 60)
       assert(updatedFishAndAlgae._2.isEmpty)
     }
 
     it("shouldn't eat an algae when he isn't hungry") {
       val newFish = Fish(
         feedingType = FeedingType.HERBIVOROUS,
-        hunger = 95
+        satiety = 95
       )
       val newInteraction = Interaction(newFish, algae)
       val updatedFishAndAlgae = newInteraction.update()
-      assert(updatedFishAndAlgae._1.hunger == 95)
+      assert(updatedFishAndAlgae._1.satiety == 95)
       assert(updatedFishAndAlgae._2.get.height == 10)
     }
   }

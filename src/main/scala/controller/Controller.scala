@@ -8,8 +8,13 @@ import model.Algae
 /** Controller trait implemented in [[ControllerImpl]]. */
 trait Controller:
 
-  /** Start the simulation in a separated [[Thread]]. If simulation was halted, it resumes. */
-  def startSimulation(): Unit
+  /** Start the simulation in a separated [[Thread]]. If simulation was halted, it resumes. If simulation was haltted
+    * and simSpeed is HALT then an only one step is taken.
+    */
+  def startSimulation(simSpeed: SimulationSpeed): Unit
+
+  /** Pause the simulation. */
+  def pauseSimulation(): Unit
 
   /** Halt the simulation. */
   def stopSimulation(): Unit

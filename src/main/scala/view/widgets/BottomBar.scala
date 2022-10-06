@@ -45,7 +45,7 @@ object BottomBar:
         )
       case Some(str) if str == "Carnivorous Fish" =>
         Some(Fish(position = Population.randomPosition(), speed = Population.randomSpeed()))
-      case Some(_) => Some(Algae(Random.between(0, AquariumDimensions.WIDTH)))
+      case Some(_) => Some(Algae(base = Population.randomBase()))
       case None => None
     if newInhabitant.isDefined
     then context.controller.addInhabitant(newInhabitant.get)

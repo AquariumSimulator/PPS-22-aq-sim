@@ -11,13 +11,16 @@ import view.widgets.InfoPane
 import view.widgets.slider.BrightnessSlider
 import view.widgets.slider.TemperatureSlider
 import view.widgets.slider.OxygenationSlider
+import controller.SimulationSpeed
 
 /** View methods implementation from [[View]]. */
 trait ViewImpl:
   context: ViewRequirements =>
   given ViewRequirements = context
   class ViewImpl extends View:
-    def show(stage: Stage): Unit = GUI.start(stage)
+    def show(stage: Stage): Unit =
+      GUI.start(stage)
+      context.controller.startSimulation(SimulationSpeed.HALT)
     def renderSimulation(aquarium: Aquarium): Unit =
       SimulationViewer.renderSimulation(aquarium)
       Platform.runLater(() -> InfoPane.updateInfo(aquarium))

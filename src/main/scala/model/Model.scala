@@ -7,6 +7,11 @@ import model.food.Food
 /** Model trait implemented in [[ModelImpl]]. */
 trait Model:
 
+  /** Add an interaction from the user to be processed.
+    *
+    * @param interaction
+    *   the user interaction.
+    */
   def addUserInteraction(interaction: Aquarium => Aquarium): Unit
 
   /** Create the initial aquarium with a default [[AquariumState]], a [[Population]] initialized by the user and a

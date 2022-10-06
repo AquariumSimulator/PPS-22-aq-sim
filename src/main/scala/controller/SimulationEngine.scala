@@ -8,7 +8,7 @@ import scala.language.postfixOps
 /** Control of simulation loop, speed, stop and resume. */
 trait SimulationEngine:
 
-  /** Called to make start or resume the simulation. */
+  /** Called to make start or resume the simulation. If simSpeed is HALT only one step is taken. */
   def start(simSpeed: SimulationSpeed): Unit
 
   /** Called to pause the simulation. */
@@ -54,6 +54,8 @@ object SimulationEngine:
           .foreach((aq: Aquarium) =>
             aquarium = aq
 
+            context.view.renderSimulation(aq)
+
             speed match
               case HALT =>
                 println("Simulation stopped.")
@@ -64,28 +66,30 @@ object SimulationEngine:
                       case STOP =>
                         println("Simulation finished.")
                         return
+                      case HALT =>
+                        println("Just one step.")
                       case _ => println("Simulation started.")
               case STOP =>
                 println("Simulation finished.")
                 return
               case _ =>
 
-            context.view.renderSimulation(aq)
-
             val deltaTime = (System.nanoTime() - time) / 1_000_000
 
-            Thread.sleep(
-              Math.max(
-                0,
-                (speed match
-                  case SLOW => 1_000
-                  case NORMAL => 100
-                  case FAST => 10
-                  case _ => 10_000
+            try
+              Thread.sleep(
+                Math.max(
+                  0,
+                  (speed match
+                    case SLOW => 500
+                    case NORMAL => 150
+                    case FAST => 10
+                    case HALT | STOP => 0
+                  )
+                    - deltaTime
                 )
-                  - deltaTime
               )
-            )
+            catch case ex: InterruptedException => ()
 
             time = System.nanoTime()
           )
@@ -101,7 +105,9 @@ object SimulationEngine:
         case _ =>
 
     override def pause(): Unit =
-      speed = HALT
+      speed = speed match
+        case STOP => STOP
+        case _ => HALT
 
     override def stop(): Unit =
       speed match
@@ -111,7 +117,7 @@ object SimulationEngine:
 
     override def changeSpeed(simSpeed: SimulationSpeed): Unit =
       speed = simSpeed match
-        case HALT => speed
+        case HALT | STOP => speed
         case _ => simSpeed
 
     override def getSpeed(): SimulationSpeed =
@@ -119,7 +125,7 @@ object SimulationEngine:
 
     override def isRunning(): Boolean =
       speed match
-        case HALT => false
+        case HALT | STOP => false
         case _ => true
 
     override def getAquarium(): Aquarium =

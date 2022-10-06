@@ -6,7 +6,9 @@ import model.food.Food
 /** Controller trait implemented in [[ControllerImpl]]. */
 trait Controller:
 
-  /** Start the simulation in a separated [[Thread]]. If simulation was halted, it resumes. */
+  /** Start the simulation in a separated [[Thread]]. If simulation was halted, it resumes. If simulation was haltted
+    * and simSpeed is HALT then an only one step is taken.
+    */
   def startSimulation(simSpeed: SimulationSpeed): Unit
 
   /** Pause the simulation. */

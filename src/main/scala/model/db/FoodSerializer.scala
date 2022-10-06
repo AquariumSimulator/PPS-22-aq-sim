@@ -14,7 +14,8 @@ object FoodSerializer extends Serializer[Food]:
     *   The prolog theory of the [[Food]].
     */
   override def serialize(food: Food, iteration: Int): String =
-    "food('" + food.feedingType.toString.head + "'," + food.nutritionAmount + "," + food.position._1 + "," + food.position._2 + "," + iteration + ")."
+    // iteration is ignored
+    "food('" + food.feedingType.toString.head + "'," + food.nutritionAmount + "," + food.position._1 + "," + food.position._2 + ")."
 
   /** Create a [[Food]] from the theory string of prolog database.
     *

@@ -23,10 +23,10 @@ class TestNewDatabase extends AnyFunSpec:
     }
 
     it("should have 0 carnivorous food") {
-      assert(PrologEngine.getAllCarnivorousFood().isEmpty)
+      assert(PrologEngine.getAllCarnivorousFood.isEmpty)
     }
 
     it("should have 0 herbivorous food") {
-      assert(PrologEngine.getAllHerbivorousFood().isEmpty)
+      assert(PrologEngine.getAllHerbivorousFood.isEmpty)
     }
   }

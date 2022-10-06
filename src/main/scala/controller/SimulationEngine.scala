@@ -62,6 +62,8 @@ object SimulationEngine:
             aquarium = aq
             iteration = index
 
+            context.model.saveAquarium(aq, index)
+
             context.view.renderSimulation(aq)
 
             speed match

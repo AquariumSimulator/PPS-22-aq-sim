@@ -21,10 +21,10 @@ class TestFoodInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
       PrologEngine.saveFood(f)
 
       Then("the food list should have size 1")
-      assert(PrologEngine.getAllFood().size === 1)
+      assert(PrologEngine.getAllFood.size === 1)
 
       And("the only food should be the one inserted before")
-      assert(PrologEngine.getAllFood().head === f)
+      assert(PrologEngine.getAllFood.head === f)
     }
 
     it("should allow an herbivorous food to be added") {
@@ -35,12 +35,12 @@ class TestFoodInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
       PrologEngine.saveFood(f)
 
       Then("the herbivorous food list should have size 1")
-      assert(PrologEngine.getAllHerbivorousFood().size === 1)
+      assert(PrologEngine.getAllHerbivorousFood.size === 1)
       And("the only food should be the one inserted before")
-      assert(PrologEngine.getAllHerbivorousFood().head === f)
+      assert(PrologEngine.getAllHerbivorousFood.head === f)
 
       Then("the carnivorous food list should have size 0")
-      assert(PrologEngine.getAllCarnivorousFood().isEmpty)
+      assert(PrologEngine.getAllCarnivorousFood.isEmpty)
     }
 
     it("should allow a carnivorous food to be added") {
@@ -51,24 +51,11 @@ class TestFoodInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
       PrologEngine.saveFood(f)
 
       Then("the carnivorous food list should have size 1")
-      assert(PrologEngine.getAllCarnivorousFood().size === 1)
+      assert(PrologEngine.getAllCarnivorousFood.size === 1)
       And("the only food should be the one inserted before")
-      assert(PrologEngine.getAllCarnivorousFood().head === f)
+      assert(PrologEngine.getAllCarnivorousFood.head === f)
 
       Then("the herbivorous food list should have size 0")
-      assert(PrologEngine.getAllHerbivorousFood().isEmpty)
-    }
-
-    it("should return 0 when requested a food from the wrong iteration") {
-      val f: Food = Food(feedingType = FeedingType.HERBIVOROUS)
-      PrologEngine.saveFood(f)
-      assert(PrologEngine.getAllHerbivorousFood(1).isEmpty)
-    }
-
-    it("should return the food from the right iteration") {
-      val f: Food = Food(feedingType = FeedingType.HERBIVOROUS)
-      PrologEngine.saveFood(f, 1)
-      assert(PrologEngine.getAllHerbivorousFood(1).size === 1)
-      assert(PrologEngine.getAllHerbivorousFood(1).head === f)
+      assert(PrologEngine.getAllHerbivorousFood.isEmpty)
     }
   }

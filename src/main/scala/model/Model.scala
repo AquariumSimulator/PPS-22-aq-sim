@@ -36,6 +36,15 @@ trait Model:
     */
   def step(aquarium: Aquarium): Aquarium
 
+  /** Saves the population of the given [[Aquarium]] in the database.
+    *
+    * @param aquarium
+    *   The [[Aquarium]] to be saved.
+    * @param iteration
+    *   The iteration the [[Aquarium]] object refers to.
+    */
+  def saveAquarium(aquarium: Aquarium, iteration: Int): Unit
+
   /** @return
     *   A reference to the Database used by the simulation.
     */

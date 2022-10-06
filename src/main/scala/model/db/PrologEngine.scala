@@ -27,7 +27,7 @@ trait PrologEngine:
     * @param food
     *   The food to be saved.
     */
-  def saveFood(food: Food, iteration: Int): Unit
+  def saveFood(food: Food): Unit
 
   /** Retrieve all saved fish in the simulation at the given iteration. Note: if you don't need all the fish from the
     * simulation, you should consider using [[PrologEngine.getAllHerbivorousFish]] or
@@ -80,7 +80,7 @@ trait PrologEngine:
     * @return
     *   An immutable list of food.
     */
-  def getAllFood(iteration: Int): List[Food]
+  def getAllFood: List[Food]
 
   /** Retrieve all saved herbivorous food in the simulation at the given iteration. Note: if you want to retrieve all
     * the food and filter them later, it is faster and better to use [[PrologEngine.getAllFood]].
@@ -88,7 +88,7 @@ trait PrologEngine:
     * @return
     *   An immutable list of herbivorous food.
     */
-  def getAllHerbivorousFood(iteration: Int): List[Food]
+  def getAllHerbivorousFood: List[Food]
 
   /** Retrieve all saved carnivorous food in the simulation at the given iteration. Note: if you want to retrieve all
     * the food and filter them later, it is faster and better to use [[PrologEngine.getAllFood]].
@@ -96,7 +96,7 @@ trait PrologEngine:
     * @return
     *   An immutable list of carnivorous food.
     */
-  def getAllCarnivorousFood(iteration: Int): List[Food]
+  def getAllCarnivorousFood: List[Food]
 
   /** Removes every data that has been added to the engine. */
   def clear(): Unit
@@ -128,8 +128,8 @@ object PrologEngine extends PrologEngine:
   override def saveAlgae(algae: Algae, iteration: Int = 0): Unit =
     saveData(AlgaeSerializer.serialize(algae, iteration))
 
-  override def saveFood(food: Food, iteration: Int = 0): Unit =
-    saveData(FoodSerializer.serialize(food, iteration))
+  override def saveFood(food: Food): Unit =
+    saveData(FoodSerializer.serialize(food, 0))
 
   override def getAllFish(iteration: Int = 0): List[Fish] =
     val input: Struct = Struct("fish", Term.createTerm("N"), Term.createTerm("F"), Term.createTerm(iteration.toString))
@@ -149,39 +149,36 @@ object PrologEngine extends PrologEngine:
     val input: Struct = Struct("algae", Term.createTerm("B"), Term.createTerm("H"), Term.createTerm(iteration.toString))
     getData(AlgaeSerializer)(input)
 
-  override def getAllFood(iteration: Int = 0): List[Food] =
+  override def getAllFood: List[Food] =
     val input: Struct =
       Struct(
         "food",
         Term.createTerm("F"),
         Term.createTerm("A"),
         Term.createTerm("X"),
-        Term.createTerm("Y"),
-        Term.createTerm(iteration.toString)
+        Term.createTerm("Y")
       )
     getData(FoodSerializer)(input)
 
-  override def getAllHerbivorousFood(iteration: Int = 0): List[Food] =
+  override def getAllHerbivorousFood: List[Food] =
     val input: Struct =
       Struct(
         "food",
         Term.createTerm("'H'"),
         Term.createTerm("A"),
         Term.createTerm("X"),
-        Term.createTerm("Y"),
-        Term.createTerm(iteration.toString)
+        Term.createTerm("Y")
       )
     getData(FoodSerializer)(input)
 
-  override def getAllCarnivorousFood(iteration: Int = 0): List[Food] =
+  override def getAllCarnivorousFood: List[Food] =
     val input: Struct =
       Struct(
         "food",
         Term.createTerm("'C'"),
         Term.createTerm("A"),
         Term.createTerm("X"),
-        Term.createTerm("Y"),
-        Term.createTerm(iteration.toString)
+        Term.createTerm("Y")
       )
     getData(FoodSerializer)(input)
 

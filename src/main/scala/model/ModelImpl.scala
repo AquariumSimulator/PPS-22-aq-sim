@@ -181,3 +181,7 @@ trait ModelImpl:
         then fishFishInteraction = fishFishInteraction + res._3.get
 
       fishFishInteraction
+
+    override def saveAquarium(aquarium: Aquarium, iteration: Int): Unit =
+      aquarium.population.fish.foreach(fish => PrologEngine.saveFish(fish, iteration))
+      aquarium.population.algae.foreach(algae => PrologEngine.saveAlgae(algae, iteration))

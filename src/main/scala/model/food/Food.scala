@@ -9,7 +9,7 @@ object Food:
   val MIN_NUTRITION_AMOUNT: Int = 5
   val MAX_NUTRITION_AMOUNT: Int = 15
   val IMPURITY_CONSTANT: Double = 0.3
-  val SPEED: (Double, Double) = (0.0, 0.1)
+  val SPEED: (Double, Double) = (0.0, 0.2)
 
 case class Food(
     position: (Double, Double) = (Random.between(0, aqDim.WIDTH), 0),
@@ -19,7 +19,7 @@ case class Food(
 
   import Food._
 
-  val size: (Double, Double) = (5, 5)
+  val size: (Double, Double) = (15, 15)
   val oxygenShift: Double = 0.0
   val impurityShift: Double = nutritionAmount * IMPURITY_CONSTANT
   val phShift: Double = 0.0

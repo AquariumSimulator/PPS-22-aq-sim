@@ -50,7 +50,7 @@ class TestDeathProbabilityFish extends AnyFunSpec:
     }
   }
 
-  describe(s"Given the list of (oxygenation, probability) $probabilitiesOxygen") {
+  describe(s"Given the list of (oxygenation, probability)") {
     describe(s"when LOW_OXYGENATION is calculate on the oxygenation") {
       it("should be equal to the precalculated one") {
         probabilitiesOxygen
@@ -59,7 +59,7 @@ class TestDeathProbabilityFish extends AnyFunSpec:
     }
   }
 
-  describe(s"Given the list of (age, probability) $probabilitiesAge") {
+  describe(s"Given the list of (age, probability)") {
     describe(s"when FISH_AGE is calculate on the age") {
       it("should be equal to the precalculated one") {
         probabilitiesAge

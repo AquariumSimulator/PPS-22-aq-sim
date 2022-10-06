@@ -24,7 +24,7 @@ object UpdateFood:
     override def move(speedMultiplier: Double): Food =
       var newPosition: (Double, Double) = calculatePosition()
       newPosition._2 match
-        case y if y > AquariumDimensions.HEIGHT =>
-          newPosition = (newPosition._1, AquariumDimensions.HEIGHT)
+        case y if y > AquariumDimensions.HEIGHT - food.size._2 =>
+          newPosition = (newPosition._1, AquariumDimensions.HEIGHT - food.size._2)
         case _ =>
       updatePosition(newPosition)

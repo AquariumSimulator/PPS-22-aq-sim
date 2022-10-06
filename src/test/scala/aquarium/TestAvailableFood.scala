@@ -15,13 +15,9 @@ class TestAvailableFood extends AnyFunSpec:
 
   private val newHerbivorousFood = Food(feedingType = FeedingType.HERBIVOROUS, position = (0, 1))
   private val newCarnivorousFood = Food(position = (0, 1))
-  private var newFoodWithAddedElem =
-    AquariumForAddTest.copy(availableFood = AquariumForAddTest.addFood(newHerbivorousFood))
-  newFoodWithAddedElem = newFoodWithAddedElem.copy(availableFood = newFoodWithAddedElem.addFood(newCarnivorousFood))
+  private val newFoodWithAddedElem = AquariumForAddTest.addFood(newHerbivorousFood).addFood(newCarnivorousFood)
 
-  private val newFoodWithRemovedElem = AquariumForAddTest
-    .copy(availableFood = AquariumForAddTest.deleteFood(newHerbivorousFood))
-    .copy(availableFood = AquariumForAddTest.deleteFood(newCarnivorousFood))
+  private val newFoodWithRemovedElem = AquariumForAddTest.deleteFood(newHerbivorousFood).deleteFood(newCarnivorousFood)
 
   describe("A new instance of Aquarium") {
     it("should have an empty available food set") {

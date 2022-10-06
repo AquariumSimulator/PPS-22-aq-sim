@@ -16,6 +16,13 @@ case class Aquarium(
     population: Population,
     override val availableFood: Set[Food] = Set.empty
 ) extends AvailableFood
+    with UpdateAvailableFood:
+
+  override def addFood(food: Food): Aquarium =
+    this.copy(availableFood = this.availableFood + food)
+
+  override def deleteFood(food: Food): Aquarium =
+    this.copy(availableFood = this.availableFood - food)
 
 /** Companion object of the case class */
 object Aquarium:

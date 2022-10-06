@@ -10,7 +10,7 @@ import model.FeedingType
 class TestFishInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAfterEach:
 
   override def afterEach(): Unit =
-    PrologEngine.clear
+    PrologEngine.clear()
 
   describe("The PrologEngine") {
     it("should allow a fish to be added") {
@@ -21,10 +21,10 @@ class TestFishInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
       PrologEngine.saveFish(f)
 
       Then("the fish list should have size 1")
-      assert(PrologEngine.getAllFish.size === 1)
+      assert(PrologEngine.getAllFish().size === 1)
 
       And("the only fish should be the one inserted before")
-      assert(PrologEngine.getAllFish.head === f)
+      assert(PrologEngine.getAllFish().head === f)
     }
 
     it("should allow an herbivorous fish to be added") {
@@ -35,12 +35,12 @@ class TestFishInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
       PrologEngine.saveFish(f)
 
       Then("the herbivorous fish list should have size 1")
-      assert(PrologEngine.getAllHerbivorousFish.size === 1)
+      assert(PrologEngine.getAllHerbivorousFish().size === 1)
       And("the only fish should be the one inserted before")
-      assert(PrologEngine.getAllHerbivorousFish.head === f)
+      assert(PrologEngine.getAllHerbivorousFish().head === f)
 
       Then("the carnivorous fish list should have size 0")
-      assert(PrologEngine.getAllCarnivorousFish.isEmpty)
+      assert(PrologEngine.getAllCarnivorousFish().isEmpty)
     }
 
     it("should allow a carnivorous fish to be added") {
@@ -51,11 +51,24 @@ class TestFishInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
       PrologEngine.saveFish(f)
 
       Then("the carnivorous fish list should have size 1")
-      assert(PrologEngine.getAllCarnivorousFish.size === 1)
+      assert(PrologEngine.getAllCarnivorousFish().size === 1)
       And("the only fish should be the one inserted before")
-      assert(PrologEngine.getAllCarnivorousFish.head === f)
+      assert(PrologEngine.getAllCarnivorousFish().head === f)
 
       Then("the herbivorous fish list should have size 0")
-      assert(PrologEngine.getAllHerbivorousFish.isEmpty)
+      assert(PrologEngine.getAllHerbivorousFish().isEmpty)
+    }
+
+    it("should return 0 when requested a fish from the wrong iteration") {
+      val f: Fish = Fish(feedingType = FeedingType.HERBIVOROUS)
+      PrologEngine.saveFish(f)
+      assert(PrologEngine.getAllHerbivorousFish(1).isEmpty)
+    }
+
+    it("should return the fish from the right iteration") {
+      val f: Fish = Fish(feedingType = FeedingType.HERBIVOROUS)
+      PrologEngine.saveFish(f, 1)
+      assert(PrologEngine.getAllHerbivorousFish(1).size === 1)
+      assert(PrologEngine.getAllHerbivorousFish(1).head === f)
     }
   }

@@ -5,8 +5,6 @@ import scalafx.scene.control.{Button, Label, Tooltip}
 import scalafx.scene.layout._
 import scalafx.scene.paint.Color
 import view.utils.{AquariumFonts, IconButton}
-import scalafx.event.ActionEvent
-import scalafx.Includes._
 
 import model.aquarium.Aquarium
 
@@ -17,11 +15,11 @@ object InfoPane:
 
   private val statisticsButton: IconButton = IconButton("icons/chart.png")
   statisticsButton.tooltip = new Tooltip("View statistics")
-  statisticsButton.onAction = (event: ActionEvent) => println("Clicked view statistics")
+  statisticsButton.onAction = _ => StatisticsView().showAndWait()
 
   private val downloadButton: IconButton = IconButton("icons/download.png")
   downloadButton.tooltip = new Tooltip("Download simulation data")
-  downloadButton.onAction = (event: ActionEvent) => println("Clicked download data")
+  downloadButton.onAction = _ => println("Clicked download data")
 
   private val herbivorousFishLabel: InfoCell = InfoCell("Herbivorous fish", 0, "fish")
   private val carnivorousFishLabel: InfoCell = InfoCell("Carnivorous fish", 0, "fish")

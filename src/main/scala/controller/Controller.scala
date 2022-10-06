@@ -2,6 +2,8 @@ package controller
 
 import model.aquarium.Aquarium
 import model.food.Food
+import model.fish.Fish
+import model.Algae
 
 /** Controller trait implemented in [[ControllerImpl]]. */
 trait Controller:
@@ -92,3 +94,12 @@ trait Controller:
     *   the food that needs to be added
     */
   def addFood(food: Food): Unit
+
+  /** @return
+    *   Returns the population of the aquarium at each iteration. Each i-th element of the returned List corresponds to
+    *   the population at the i-th instant. Each i-th element is composed of, in order:
+    *   - the number of Herbivorous Fish
+    *   - the number of Carnivorous Fish
+    *   - the number of Algae
+    */
+  def getPopulationTrend(): List[(Int, Int, Int)]

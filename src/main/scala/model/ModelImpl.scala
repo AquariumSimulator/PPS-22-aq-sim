@@ -1,33 +1,38 @@
 package model
 
-import model.aquarium.*
+import model.aquarium._
 import model.fish.{Fish, UpdateFish}
 import model.food.{Food, UpdateFood}
 import model.interaction.Interaction
 import model.interaction.MultiplierVelocityFish.{SPEED_MULTIPLIER_IMPURITY, SPEED_MULTIPLIER_TEMPERATURE}
-import mvc.MVC.model.*
+import mvc.MVC.model._
 
 import java.util.concurrent.ConcurrentLinkedQueue
 import scala.annotation.tailrec
-import scala.language.postfixOps
+import model.db.PrologEngine
 
 /** Model methods implementation from [[Model]]. */
 trait ModelImpl:
   class ModelImpl extends Model:
+
+    override def getDatabase(): PrologEngine = PrologEngine
 
     private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
 
     private val multiplier = (aqState: AquariumState) =>
       SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
         SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
+
     override def addUserInteraction(interaction: Aquarium => Aquarium): Unit =
       queue.add(interaction)
+
     override def initializeAquarium(
         herbivorousFishNumber: Int,
         carnivorousFishNumber: Int,
         algaeNumber: Int
     ): Aquarium =
       Aquarium(herbivorousFishNumber, carnivorousFishNumber, algaeNumber)
+
     override def step(aquarium: Aquarium): Aquarium =
       val updatedAquariumState: AquariumState = newAquariumState(
         aquarium.population.fish
@@ -176,3 +181,7 @@ trait ModelImpl:
         then fishFishInteraction = fishFishInteraction + res._3.get
 
       fishFishInteraction
+
+    override def saveAquarium(aquarium: Aquarium, iteration: Int): Unit =
+      aquarium.population.fish.foreach(fish => PrologEngine.saveFish(fish, iteration))
+      aquarium.population.algae.foreach(algae => PrologEngine.saveAlgae(algae, iteration))

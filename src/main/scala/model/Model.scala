@@ -3,6 +3,7 @@ package model
 import model.aquarium.{Aquarium, AquariumState, AvailableFood, Population}
 import model.fish.Fish
 import model.food.Food
+import model.db.PrologEngine
 
 /** Model trait implemented in [[ModelImpl]]. */
 trait Model:
@@ -34,3 +35,17 @@ trait Model:
     *   a new updated aquarium
     */
   def step(aquarium: Aquarium): Aquarium
+
+  /** Saves the population of the given [[Aquarium]] in the database.
+    *
+    * @param aquarium
+    *   The [[Aquarium]] to be saved.
+    * @param iteration
+    *   The iteration the [[Aquarium]] object refers to.
+    */
+  def saveAquarium(aquarium: Aquarium, iteration: Int): Unit
+
+  /** @return
+    *   A reference to the Database used by the simulation.
+    */
+  def getDatabase(): PrologEngine

@@ -10,7 +10,7 @@ import model.FeedingType
 class TestFoodInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAfterEach:
 
   override def afterEach(): Unit =
-    PrologEngine.clear
+    PrologEngine.clear()
 
   describe("The PrologEngine") {
     it("should allow a food to be added") {
@@ -44,7 +44,7 @@ class TestFoodInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
     }
 
     it("should allow a carnivorous food to be added") {
-      Given("a carnovorous food")
+      Given("a carnivorous food")
       val f: Food = Food(feedingType = FeedingType.CARNIVOROUS)
 
       When("food is added")

@@ -4,6 +4,7 @@ import model.aquarium.{Aquarium, InitializeAquarium}
 import model.food.Food
 import mvc.ControllerModule.ControllerRequirements
 import mvc.MVC.given_ControllerRequirements as context
+import java.util.stream.IntStream
 
 /** Controller methods implementation from [[Controller]]. */
 trait ControllerImpl:
@@ -65,3 +66,14 @@ trait ControllerImpl:
 
     override def addFood(food: Food): Unit =
       addUserInteraction((aq: Aquarium) => aq.copy(availableFood = aq.addFood(food)))
+
+    override def getPopulationTrend(): List[(Int, Int, Int)] =
+      (0 to simEngine.getIterations())
+        .map(idx =>
+          (
+            context.model.getDatabase().getAllHerbivorousFish(idx).size,
+            context.model.getDatabase().getAllCarnivorousFish(idx).size,
+            context.model.getDatabase().getAllAlgae(idx).size
+          )
+        )
+        .toList

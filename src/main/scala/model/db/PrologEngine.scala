@@ -27,7 +27,7 @@ trait PrologEngine:
     * @param food
     *   The food to be saved.
     */
-  def saveFood(food: Food): Unit
+  def saveFood(food: Food, iteration: Int): Unit
 
   /** Retrieve all saved fish in the simulation at the given iteration. Note: if you don't need all the fish from the
     * simulation, you should consider using [[PrologEngine.getAllHerbivorousFish]] or
@@ -73,29 +73,30 @@ trait PrologEngine:
     */
   def getAllAlgae(iteration: Int): List[Algae]
 
-  /** Retrieve all saved food in the simulation. Note: if you don't need all the food from the simulation, you should
-    * consider using [[PrologEngine.getAllHerbivorousFood]] or [[PrologEngine.getAllCarnivorousFood]].
+  /** Retrieve all saved food in the simulation at the given iteration. Note: if you don't need all the food from the
+    * simulation, you should consider using [[PrologEngine.getAllHerbivorousFood]] or
+    * [[PrologEngine.getAllCarnivorousFood]].
     *
     * @return
     *   An immutable list of food.
     */
-  def getAllFood: List[Food]
+  def getAllFood(iteration: Int): List[Food]
 
-  /** Retrieve all saved herbivorous food in the simulation. Note: if you want to retrieve all the food and filter them
-    * later, it is faster and better to use [[PrologEngine.getAllFood]].
+  /** Retrieve all saved herbivorous food in the simulation at the given iteration. Note: if you want to retrieve all
+    * the food and filter them later, it is faster and better to use [[PrologEngine.getAllFood]].
     *
     * @return
     *   An immutable list of herbivorous food.
     */
-  def getAllHerbivorousFood: List[Food]
+  def getAllHerbivorousFood(iteration: Int): List[Food]
 
-  /** Retrieve all saved carnivorous food in the simulation. Note: if you want to retrieve all the food and filter them
-    * later, it is faster and better to use [[PrologEngine.getAllFood]].
+  /** Retrieve all saved carnivorous food in the simulation at the given iteration. Note: if you want to retrieve all
+    * the food and filter them later, it is faster and better to use [[PrologEngine.getAllFood]].
     *
     * @return
     *   An immutable list of carnivorous food.
     */
-  def getAllCarnivorousFood: List[Food]
+  def getAllCarnivorousFood(iteration: Int): List[Food]
 
   /** Removes every data that has been added to the engine. */
   def clear(): Unit
@@ -127,7 +128,7 @@ object PrologEngine extends PrologEngine:
   override def saveAlgae(algae: Algae, iteration: Int = 0): Unit =
     saveData(AlgaeSerializer.serialize(algae))
 
-  override def saveFood(food: Food): Unit =
+  override def saveFood(food: Food, iteration: Int = 0): Unit =
     saveData(FoodSerializer.serialize(food))
 
   override def getAllFish(iteration: Int = 0): List[Fish] =
@@ -146,17 +147,17 @@ object PrologEngine extends PrologEngine:
     val input: Struct = Struct("algae", Term.createTerm("B"), Term.createTerm("H"))
     getData(AlgaeSerializer)(input)
 
-  override def getAllFood: List[Food] =
+  override def getAllFood(iteration: Int = 0): List[Food] =
     val input: Struct =
       Struct("food", Term.createTerm("F"), Term.createTerm("A"), Term.createTerm("X"), Term.createTerm("Y"))
     getData(FoodSerializer)(input)
 
-  override def getAllHerbivorousFood: List[Food] =
+  override def getAllHerbivorousFood(iteration: Int = 0): List[Food] =
     val input: Struct =
       Struct("food", Term.createTerm("'H'"), Term.createTerm("A"), Term.createTerm("X"), Term.createTerm("Y"))
     getData(FoodSerializer)(input)
 
-  override def getAllCarnivorousFood: List[Food] =
+  override def getAllCarnivorousFood(iteration: Int = 0): List[Food] =
     val input: Struct =
       Struct("food", Term.createTerm("'C'"), Term.createTerm("A"), Term.createTerm("X"), Term.createTerm("Y"))
     getData(FoodSerializer)(input)

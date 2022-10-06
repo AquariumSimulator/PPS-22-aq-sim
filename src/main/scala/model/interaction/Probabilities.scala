@@ -47,6 +47,18 @@ object DeathProbabilityFish:
     (MAX_INTERVAL_TOO_LOW_OXYGENATION - oxygen) * PROB_OXYGEN /
       (MAX_INTERVAL_TOO_LOW_OXYGENATION - AquariumParametersLimits.OXYGENATION_MIN)
 
+  /** Max value of the age of a fish */
+  val MAX_AGE_FISH: Int = 1000
+
+  /** Min value of the fish age at which the fish can begin to die of old age */
+  val MIN_AGE_FISH: Int = 100
+
+  /** Max probability of a fish to die if the age is 1000 */
+  val PROB_AGE: Int = 100
+
+  /** Probability of the death of a fish given its age */
+  val FISH_AGE = (age: Double) => age * PROB_AGE / MAX_AGE_FISH
+
 /** Constants that represent the multipliers of the fish speed */
 object MultiplierVelocityFish:
 

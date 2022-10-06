@@ -25,6 +25,9 @@ trait ControllerImpl:
     override def stopSimulation(): Unit =
       simEngine.stop()
 
+    override def pauseSimulation(): Unit =
+      simEngine.pause()
+
     override def changeSpeed(simSpeed: SimulationSpeed): Unit =
       simEngine.changeSpeed(simSpeed)
 
@@ -37,34 +40,32 @@ trait ControllerImpl:
     override def getAquarium(): Aquarium =
       simEngine.getAquarium()
 
+    private def addUserInteraction(interaction: Aquarium => Aquarium): Unit =
+      context.model.addUserInteraction(interaction)
+      simEngine.isRunning() match
+        case false => simEngine.start(SimulationSpeed.HALT)
+        case _ =>
+
     override def updateTemperature(temperature: Double): Unit =
-      context.model.addUserInteraction((aq: Aquarium) =>
-        aq.copy(aquariumState = aq.aquariumState.updateTemperature(temperature))
-      )
+      addUserInteraction((aq: Aquarium) => aq.copy(aquariumState = aq.aquariumState.updateTemperature(temperature)))
 
     override def updateBrightness(brightness: Double): Unit =
-      context.model.addUserInteraction((aq: Aquarium) =>
-        aq.copy(aquariumState = aq.aquariumState.updateBrightness(brightness))
-      )
+      addUserInteraction((aq: Aquarium) => aq.copy(aquariumState = aq.aquariumState.updateBrightness(brightness)))
 
     override def clean(): Unit =
-      context.model.addUserInteraction((aq: Aquarium) => aq.copy(aquariumState = aq.aquariumState.updateImpurity(0)))
+      addUserInteraction((aq: Aquarium) => aq.copy(aquariumState = aq.aquariumState.updateImpurity(0)))
 
     override def updateOxygenation(oxygenation: Double): Unit =
-      context.model.addUserInteraction((aq: Aquarium) =>
-        aq.copy(aquariumState = aq.aquariumState.updateOxygenation(oxygenation))
-      )
+      addUserInteraction((aq: Aquarium) => aq.copy(aquariumState = aq.aquariumState.updateOxygenation(oxygenation)))
 
     override def addInhabitant[A](inhabitant: A): Unit =
-      context.model.addUserInteraction((aq: Aquarium) => aq.copy(population = aq.population.addInhabitant(inhabitant)))
+      addUserInteraction((aq: Aquarium) => aq.copy(population = aq.population.addInhabitant(inhabitant)))
 
     override def removeInhabitant[A](inhabitant: A): Unit =
-      context.model.addUserInteraction((aq: Aquarium) =>
-        aq.copy(population = aq.population.removeInhabitant(inhabitant))
-      )
+      addUserInteraction((aq: Aquarium) => aq.copy(population = aq.population.removeInhabitant(inhabitant)))
 
     override def addFood(food: Food): Unit =
-      context.model.addUserInteraction((aq: Aquarium) => aq.copy(availableFood = aq.availableFood.addFood(food)))
+      addUserInteraction((aq: Aquarium) => aq.copy(availableFood = aq.addFood(food)))
 
     override def getPopulationTrend(): List[(Int, Int, Int)] =
       (0 to simEngine.getIterations())

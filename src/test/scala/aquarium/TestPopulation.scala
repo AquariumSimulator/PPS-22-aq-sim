@@ -8,11 +8,11 @@ import scala.runtime.stdLibPatches.Predef.assert
 /** Test for [[Population]] */
 class TestPopulation extends AnyFunSpec:
 
-  val herbivorousFishesNumber = 3
-  val carnivorousFishesNumber = 4
-  val algaeNumber = 5
+  private val herbivorousFishesNumber = 3
+  private val carnivorousFishesNumber = 4
+  private val algaeNumber = 5
 
-  val population = Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber)
+  private val population = Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber)
 
   describe("A new Population") {
 

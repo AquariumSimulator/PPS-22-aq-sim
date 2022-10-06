@@ -1,8 +1,8 @@
 package aquarium
 
-import model.{Algae, FeedingType}
 import model.aquarium.Population
 import model.fish.Fish
+import model.{Algae, FeedingType}
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
@@ -11,25 +11,25 @@ import scala.util.Random
 /** Test for Population (example with herbivorous fish set) */
 class TestUpdatePopulation extends AnyFunSpec:
 
-  val herbivorousFishesNumber = 3
-  val carnivorousFishesNumber = 4
-  val algaeNumber = 5
-  val algaeBase = 1.0
+  private val herbivorousFishesNumber = 3
+  private val carnivorousFishesNumber = 4
+  private val algaeNumber = 5
+  private val algaeBase = 1.0
 
-  val population = Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber)
+  private val population = Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber)
 
-  val addHerbivorousElement = Fish(feedingType = FeedingType.HERBIVOROUS)
-  val addCarnivorousElement = Fish()
-  val addAlgaeElement = Algae(algaeBase)
+  private val addHerbivorousElement = Fish(feedingType = FeedingType.HERBIVOROUS)
+  private val addCarnivorousElement = Fish()
+  private val addAlgaeElement = Algae(algaeBase)
 
-  val newHerbivorousSetForAddTest = population.addInhabitant(addHerbivorousElement)
-  val newHerbivorousSetForRemoveTest = newHerbivorousSetForAddTest.removeInhabitant(addHerbivorousElement)
+  private val newHerbivorousSetForAddTest = population.addInhabitant(addHerbivorousElement)
+  private val newHerbivorousSetForRemoveTest = newHerbivorousSetForAddTest.removeInhabitant(addHerbivorousElement)
 
-  val newCarnivorousSetForAddTest = population.addInhabitant(addCarnivorousElement)
-  val newCarnivorousSetForRemoveTest = newCarnivorousSetForAddTest.removeInhabitant(addCarnivorousElement)
+  private val newCarnivorousSetForAddTest = population.addInhabitant(addCarnivorousElement)
+  private val newCarnivorousSetForRemoveTest = newCarnivorousSetForAddTest.removeInhabitant(addCarnivorousElement)
 
-  val newAlgaeSetForAddTest = population.addInhabitant(addAlgaeElement)
-  val newAlgaeSetForRemoveTest = newAlgaeSetForAddTest.removeInhabitant(addAlgaeElement)
+  private val newAlgaeSetForAddTest = population.addInhabitant(addAlgaeElement)
+  private val newAlgaeSetForRemoveTest = newAlgaeSetForAddTest.removeInhabitant(addAlgaeElement)
 
   describe("Considered an herbivorous fish set") {
     describe("once the addInhabitant method is called") {

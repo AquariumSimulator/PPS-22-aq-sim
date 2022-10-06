@@ -58,13 +58,13 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
     it("should have more satiety after having eaten food") {
       val f: Fish = Fish(satiety = 15)
       val food: Food = Food(nutritionAmount = 10)
-      assert(UpdateFish(f).eat(food).satiety === f.satiety + food.nutritionAmount)
+      assert(f.eat(food).satiety === f.satiety + food.nutritionAmount)
     }
 
     it("should not have more than MAX_SATIETY after having eaten food") {
       val f: Fish = Fish(satiety = MAX_SATIETY - 5)
       val food: Food = Food(nutritionAmount = 10)
-      assert(UpdateFish(f).eat(food).satiety === MAX_SATIETY)
+      assert(f.eat(food).satiety === MAX_SATIETY)
     }
 
 //    it("should have more satiety after having eaten another fish") {

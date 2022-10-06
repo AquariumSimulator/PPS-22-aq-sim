@@ -17,6 +17,7 @@ class TestStep extends AnyFunSpec:
   private val aquariumState = AquariumState(ph = 0, oxygenation = 15)
 
   private val satiety = 5
+  private val fishAge = 0
 
   private val hFishHungry: Fish = Fish(
     position = (0, 0),
@@ -39,24 +40,23 @@ class TestStep extends AnyFunSpec:
   private val algaeEaten: Algae = Algae()
   private val algaeNotEaten: Algae = Algae(base = 20)
 
-  private val hFoodEaten: Food = Food(position = (0, 0), feedingType = FeedingType.HERBIVOROUS)
-  private val cFoodEaten: Food = Food(position = (11, 11))
-  private val hFoodNotEaten: Food = Food(position = (0, 100), feedingType = FeedingType.HERBIVOROUS)
-  private val cFoodNotEaten: Food = Food(position = (100, 0))
+  private val hFoodEaten: Food = Food(position = (0, 0), feedingType = FeedingType.HERBIVOROUS, nutritionAmount = 1)
+  private val cFoodEaten: Food = Food(position = (11, 11), nutritionAmount = 2)
+  private val hFoodNotEaten: Food =
+    Food(position = (0, 100), feedingType = FeedingType.HERBIVOROUS, nutritionAmount = 3)
+  private val cFoodNotEaten: Food = Food(position = (100, 0), nutritionAmount = 4)
 
   private val population =
     Population(
-      Set(hFishHungry, hFishNotHungry, hFishEaten, hFishReproduction),
-      Set(cFishHungry, cFishNotHungry),
+      Set(hFishHungry, hFishNotHungry, hFishEaten, hFishReproduction, cFishHungry, cFishNotHungry),
       Set(algaeEaten, algaeNotEaten)
     )
-  private val food =
-    AvailableFood(Set(hFoodEaten, hFoodNotEaten), Set(cFoodEaten, cFoodNotEaten))
+  private val food = Set(hFoodEaten, hFoodNotEaten, cFoodEaten, cFoodNotEaten)
 
   private val aquarium = Aquarium(aquariumState, population, food)
 
   private val newAquarium = step(aquarium)
-  private val entitySet = population.herbivorous.concat(population.carnivorous).concat(population.algae)
+  private val entitySet = population.fish.concat(population.algae).concat(food)
 
   describe("When step() is called it return a new Aquarium where") {
     it("the new AquariumState is updated by all the inhabitant of the aquarium") {
@@ -64,17 +64,22 @@ class TestStep extends AnyFunSpec:
         .copy(
           ph = aquariumState.ph + entitySet.map(e => e.phShift).sum,
           oxygenation = aquariumState.oxygenation + entitySet.map(e => e.oxygenShift).sum,
-          impurity =
-            aquariumState.impurity + population.carnivorous.concat(population.herbivorous).map(e => e.impurityShift).sum
+          impurity = aquariumState.impurity + entitySet.map(e => e.impurityShift).sum
         )
       assert(newAquarium.aquariumState.ph === aqState.ph +- 0.25)
       assert(newAquarium.aquariumState.impurity === aqState.impurity +- 0.1)
       assert(newAquarium.aquariumState.oxygenation === aqState.oxygenation +- 0.25)
     }
 
+    it(s"all fish have age equals to the previous one plus ${Fish.AGE_SHIFT}") {
+      newAquarium.population.herbivorous
+        .concat(newAquarium.population.carnivorous)
+        .foreach(f => assert(f.age == fishAge + Fish.AGE_SHIFT))
+    }
+
     it("the food near to the fish should be eaten") {
-      assert(newAquarium.availableFood.herbivorousFood.size == food.herbivorousFood.size - 1)
-      assert(newAquarium.availableFood.carnivorousFood.size == food.carnivorousFood.size - 1)
+      assert(newAquarium.herbivorousFood.size == food.count(f => f.feedingType == FeedingType.HERBIVOROUS) - 1)
+      assert(newAquarium.carnivorousFood.size == food.count(f => f.feedingType == FeedingType.CARNIVOROUS) - 1)
     }
 
     it("a fish that didn't eat anything has lower satiety") {

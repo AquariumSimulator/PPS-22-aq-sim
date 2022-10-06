@@ -65,7 +65,10 @@ trait ControllerImpl:
       addUserInteraction((aq: Aquarium) => aq.copy(population = aq.population.removeInhabitant(inhabitant)))
 
     override def addFood(food: Food): Unit =
-      addUserInteraction((aq: Aquarium) => aq.copy(availableFood = aq.addFood(food)))
+      addUserInteraction((aq: Aquarium) => aq.addFood(food))
+
+    override def deleteFood(food: Food): Unit =
+      addUserInteraction((aq: Aquarium) => aq.deleteFood(food))
 
     override def getPopulationTrend(): List[(Int, Int, Int)] =
       (0 to simEngine.getIterations())

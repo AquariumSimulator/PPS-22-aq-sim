@@ -31,21 +31,3 @@ trait AvailableFood:
     */
   private def selectType(feedingType: FeedingType): Set[Food] =
     availableFood.filter(f => f.feedingType == feedingType)
-
-  /** Given a new [[Food]], it is added to the set of the available food in the aquarium
-    * @param food
-    *   the food that has to be added
-    * @return
-    *   the new set of food
-    */
-  def addFood(food: Food): Set[Food] =
-    availableFood + food
-
-  /** Given a [[Food]] instance, it is removed, if present, from the set of the available food in the aquarium
-    * @param food
-    *   the food that has to be removed
-    * @return
-    *   the new set of food
-    */
-  def deleteFood(food: Food): Set[Food] =
-    availableFood - food

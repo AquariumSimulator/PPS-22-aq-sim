@@ -5,7 +5,7 @@ import model.fish.Fish
 import model.interaction.Interaction
 import org.scalatest.funspec.AnyFunSpec
 
-/** Test for the interaction of the fish on a algae */
+/** Test for the interaction of the fish on an algae */
 class TestInteractionFishOnAlgae extends AnyFunSpec:
 
   private val fish = Fish(

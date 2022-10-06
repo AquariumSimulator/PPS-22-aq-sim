@@ -8,19 +8,16 @@ import org.scalatest.funspec.AnyFunSpec
 import scala.language.postfixOps
 import scala.runtime.stdLibPatches.Predef.assert
 
+/** Test for the interface [[AvailableFood]] */
 class TestAvailableFood extends AnyFunSpec:
 
   private val AquariumForAddTest = Aquarium(0, 0, 0)
 
   private val newHerbivorousFood = Food(feedingType = FeedingType.HERBIVOROUS, position = (0, 1))
   private val newCarnivorousFood = Food(position = (0, 1))
-  private var newFoodWithAddedElem =
-    AquariumForAddTest.copy(availableFood = AquariumForAddTest.addFood(newHerbivorousFood))
-  newFoodWithAddedElem = newFoodWithAddedElem.copy(availableFood = newFoodWithAddedElem.addFood(newCarnivorousFood))
+  private val newFoodWithAddedElem = AquariumForAddTest.addFood(newHerbivorousFood).addFood(newCarnivorousFood)
 
-  private val newFoodWithRemovedElem = AquariumForAddTest
-    .copy(availableFood = AquariumForAddTest.deleteFood(newHerbivorousFood))
-    .copy(availableFood = AquariumForAddTest.deleteFood(newCarnivorousFood))
+  private val newFoodWithRemovedElem = AquariumForAddTest.deleteFood(newHerbivorousFood).deleteFood(newCarnivorousFood)
 
   describe("A new instance of Aquarium") {
     it("should have an empty available food set") {
@@ -38,7 +35,7 @@ class TestAvailableFood extends AnyFunSpec:
     }
   }
 
-  describe("When removeFood is called to remove an herbivorous food instance") {
+  describe("When deleteFood is called to remove an herbivorous food instance") {
     it("should return a new available food set with an updated set with one less element") {
       assert(newFoodWithRemovedElem.herbivorousFood.size == newFoodWithAddedElem.herbivorousFood.size - 1)
     }
@@ -58,7 +55,7 @@ class TestAvailableFood extends AnyFunSpec:
       assert(newFoodWithAddedElem.carnivorousFood.contains(newCarnivorousFood))
     }
   }
-  describe("When removeFood is called to remove an carnivorous food instance") {
+  describe("When deleteFood is called to remove an carnivorous food instance") {
     it("should return a new available food set with an updated set with one less element") {
       assert(newFoodWithRemovedElem.carnivorousFood.size == newFoodWithAddedElem.carnivorousFood.size - 1)
     }

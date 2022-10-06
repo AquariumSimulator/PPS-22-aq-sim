@@ -80,7 +80,7 @@ object Population:
       @tailrec
       def _addAlgae(number: Int, set: Set[Algae]): Set[Algae] =
         val newAlgae =
-          Algae(Random.between(0, AquariumDimensions.WIDTH), Random.between(Algae.DEFAULT_HEIGHT, Algae.MAX_HEIGHT))
+          Algae(base = randomBase())
         number match
           case 0 => set
           case _ =>
@@ -107,3 +107,6 @@ object Population:
   /** Calculate a random speed for a fish */
   def randomSpeed(): (Double, Double) =
     (Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED), Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED))
+
+  def randomBase(): Double =
+    0 + (AquariumDimensions.WIDTH - 0) * Random.nextDouble

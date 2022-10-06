@@ -12,7 +12,7 @@ object DeathProbabilityAlgae:
   val MAX_BRIGHTNESS_LEVEL_PROB_INTERVAL: Int = 11
 
   /** Probability of the death of an algae given the lack of brightness */
-  val LACK_OF_BRIGHTNESS = (brightnessLevel: Double) =>
+  val LACK_OF_BRIGHTNESS: Double => Double = (brightnessLevel: Double) =>
     (MAX_BRIGHTNESS_LEVEL_PROB_INTERVAL - brightnessLevel) * PROB_MIN_BRIGHTNESS /
       (MAX_BRIGHTNESS_LEVEL_PROB_INTERVAL - AquariumParametersLimits.BRIGHTNESS_MIN)
 
@@ -29,11 +29,11 @@ object DeathProbabilityFish:
   val PROB_PH: Int = 3
 
   /** Probability of the death of a fish given a too low ph */
-  val TOO_LOW_PH = (phLevel: Double) =>
+  val TOO_LOW_PH: Double => Double = (phLevel: Double) =>
     (MIN_SAFE_PH - phLevel) * PROB_PH / (MIN_SAFE_PH - AquariumParametersLimits.PH_MIN)
 
   /** Probability of the death of a fish given a too high ph */
-  val TOO_HIGH_PH = (phLevel: Double) =>
+  val TOO_HIGH_PH: Double => Double = (phLevel: Double) =>
     (phLevel - MAX_SAFE_PH) * PROB_PH / (AquariumParametersLimits.PH_MAX - MAX_SAFE_PH)
 
   /** Max value of the interval of lack of brightness level */
@@ -43,7 +43,7 @@ object DeathProbabilityFish:
   val PROB_OXYGEN = 5
 
   /** Probability of the death of a fish given a too low oxygenation */
-  val LOW_OXYGENATION = (oxygen: Double) =>
+  val LOW_OXYGENATION: Double => Double = (oxygen: Double) =>
     (MAX_INTERVAL_TOO_LOW_OXYGENATION - oxygen) * PROB_OXYGEN /
       (MAX_INTERVAL_TOO_LOW_OXYGENATION - AquariumParametersLimits.OXYGENATION_MIN)
 
@@ -57,7 +57,7 @@ object DeathProbabilityFish:
   val PROB_AGE: Int = 100
 
   /** Probability of the death of a fish given its age */
-  val FISH_AGE = (age: Double) => age * PROB_AGE / MAX_AGE_FISH
+  val FISH_AGE: Double => Double = (age: Double) => age * PROB_AGE / MAX_AGE_FISH
 
 /** Constants that represent the multipliers of the fish speed */
 object MultiplierVelocityFish:
@@ -66,7 +66,7 @@ object MultiplierVelocityFish:
   val MAX_SPEED_IMPURITY: Int = 2
 
   /** Multiplier of the speed calculated based on the impurity */
-  val SPEED_MULTIPLIER_IMPURITY = (impurity: Double) =>
+  val SPEED_MULTIPLIER_IMPURITY: Double => Double = (impurity: Double) =>
     (AquariumParametersLimits.IMPURITY_MAX - impurity) * MAX_SPEED_IMPURITY /
       AquariumParametersLimits.IMPURITY_MAX
 
@@ -74,5 +74,5 @@ object MultiplierVelocityFish:
   val MAX_SPEED_TEMPERATURE: Int = 2
 
   /** Multiplier of the speed calculated based on the temperature */
-  val SPEED_MULTIPLIER_TEMPERATURE = (temp: Double) =>
+  val SPEED_MULTIPLIER_TEMPERATURE: Double => Double = (temp: Double) =>
     temp * MAX_SPEED_TEMPERATURE / AquariumParametersLimits.TEMPERATURE_MAX

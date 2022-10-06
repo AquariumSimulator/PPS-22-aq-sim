@@ -8,7 +8,7 @@ import org.scalatest.funspec.AnyFunSpec
 import scala.runtime.stdLibPatches.Predef.assert
 import scala.util.Random
 
-/** Test for Population (example with herbivorous fish set) */
+/** Test for the interface [[UpdatePopulation]] */
 class TestUpdatePopulation extends AnyFunSpec:
 
   private val herbivorousFishesNumber = 3

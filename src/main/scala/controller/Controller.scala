@@ -52,15 +52,6 @@ trait Controller:
   /** Updates the brightness of the aquarium
     * @param brightness
     *   the new brightness value
-    * @param aquarium
-    *   the current aquarium
-    * @return
-    *   a new updated aquarium
-    */
-
-  /** Updates the brightness of the aquarium
-    * @param brightness
-    *   the new brightness value
     */
   def updateBrightness(brightness: Double): Unit
 
@@ -89,11 +80,17 @@ trait Controller:
     */
   def removeInhabitant[A](inhabitant: A): Unit
 
-  /** Add a new food in the right food set
+  /** Add a new food in the food set
     * @param food
     *   the food that needs to be added
     */
   def addFood(food: Food): Unit
+
+  /** Remove food in the food set
+    * @param food
+    *   the food that needs to be removed
+    */
+  def deleteFood(food: Food): Unit
 
   /** @return
     *   Returns the population of the aquarium at each iteration. Each i-th element of the returned List corresponds to

@@ -46,7 +46,11 @@ object SimulationViewer:
 
   canvasPane.setOnMouseClicked((mouseEvent: MouseEvent) =>
     findEntityClicked(mouseEvent.getX, mouseEvent.getY) match
-      case Some(e: Entity) => context.controller.removeInhabitant(e)
+      case Some(e: Entity) =>
+        e match
+          case e: Food =>
+            context.controller.deleteFood(e.copy(position = (e.position._1, e.position._2 + Food.SPEED._2)))
+          case _ => context.controller.removeInhabitant(e)
       case None => ()
   )
 
@@ -61,8 +65,9 @@ object SimulationViewer:
   renderSimulation(context.controller.getAquarium())
 
   def findEntityClicked(coordinates: (Double, Double)): Option[Entity] =
-    val population = context.controller.getAquarium().population
-    val entities: Set[Entity] = population.algae.concat(population.carnivorous).concat(population.herbivorous)
+    val aquarium = context.controller.getAquarium()
+    val entities: Set[Entity] =
+      aquarium.population.algae.concat(aquarium.population.fish).concat(aquarium.availableFood)
     val entitiesClicked: Set[Entity] = entities.filter(e =>
       val topLeft: (Double, Double) = mapToCanvasCoordinate(e.position)
       val bottomRight: (Double, Double) = mapToCanvasCoordinate(e.position._1 + e.size._1, e.position._2 + e.size._2)

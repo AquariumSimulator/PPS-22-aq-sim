@@ -69,7 +69,7 @@ trait ControllerImpl:
 
     override def deleteFood(food: Food): Unit =
       addUserInteraction((aq: Aquarium) => aq.deleteFood(food))
-      
+
     override def getPopulationTrend(): List[(Int, Int, Int)] =
       (0 to simEngine.getIterations())
         .map(idx =>

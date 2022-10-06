@@ -85,12 +85,13 @@ trait Controller:
     *   the food that needs to be added
     */
   def addFood(food: Food): Unit
-  
+
   /** Remove food in the food set
     * @param food
     *   the food that needs to be removed
     */
   def deleteFood(food: Food): Unit
+
   /** @return
     *   Returns the population of the aquarium at each iteration. Each i-th element of the returned List corresponds to
     *   the population at the i-th instant. Each i-th element is composed of, in order:

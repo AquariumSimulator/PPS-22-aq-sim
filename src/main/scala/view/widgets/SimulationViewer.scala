@@ -62,7 +62,7 @@ object SimulationViewer:
 
   def findEntityClicked(coordinates: (Double, Double)): Option[Entity] =
     val population = context.controller.getAquarium().population
-    val entities: Set[Entity] = population.algae.concat(population.carnivorous).concat(population.herbivorous)
+    val entities: Set[Entity] = population.algae.concat(population.fish)
     val entitiesClicked: Set[Entity] = entities.filter(e =>
       val topLeft: (Double, Double) = mapToCanvasCoordinate(e.position)
       val bottomRight: (Double, Double) = mapToCanvasCoordinate(e.position._1 + e.size._1, e.position._2 + e.size._2)

@@ -72,8 +72,7 @@ class TestStep extends AnyFunSpec:
     }
 
     it(s"all fish have age equals to the previous one plus ${Fish.AGE_SHIFT}") {
-      newAquarium.population.herbivorous
-        .concat(newAquarium.population.carnivorous)
+      newAquarium.population.fish
         .foreach(f => assert(f.age == fishAge + Fish.AGE_SHIFT))
     }
 

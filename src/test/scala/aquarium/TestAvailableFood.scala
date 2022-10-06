@@ -38,7 +38,7 @@ class TestAvailableFood extends AnyFunSpec:
     }
   }
 
-  describe("When removeFood is called to remove an herbivorous food instance") {
+  describe("When deleteFood is called to remove an herbivorous food instance") {
     it("should return a new available food set with an updated set with one less element") {
       assert(newFoodWithRemovedElem.herbivorousFood.size == newFoodWithAddedElem.herbivorousFood.size - 1)
     }
@@ -58,7 +58,7 @@ class TestAvailableFood extends AnyFunSpec:
       assert(newFoodWithAddedElem.carnivorousFood.contains(newCarnivorousFood))
     }
   }
-  describe("When removeFood is called to remove an carnivorous food instance") {
+  describe("When deleteFood is called to remove an carnivorous food instance") {
     it("should return a new available food set with an updated set with one less element") {
       assert(newFoodWithRemovedElem.carnivorousFood.size == newFoodWithAddedElem.carnivorousFood.size - 1)
     }

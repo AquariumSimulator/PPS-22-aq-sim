@@ -5,10 +5,12 @@ trait Serializer[T]:
     *
     * @param obj
     *   The object of type [[T]] to be stored.
+    * @param iteration
+    *   The iteration the [[T]] object refers to.
     * @return
     *   The prolog theory of the object.
     */
-  def serialize(obj: T): String
+  def serialize(obj: T, iteration: Int): String
 
   /** Create an object of type [[T]] from the theory string of prolog database.
     *

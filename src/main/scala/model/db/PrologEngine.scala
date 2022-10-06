@@ -109,7 +109,7 @@ object PrologEngine extends PrologEngine:
     engine.addTheory(new Theory(data))
 
   private def getData[T](deserializer: Serializer[T])(query: Struct): List[T] =
-    new Iterator[T] { // Bad brackets... but needed to prevent scalafmt to make code not compilable.
+    new Iterator[T] {
       var solution: SolveInfo = engine.solve(query)
       var go: Boolean = solution.isSuccess
       def hasNext: Boolean = go
@@ -123,43 +123,66 @@ object PrologEngine extends PrologEngine:
     }.toList
 
   override def saveFish(fish: Fish, iteration: Int = 0): Unit =
-    saveData(FishSerializer.serialize(fish))
+    saveData(FishSerializer.serialize(fish, iteration))
 
   override def saveAlgae(algae: Algae, iteration: Int = 0): Unit =
-    saveData(AlgaeSerializer.serialize(algae))
+    saveData(AlgaeSerializer.serialize(algae, iteration))
 
   override def saveFood(food: Food, iteration: Int = 0): Unit =
-    saveData(FoodSerializer.serialize(food))
+    saveData(FoodSerializer.serialize(food, iteration))
 
   override def getAllFish(iteration: Int = 0): List[Fish] =
-    val input: Struct = Struct("fish", Term.createTerm("N"), Term.createTerm("F"))
+    val input: Struct = Struct("fish", Term.createTerm("N"), Term.createTerm("F"), Term.createTerm(iteration.toString))
     getData(FishSerializer)(input)
 
   override def getAllHerbivorousFish(iteration: Int = 0): List[Fish] =
-    val input: Struct = Struct("fish", Term.createTerm("N"), Term.createTerm("'H'"))
+    val input: Struct =
+      Struct("fish", Term.createTerm("N"), Term.createTerm("'H'"), Term.createTerm(iteration.toString))
     getData(FishSerializer)(input)
 
   override def getAllCarnivorousFish(iteration: Int = 0): List[Fish] =
-    val input: Struct = Struct("fish", Term.createTerm("N"), Term.createTerm("'C'"))
+    val input: Struct =
+      Struct("fish", Term.createTerm("N"), Term.createTerm("'C'"), Term.createTerm(iteration.toString))
     getData(FishSerializer)(input)
 
   override def getAllAlgae(iteration: Int = 0): List[Algae] =
-    val input: Struct = Struct("algae", Term.createTerm("B"), Term.createTerm("H"))
+    val input: Struct = Struct("algae", Term.createTerm("B"), Term.createTerm("H"), Term.createTerm(iteration.toString))
     getData(AlgaeSerializer)(input)
 
   override def getAllFood(iteration: Int = 0): List[Food] =
     val input: Struct =
-      Struct("food", Term.createTerm("F"), Term.createTerm("A"), Term.createTerm("X"), Term.createTerm("Y"))
+      Struct(
+        "food",
+        Term.createTerm("F"),
+        Term.createTerm("A"),
+        Term.createTerm("X"),
+        Term.createTerm("Y"),
+        Term.createTerm(iteration.toString)
+      )
     getData(FoodSerializer)(input)
 
   override def getAllHerbivorousFood(iteration: Int = 0): List[Food] =
     val input: Struct =
-      Struct("food", Term.createTerm("'H'"), Term.createTerm("A"), Term.createTerm("X"), Term.createTerm("Y"))
+      Struct(
+        "food",
+        Term.createTerm("'H'"),
+        Term.createTerm("A"),
+        Term.createTerm("X"),
+        Term.createTerm("Y"),
+        Term.createTerm(iteration.toString)
+      )
     getData(FoodSerializer)(input)
 
   override def getAllCarnivorousFood(iteration: Int = 0): List[Food] =
     val input: Struct =
-      Struct("food", Term.createTerm("'C'"), Term.createTerm("A"), Term.createTerm("X"), Term.createTerm("Y"))
+      Struct(
+        "food",
+        Term.createTerm("'C'"),
+        Term.createTerm("A"),
+        Term.createTerm("X"),
+        Term.createTerm("Y"),
+        Term.createTerm(iteration.toString)
+      )
     getData(FoodSerializer)(input)
 
   override def clear(): Unit =

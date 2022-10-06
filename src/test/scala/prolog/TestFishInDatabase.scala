@@ -58,4 +58,17 @@ class TestFishInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
       Then("the herbivorous fish list should have size 0")
       assert(PrologEngine.getAllHerbivorousFish().isEmpty)
     }
+
+    it("should return 0 when requested a fish from the wrong iteration") {
+      val f: Fish = Fish(feedingType = FeedingType.HERBIVOROUS)
+      PrologEngine.saveFish(f)
+      assert(PrologEngine.getAllHerbivorousFish(1).isEmpty)
+    }
+
+    it("should return the fish from the right iteration") {
+      val f: Fish = Fish(feedingType = FeedingType.HERBIVOROUS)
+      PrologEngine.saveFish(f, 1)
+      assert(PrologEngine.getAllHerbivorousFish(1).size === 1)
+      assert(PrologEngine.getAllHerbivorousFish(1).head === f)
+    }
   }

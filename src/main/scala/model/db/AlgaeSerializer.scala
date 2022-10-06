@@ -7,11 +7,13 @@ object AlgaeSerializer extends Serializer[Algae]:
     *
     * @param algae
     *   The [[Algae]] to be stored.
+    * @param iteration
+    *   The iteration the [[Algae]] object refers to.
     * @return
     *   The prolog theory of the [[Algae]].
     */
-  def serialize(algae: Algae): String =
-    "algae(" + algae.base + "," + algae.height + ")."
+  def serialize(algae: Algae, iteration: Int): String =
+    "algae(" + algae.base + "," + algae.height + "," + iteration + ")."
 
   /** Create a [[Algae]] from the theory string of prolog database.
     *

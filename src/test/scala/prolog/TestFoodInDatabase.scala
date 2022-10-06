@@ -65,7 +65,7 @@ class TestFoodInDatabase extends AnyFunSpec with GivenWhenThen with BeforeAndAft
       assert(PrologEngine.getAllHerbivorousFood(1).isEmpty)
     }
 
-    it("should the food in the right iteration") {
+    it("should return the food from the right iteration") {
       val f: Food = Food(feedingType = FeedingType.HERBIVOROUS)
       PrologEngine.saveFood(f, 1)
       assert(PrologEngine.getAllHerbivorousFood(1).size === 1)

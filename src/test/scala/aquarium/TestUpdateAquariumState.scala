@@ -6,7 +6,7 @@ import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
 
-/** Test for [[UpdateAquariumState]] */
+/** Test for the interface [[UpdateAquariumState]] */
 class TestUpdateAquariumState extends AnyFunSpec:
 
   private val temperature = 5

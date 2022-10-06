@@ -8,6 +8,7 @@ import org.scalatest.funspec.AnyFunSpec
 import scala.language.postfixOps
 import scala.runtime.stdLibPatches.Predef.assert
 
+/** Test for the interface [[AvailableFood]] */
 class TestAvailableFood extends AnyFunSpec:
 
   private val AquariumForAddTest = Aquarium(0, 0, 0)

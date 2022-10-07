@@ -114,6 +114,11 @@ object SimulationViewer:
       sizeOnCanvas._1,
       sizeOnCanvas._2
     )
+    gc.fillText(
+      fish.name,
+      positionOnCanvas._1,
+      positionOnCanvas._2 - 10
+    )
 
   private def mapToCanvasCoordinate(position: (Double, Double)): (Double, Double) =
     (

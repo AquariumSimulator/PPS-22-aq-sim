@@ -12,23 +12,23 @@ import model.chronicle.Messages
 import mvc.MVC.model
 
 /** The class represent the fishes of the simulation
- * @param name
- *   represents the name of the fish
- * @param satiety
- *   represents the satiety of the fish
- * @param age
- *   represents the age of the fish
- * @param speed
- *   represents the speed of the fish
- * @param size
- *   represents the size of the fish
- * @param position
- *   represents the position of the fish inside the aquarium
- * @param feedingType
- *   represents the feeding type of the fish
- * @param reproductionFactor
- *   represents the factor of reproduction of the fish
- */
+  * @param name
+  *   represents the name of the fish
+  * @param satiety
+  *   represents the satiety of the fish
+  * @param age
+  *   represents the age of the fish
+  * @param speed
+  *   represents the speed of the fish
+  * @param size
+  *   represents the size of the fish
+  * @param position
+  *   represents the position of the fish inside the aquarium
+  * @param feedingType
+  *   represents the feeding type of the fish
+  * @param reproductionFactor
+  *   represents the factor of reproduction of the fish
+  */
 case class Fish(
     name: String = "fish-" + getAndIncrementN(),
     satiety: Int = MAX_SATIETY,
@@ -117,10 +117,8 @@ object Fish:
   val MIN_SPEED: Int = 1
   val AGE_SHIFT: Int = 1
 
-  /**
-   * Method that increments the int variable
-   * in the fish name suffix
-   */
+  /** Method that increments the int variable in the fish name suffix
+    */
   def getAndIncrementN(): Int =
     n = n + 1
     n

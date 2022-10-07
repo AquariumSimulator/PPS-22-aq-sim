@@ -33,7 +33,7 @@ trait UpdateFish:
     */
   def move(speedMultiplier: Double): Fish
 
-  /** Set the new reproduction factor of the fish
+  /** Represent the event in which the fish eats the food
     *
     * @param food
     *   the food eaten by the fish

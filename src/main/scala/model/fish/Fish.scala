@@ -93,7 +93,7 @@ case class Fish(
     this.copy(position = newPosition, speed = newSpeed)
 
   override def eat(food: Food): Fish =
-    model.addChronicleEvent(Messages.FISH_ATE_ENTITY(this.name, "food"))
+    model.addChronicleEvent(Messages.FISH_ATE_ENTITY(this.name, food))
     this.copy(satiety = MAX_SATIETY min (this.satiety + food.nutritionAmount))
 
 /** Companion object of the case class */

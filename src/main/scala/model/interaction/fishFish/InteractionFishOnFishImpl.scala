@@ -7,6 +7,12 @@ import model.interaction.Interaction
 import model.chronicle.Messages
 import mvc.MVC.model
 
+/** Hidden implementation of [[Interaction]]
+  * @param fish1
+  *   the [[Fish]] that represents the first fish of the interaction
+  * @param fish2
+  *   the [[Fish]] that represents the second fish of the interaction
+  */
 class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
     extends Interaction[(Option[Fish], Option[Fish], Option[Fish])]:
 

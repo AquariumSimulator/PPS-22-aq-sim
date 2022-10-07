@@ -4,6 +4,8 @@ import model.fish.Fish
 import model.FeedingType
 import model.Algae
 import model.interaction.Interaction
+import model.chronicle.Messages
+import mvc.MVC.model
 
 /** Hidden implementation of [[Interaction]]
   * @param fish
@@ -16,5 +18,6 @@ class InteractionFishOnAlgaeImpl(fish: Fish, algae: Algae) extends Interaction[(
   override def update(): (Fish, Option[Algae]) =
     fish.feedingType match
       case FeedingType.HERBIVOROUS if Fish.MAX_SATIETY - fish.satiety >= (algae.height * Algae.NUTRITION_AMOUNT) =>
+        model.addChronicleEvent(Messages.FISH_ATE_ENTITY(fish.name, "algae"))
         (fish.copy(satiety = fish.satiety + algae.height * Algae.NUTRITION_AMOUNT), Option.empty)
       case _ => (fish, Some(algae))

@@ -5,6 +5,7 @@ import model.fish.Fish
 import model.interaction.Interaction
 import org.scalatest.funspec.AnyFunSpec
 
+/** Test for the reproduction mechanism */
 class TestReproduction extends AnyFunSpec:
 
   private var carnivorousFish1 =

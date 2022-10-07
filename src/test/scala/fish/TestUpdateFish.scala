@@ -5,6 +5,7 @@ import model.fish.{Fish, UpdateFish}
 import model.food.Food
 import model.FeedingType
 
+/** Test for the update of [[Fish]] */
 class TestUpdateFish extends AnyFunSpec:
   describe("UpdateFish") {
     it("should return a new Fish with a new position when moving") {

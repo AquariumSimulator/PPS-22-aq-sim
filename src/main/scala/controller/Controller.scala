@@ -102,4 +102,8 @@ trait Controller:
     */
   def getPopulationTrend(): List[(Int, Int, Int)]
 
+  /**
+    * Return the current Chronicle
+    * @return current Chronicle
+    */
   def getCurrentChronicle: Chronicle

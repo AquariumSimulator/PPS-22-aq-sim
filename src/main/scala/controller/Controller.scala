@@ -4,6 +4,7 @@ import model.aquarium.Aquarium
 import model.food.Food
 import model.fish.Fish
 import model.Algae
+import model.chronicle.Chronicle
 
 /** Controller trait implemented in [[ControllerImpl]]. */
 trait Controller:
@@ -100,3 +101,5 @@ trait Controller:
     *   - the number of Algae
     */
   def getPopulationTrend(): List[(Int, Int, Int)]
+
+  def getCurrentChronicle: Chronicle

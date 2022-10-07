@@ -7,6 +7,8 @@ import model.interaction.MultiplierVelocityFish.*
 import model.interaction.{DeathProbabilityFish, Interaction}
 
 import scala.util.Random
+import model.chronicle.Messages
+import mvc.MVC.model
 
 /** Hidden implementation of [[Interaction]]
   * @param fish
@@ -17,7 +19,9 @@ import scala.util.Random
 class InteractionAquariumOnFishImpl(fish: Fish, aquariumState: AquariumState) extends Interaction[Option[Fish]]:
 
   override def update(): Option[Fish] =
-    if checkIfFishIsDead() then Option.empty
+    if checkIfFishIsDead() then
+      model.addChronicleEvent(Messages.ENTITY_DEATH(fish))
+      Option.empty
     else Some(fish)
 
   private def checkIfFishIsDead(): Boolean = checkTooLowOxygenDeath() || checkPhDeath()

@@ -1,27 +1,27 @@
 package model
 
-import model.aquarium._
+import model.aquarium.*
+import model.chronicle.{Chronicle, Messages}
+import model.db.PrologEngine
 import model.fish.{Fish, UpdateFish}
 import model.food.{Food, UpdateFood}
 import model.interaction.Interaction
 import model.interaction.MultiplierVelocityFish.{SPEED_MULTIPLIER_IMPURITY, SPEED_MULTIPLIER_TEMPERATURE}
-import mvc.MVC.model._
+import mvc.MVC.model
 
 import java.util.concurrent.ConcurrentLinkedQueue
 import scala.annotation.tailrec
-import model.db.PrologEngine
 
 /** Model methods implementation from [[Model]]. */
 trait ModelImpl:
   class ModelImpl extends Model:
 
-    override def getDatabase(): PrologEngine = PrologEngine
-
     private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
-
     private val multiplier = (aqState: AquariumState) =>
       SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
         SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
+
+    override def getDatabase(): PrologEngine = PrologEngine
 
     override def addUserInteraction(interaction: Aquarium => Aquarium): Unit =
       queue.add(interaction)
@@ -34,6 +34,9 @@ trait ModelImpl:
       Aquarium(herbivorousFishNumber, carnivorousFishNumber, algaeNumber)
 
     override def step(aquarium: Aquarium): Aquarium =
+      chronicle.events.foreach(e => println("-> " + e))
+      println("________________________________________________")
+
       val updatedAquariumState: AquariumState = newAquariumState(
         aquarium.population.fish
           .concat(aquarium.population.algae)
@@ -99,21 +102,31 @@ trait ModelImpl:
           case _ => aquariumState
 
       _newAquariumState(population, initialState)(func)
-
     private def foodInteraction(set: Set[Fish], foodSet: Set[Food]) =
-      if set.nonEmpty && foodSet.nonEmpty then
-        var newFoodSet = foodSet
-        var newSet = set
+      var newFoodSet = foodSet
+      var newSet = set
+      var tuples =
         for
           fish <- set
           food <- foodSet
-          if fish.satiety < Fish.MAX_SATIETY - food.nutritionAmount && fish.collidesWith(food)
-        do
-          newSet = newSet - fish
-          newSet = newSet + fish.eat(food)
-          newFoodSet = newFoodSet - food
-        (newSet, newFoodSet)
-      else (set, foodSet)
+          if fish.satiety < (Fish.MAX_SATIETY - food.nutritionAmount) && fish.collidesWith(food)
+        yield (fish, food)
+
+      for
+        tuple <- tuples
+        newFish = tuple._1.eat(tuple._2)
+      do
+        newSet = newSet.filterNot(f => f.name == tuple._1.name) + newFish
+        newFoodSet = newFoodSet - tuple._2
+        tuples = tuples
+          .filterNot(t => t == tuple)
+          .map(t =>
+            t match
+              case t if t._1.name == tuple._1.name => (newFish, t._2)
+              case _ => t
+          )
+
+      (newSet, newFoodSet)
 
     private def entityStep[A](set: Set[A], aquariumState: AquariumState)(
         isAlive: A => Boolean
@@ -123,6 +136,7 @@ trait ModelImpl:
         if isAlive(elem)
         newElem <- action(elem, aquariumState)
       yield newElem
+
     private def fishAlgaeInteractions(fish: Set[Fish], algae: Set[Algae]): (Set[Fish], Set[Algae]) =
       var newFish: Set[Fish] = fish
       var newAlgae: Set[Algae] = algae
@@ -138,6 +152,7 @@ trait ModelImpl:
       do
         newFish = newFish.filterNot(f => f.name == tuple._1.name) + res._1
         tuples = tuples
+          .filterNot(t => t == tuple)
           .map(t =>
             t match
               case t if t._1.name == tuple._1.name => (res._1, t._2)
@@ -155,10 +170,11 @@ trait ModelImpl:
         .filter(tuple => tuple._1.collidesWith(tuple._2))
         .toList
       var fishFishInteraction = set
-      def checkAndUpdate(oldFish: String, newFish: Option[Fish]): Unit =
+      def checkAndUpdate(oldFish: String, newFish: Option[Fish], tuple: (Fish, Fish)): Unit =
         if newFish.isEmpty then tuples = tuples.filter(t => t._1.name != oldFish && t._2.name != oldFish)
         else
           tuples = tuples
+            .filterNot(t => t == tuple)
             .map(t =>
               t match
                 case t if t._1.name == oldFish => (newFish.get, t._2)
@@ -174,8 +190,8 @@ trait ModelImpl:
         fishFishInteraction = fishFishInteraction.filterNot(f => f.name == tuple._1.name)
         fishFishInteraction = fishFishInteraction.filterNot(f => f.name == tuple._2.name)
 
-        checkAndUpdate(tuple._1.name, res._1)
-        checkAndUpdate(tuple._2.name, res._2)
+        checkAndUpdate(tuple._1.name, res._1, tuple)
+        checkAndUpdate(tuple._2.name, res._2, tuple)
 
         if res._3.isDefined && fishFishInteraction.size < AquariumParametersLimits.FISH_MAX
         then fishFishInteraction = fishFishInteraction + res._3.get

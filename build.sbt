@@ -9,22 +9,17 @@ libraryDependencies ++= Seq(
 )
 
 scalacOptions ++= Seq(
-  "-unchecked",
-  "-deprecation",
-  "-encoding", "utf8",
-  "-feature",
-  "-Werror",
-  "-explain",
-  //"-new-syntax", "-rewrite",
+  "-unchecked", "-deprecation", "-encoding", "utf8", "-feature", "-Werror", "-explain",
+  // "-new-syntax", "-rewrite",
   "-indent", "-rewrite"
 )
 
-Compile / compile := (Compile/compile dependsOn Compile/scalafmt).value
-Test / compile := (Test/compile dependsOn Test/scalafmt).value
+Compile / compile := (Compile / compile dependsOn Compile / scalafmt).value
+Test / compile := (Test / compile dependsOn Test / scalafmt).value
 
 fork := true
 
 ThisBuild / assemblyMergeStrategy := {
   case PathList("META-INF", _*) => MergeStrategy.discard
-  case _                        => MergeStrategy.first
+  case _ => MergeStrategy.first
 }

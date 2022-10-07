@@ -117,8 +117,7 @@ object Fish:
   val MIN_SPEED: Int = 1
   val AGE_SHIFT: Int = 1
 
-  /** Method that increments the int variable in the fish name suffix
-    */
+  /** Method that increments the int variable in the fish name suffix */
   def getAndIncrementN(): Int =
     n = n + 1
     n

@@ -8,7 +8,7 @@ object Messages:
   private def checkEntity[A](entity: A): String =
     entity match
       case f: Fish => f.name
-      case _: Algae => "Alga"
+      case _: Algae => "Algae"
       case _: Food => "Food"
 
   val CLEAN_AQUARIUM: String = "Aquarium was cleaned"

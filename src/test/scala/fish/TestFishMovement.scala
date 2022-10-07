@@ -4,6 +4,7 @@ import org.scalatest.funspec.AnyFunSpec
 import model.fish._
 import model.aquarium.AquariumDimensions
 
+/** Test for the movement of the [[Fish]] */
 class TestFishMovement extends AnyFunSpec:
 
   val multiplier: Int = 1

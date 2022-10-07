@@ -8,9 +8,6 @@ import mvc.MVC.model.initializeAquarium
 import org.scalatest.GivenWhenThen
 import controller.SimulationSpeed
 import model.aquarium.Aquarium
-import mvc.ControllerModule.ControllerRequirements
-import mvc.ViewModule.{Provider => ViewProvider}
-import mvc.ViewModule.ViewRequirements
 
 import scalafx.stage.Stage
 import view.View
@@ -22,8 +19,8 @@ import model.Model
 class TestAlgae extends AnyFunSpec with GivenWhenThen:
 
   object FakeMVC extends MVCTrait:
-    override val controller: Controller = mvc.MVC.controller
-    override val model: Model = mvc.MVC.model
+    override val controller: Controller = ControllerImpl()
+    override val model: Model = ModelImpl()
     override val view = new View:
       override def show(stage: Stage): Unit = {}
       override def renderSimulation(aquarium: Aquarium): Unit = {}

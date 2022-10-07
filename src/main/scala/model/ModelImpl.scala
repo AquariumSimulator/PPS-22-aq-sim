@@ -1,6 +1,7 @@
 package model
 
 import model.aquarium.*
+import scala.reflect.ClassTag
 import model.chronicle.{Chronicle, Messages}
 import model.db.PrologEngine
 import model.fish.{Fish, UpdateFish}
@@ -33,6 +34,10 @@ trait ModelImpl:
     ): Aquarium =
       Aquarium(herbivorousFishNumber, carnivorousFishNumber, algaeNumber)
 
+    private val foodCondition = (fish: Fish, food: Food) =>
+      fish.satiety < (Fish.MAX_SATIETY - food.nutritionAmount) && fish.collidesWith(food)
+    private val foodAction = (fish: Fish, food: Food) => fish.eat(food)
+
     override def step(aquarium: Aquarium): Aquarium =
       chronicle.events.foreach(e => println("-> " + e))
       println("________________________________________________")
@@ -45,12 +50,14 @@ trait ModelImpl:
       )((s: AquariumState, e: Entity) => Interaction(s, e).update())
 
       val updatedCarnivorous =
-        foodInteraction(aquarium.population.carnivorous, aquarium.carnivorousFood)
+        EntityEntityInteractions(aquarium.population.carnivorous, aquarium.carnivorousFood)(foodCondition)(foodAction)
       val updateHerbivorous =
-        foodInteraction(aquarium.population.herbivorous, aquarium.herbivorousFood)
+        EntityEntityInteractions(aquarium.population.herbivorous, aquarium.herbivorousFood)(foodCondition)(foodAction)
 
       val fishAlgaeInteraction =
-        fishAlgaeInteractions(updateHerbivorous._1, aquarium.population.algae)
+        EntityEntityInteractions(updateHerbivorous._1, aquarium.population.algae)((fish: Fish, algae: Algae) =>
+          fish.collidesWith(algae)
+        )((fish: Fish, algae: Algae) => Interaction(fish, algae).update())
 
       val fishFishInteraction =
         fishFishInteractions(updatedCarnivorous._1.concat(fishAlgaeInteraction._1))
@@ -102,31 +109,6 @@ trait ModelImpl:
           case _ => aquariumState
 
       _newAquariumState(population, initialState)(func)
-    private def foodInteraction(set: Set[Fish], foodSet: Set[Food]) =
-      var newFoodSet = foodSet
-      var newSet = set
-      var tuples =
-        for
-          fish <- set
-          food <- foodSet
-          if fish.satiety < (Fish.MAX_SATIETY - food.nutritionAmount) && fish.collidesWith(food)
-        yield (fish, food)
-
-      for
-        tuple <- tuples
-        newFish = tuple._1.eat(tuple._2)
-      do
-        newSet = newSet.filterNot(f => f.name == tuple._1.name) + newFish
-        newFoodSet = newFoodSet - tuple._2
-        tuples = tuples
-          .filterNot(t => t == tuple)
-          .map(t =>
-            t match
-              case t if t._1.name == tuple._1.name => (newFish, t._2)
-              case _ => t
-          )
-
-      (newSet, newFoodSet)
 
     private def entityStep[A](set: Set[A], aquariumState: AquariumState)(
         isAlive: A => Boolean
@@ -137,32 +119,42 @@ trait ModelImpl:
         newElem <- action(elem, aquariumState)
       yield newElem
 
-    private def fishAlgaeInteractions(fish: Set[Fish], algae: Set[Algae]): (Set[Fish], Set[Algae]) =
-      var newFish: Set[Fish] = fish
-      var newAlgae: Set[Algae] = algae
+    private def EntityEntityInteractions[A: ClassTag, B, C](set1: Set[A], set2: Set[B])(
+        tuplesCondition: (A, B) => Boolean
+    )(action: (A, B) => C): (Set[A], Set[B]) =
+      var newSet1: Set[A] = set1
+      var newSet2: Set[B] = set2
       var tuples = for
-        f <- fish
-        a <- algae
-        if f.collidesWith(a)
-      yield (f, a)
+        s1 <- set1
+        s2 <- set2
+        if tuplesCondition(s1, s2)
+      yield (s1, s2)
 
-      for
-        tuple <- tuples
-        res = Interaction(tuple._1, tuple._2).update()
-      do
-        newFish = newFish.filterNot(f => f.name == tuple._1.name) + res._1
+      def update(tuple: (A, B), newA: A): Unit =
+        newSet1 = newSet1.filterNot(f => f == tuple._1) + newA
         tuples = tuples
           .filterNot(t => t == tuple)
           .map(t =>
             t match
-              case t if t._1.name == tuple._1.name => (res._1, t._2)
+              case t if t._1 == tuple._1 => (newA, t._2)
               case _ => t
           )
-        if res._2.isEmpty then
-          newAlgae = newAlgae - tuple._2
-          tuples = tuples.filterNot(t => t._2 == tuple._2)
-      (newFish, newAlgae)
+      for
+        tuple <- tuples
+        res = action(tuple._1, tuple._2)
+      do
+        res match
+          case a: A =>
+            newSet2 = newSet2 - tuple._2
+            update(tuple, a)
+          case (a: A, Some(_)) =>
+            update(tuple, a)
+          case (a: A, None) =>
+            update(tuple, a)
+            newSet2 = newSet2 - tuple._2
+            tuples = tuples.filterNot(t => t._2 == tuple._2)
 
+      (newSet1, newSet2)
     private def fishFishInteractions(set: Set[Fish]): Set[Fish] =
       var tuples = set.toList.tails
         .filter(_.nonEmpty)

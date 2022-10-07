@@ -5,6 +5,7 @@ import model.fish.Fish
 import model.interaction.Interaction
 import org.scalatest.funspec.AnyFunSpec
 
+/** Test for the interaction of the fish on another fish */
 class TestInteractionFishOnFish extends AnyFunSpec:
 
   private var carnivorousFish =

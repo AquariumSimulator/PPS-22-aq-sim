@@ -8,31 +8,27 @@ import scala.util.Random
 import model.FeedingType
 import model.food.Food
 import model.interaction.DeathProbabilityFish
+import model.chronicle.Messages
+import mvc.MVC.model
 
-object Fish:
-  var n: Int = 0
-  val MAX_HEIGHT: Double = 10
-  val MAX_WIDTH: Double = 20
-  val MEAT_AMOUNT: Double = 0.6
-  val MAX_SATIETY: Int = 100
-  val SATIETY_SHIFT: Int = 1
-  val MIN_SIZE: Double = 0.5
-  val MAX_SIZE: Double = 2.5
-  val AGE_FISH: Int = 1
-  val OXYGEN_SHIFT_CONSTANT: Double = -0.02
-  val IMPURITY_SHIFT_CONSTANT: Double = 0.01
-  val PH_SHIFT_CONSTANT: Double = 0.1
-  val MAX_REPRODUCTION_FACTOR: Int = 100
-  val REPRODUCTION_FACTOR_SHIFT: Int = 5
-  val REPRODUCTION_COST: Int = 50
-  val MAX_SPEED: Int = 5
-  val MIN_SPEED: Int = 1
-  val AGE_SHIFT: Int = 1
-
-  def getAndIncrementN(): Int =
-    n = n + 1
-    n
-
+/** The class represent the fishes of the simulation
+  * @param name
+  *   represents the name of the fish
+  * @param satiety
+  *   represents the satiety of the fish
+  * @param age
+  *   represents the age of the fish
+  * @param speed
+  *   represents the speed of the fish
+  * @param size
+  *   represents the size of the fish
+  * @param position
+  *   represents the position of the fish inside the aquarium
+  * @param feedingType
+  *   represents the feeding type of the fish
+  * @param reproductionFactor
+  *   represents the factor of reproduction of the fish
+  */
 case class Fish(
     name: String = "fish-" + getAndIncrementN(),
     satiety: Int = MAX_SATIETY,
@@ -47,7 +43,10 @@ case class Fish(
   val oxygenShift: Double = OXYGEN_SHIFT_CONSTANT * size._1
   val impurityShift: Double = IMPURITY_SHIFT_CONSTANT * size._1
   val phShift: Double = PH_SHIFT_CONSTANT * size._1
-  def isAlive: Boolean = satiety > 0 && !isFishDeadOfOldAge
+  def isAlive: Boolean =
+    if !(satiety > 0 && !isFishDeadOfOldAge)
+    then model.addChronicleEvent(Messages.ENTITY_DEATH(this))
+    satiety > 0 && !isFishDeadOfOldAge
 
   private def isFishDeadOfOldAge: Boolean =
     age > DeathProbabilityFish.MIN_AGE_FISH &&
@@ -58,7 +57,7 @@ case class Fish(
       case that: Fish => that.name == name
       case _ => false
 
-  private /*override*/ def calculatePosition(speed: (Double, Double)): (Double, Double) =
+  private def calculatePosition(speed: (Double, Double)): (Double, Double) =
     (this.position._1 + speed._1, this.position._2 + speed._2)
 
   override def updateSatiety(newSatiety: Int): Fish =
@@ -94,4 +93,31 @@ case class Fish(
     this.copy(position = newPosition, speed = newSpeed)
 
   override def eat(food: Food): Fish =
+    model.addChronicleEvent(Messages.FISH_ATE_ENTITY(this.name, "food"))
     this.copy(satiety = MAX_SATIETY min (this.satiety + food.nutritionAmount))
+
+/** Companion object of the case class */
+object Fish:
+  var n: Int = 0
+  val MAX_HEIGHT: Double = 10
+  val MAX_WIDTH: Double = 20
+  val MEAT_AMOUNT: Double = 0.6
+  val MAX_SATIETY: Int = 100
+  val SATIETY_SHIFT: Int = 1
+  val MIN_SIZE: Double = 0.5
+  val MAX_SIZE: Double = 2.5
+  val AGE_FISH: Int = 1
+  val OXYGEN_SHIFT_CONSTANT: Double = -0.02
+  val IMPURITY_SHIFT_CONSTANT: Double = 0.01
+  val PH_SHIFT_CONSTANT: Double = 0.1
+  val MAX_REPRODUCTION_FACTOR: Int = 100
+  val REPRODUCTION_FACTOR_SHIFT: Int = 5
+  val REPRODUCTION_COST: Int = 50
+  val MAX_SPEED: Int = 5
+  val MIN_SPEED: Int = 1
+  val AGE_SHIFT: Int = 1
+
+  /** Method that increments the int variable in the fish name suffix */
+  def getAndIncrementN(): Int =
+    n = n + 1
+    n

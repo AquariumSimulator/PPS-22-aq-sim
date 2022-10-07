@@ -4,7 +4,15 @@ import model.fish.Fish
 import model.FeedingType
 import model.aquarium.Population
 import model.interaction.Interaction
+import model.chronicle.Messages
+import mvc.MVC.model
 
+/** Hidden implementation of [[Interaction]]
+  * @param fish1
+  *   the [[Fish]] that represents the first fish of the interaction
+  * @param fish2
+  *   the [[Fish]] that represents the second fish of the interaction
+  */
 class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
     extends Interaction[(Option[Fish], Option[Fish], Option[Fish])]:
 
@@ -19,16 +27,16 @@ class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
       case (x, y) if x < Fish.REPRODUCTION_COST || y < Fish.REPRODUCTION_COST =>
         (Some(fish1), Some(fish2), Option.empty)
       case _ =>
+        val newFish = Fish(
+          feedingType = fish1.feedingType,
+          speed = Population.randomSpeed(),
+          position = Population.randomPosition()
+        )
+        model.addChronicleEvent(Messages.FISH_BIRTH(newFish.name))
         (
           Some(fish1.copy(reproductionFactor = fish1.reproductionFactor - Fish.REPRODUCTION_COST)),
           Some(fish2.copy(reproductionFactor = fish1.reproductionFactor - Fish.REPRODUCTION_COST)),
-          Some(
-            Fish(
-              feedingType = fish1.feedingType,
-              speed = Population.randomSpeed(),
-              position = Population.randomPosition()
-            )
-          )
+          Some(newFish)
         )
 
   private def checkEatFish(fish1: Fish, fish2: Fish): (Option[Fish], Option[Fish], Option[Fish]) =

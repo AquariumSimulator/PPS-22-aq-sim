@@ -20,7 +20,7 @@ class InteractionAquariumOnAlgaeImpl(aquariumState: AquariumState, algae: Algae)
 
   override def update(): Option[Algae] =
     if checkIfAlgaeAreDead() then
-      model.addChronicleEvent(Messages.ENTITY_DEATH("Algae"))
+      model.addChronicleEvent(Messages.ENTITY_DEATH(algae))
       Option.empty
     else Some(algae.copy(height = algae.height + calculateAlgaeGrowth()))
 

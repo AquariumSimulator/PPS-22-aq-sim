@@ -8,6 +8,8 @@ import scala.util.Random
 import model.FeedingType
 import model.food.Food
 import model.interaction.DeathProbabilityFish
+import model.chronicle.Messages
+import mvc.MVC.model
 
 object Fish:
   var n: Int = 0
@@ -47,7 +49,10 @@ case class Fish(
   val oxygenShift: Double = OXYGEN_SHIFT_CONSTANT * size._1
   val impurityShift: Double = IMPURITY_SHIFT_CONSTANT * size._1
   val phShift: Double = PH_SHIFT_CONSTANT * size._1
-  def isAlive: Boolean = satiety > 0 && !isFishDeadOfOldAge
+  def isAlive: Boolean =
+    if !(satiety > 0 && !isFishDeadOfOldAge)
+    then model.addChronicleEvent(Messages.ENTITY_DEATH(this))
+    satiety > 0 && !isFishDeadOfOldAge
 
   private def isFishDeadOfOldAge: Boolean =
     age > DeathProbabilityFish.MIN_AGE_FISH &&

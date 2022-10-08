@@ -4,7 +4,7 @@ import model.Algae
 import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.interaction.{DeathProbabilityAlgae, Interaction}
 import model.interaction.Interaction
-import model.chronicle.Messages
+import model.chronicle.Events
 import mvc.MVC.model
 
 import scala.util.Random
@@ -20,7 +20,7 @@ class InteractionAquariumOnAlgaeImpl(aquariumState: AquariumState, algae: Algae)
 
   override def update(): Option[Algae] =
     if checkIfAlgaeAreDead() then
-      model.addChronicleEvent(Messages.ENTITY_DEATH("Algae"))
+      model.addChronicleEvent(Events.ENTITY_DEATH(algae))
       Option.empty
     else Some(algae.copy(height = algae.height + calculateAlgaeGrowth()))
 

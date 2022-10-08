@@ -8,7 +8,7 @@ import scala.util.Random
 import model.FeedingType
 import model.food.Food
 import model.interaction.DeathProbabilityFish
-import model.chronicle.Messages
+import model.chronicle.Events
 import mvc.MVC.model
 
 /** The class represent the fishes of the simulation
@@ -45,7 +45,7 @@ case class Fish(
   val phShift: Double = PH_SHIFT_CONSTANT * size._1
   def isAlive: Boolean =
     if !(satiety > 0 && !isFishDeadOfOldAge)
-    then model.addChronicleEvent(Messages.ENTITY_DEATH(this))
+    then model.addChronicleEvent(Events.ENTITY_DEATH(this))
     satiety > 0 && !isFishDeadOfOldAge
 
   private def isFishDeadOfOldAge: Boolean =
@@ -93,7 +93,7 @@ case class Fish(
     this.copy(position = newPosition, speed = newSpeed)
 
   override def eat(food: Food): Fish =
-    model.addChronicleEvent(Messages.FISH_ATE_ENTITY(this.name, "food"))
+    model.addChronicleEvent(Events.FISH_ATE_ENTITY(this.name, food))
     this.copy(satiety = MAX_SATIETY min (this.satiety + food.nutritionAmount))
 
 /** Companion object of the case class */

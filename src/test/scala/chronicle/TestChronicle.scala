@@ -1,3 +1,5 @@
+package chronicle
+
 import model.chronicle.{Chronicle, UpdateChronicle}
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec

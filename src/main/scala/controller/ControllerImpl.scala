@@ -2,7 +2,7 @@ package controller
 
 import model.Entity
 import model.aquarium.{Aquarium, InitializeAquarium}
-import model.chronicle.{Chronicle, Messages}
+import model.chronicle.{Chronicle, Events}
 import model.food.Food
 import mvc.ControllerModule.ControllerRequirements
 import mvc.MVC.given_ControllerRequirements as context
@@ -32,7 +32,7 @@ trait ControllerImpl:
       simEngine.pause()
 
     override def changeSpeed(simSpeed: SimulationSpeed): Unit =
-      context.model.addChronicleEvent(Messages.CHANGED_SPEED(simSpeed.toString))
+      context.model.addChronicleEvent(Events.CHANGED_SPEED(simSpeed.toString))
       simEngine.changeSpeed(simSpeed)
 
     override def getSpeed(): SimulationSpeed =
@@ -51,35 +51,35 @@ trait ControllerImpl:
         case _ =>
 
     override def updateTemperature(temperature: Double): Unit =
-      context.model.addChronicleEvent(Messages.UPDATED_AQUARIUM_STATE_PARAMETER(temperature, "Temperature", "°"))
+      context.model.addChronicleEvent(Events.UPDATED_AQUARIUM_STATE_PARAMETER(temperature, "Temperature", "°"))
       addUserInteraction((aq: Aquarium) => aq.copy(aquariumState = aq.aquariumState.updateTemperature(temperature)))
 
     override def updateBrightness(brightness: Double): Unit =
-      context.model.addChronicleEvent(Messages.UPDATED_AQUARIUM_STATE_PARAMETER(brightness, "Brightness", "%"))
+      context.model.addChronicleEvent(Events.UPDATED_AQUARIUM_STATE_PARAMETER(brightness, "Brightness", "%"))
       addUserInteraction((aq: Aquarium) => aq.copy(aquariumState = aq.aquariumState.updateBrightness(brightness)))
 
     override def clean(): Unit =
-      context.model.addChronicleEvent(Messages.CLEAN_AQUARIUM)
+      context.model.addChronicleEvent(Events.CLEAN_AQUARIUM)
       addUserInteraction((aq: Aquarium) => aq.copy(aquariumState = aq.aquariumState.updateImpurity(0)))
 
     override def updateOxygenation(oxygenation: Double): Unit =
-      context.model.addChronicleEvent(Messages.UPDATED_AQUARIUM_STATE_PARAMETER(oxygenation, "Oxygenation", "mg/L"))
+      context.model.addChronicleEvent(Events.UPDATED_AQUARIUM_STATE_PARAMETER(oxygenation, "Oxygenation", "mg/L"))
       addUserInteraction((aq: Aquarium) => aq.copy(aquariumState = aq.aquariumState.updateOxygenation(oxygenation)))
 
     override def addInhabitant[A](inhabitant: A): Unit =
-      context.model.addChronicleEvent(Messages.ADDED_ENTITY(inhabitant))
+      context.model.addChronicleEvent(Events.ADDED_ENTITY(inhabitant))
       addUserInteraction((aq: Aquarium) => aq.copy(population = aq.population.addInhabitant(inhabitant)))
 
     override def removeInhabitant[A](inhabitant: A): Unit =
-      context.model.addChronicleEvent(Messages.REMOVED_ENTITY(inhabitant))
+      context.model.addChronicleEvent(Events.REMOVED_ENTITY(inhabitant))
       addUserInteraction((aq: Aquarium) => aq.copy(population = aq.population.removeInhabitant(inhabitant)))
 
     override def addFood(food: Food): Unit =
-      context.model.addChronicleEvent(Messages.ADDED_ENTITY(food))
+      context.model.addChronicleEvent(Events.ADDED_ENTITY(food))
       addUserInteraction((aq: Aquarium) => aq.addFood(food))
 
     override def deleteFood(food: Food): Unit =
-      context.model.addChronicleEvent(Messages.REMOVED_ENTITY(food))
+      context.model.addChronicleEvent(Events.REMOVED_ENTITY(food))
       addUserInteraction((aq: Aquarium) => aq.deleteFood(food))
 
     override def getPopulationTrend(): List[(Int, Int, Int)] =

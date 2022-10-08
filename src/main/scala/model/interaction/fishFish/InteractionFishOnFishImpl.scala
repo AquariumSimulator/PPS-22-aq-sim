@@ -4,7 +4,7 @@ import model.fish.Fish
 import model.FeedingType
 import model.aquarium.Population
 import model.interaction.Interaction
-import model.chronicle.Messages
+import model.chronicle.Events
 import mvc.MVC.model
 
 /** Hidden implementation of [[Interaction]]
@@ -32,7 +32,7 @@ class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
           speed = Population.randomSpeed(),
           position = Population.randomPosition()
         )
-        model.addChronicleEvent(Messages.FISH_BIRTH(newFish.name))
+        model.addChronicleEvent(Events.FISH_BIRTH(newFish.name))
         (
           Some(fish1.copy(reproductionFactor = fish1.reproductionFactor - Fish.REPRODUCTION_COST)),
           Some(fish2.copy(reproductionFactor = fish1.reproductionFactor - Fish.REPRODUCTION_COST)),
@@ -42,6 +42,7 @@ class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
   private def checkEatFish(fish1: Fish, fish2: Fish): (Option[Fish], Option[Fish], Option[Fish]) =
     val (carnivorous: Fish, herbivorous: Fish) = checkFishPosition(fish1, fish2)
     if (isCarnivorousHungry(carnivorous, herbivorous))
+      model.addChronicleEvent(Events.FISH_ATE_ENTITY(carnivorous.name, herbivorous))
       (
         Some(
           carnivorous.copy(satiety = carnivorous.satiety + (herbivorous.size._1 * Fish.MEAT_AMOUNT).toInt)

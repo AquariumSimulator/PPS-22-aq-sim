@@ -4,7 +4,7 @@ import model.Entity
 import model.food.Food
 import model.fish.Fish
 
-object Messages:
+object Events:
   private def checkEntity[A](entity: A): String =
     entity match
       case f: Fish => f.name
@@ -33,5 +33,5 @@ object Messages:
   val CHANGED_SPEED: String => String =
     (speed: String) => "Simulation speed updated: " + speed
 
-  val FISH_ATE_ENTITY: (String, String) => String =
-    (nameFish: String, entity: String) => nameFish + " ate " + entity
+  def FISH_ATE_ENTITY[A]: (String, A) => String =
+    (nameFish: String, entity: A) => nameFish + " ate " + checkEntity(entity)

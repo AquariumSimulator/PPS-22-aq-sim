@@ -4,7 +4,7 @@ import model.Entity
 import model.food.Food
 import model.fish.Fish
 
-object Messages:
+object Events:
   private def checkEntity[A](entity: A): String =
     entity match
       case f: Fish => f.name

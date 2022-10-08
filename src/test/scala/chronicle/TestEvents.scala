@@ -6,7 +6,7 @@ import model.chronicle.Events
 import org.scalatest.funspec.AnyFunSpec
 import controller.SimulationSpeed
 
-class TestMessages extends AnyFunSpec:
+class TestEvents extends AnyFunSpec:
 
   private val fish = Fish()
   private val fishEaten = Fish()

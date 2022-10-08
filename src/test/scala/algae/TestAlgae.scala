@@ -3,8 +3,8 @@ package algae
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
-
 import model.Algae
+import model.aquarium.AquariumDimensions
 
 /** Test for [[Algae]] */
 class TestAlgae extends AnyFunSpec:
@@ -19,8 +19,8 @@ class TestAlgae extends AnyFunSpec:
 
   describe("A new Algae") {
     describe("When initialized") {
-      it(s"Should have position equals to ($base, 0)") {
-        assert(algae.position == (base, 0))
+      it(s"Should have position equals to ($base, $AquariumDimensions.HEIGHT)") {
+        assert(algae.position == (base, AquariumDimensions.HEIGHT))
       }
       it(s"Should have height equals to $height") {
         assert(algae.height == height)

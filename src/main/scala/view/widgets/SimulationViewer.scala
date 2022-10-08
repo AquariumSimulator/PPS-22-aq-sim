@@ -69,12 +69,17 @@ object SimulationViewer:
     val entities: Set[Entity] =
       aquarium.population.algae.concat(aquarium.population.fish).concat(aquarium.availableFood)
     val entitiesClicked: Set[Entity] = entities.filter(e =>
-      val topLeft: (Double, Double) = mapToCanvasCoordinate(e.position)
-      val bottomRight: (Double, Double) = mapToCanvasCoordinate(e.position._1 + e.size._1, e.position._2 + e.size._2)
-      (coordinates._1 > topLeft._1 && coordinates._1 < bottomRight._1) &&
-      (coordinates._2 > topLeft._2 && coordinates._2 < bottomRight._2) ||
-      (coordinates._2 > (preferredHeight - bottomRight._2)) &&
-      (coordinates._1 < (topLeft._1 + bottomRight._2 / 2)) && (coordinates._1 > topLeft._1)
+      val position: (Double, Double) = mapToCanvasCoordinate(e.position)
+      e match
+        case _: Algae =>
+          val size: (Double, Double) = mapToCanvasCoordinate(e.size)
+          (coordinates._2 <= preferredHeight) && (coordinates._2 >= preferredHeight - size._2) &&
+          (coordinates._1 > position._1) && (coordinates._1 < (position._1 + size._2 / 2))
+        case _ =>
+          val positionPlusSize: (Double, Double) =
+            mapToCanvasCoordinate(e.position._1 + e.size._1, e.position._2 + e.size._2)
+          (coordinates._1 > position._1 && coordinates._1 < positionPlusSize._1) &&
+          (coordinates._2 > position._2 && coordinates._2 < positionPlusSize._2)
     )
     entitiesClicked.headOption
 
@@ -95,7 +100,7 @@ object SimulationViewer:
     gc.drawImage(
       algaeImage,
       canvasCoordinate._1,
-      preferredHeight - canvasCoordinate._2 - algae.height,
+      canvasCoordinate._2 - algae.height,
       30,
       algae.height
     )

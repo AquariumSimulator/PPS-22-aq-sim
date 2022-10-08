@@ -1,7 +1,7 @@
 package model
 
 import model.FeedingType
-import model.aquarium.{Aquarium, AquariumParametersLimits, AquariumState, AvailableFood, Population}
+import model.aquarium.*
 import model.fish.{Fish, UpdateFish}
 import model.food.*
 import model.interaction.Interaction
@@ -20,13 +20,13 @@ class TestStep extends AnyFunSpec:
   private val fishAge = 0
 
   private val hFishHungry: Fish = Fish(
-    position = (0, 0),
+    position = (0, AquariumDimensions.HEIGHT),
     feedingType = FeedingType.HERBIVOROUS,
     satiety = satiety,
     reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
   )
   private val hFishReproduction: Fish = Fish(
-    position = (0, 0),
+    position = (0, AquariumDimensions.HEIGHT),
     feedingType = FeedingType.HERBIVOROUS,
     satiety = satiety,
     reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
@@ -40,7 +40,8 @@ class TestStep extends AnyFunSpec:
   private val algaeEaten: Algae = Algae()
   private val algaeNotEaten: Algae = Algae(base = 20)
 
-  private val hFoodEaten: Food = Food(position = (0, 0), feedingType = FeedingType.HERBIVOROUS, nutritionAmount = 1)
+  private val hFoodEaten: Food =
+    Food(position = (0, AquariumDimensions.HEIGHT), feedingType = FeedingType.HERBIVOROUS, nutritionAmount = 1)
   private val cFoodEaten: Food = Food(position = (11, 11), nutritionAmount = 2)
   private val hFoodNotEaten: Food =
     Food(position = (0, 100), feedingType = FeedingType.HERBIVOROUS, nutritionAmount = 3)

@@ -1,5 +1,7 @@
 package model
 
+import model.aquarium.AquariumDimensions
+
 /** Algae model definition.
   *
   * @param base
@@ -8,7 +10,7 @@ package model
   *   Starting height (1 by default).
   */
 case class Algae(base: Double = 0, height: Int = Algae.DEFAULT_HEIGHT) extends Entity:
-  val position: (Double, Double) = (base, 0)
+  val position: (Double, Double) = (base, AquariumDimensions.HEIGHT)
   val size: (Double, Double) = (height, height)
   val oxygenShift: Double = Algae.OXYGEN_MULTIPLIER * size._1
   val impurityShift: Double = 0.0

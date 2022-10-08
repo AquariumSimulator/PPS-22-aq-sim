@@ -2,7 +2,7 @@ package model
 
 import model.aquarium.*
 import scala.reflect.ClassTag
-import model.chronicle.{Chronicle, Messages}
+import model.chronicle.{Chronicle, Events}
 import model.db.PrologEngine
 import model.fish.{Fish, UpdateFish}
 import model.food.{Food, UpdateFood}
@@ -16,6 +16,13 @@ import scala.annotation.tailrec
 /** Model methods implementation from [[Model]]. */
 trait ModelImpl:
   class ModelImpl extends Model:
+
+    private var currentChronicle: Chronicle = Chronicle()
+
+    override def chronicle: Chronicle = currentChronicle
+
+    override def addChronicleEvent(event: String): Unit =
+      currentChronicle = currentChronicle.addEvent(event)
 
     private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
     private val multiplier = (aqState: AquariumState) =>
@@ -162,15 +169,14 @@ trait ModelImpl:
         .filter(tuple => tuple._1.collidesWith(tuple._2))
         .toList
       var fishFishInteraction = set
-      def checkAndUpdate(oldFish: String, newFish: Option[Fish], tuple: (Fish, Fish)): Unit =
-        if newFish.isEmpty then tuples = tuples.filter(t => t._1.name != oldFish && t._2.name != oldFish)
+      def checkAndUpdate(oldFish: Fish, newFish: Option[Fish]): Unit =
+        if newFish.isEmpty then tuples = tuples.filter(t => t._1 != oldFish && t._2 != oldFish)
         else
           tuples = tuples
-            .filterNot(t => t == tuple)
             .map(t =>
               t match
-                case t if t._1.name == oldFish => (newFish.get, t._2)
-                case t if t._2.name == oldFish => (t._1, newFish.get)
+                case t if t._1 == oldFish => (newFish.get, t._2)
+                case t if t._2 == oldFish => (t._1, newFish.get)
                 case _ => t
             )
           fishFishInteraction = fishFishInteraction + newFish.get
@@ -179,11 +185,12 @@ trait ModelImpl:
         tuple <- tuples
         res = Interaction(tuple._1, tuple._2).update()
       do
-        fishFishInteraction = fishFishInteraction.filterNot(f => f.name == tuple._1.name)
-        fishFishInteraction = fishFishInteraction.filterNot(f => f.name == tuple._2.name)
+        fishFishInteraction = fishFishInteraction.filterNot(f => f == tuple._1)
+        fishFishInteraction = fishFishInteraction.filterNot(f => f == tuple._2)
 
-        checkAndUpdate(tuple._1.name, res._1, tuple)
-        checkAndUpdate(tuple._2.name, res._2, tuple)
+        checkAndUpdate(tuple._1, res._1)
+        checkAndUpdate(tuple._2, res._2)
+        tuples = tuples.filterNot(t => t == tuple)
 
         if res._3.isDefined && fishFishInteraction.size < AquariumParametersLimits.FISH_MAX
         then fishFishInteraction = fishFishInteraction + res._3.get

@@ -2,17 +2,23 @@ package model
 
 import model.aquarium.{Aquarium, AquariumState, AvailableFood}
 import model.chronicle.Chronicle
+import model.db.PrologEngine
 import model.fish.Fish
 import model.food.Food
-import model.db.PrologEngine
 
 /** Model trait implemented in [[ModelImpl]]. */
 trait Model:
+  /** Return the current chronicle
+    * @return
+    *   the current chronicle
+    */
+  def chronicle: Chronicle
 
-  var chronicle: Chronicle = Chronicle()
-
-  def addChronicleEvent(message: String): Unit =
-    chronicle = chronicle.addEvent(message)
+  /** Add a new event to the current chronicle
+    * @param event
+    *   event to add to the current chronicle
+    */
+  def addChronicleEvent(event: String): Unit
 
   /** Add an interaction from the user to be processed.
     *

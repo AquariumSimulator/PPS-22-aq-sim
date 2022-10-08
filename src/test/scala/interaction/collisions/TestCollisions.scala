@@ -11,9 +11,9 @@ import org.scalatest.Status
 class TestCollisions extends AnyFunSpec:
 
   describe("A Fish") {
-    val first: Entity = Fish(position = (1, 1), size = (10, 10))
+    val first: Entity = Fish(position = (1, 146), size = (10, 10))
     describe("and another Fish") {
-      val second: Entity = Fish(position = (8, 8), size = (10, 10))
+      val second: Entity = Fish(position = (8, 154), size = (10, 10))
       it("can collide") {
         assert(first.collidesWith(second))
       }
@@ -27,7 +27,7 @@ class TestCollisions extends AnyFunSpec:
     }
 
     describe("and a Food") {
-      val second: Entity = Food(position = (3, 3))
+      val second: Entity = Food(position = (3, 149))
       it("can collide") {
         assert(first.collidesWith(second))
       }

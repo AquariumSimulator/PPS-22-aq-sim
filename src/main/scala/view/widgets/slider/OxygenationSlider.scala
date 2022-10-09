@@ -45,7 +45,7 @@ object OxygenationSlider:
       )
 
     slider.valueProperty.addListener((_, _, newVal: Number) =>
-      if context.controller.getAquarium().aquariumState.oxygenation != newVal then
+      if context.controller.getAquarium.aquariumState.oxygenation != newVal then
         context.controller.updateOxygenation(newVal.doubleValue())
     )
 

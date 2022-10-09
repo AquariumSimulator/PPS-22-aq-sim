@@ -62,10 +62,10 @@ object SimulationViewer:
   private val meat: Image = new Image("/img/meat.png")
   private val herbFood: Image = new Image("/img/lettuce.png")
 
-  renderSimulation(context.controller.getAquarium())
+  renderSimulation(context.controller.getAquarium)
 
   def findEntityClicked(coordinates: (Double, Double)): Option[Entity] =
-    val aquarium = context.controller.getAquarium()
+    val aquarium = context.controller.getAquarium
     val entities: Set[Entity] =
       aquarium.population.algae.concat(aquarium.population.fish).concat(aquarium.availableFood)
     val entitiesClicked: Set[Entity] = entities.filter(e =>

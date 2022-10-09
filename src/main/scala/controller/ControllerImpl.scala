@@ -35,13 +35,13 @@ trait ControllerImpl:
       context.model.addChronicleEvent(Events.CHANGED_SPEED(simSpeed.toString))
       simEngine.changeSpeed(simSpeed)
 
-    override def getSpeed(): SimulationSpeed =
+    override def getSpeed: SimulationSpeed =
       simEngine.getSpeed()
 
-    override def isRunning(): Boolean =
+    override def isRunning: Boolean =
       simEngine.isRunning()
 
-    override def getAquarium(): Aquarium =
+    override def getAquarium: Aquarium =
       simEngine.getAquarium()
 
     private def addUserInteraction(interaction: Aquarium => Aquarium): Unit =
@@ -82,13 +82,13 @@ trait ControllerImpl:
       context.model.addChronicleEvent(Events.REMOVED_ENTITY(food))
       addUserInteraction((aq: Aquarium) => aq.deleteFood(food))
 
-    override def getPopulationTrend(): List[(Int, Int, Int)] =
+    override def getPopulationTrend: List[(Int, Int, Int)] =
       (0 to simEngine.getIterations())
         .map(idx =>
           (
-            context.model.getDatabase().getAllHerbivorousFish(idx).size,
-            context.model.getDatabase().getAllCarnivorousFish(idx).size,
-            context.model.getDatabase().getAllAlgae(idx).size
+            context.model.getDatabase.getAllHerbivorousFish(idx).size,
+            context.model.getDatabase.getAllCarnivorousFish(idx).size,
+            context.model.getDatabase.getAllAlgae(idx).size
           )
         )
         .toList

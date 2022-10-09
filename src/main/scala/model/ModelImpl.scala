@@ -29,7 +29,7 @@ trait ModelImpl:
       SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
         SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
 
-    override def getDatabase(): PrologEngine = PrologEngine
+    override def getDatabase: PrologEngine = PrologEngine
 
     override def addUserInteraction(interaction: Aquarium => Aquarium): Unit =
       queue.add(interaction)

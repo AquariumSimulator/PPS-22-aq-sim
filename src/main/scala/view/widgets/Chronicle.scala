@@ -5,18 +5,16 @@ import scalafx.scene.control.{Label, ListView}
 import scalafx.scene.layout._
 import scalafx.scene.paint.Color
 import view.utils.AquariumFonts
+import mvc.MVC
+import mvc.MVC.given_ViewRequirements as context
+import mvc.ViewModule.ViewRequirements
 
 object Chronicle:
 
-  val list: ListView[String] = new ListView(
-    items = Seq(
-      "Fish1 is dead",
-      "Fish2 ate Fish3",
-      "Fish4 was born",
-      "Fish2 ate Fish3"
-    )
+  var list: ListView[String] = new ListView(
+    items = Seq()
   )
-  list.editable = false
+  list.editable = true
   list.maxHeight = 150
 
   val chronicle = new BorderPane:
@@ -27,3 +25,11 @@ object Chronicle:
       text = "Chronicle"
       font = AquariumFonts.bold(15.0)
     center = list
+
+  def update(context: ViewRequirements): Unit =
+    list = new ListView(
+      items = context.controller.getCurrentChronicle.events.reverse
+    )
+    list.editable = true
+    list.maxHeight = 150
+    chronicle.center = list

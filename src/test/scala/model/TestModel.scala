@@ -92,4 +92,14 @@ class TestModel extends AnyFunSpec:
         assert(newAq.aquariumState.impurity == 0)
       }
     }
+
+    describe("When saveAquarium is called on the first iteration") {
+      model.saveAquarium(aq, 1)
+      it("getDatabase should return a database containing the aquarium saved") {
+        val db = model.getDatabase
+        aq.population.fish.foreach(f => assert(db.getAllFish(1).contains(f)))
+        aq.population.algae.foreach(a => assert(db.getAllAlgae(1).contains(a)))
+        assert(db.getAllFood.isEmpty)
+      }
+    }
   }

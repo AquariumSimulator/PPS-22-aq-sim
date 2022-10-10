@@ -5,15 +5,11 @@ import model.aquarium.{Aquarium, InitializeAquarium}
 import model.chronicle.{Chronicle, Messages}
 import model.food.Food
 import mvc.ControllerModule.ControllerRequirements
-import mvc.MVC.given_ControllerRequirements as context
-
-import java.util.stream.IntStream
 
 /** Controller methods implementation from [[Controller]]. */
 trait ControllerImpl:
-  context: ControllerRequirements =>
-  given ControllerRequirements = context
-  class ControllerImpl extends Controller:
+
+  class ControllerImpl(using context: ControllerRequirements) extends Controller:
 
     val simEngine: SimulationEngine = SimulationEngine(
       context.model.initializeAquarium(

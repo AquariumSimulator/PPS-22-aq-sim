@@ -7,7 +7,6 @@ import model.fish.{Fish, UpdateFish}
 import model.food.{Food, UpdateFood}
 import model.interaction.Interaction
 import model.interaction.MultiplierVelocityFish.{SPEED_MULTIPLIER_IMPURITY, SPEED_MULTIPLIER_TEMPERATURE}
-import mvc.MVC.model
 
 import java.util.concurrent.ConcurrentLinkedQueue
 import scala.annotation.tailrec

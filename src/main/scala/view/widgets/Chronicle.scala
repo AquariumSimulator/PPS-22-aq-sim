@@ -8,7 +8,6 @@ import view.utils.AquariumFonts
 import mvc.MVC
 import mvc.MVC.given_ViewRequirements as context
 import mvc.ViewModule.ViewRequirements
-import view.widgets.slider.ChronicleEvents
 
 object Chronicle:
 

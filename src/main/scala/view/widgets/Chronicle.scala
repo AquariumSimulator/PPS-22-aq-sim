@@ -13,10 +13,7 @@ import view.widgets.slider.ChronicleEvents
 object Chronicle:
 
   var list: ListView[String] = new ListView(items = List())
-  list.editable = true
   list.maxHeight = 150
-
-  //val list = new ChronicleEvents()
 
   val chronicle = new BorderPane:
     margin = Insets(5, 0, 0, 0)
@@ -31,6 +28,5 @@ object Chronicle:
     list = new ListView(
       items = context.controller.getCurrentChronicle.events.reverse
     )
-    list.editable = true
     list.maxHeight = 150
     chronicle.center = list

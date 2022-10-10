@@ -1,0 +1,2 @@
+# Sprint Goal - 8
+Tenendo in considerazione il quasi totale completamento dello sviluppo, l'ottavo e ultimo sprint si concentrerà sul refactoring del codice e sul download dei dati in formato CSV (Benvenuti) e JSON (Lamagna).

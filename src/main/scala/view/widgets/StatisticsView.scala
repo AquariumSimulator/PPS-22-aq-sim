@@ -15,7 +15,7 @@ import scalafx.beans.property.ObjectProperty
 
 class StatisticsView extends Stage:
 
-  private val populationTrend: List[(Int, Int, Int)] = context.controller.getPopulationTrend()
+  private val populationTrend: List[(Int, Int, Int)] = context.controller.getPopulationTrend
 
   private val herbivorousSeries: XYChart.Series[Number, Number] = XYChart.Series[Number, Number](
     "Herbivorous",

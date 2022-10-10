@@ -8,6 +8,7 @@ import model.food.Food
 
 /** Model trait implemented in [[ModelImpl]]. */
 trait Model:
+
   /** Return the current chronicle
     * @return
     *   the current chronicle
@@ -60,4 +61,4 @@ trait Model:
   /** @return
     *   A reference to the Database used by the simulation.
     */
-  def getDatabase(): PrologEngine
+  def getDatabase: PrologEngine

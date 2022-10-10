@@ -4,6 +4,8 @@ import model.Entity
 import model.aquarium.{Aquarium, InitializeAquarium}
 import model.chronicle.{Chronicle, Events}
 import model.food.Food
+import model.fish.Fish
+import model.Algae
 import mvc.ControllerModule.ControllerRequirements
 import mvc.MVC.given_ControllerRequirements as context
 
@@ -95,3 +97,12 @@ trait ControllerImpl:
 
     override def getCurrentChronicle: Chronicle =
       context.model.chronicle
+
+    override def getAllFish(iteration: Int): List[Fish] =
+      context.model.getDatabase.getAllFish(iteration)
+
+    override def getAllAlgae(iteration: Int): List[Algae] =
+      context.model.getDatabase.getAllAlgae(iteration)
+
+    override def currentIteration: Int =
+      simEngine.getIterations()

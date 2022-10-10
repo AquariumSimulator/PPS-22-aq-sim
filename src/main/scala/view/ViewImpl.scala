@@ -2,12 +2,10 @@ package view
 
 import scalafx.stage.Stage
 import scalafx.application.Platform
-
 import mvc.ViewModule.ViewRequirements
 import model.aquarium.Aquarium
 import view.View
-import view.widgets.SimulationViewer
-import view.widgets.InfoPane
+import view.widgets.{Chronicle, InfoPane, SimulationViewer}
 import view.widgets.slider.BrightnessSlider
 import view.widgets.slider.TemperatureSlider
 import view.widgets.slider.OxygenationSlider
@@ -24,6 +22,7 @@ trait ViewImpl:
     def renderSimulation(aquarium: Aquarium): Unit =
       SimulationViewer.renderSimulation(aquarium)
       Platform.runLater(() -> InfoPane.updateInfo(aquarium))
+      Platform.runLater(() -> Chronicle.update(context))
       Platform.runLater(
         () -> GUI.updateSliders(
           // aquarium.aquariumState.temperature,

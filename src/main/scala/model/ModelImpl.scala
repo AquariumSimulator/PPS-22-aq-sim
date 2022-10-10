@@ -46,8 +46,6 @@ trait ModelImpl:
     private val foodAction = (fish: Fish, food: Food) => fish.eat(food)
 
     override def step(aquarium: Aquarium): Aquarium =
-      chronicle.events.foreach(e => println("-> " + e))
-      println("________________________________________________")
 
       val updatedAquariumState: AquariumState = newAquariumState(
         aquarium.population.fish

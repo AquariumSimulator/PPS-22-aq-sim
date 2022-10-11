@@ -40,7 +40,7 @@ object InitializeAquarium:
 object AquariumParametersLimits:
 
   /** Maximus number of fish in the aquarium */
-  val FISH_MAX: Int = 100
+  val FISH_MAX: Int = 50
 
   /** Maximus number of algae in the aquarium */
   val ALGAE_MAX: Int = 25

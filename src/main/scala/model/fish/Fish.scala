@@ -44,9 +44,9 @@ case class Fish(
   val impurityShift: Double = IMPURITY_SHIFT_CONSTANT * size._1
   val phShift: Double = PH_SHIFT_CONSTANT * size._1
   def isAlive: Boolean =
-    val isAlive = satiety > 0 && !isFishDeadOfOldAge
-    if !isAlive then model.addChronicleEvent(Events.ENTITY_DEATH(this))
-    isAlive
+    val alive = satiety > 0 && !isFishDeadOfOldAge
+    if !alive then model.addChronicleEvent(Events.ENTITY_DEATH(this))
+    alive
 
   private def isFishDeadOfOldAge: Boolean =
     age > DeathProbabilityFish.MIN_AGE_FISH &&

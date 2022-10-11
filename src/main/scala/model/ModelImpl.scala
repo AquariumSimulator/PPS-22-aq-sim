@@ -45,7 +45,11 @@ trait ModelImpl:
       fish.satiety < (Fish.MAX_SATIETY - food.nutritionAmount) && fish.collidesWith(food)
     private val foodAction = (fish: Fish, food: Food) => fish.eat(food)
 
-    override def step(aquarium: Aquarium): Aquarium =
+    override def step(currentAquarium: Aquarium): Aquarium =
+
+      val aquarium = queue.isEmpty match
+        case true => currentAquarium
+        case _ => Iterator.iterate(currentAquarium, queue.size() + 1)(queue.poll()).toList.last
 
       val updatedAquariumState: AquariumState = newAquariumState(
         aquarium.population.fish
@@ -96,11 +100,7 @@ trait ModelImpl:
 
       val newPopulation: Population = Population(newFish, newAlgae)
 
-      val stepAquarium = Aquarium(updatedAquariumState, newPopulation, newFood)
-
-      queue.isEmpty match
-        case true => stepAquarium
-        case _ => Iterator.iterate(stepAquarium, queue.size() + 1)(queue.poll()).toList.last
+      Aquarium(updatedAquariumState, newPopulation, newFood)
 
     private def newAquariumState[A](population: Set[A], initialState: AquariumState)(
         func: (AquariumState, A) => AquariumState

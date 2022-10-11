@@ -49,7 +49,7 @@ object SimulationViewer:
       case Some(e: Entity) =>
         e match
           case e: Food =>
-            context.controller.deleteFood(e.copy(position = (e.position._1, e.position._2 + Food.SPEED._2)))
+            context.controller.deleteFood(e)
           case _ => context.controller.removeInhabitant(e)
       case None => ()
   )

@@ -8,7 +8,6 @@
 | Model | Implementazione movimento Cibo | Benvenuti | 1 | 0 |
 | Consegna | Prova Fat Jar | - | 3 | 0 |
 | GUI | Popolazione entità | Albertini | 3 | 0 |
-|  | Luce/sporco | Benvenuti | 3 | 3 |
 |  | Rimozione pesci/piante cliccandoci | Albertini | 3 | 0 |
 |  | Slider funzionanti | Albertini | 1 | 1 |
 |  | Cambiamento velocità | Benvenuti | 2 | 0 |

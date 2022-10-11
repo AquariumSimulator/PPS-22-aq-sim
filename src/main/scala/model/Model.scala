@@ -42,12 +42,12 @@ trait Model:
   def initializeAquarium(herbivorousFishNumber: Int, carnivorousFishNumber: Int, algaeNumber: Int): Aquarium
 
   /** Step of the simulation
-    * @param aquarium
+    * @param currentAquarium
     *   the current aquarium
     * @return
     *   a new updated aquarium
     */
-  def step(aquarium: Aquarium): Aquarium
+  def step(currentAquarium: Aquarium): Aquarium
 
   /** Saves the population of the given [[Aquarium]] in the database.
     *

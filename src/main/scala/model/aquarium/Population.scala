@@ -9,9 +9,10 @@ import scala.annotation.tailrec
 import scala.language.postfixOps
 import scala.util.Random
 
-/** Trait that models the set of fish of the aquarium */
+/** Trait that models the population of herbivorous fish, carnivorous fish and algae of the aquarium */
 trait SelectFishType:
-  /** Set of fish of the aquarium */
+
+  /** Fish of the aquarium */
   val fish: Set[Fish]
 
   /** Method that
@@ -21,7 +22,15 @@ trait SelectFishType:
   def herbivorous: Set[Fish] =
     selectType(FeedingType.HERBIVOROUS)
 
-  /** Method that give a feeding type return a set containing all the fish of that type
+  /** Method that
+    * @return
+    *   the carnivorous fish of the aquarium
+    */
+  def carnivorous: Set[Fish] =
+    selectType(FeedingType.CARNIVOROUS)
+
+  /** Method that given a feeding type return all the fish of that type
+    *
     * @param feedingType
     *   of the fish that have to be returned
     * @return
@@ -29,13 +38,6 @@ trait SelectFishType:
     */
   private def selectType(feedingType: FeedingType): Set[Fish] =
     fish.filter(f => f.feedingType == feedingType)
-
-  /** Method that
-    * @return
-    *   the carnivorous fish of the aquarium
-    */
-  def carnivorous: Set[Fish] =
-    selectType(FeedingType.CARNIVOROUS)
 
 /** This class represent the current population of the aquarium
   * @param fish
@@ -55,7 +57,7 @@ case class Population(override val fish: Set[Fish], algae: Set[Algae]) extends S
       case f: Fish => this.copy(fish = this.fish.filterNot(fish => fish == f))
       case a: Algae => this.copy(algae = this.algae.filterNot(algae => algae == a))
 
-/** Companion object of the case class */
+/** Companion object of the case class [[Population]] */
 object Population:
 
   /** Create a new [[Population]] from a given number of species
@@ -90,15 +92,13 @@ object Population:
 
       _addAlgae(number, Set.empty)
 
-    val setFish =
+    Population(
       (1 to herbivorousFishNumber)
         .map(_ => Fish(feedingType = FeedingType.HERBIVOROUS, speed = randomSpeed(), position = randomPosition()))
         .concat((1 to carnivorousFishNumber).map(_ => Fish(speed = randomSpeed(), position = randomPosition())))
-        .toSet
-
-    val setAlgae = addAlgae(algaeNumber)
-
-    Population(setFish, setAlgae)
+        .toSet,
+      addAlgae(algaeNumber)
+    )
 
   /** Calculate a random position for a fish */
   def randomPosition(): (Double, Double) =
@@ -108,5 +108,6 @@ object Population:
   def randomSpeed(): (Double, Double) =
     (Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED), Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED))
 
+  /** Calculate a random base for an algae */
   def randomBase(): Double =
     0 + (AquariumDimensions.WIDTH - 0) * Random.nextDouble

@@ -1,9 +1,9 @@
 package model.aquarium
 
-/** Trait that models methods for adding and removing elements from a population set */
+/** Trait that models methods for adding and removing elements from the population of the aquarium */
 trait UpdatePopulation:
 
-  /** Add a new element in the fish set
+  /** Adds a new element in the fish set
     * @param newElem
     *   element that has to be added
     * @tparam A
@@ -13,7 +13,7 @@ trait UpdatePopulation:
     */
   def addInhabitant[A](newElem: A): Population
 
-  /** Remove an element from the the fish set
+  /** Removes an element from the the fish set
     * @param removeElem
     *   element that has to be removed
     * @tparam A

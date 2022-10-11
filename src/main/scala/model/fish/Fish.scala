@@ -107,9 +107,9 @@ object Fish:
   val MIN_SIZE: Double = 0.5
   val MAX_SIZE: Double = 2.5
   val AGE_FISH: Int = 1
-  val OXYGEN_SHIFT_CONSTANT: Double = -0.02
-  val IMPURITY_SHIFT_CONSTANT: Double = 0.01
-  val PH_SHIFT_CONSTANT: Double = 0.1
+  val OXYGEN_SHIFT_CONSTANT: Double = -Math.pow(10, -3)
+  val IMPURITY_SHIFT_CONSTANT: Double = Math.pow(10, -4) * 5
+  val PH_SHIFT_CONSTANT: Double = Math.pow(10, -4) * 5
   val MAX_REPRODUCTION_FACTOR: Int = 100
   val REPRODUCTION_FACTOR_SHIFT: Int = 5
   val REPRODUCTION_COST: Int = 50

@@ -1,4 +1,4 @@
-package view.widgets
+package view.widgets.download
 
 import java.io.{BufferedWriter, FileWriter}
 import scala.collection.mutable.ListBuffer

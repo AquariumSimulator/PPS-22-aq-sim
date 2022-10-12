@@ -2,11 +2,12 @@ package view.widgets
 
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.control.{Button, Label, Tooltip}
-import scalafx.scene.layout._
+import scalafx.scene.layout.*
 import scalafx.scene.paint.Color
 import view.utils.{AquariumFonts, IconButton}
-
 import model.aquarium.Aquarium
+import view.widgets.download.{DownloadCSV, DownloadJSON}
+
 import java.io.File
 
 trait InfoPane:
@@ -21,7 +22,8 @@ object InfoPane:
   private val path = System.getProperty("user.home") + File.separator + "Downloads" + File.separator
   private val downloadButton: IconButton = IconButton("icons/download.png")
   downloadButton.tooltip = new Tooltip("Download simulation data")
-  downloadButton.onAction = _ => DownloadCSV(path)
+  //downloadButton.onAction = _ => DownloadCSV(path)
+  downloadButton.onAction = _ => DownloadJSON(path)
 
   private val herbivorousFishLabel: InfoCell = InfoCell("Herbivorous fish", 0, "fish")
   private val carnivorousFishLabel: InfoCell = InfoCell("Carnivorous fish", 0, "fish")

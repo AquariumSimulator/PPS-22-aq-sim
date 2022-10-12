@@ -7,6 +7,7 @@ import scalafx.scene.paint.Color
 import view.utils.{AquariumFonts, IconButton}
 
 import model.aquarium.Aquarium
+import java.io.File
 
 trait InfoPane:
   def updateInfo(newAquarium: Aquarium): Unit
@@ -17,9 +18,10 @@ object InfoPane:
   statisticsButton.tooltip = new Tooltip("View statistics")
   statisticsButton.onAction = _ => StatisticsView().showAndWait()
 
+  private val path = System.getProperty("user.home") + File.separator + "Downloads" + File.separator
   private val downloadButton: IconButton = IconButton("icons/download.png")
   downloadButton.tooltip = new Tooltip("Download simulation data")
-  downloadButton.onAction = _ => println("Clicked download data")
+  downloadButton.onAction = _ => DownloadCSV(path)
 
   private val herbivorousFishLabel: InfoCell = InfoCell("Herbivorous fish", 0, "fish")
   private val carnivorousFishLabel: InfoCell = InfoCell("Carnivorous fish", 0, "fish")

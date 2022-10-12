@@ -17,35 +17,27 @@ object DownloadCSV:
     println("Done: " + path)
 
   private def saveFish(path: String) =
-    val outputFile = BufferedWriter(FileWriter(path + "fish.csv"))
-    val csvWriter = CSVWriter.open(outputFile)
-    (0 to context.controller.currentIteration).foreach(iteration =>
-      context.controller
-        .getAllFish(iteration)
-        .foreach(fish =>
-          csvWriter.writeRow(
-            List(
-              iteration,
-              fish.feedingType,
-              fish.name
-            )
-          )
-        )
+    saveToCSV(path, "fish.csv")(context.controller.getAllFish)(fish =>
+      List(
+        fish.feedingType.toString,
+        fish.name
+      )
     )
 
   private def saveAlgae(path: String) =
-    val outputFile = BufferedWriter(FileWriter(path + "algae.csv"))
+    saveToCSV(path, "algae.csv")(context.controller.getAllAlgae)(algae =>
+      List(
+        algae.base.toString,
+        algae.height.toString
+      )
+    )
+
+  private def saveToCSV[U](path: String, name: String)(getList: Int => List[U])(mapper: U => List[String]) =
+    val outputFile = BufferedWriter(FileWriter(path + name))
     val csvWriter = CSVWriter.open(outputFile)
     (0 to context.controller.currentIteration).foreach(iteration =>
-      context.controller
-        .getAllAlgae(iteration)
-        .foreach(algae =>
-          csvWriter.writeRow(
-            List(
-              iteration,
-              algae.base,
-              algae.height
-            )
-          )
-        )
+      csvWriter.writeAll(
+        getList(iteration).map(mapper).map(l => iteration.toString :: l)
+      )
     )
+    csvWriter.close()

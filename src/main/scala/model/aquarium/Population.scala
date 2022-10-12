@@ -29,13 +29,6 @@ trait SelectFishType:
   def carnivorous: Set[Fish] =
     selectType(FeedingType.CARNIVOROUS)
 
-  /** Method that given a feeding type return all the fish of that type
-    *
-    * @param feedingType
-    *   of the fish that have to be returned
-    * @return
-    *   set containing all the fish of the specified feeding type
-    */
   private def selectType(feedingType: FeedingType): Set[Fish] =
     fish.filter(f => f.feedingType == feedingType)
 

@@ -24,27 +24,14 @@ class InteractionAquariumOnFishImpl(fish: Fish, aquariumState: AquariumState) ex
       Option.empty
     else Some(fish)
 
-  /** This method
-    * @return
-    *   if the fish is dead or not
-    */
   private def checkIfFishIsDead(): Boolean = checkTooLowOxygenDeath() || checkPhDeath()
 
-  /** Check if the fish is dead due to the too low level of oxygenation
-    * @return
-    *   true if the fish is dead otherwise it returns false
-    */
   private def checkTooLowOxygenDeath(): Boolean =
     aquariumState.oxygenation match
       case oxygen if oxygen < MAX_INTERVAL_TOO_LOW_OXYGENATION =>
         checkWithRandom(LOW_OXYGENATION(aquariumState.oxygenation))
       case _ => false
 
-  /** Check if the fish is dead due to the too low or too high level of ph
-    *
-    * @return
-    *   true if the fish is dead otherwise it returns false
-    */
   private def checkPhDeath(): Boolean =
     aquariumState.ph match
       case ph if ph < DeathProbabilityFish.MIN_SAFE_PH =>
@@ -53,12 +40,6 @@ class InteractionAquariumOnFishImpl(fish: Fish, aquariumState: AquariumState) ex
         checkWithRandom(DeathProbabilityFish.TOO_HIGH_PH(aquariumState.ph))
       case _ => false
 
-  /** Calculate if the fish is dead or not. If the random number is lower than the probability the fish is dead.
-    * @param value
-    *   the calculated probability
-    * @return
-    *   true if the fish is dead otherwise it returns false
-    */
   private def checkWithRandom(value: Double): Boolean =
     val rangeMin = 0.01
     val rangeMax = 100

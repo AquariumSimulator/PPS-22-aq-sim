@@ -4,6 +4,7 @@ import model.aquarium.{Aquarium, InitializeAquarium}
 import model.chronicle.Events
 import model.fish.Fish
 import model.food.Food
+import org.scalactic.Tolerance.convertNumericToPlusOrMinusWrapper
 import mvc.MVC.model
 import org.scalatest.funspec.AnyFunSpec
 
@@ -86,10 +87,16 @@ class TestModel extends AnyFunSpec:
     }
 
     describe("to clean the aquarium") {
-      it("it should return an aquarium with impurity set to 0") {
+      it("it should return an aquarium with impurity equals to the new level of impurity of the step") {
         model.addUserInteraction((a: Aquarium) => a.copy(aquariumState = a.aquariumState.updateImpurity(0)))
         val newAq = model.step(aq)
-        assert(newAq.aquariumState.impurity == 0)
+        assert(
+          newAq.aquariumState.impurity === aq.population.fish
+            .concat(aq.population.algae)
+            .concat(aq.availableFood)
+            .map(e => e.impurityShift)
+            .sum +- 0.1
+        )
       }
     }
 

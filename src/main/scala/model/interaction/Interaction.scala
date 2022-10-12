@@ -10,34 +10,34 @@ import model.interaction.fishAlgae.InteractionFishOnAlgaeImpl
 import model.interaction.fishFish.InteractionFishOnFishImpl
 import model.{Algae, Entity}
 
-/** Trait that models an interaction between two elements
+/** Trait that models the interactions between the entities of the aquarium and between the entities and the state of
+  * the aquarium
   * @tparam A
-  *   type of the modified element
+  *   type of the return
   */
 trait Interaction[A]:
-  /** Update an [[A]].
+  /** Calculate the interactions
     * @return
-    *   a new updated [[A]]
+    *   [[A]]
     */
   def update(): A
 
 /** Companion object of [[Interaction]] */
 object Interaction:
 
-  /** Create a new interaction meant to check if the algae is alive (brightness level) and make it grow if it's
-    * possible.
+  /** Create a new interaction meant to check if the algae is alive (brightness level) and make it grow if it's possible
     *
-    * @param aquariumState
-    *   the current state of the aquarium
     * @param algae
     *   that has to be updated
+    * @param aquariumState
+    *   the current state of the aquarium
     * @return
     *   a new interaction
     */
   def apply(algae: Algae, aquariumState: AquariumState): Interaction[Option[Algae]] =
-    InteractionAquariumOnAlgaeImpl(aquariumState, algae)
+    InteractionAquariumOnAlgaeImpl(algae, aquariumState)
 
-  /** Create a new interaction meant to update the oxygenation level and the ph and the impurity level.
+  /** Create a new interaction meant to update the oxygenation level and the ph and the impurity level
     * @param aquariumState
     *   that has to be updated
     * @param entity
@@ -48,8 +48,7 @@ object Interaction:
   def apply(aquariumState: AquariumState, entity: Entity): Interaction[AquariumState] =
     InteractionEntityOnAquariumImpl(aquariumState: AquariumState, entity: Entity)
 
-  /** Create a new [[Interaction]] by a given [[Fish]] and [[AquariumState]]. This interaction is meant to check if the
-    * fish is alive and update its speed.
+  /** Create a new interaction is meant to check if the fish is alive and update its speed
     *
     * @param fish
     *   that has to be updated

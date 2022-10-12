@@ -23,12 +23,5 @@ trait AvailableFood:
   def carnivorousFood: Set[Food] =
     selectType(FeedingType.CARNIVOROUS)
 
-  /** Method that given a feeding type return all the food of that type
-    *
-    * @param feedingType
-    *   of the food that have to be returned
-    * @return
-    *   all the food of the specified feeding type
-    */
   private def selectType(feedingType: FeedingType): Set[Food] =
     availableFood.filter(f => f.feedingType == feedingType)

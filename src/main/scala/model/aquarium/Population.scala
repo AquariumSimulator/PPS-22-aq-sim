@@ -10,7 +10,7 @@ import scala.language.postfixOps
 import scala.util.Random
 
 /** Trait that models the population of herbivorous fish, carnivorous fish and algae of the aquarium */
-trait SelectFishType:
+trait FishTypes:
 
   /** Fish of the aquarium */
   val fish: Set[Fish]
@@ -38,7 +38,7 @@ trait SelectFishType:
   * @param algae
   *   set of all the algae of the aquarium
   */
-case class Population(override val fish: Set[Fish], algae: Set[Algae]) extends SelectFishType with UpdatePopulation:
+case class Population(override val fish: Set[Fish], algae: Set[Algae]) extends FishTypes with UpdatePopulation:
   override def addInhabitant[A](newElem: A): Population =
     val currentFishNumber: Int = this.fish.size
     newElem match

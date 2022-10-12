@@ -25,6 +25,7 @@ trait ModelImpl:
       currentChronicle = currentChronicle.addEvent(event)
 
     private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
+
     private val multiplier = (aqState: AquariumState) =>
       SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
         SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
@@ -102,7 +103,7 @@ trait ModelImpl:
 
       Aquarium(updatedAquariumState, newPopulation, newFood)
 
-    private def newAquariumState[A](population: Set[A], initialState: AquariumState)(
+    private def newAquariumState[A](entities: Set[A], initialState: AquariumState)(
         func: (AquariumState, A) => AquariumState
     ): AquariumState =
       @tailrec
@@ -113,13 +114,13 @@ trait ModelImpl:
           case p if p.nonEmpty => _newAquariumState(p.tail, func(aquariumState, p.head))(func)
           case _ => aquariumState
 
-      _newAquariumState(population, initialState)(func)
+      _newAquariumState(entities, initialState)(func)
 
-    private def entityStep[A](set: Set[A], aquariumState: AquariumState)(
+    private def entityStep[A](entities: Set[A], aquariumState: AquariumState)(
         isAlive: A => Boolean
     )(action: (A, AquariumState) => Option[A]): Set[A] =
       for
-        elem <- set
+        elem <- entities
         if isAlive(elem)
         newElem <- action(elem, aquariumState)
       yield newElem
@@ -160,13 +161,14 @@ trait ModelImpl:
             tuples = tuples.filterNot(t => t._2 == tuple._2)
 
       (newSet1, newSet2)
-    private def fishFishInteractions(set: Set[Fish]): Set[Fish] =
-      var tuples = set.toList.tails
+
+    private def fishFishInteractions(fish: Set[Fish]): Set[Fish] =
+      var tuples = fish.toList.tails
         .filter(_.nonEmpty)
         .flatMap(f => f.tail.map((f.head, _)))
         .filter(tuple => tuple._1.collidesWith(tuple._2))
         .toList
-      var fishFishInteraction = set
+      var fishFishInteraction = fish
       def checkAndUpdate(oldFish: Fish, newFish: Option[Fish]): Unit =
         if newFish.isEmpty then tuples = tuples.filter(t => t._1 != oldFish && t._2 != oldFish)
         else

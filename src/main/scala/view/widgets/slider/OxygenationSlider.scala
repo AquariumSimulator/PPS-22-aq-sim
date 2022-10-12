@@ -1,5 +1,6 @@
 package view.widgets.slider
 
+import javafx.scene.input.MouseEvent
 import model.aquarium.{AquariumParametersLimits, InitializeAquarium}
 import mvc.MVC
 import mvc.MVC.given_ViewRequirements as context
@@ -45,8 +46,9 @@ object OxygenationSlider:
       )
 
     slider.valueProperty.addListener((_, _, newVal: Number) =>
-      if context.controller.getAquarium.aquariumState.oxygenation != newVal then
-        context.controller.updateOxygenation(newVal.doubleValue())
+      if slider.isPressed &&
+        Math.abs(context.controller.getAquarium.aquariumState.oxygenation - newVal.doubleValue()) > 0.1
+      then context.controller.updateOxygenation(newVal.doubleValue())
     )
 
     left = IconLabel("/icons/oxygen.png", "Aquarium oxygenation")

@@ -20,7 +20,7 @@ case class AquariumState(
     oxygenation: Double = InitializeAquarium.OXYGENATION
 ) extends UpdateAquariumState:
 
-  import AquariumParametersLimits.*
+  import AquariumParametersLimits._
 
   override def updateImpurity(newImpurity: Double): AquariumState =
     checkValueAndReturnAquarium(newImpurity)((i: Double) => i > IMPURITY_MAX || i < IMPURITY_MIN)(

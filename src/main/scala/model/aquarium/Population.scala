@@ -1,7 +1,7 @@
 package model.aquarium
 
 import model.aquarium.AquariumDimensions
-import model.aquarium.AquariumParametersLimits.*
+import model.aquarium.AquariumParametersLimits._
 import model.fish.Fish
 import model.{Algae, Entity, FeedingType}
 

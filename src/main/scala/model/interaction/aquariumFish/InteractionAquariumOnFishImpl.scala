@@ -3,8 +3,8 @@ package model.interaction.aquariumFish
 import model.aquarium.AquariumState
 import model.chronicle.Events
 import model.fish.Fish
-import model.interaction.DeathProbabilityFish.*
-import model.interaction.MultiplierVelocityFish.*
+import model.interaction.DeathProbabilityFish._
+import model.interaction.MultiplierVelocityFish._
 import model.interaction.{DeathProbabilityFish, Interaction}
 import mvc.MVC.model
 

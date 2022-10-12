@@ -1,6 +1,6 @@
 package model
 
-import model.aquarium.*
+import model.aquarium._
 import scala.reflect.ClassTag
 import model.chronicle.{Chronicle, Events}
 import model.db.PrologEngine

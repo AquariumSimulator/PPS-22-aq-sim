@@ -1,7 +1,7 @@
 package interaction
 
-import model.aquarium.AquariumParametersLimits.*
-import model.interaction.DeathProbabilityAlgae.*
+import model.aquarium.AquariumParametersLimits._
+import model.interaction.DeathProbabilityAlgae._
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.language.postfixOps

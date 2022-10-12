@@ -1,7 +1,7 @@
 package interaction
 
-import model.aquarium.AquariumParametersLimits.*
-import model.interaction.MultiplierVelocityFish.*
+import model.aquarium.AquariumParametersLimits._
+import model.interaction.MultiplierVelocityFish._
 import org.scalactic.Tolerance.convertNumericToPlusOrMinusWrapper
 import org.scalatest.funspec.AnyFunSpec
 

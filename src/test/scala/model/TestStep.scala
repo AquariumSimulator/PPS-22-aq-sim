@@ -1,11 +1,11 @@
 package model
 
 import model.FeedingType
-import model.aquarium.*
+import model.aquarium._
 import model.fish.{Fish, UpdateFish}
-import model.food.*
+import model.food._
 import model.interaction.Interaction
-import mvc.MVC.model.*
+import mvc.MVC.model._
 import org.scalactic.Tolerance.convertNumericToPlusOrMinusWrapper
 import org.scalatest.funspec.AnyFunSpec
 

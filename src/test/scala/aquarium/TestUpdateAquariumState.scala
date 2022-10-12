@@ -1,7 +1,7 @@
 package aquarium
 
-import model.aquarium.*
-import model.aquarium.AquariumParametersLimits.*
+import model.aquarium._
+import model.aquarium.AquariumParametersLimits._
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert

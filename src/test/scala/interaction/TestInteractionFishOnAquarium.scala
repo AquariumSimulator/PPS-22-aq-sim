@@ -1,6 +1,6 @@
 package interaction
 
-import model.*
+import model._
 import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.fish.Fish
 import model.interaction.Interaction

@@ -2,6 +2,7 @@ package model.aquarium
 
 import model.food.Food
 
+/** Trait that models methods for adding and removing elements from the available food of the aquarium */
 trait UpdateAvailableFood:
 
   /** Given a new [[Food]], it is added to the set of the available food in the aquarium

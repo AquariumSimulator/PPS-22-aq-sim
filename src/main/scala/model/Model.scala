@@ -9,19 +9,19 @@ import model.food.Food
 /** Model trait implemented in [[ModelImpl]]. */
 trait Model:
 
-  /** Return the current chronicle
+  /** This method
     * @return
     *   the current chronicle
     */
   def chronicle: Chronicle
 
-  /** Add a new event to the current chronicle
+  /** Adds a new event to the current chronicle
     * @param event
     *   event to add to the current chronicle
     */
   def addChronicleEvent(event: String): Unit
 
-  /** Add an interaction from the user to be processed.
+  /** Adds an interaction from the user
     *
     * @param interaction
     *   the user interaction.
@@ -49,7 +49,7 @@ trait Model:
     */
   def step(currentAquarium: Aquarium): Aquarium
 
-  /** Saves the population of the given [[Aquarium]] in the database.
+  /** Saves the population of the given [[Aquarium]] in the database
     *
     * @param aquarium
     *   The [[Aquarium]] to be saved.

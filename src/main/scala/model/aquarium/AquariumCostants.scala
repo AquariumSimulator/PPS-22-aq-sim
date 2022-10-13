@@ -22,19 +22,19 @@ object InitializeAquarium:
   val ALGAE: Int = 0
 
   /** Initial temperature value (expressed in C°) */
-  val TEMPERATURE: Int = 25
+  val TEMPERATURE: Double = 25
 
   /** Initial brightness value (expressed in %) */
-  val BRIGHTNESS: Int = 50
+  val BRIGHTNESS: Double = 50
 
   /** Initial PH value */
   val PH: Double = 7
 
   /** Initial impurity value (expressed in %) */
-  val IMPURITY: Int = 0
+  val IMPURITY: Double = 0
 
   /** Initial oxygenation value (expressed in mg/L) */
-  val OXYGENATION: Int = 10
+  val OXYGENATION: Double = 10
 
 /** Constants that represents the limit values of the various parameters of the aquarium */
 object AquariumParametersLimits:

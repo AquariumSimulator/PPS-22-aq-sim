@@ -14,28 +14,31 @@ import scala.runtime.stdLibPatches.Predef.assert
 /** Test for [[ModelImpl]] */
 class TestStep extends AnyFunSpec:
 
-  private val aquariumState = AquariumState(ph = 0, oxygenation = 15)
+  private val aquariumState = AquariumState()
 
   private val satiety = 5
   private val fishAge = 0
 
-  private val hFishHungry: Fish = Fish(
+  private val herbivorousHungry: Fish = Fish(
     position = (0, AquariumDimensions.HEIGHT),
     feedingType = FeedingType.HERBIVOROUS,
     satiety = satiety,
     reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
   )
-  private val hFishReproduction: Fish = Fish(
-    position = (0, AquariumDimensions.HEIGHT),
-    feedingType = FeedingType.HERBIVOROUS,
-    satiety = satiety,
-    reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
-  )
-  private val cFishHungry: Fish = Fish(position = (11, 11), satiety = satiety)
-  private val hFishEaten: Fish = Fish(position = (11, 11), feedingType = FeedingType.HERBIVOROUS)
 
-  private val hFishNotHungry: Fish = Fish(position = (0, 100), feedingType = FeedingType.HERBIVOROUS)
-  private val cFishNotHungry: Fish = Fish(position = (100, 0))
+  private val herbivorousReproduction: Fish = Fish(
+    position = (0, AquariumDimensions.HEIGHT),
+    feedingType = FeedingType.HERBIVOROUS,
+    satiety = satiety,
+    reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
+  )
+
+  private val carnivorousHungry: Fish = Fish(position = (11, 11), satiety = satiety)
+
+  private val herbivorousEaten: Fish = Fish(position = (11, 11), feedingType = FeedingType.HERBIVOROUS)
+
+  private val herbivorousNotHungry: Fish = Fish(position = (0, 100), feedingType = FeedingType.HERBIVOROUS)
+  private val carnivorousNotHungry: Fish = Fish(position = (100, 0))
 
   private val algaeEaten: Algae = Algae()
   private val algaeNotEaten: Algae = Algae(base = 20)
@@ -49,7 +52,8 @@ class TestStep extends AnyFunSpec:
 
   private val population =
     Population(
-      Set(hFishHungry, hFishNotHungry, hFishEaten, hFishReproduction, cFishHungry, cFishNotHungry),
+      Set(herbivorousHungry, herbivorousNotHungry, herbivorousEaten, herbivorousReproduction, carnivorousHungry,
+        carnivorousNotHungry),
       Set(algaeEaten, algaeNotEaten)
     )
   private val food = Set(hFoodEaten, hFoodNotEaten, cFoodEaten, cFoodNotEaten)
@@ -57,19 +61,26 @@ class TestStep extends AnyFunSpec:
   private val aquarium = Aquarium(aquariumState, population, food)
 
   private val newAquarium = step(aquarium)
-  private val entitySet = population.fish.concat(population.algae).concat(food)
+  private val entities = population.fish.concat(population.algae).concat(food)
 
-  describe("When step() is called it return a new Aquarium where") {
-    it("the new AquariumState is updated by all the inhabitant of the aquarium") {
-      val aqState = aquariumState
+  private val newHerbivorousSatiety =
+    herbivorousHungry.satiety + (algaeEaten.height * Algae.NUTRITION_AMOUNT) + hFoodEaten.nutritionAmount - Fish.SATIETY_SHIFT
+  private val newCarnivorousSatiety =
+    carnivorousHungry.satiety + (herbivorousEaten.size._1 * Fish.MEAT_AMOUNT) + cFoodEaten.nutritionAmount - Fish.SATIETY_SHIFT
+
+  private val tolerance = 0.1
+
+  describe(s"When step is called it return a new ${Aquarium.getClass.getName} where") {
+    it(s"the ${AquariumState.getClass.getName} is updated by all the inhabitant of the aquarium") {
+      val state = aquariumState
         .copy(
-          ph = aquariumState.ph + entitySet.map(e => e.phShift).sum,
-          oxygenation = aquariumState.oxygenation + entitySet.map(e => e.oxygenShift).sum,
-          impurity = aquariumState.impurity + entitySet.map(e => e.impurityShift).sum
+          ph = aquariumState.ph + entities.map(e => e.phShift).sum,
+          oxygenation = aquariumState.oxygenation + entities.map(e => e.oxygenShift).sum,
+          impurity = aquariumState.impurity + entities.map(e => e.impurityShift).sum
         )
-      assert(newAquarium.aquariumState.ph === aqState.ph +- 0.25)
-      assert(newAquarium.aquariumState.impurity === aqState.impurity +- 0.1)
-      assert(newAquarium.aquariumState.oxygenation === aqState.oxygenation +- 0.25)
+      assert(newAquarium.aquariumState.ph === state.ph +- tolerance)
+      assert(newAquarium.aquariumState.impurity === state.impurity +- tolerance)
+      assert(newAquarium.aquariumState.oxygenation === state.oxygenation +- tolerance)
     }
 
     it(s"all fish have age equals to the previous one plus ${Fish.AGE_SHIFT}") {
@@ -78,12 +89,12 @@ class TestStep extends AnyFunSpec:
     }
 
     it("the food near to the fish should be eaten") {
-      assert(newAquarium.herbivorousFood.size == food.count(f => f.feedingType == FeedingType.HERBIVOROUS) - 1)
-      assert(newAquarium.carnivorousFood.size == food.count(f => f.feedingType == FeedingType.CARNIVOROUS) - 1)
+      assert(!newAquarium.availableFood.contains(hFoodEaten))
+      assert(!newAquarium.availableFood.contains(cFoodEaten))
     }
 
     it("a fish that didn't eat anything has lower satiety") {
-      // a fish that wasn't hungry and a new fish
+      // a fish that wasn't hungry and a new born fish
       val fishNumber = 1 + 1
       assert(
         newAquarium.population.herbivorous.count(f => f.satiety == Fish.MAX_SATIETY - Fish.SATIETY_SHIFT) == fishNumber
@@ -96,7 +107,7 @@ class TestStep extends AnyFunSpec:
         .filterNot(f => f.satiety == Fish.MAX_SATIETY - Fish.SATIETY_SHIFT)
         .foreach(f =>
           assert(
-            f.satiety == hFishHungry.satiety + (algaeEaten.height * Algae.NUTRITION_AMOUNT) + hFoodEaten.nutritionAmount - Fish.SATIETY_SHIFT
+            f.satiety == newHerbivorousSatiety
           )
         )
     }
@@ -105,19 +116,29 @@ class TestStep extends AnyFunSpec:
       assert(newAquarium.population.algae.size == aquarium.population.algae.size - 1)
     }
 
-    it("an algae grows") {
+    it("an herbivorous fish near to an hungry carnivorous fish is eaten") {
+      assert(!newAquarium.population.herbivorous.contains(herbivorousEaten))
+    }
+
+    it("an carnivorous fish that ate a fish has an upper satiety") {
+      newAquarium.population.carnivorous
+        .filterNot(f => f.satiety == Fish.MAX_SATIETY - Fish.SATIETY_SHIFT)
+        .foreach(f =>
+          assert(
+            f.satiety == newCarnivorousSatiety.floor.toInt
+          )
+        )
+    }
+
+    it("algae grow") {
       newAquarium.population.algae.foreach(a =>
         assert(a.height == Interaction(algaeNotEaten, newAquarium.aquariumState).update().get.height)
       )
     }
 
-    it("an carnivorous fish that ate a fish has an upper satiety") {
-      assert(!newAquarium.population.herbivorous.contains(hFishEaten))
-    }
-
     it("two fish of the same kind, that are near, and have enough reproductive factor, reproduce") {
       newAquarium.population.herbivorous
-        .filter(f => f.name == hFishHungry.name || f.name == hFishReproduction.name)
+        .filter(f => f.name == herbivorousHungry.name || f.name == herbivorousReproduction.name)
         .foreach(f =>
           assert(
             f.reproductionFactor == Fish.MAX_REPRODUCTION_FACTOR - Fish.REPRODUCTION_COST + Fish.REPRODUCTION_FACTOR_SHIFT
@@ -126,5 +147,4 @@ class TestStep extends AnyFunSpec:
       // one fish was born but one was eaten
       assert(newAquarium.population.herbivorous.size == aquarium.population.herbivorous.size + 1 - 1)
     }
-
   }

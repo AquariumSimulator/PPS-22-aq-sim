@@ -20,29 +20,34 @@ case class AquariumState(
     oxygenation: Double = InitializeAquarium.OXYGENATION
 ) extends UpdateAquariumState:
 
-  import AquariumParametersLimits.*
+  import AquariumParametersLimits._
 
   override def updateImpurity(newImpurity: Double): AquariumState =
-    newImpurity match
-      case i if i > IMPURITY_MAX || i < IMPURITY_MIN => this
-      case _ => this.copy(impurity = newImpurity)
+    checkValueAndReturnAquarium(newImpurity)((i: Double) => i > IMPURITY_MAX || i < IMPURITY_MIN)(
+      this.copy(impurity = newImpurity)
+    )
 
   override def updateTemperature(newTemperature: Double): AquariumState =
-    newTemperature match
-      case t if t > TEMPERATURE_MAX || t < TEMPERATURE_MIN => this
-      case _ => this.copy(temperature = newTemperature)
+    checkValueAndReturnAquarium(newTemperature)((t: Double) => t > TEMPERATURE_MAX || t < TEMPERATURE_MIN)(
+      this.copy(temperature = newTemperature)
+    )
 
   override def updateBrightness(newBrightness: Double): AquariumState =
-    newBrightness match
-      case b if b > BRIGHTNESS_MAX || b < BRIGHTNESS_MIN => this
-      case _ => this.copy(brightness = newBrightness)
+    checkValueAndReturnAquarium(newBrightness)((b: Double) => b > BRIGHTNESS_MAX || b < BRIGHTNESS_MIN)(
+      this.copy(brightness = newBrightness)
+    )
 
   override def updatePh(newPh: Double): AquariumState =
-    newPh match
-      case p if p > PH_MAX || p < PH_MIN => this
-      case _ => this.copy(ph = newPh)
+    checkValueAndReturnAquarium(newPh)((p: Double) => p > PH_MAX || p < PH_MIN)(this.copy(ph = newPh))
 
   override def updateOxygenation(newOxygenation: Double): AquariumState =
-    newOxygenation match
-      case o if o > OXYGENATION_MAX || o < OXYGENATION_MIN => this
-      case _ => this.copy(oxygenation = newOxygenation)
+    checkValueAndReturnAquarium(newOxygenation)((o: Double) => o > OXYGENATION_MAX || o < OXYGENATION_MIN)(
+      this.copy(oxygenation = newOxygenation)
+    )
+
+  private def checkValueAndReturnAquarium(value: Double)(checkFunc: Double => Boolean)(
+      newAquarium: AquariumState
+  ): AquariumState =
+    value match
+      case v if checkFunc(v) => this
+      case _ => newAquarium

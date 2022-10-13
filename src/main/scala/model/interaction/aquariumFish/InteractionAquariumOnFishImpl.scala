@@ -1,18 +1,18 @@
 package model.interaction.aquariumFish
 
 import model.aquarium.AquariumState
+import model.chronicle.Events
 import model.fish.Fish
-import model.interaction.DeathProbabilityFish.*
-import model.interaction.MultiplierVelocityFish.*
+import model.interaction.DeathProbabilityFish._
+import model.interaction.MultiplierVelocityFish._
 import model.interaction.{DeathProbabilityFish, Interaction}
+import mvc.MVC.model
 
 import scala.util.Random
-import model.chronicle.Events
-import mvc.MVC.model
 
 /** Hidden implementation of [[Interaction]]
   * @param fish
-  *   that has to be updated
+  *   that has to be updated. The interaction check if the fish is dead due to the oxygenation level or the PH level
   * @param aquariumState
   *   the current state of the aquarium
   */

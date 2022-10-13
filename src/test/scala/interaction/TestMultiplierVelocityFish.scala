@@ -1,7 +1,7 @@
 package interaction
 
-import model.aquarium.AquariumParametersLimits._
-import model.interaction.MultiplierVelocityFish._
+import model.aquarium.AquariumParametersLimits.*
+import model.interaction.MultiplierVelocityFish.*
 import org.scalactic.Tolerance.convertNumericToPlusOrMinusWrapper
 import org.scalatest.funspec.AnyFunSpec
 
@@ -13,7 +13,9 @@ class TestMultiplierVelocityFish extends AnyFunSpec:
 
   private val deltaTemp = 0.07
   private val deltaImpurity = 0.02
+
   private val tolerance = 0.1
+
   private val multipliersTemperature =
     List.iterate((0: Int, 0: Double), TEMPERATURE_MAX)((temperature: Int, prob: Double) =>
       (temperature + 1, prob + deltaTemp)

@@ -1,7 +1,6 @@
 package model
 
-import model.aquarium._
-import scala.reflect.ClassTag
+import model.aquarium.*
 import model.chronicle.{Chronicle, Events}
 import model.db.PrologEngine
 import model.fish.{Fish, UpdateFish}
@@ -12,23 +11,25 @@ import mvc.MVC.model
 
 import java.util.concurrent.ConcurrentLinkedQueue
 import scala.annotation.tailrec
+import scala.reflect.ClassTag
 
 /** Model methods implementation from [[Model]]. */
 trait ModelImpl:
   class ModelImpl extends Model:
 
+    private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
+    private val multiplier = (aqState: AquariumState) =>
+      SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
+        SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
+    private val foodCondition = (fish: Fish, food: Food) =>
+      fish.satiety < (Fish.MAX_SATIETY - food.nutritionAmount) && fish.collidesWith(food)
+    private val foodAction = (fish: Fish, food: Food) => fish.eat(food)
     private var currentChronicle: Chronicle = Chronicle()
 
     override def chronicle: Chronicle = currentChronicle
 
     override def addChronicleEvent(event: String): Unit =
       currentChronicle = currentChronicle.addEvent(event)
-
-    private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
-
-    private val multiplier = (aqState: AquariumState) =>
-      SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
-        SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
 
     override def getDatabase: PrologEngine = PrologEngine
 
@@ -41,10 +42,6 @@ trait ModelImpl:
         algaeNumber: Int
     ): Aquarium =
       Aquarium(herbivorousFishNumber, carnivorousFishNumber, algaeNumber)
-
-    private val foodCondition = (fish: Fish, food: Food) =>
-      fish.satiety < (Fish.MAX_SATIETY - food.nutritionAmount) && fish.collidesWith(food)
-    private val foodAction = (fish: Fish, food: Food) => fish.eat(food)
 
     override def step(currentAquarium: Aquarium): Aquarium =
 
@@ -59,21 +56,20 @@ trait ModelImpl:
         aquarium.aquariumState
       )((s: AquariumState, e: Entity) => Interaction(s, e).update())
 
-      val updatedCarnivorous =
+      val (carnivorous: Set[Fish], carnivorousFood: Set[Food]) =
         EntityEntityInteractions(aquarium.population.carnivorous, aquarium.carnivorousFood)(foodCondition)(foodAction)
-      val updateHerbivorous =
+      val (herbivorous: Set[Fish], herbivorousFood: Set[Food]) =
         EntityEntityInteractions(aquarium.population.herbivorous, aquarium.herbivorousFood)(foodCondition)(foodAction)
 
-      val fishAlgaeInteraction =
-        EntityEntityInteractions(updateHerbivorous._1, aquarium.population.algae)((fish: Fish, algae: Algae) =>
+      val (newHerbivorous: Set[Fish], algae: Set[Algae]) =
+        EntityEntityInteractions(herbivorous, aquarium.population.algae)((fish: Fish, algae: Algae) =>
           fish.collidesWith(algae)
         )((fish: Fish, algae: Algae) => Interaction(fish, algae).update())
 
-      val fishFishInteraction =
-        fishFishInteractions(updatedCarnivorous._1.concat(fishAlgaeInteraction._1))
-
       val newFish =
-        entityStep(fishFishInteraction, updatedAquariumState)((f: Fish) => f.isAlive)((f: Fish, a: AquariumState) =>
+        entityStep(fishFishInteractions(carnivorous.concat(newHerbivorous)), updatedAquariumState)((f: Fish) =>
+          f.isAlive
+        )((f: Fish, a: AquariumState) =>
           val fish: Fish =
             if f.reproductionFactor < Fish.MAX_REPRODUCTION_FACTOR
             then f.updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
@@ -88,20 +84,20 @@ trait ModelImpl:
           ).update()
         )
 
-      val newAlgae =
-        entityStep(fishAlgaeInteraction._2, updatedAquariumState)((a: Algae) => a.height > 0)(
-          (al: Algae, a: AquariumState) =>
-            Interaction(al, a)
-              .update()
+      val newPopulation: Population = Population(
+        newFish,
+        entityStep(algae, updatedAquariumState)((a: Algae) => a.height > 0)((al: Algae, a: AquariumState) =>
+          Interaction(al, a)
+            .update()
         )
+      )
 
-      val newFood =
-        for food <- updateHerbivorous._2.concat(updatedCarnivorous._2)
+      Aquarium(
+        updatedAquariumState,
+        newPopulation,
+        for food <- herbivorousFood.concat(carnivorousFood)
         yield UpdateFood(food).move(1)
-
-      val newPopulation: Population = Population(newFish, newAlgae)
-
-      Aquarium(updatedAquariumState, newPopulation, newFood)
+      )
 
     private def newAquariumState[A](entities: Set[A], initialState: AquariumState)(
         func: (AquariumState, A) => AquariumState

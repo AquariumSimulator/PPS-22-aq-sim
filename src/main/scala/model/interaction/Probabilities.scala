@@ -36,7 +36,7 @@ object DeathProbabilityFish:
   val TOO_HIGH_PH: Double => Double = (phLevel: Double) =>
     (phLevel - MAX_SAFE_PH) * PROB_PH / (AquariumParametersLimits.PH_MAX - MAX_SAFE_PH)
 
-  /** Max value of the interval of lack of brightness level */
+  /** Max value of the interval of too low oxygenation */
   val MAX_INTERVAL_TOO_LOW_OXYGENATION: Int = 10
 
   /** Max probability of a fish to die if the oxygenation is too low */

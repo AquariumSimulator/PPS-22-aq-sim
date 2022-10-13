@@ -70,8 +70,6 @@ class TestStep extends AnyFunSpec:
 
   private val tolerance = 0.1
 
-  population.herbivorous.foreach(f => println("--> " + f.name + " " + f.position))
-
   describe(s"When step is called it return a new ${Aquarium.getClass.getName} where") {
     it(s"the ${AquariumState.getClass.getName} is updated by all the inhabitant of the aquarium") {
       val state = aquariumState

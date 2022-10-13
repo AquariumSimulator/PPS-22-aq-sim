@@ -17,28 +17,30 @@ class TestMultiplierVelocityFish extends AnyFunSpec:
   private val tolerance = 0.1
 
   private val multipliersTemperature =
-    List.iterate((0: Int, 0: Double), TEMPERATURE_MAX)((temperature: Int, prob: Double) =>
+    ProbabilityTestsUtils.probabilities(0, 0, TEMPERATURE_MAX)((temperature: Double, prob: Double) =>
       (temperature + 1, prob + deltaTemp)
     )
 
   private val multipliersImpurity =
-    List.iterate((0: Int, MAX_SPEED_IMPURITY: Double), TEMPERATURE_MAX)((temperature: Int, prob: Double) =>
-      (temperature + 1, prob - deltaImpurity)
+    ProbabilityTestsUtils.probabilities(0, MAX_SPEED_IMPURITY, IMPURITY_MAX)((impurity: Double, prob: Double) =>
+      (impurity + 1, prob - deltaImpurity)
     )
 
   describe("Given a list of temperature") {
     describe(s"when the velocity multiplier is calculated on the temperature") {
       it("should be equal to the precalculated one") {
-        multipliersTemperature
-          .foreach((temp, prob) => assert(SPEED_MULTIPLIER_TEMPERATURE(temp) === prob +- tolerance))
+        ProbabilityTestsUtils.checkForEach(multipliersTemperature)((temp: Double, prob: Double) =>
+          SPEED_MULTIPLIER_TEMPERATURE(temp) === prob +- tolerance
+        )
       }
     }
   }
   describe("Given a list of impurity") {
     describe(s"when the velocity multiplier is calculated on the impurity") {
       it("should be equal to the precalculated one") {
-        multipliersImpurity
-          .foreach((temp, prob) => assert(SPEED_MULTIPLIER_IMPURITY(temp) === prob +- tolerance))
+        ProbabilityTestsUtils.checkForEach(multipliersImpurity)((impurity: Double, prob: Double) =>
+          SPEED_MULTIPLIER_IMPURITY(impurity) === prob +- tolerance
+        )
       }
     }
   }

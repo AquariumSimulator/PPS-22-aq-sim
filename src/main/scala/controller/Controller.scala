@@ -56,40 +56,40 @@ trait Controller:
     */
   def updateBrightness(brightness: Double): Unit
 
-  /** Updates the impurity of the aquarium setting the impurity set to 0 */
+  /** Updates the impurity of the aquarium setting it to 0 */
   def clean(): Unit
 
-  /** Updates the impurity of the aquarium setting the impurity set to 0
+  /** Updates the oxygenation of the aquarium
     * @param oxygenation
     *   the new oxygenation value
     */
   def updateOxygenation(oxygenation: Double): Unit
 
-  /** Add a new inhabitant in the right population set
+  /** Add a new inhabitant
     * @param inhabitant
-    *   the inhabitant that needs to be added
+    *   the inhabitant that has to be added
     * @tparam A
     *   type of the inhabitant
     */
   def addInhabitant[A](inhabitant: A): Unit
 
-  /** Remove an inhabitant in the right population set
+  /** Remove an inhabitant
     * @param inhabitant
-    *   the inhabitant that needs to be removed
+    *   the inhabitant that has to be removed
     * @tparam A
     *   type of the inhabitant
     */
   def removeInhabitant[A](inhabitant: A): Unit
 
-  /** Add a new food in the food set
+  /** Add new food
     * @param food
-    *   the food that needs to be added
+    *   the food that has to be added
     */
   def addFood(food: Food): Unit
 
-  /** Remove food in the food set
+  /** Remove food
     * @param food
-    *   the food that needs to be removed
+    *   the food that has to be removed
     */
   def deleteFood(food: Food): Unit
 
@@ -102,8 +102,8 @@ trait Controller:
     */
   def getPopulationTrend: List[(Int, Int, Int)]
 
-  /** Return the current Chronicle
+  /** This method
     * @return
-    *   current Chronicle
+    *   the current chronicle
     */
   def getCurrentChronicle: Chronicle

@@ -1,6 +1,7 @@
 package view.widgets.download
 
 import com.google.gson.Gson
+import com.google.gson.stream.JsonWriter
 import mvc.MVC
 import mvc.MVC.given_ViewRequirements as context
 
@@ -9,7 +10,7 @@ import scala.language.postfixOps
 
 object DownloadJSON:
 
-  def apply(path: String) =
+  def apply(path: String): Unit =
     val gson = new Gson
     val writer = gson.newJsonWriter(FileWriter(path + "data.json"))
     writer.beginArray()
@@ -17,29 +18,27 @@ object DownloadJSON:
       if context.controller.getAllFish(iteration).nonEmpty then
         writer.beginArray()
         context.controller.getAllFish(iteration).foreach(fish =>
-          writer.beginObject()
-          writer.name("iteration")
-          writer.value(iteration.toString)
-          writer.name("feedingType")
-          writer.value(fish.feedingType.toString)
-          writer.name("fishName")
-          writer.value(fish.name)
-          writer.endObject()
+          val map = Map("feedingType" -> fish.feedingType.toString, "name" -> fish.name)
+          writeObject(writer, iteration, map)
         )
         writer.endArray()
       if context.controller.getAllAlgae(iteration).nonEmpty then
         writer.beginArray()
         context.controller.getAllAlgae(iteration).foreach(algae =>
-          writer.beginObject()
-          writer.name("iteration")
-          writer.value(iteration.toString)
-          writer.name("base")
-          writer.value(algae.base.toString)
-          writer.name("height")
-          writer.value(algae.height.toString)
-          writer.endObject()
+          val map = Map("base" -> algae.base.toString(), "height" -> algae.height.toString())
+          writeObject(writer, iteration, map)
         )
         writer.endArray()
       )
     writer.endArray()
     writer.close()
+
+  private def writeObject(writer: JsonWriter, iteration: Int, map: Map[String, String]) =
+    writer.beginObject()
+    writer.name("iteration")
+    writer.value(iteration.toString)
+    map.keySet.foreach(el =>
+      writer.name(el)
+      writer.value(map(el))
+    )
+    writer.endObject()

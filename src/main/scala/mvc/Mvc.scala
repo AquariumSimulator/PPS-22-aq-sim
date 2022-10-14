@@ -25,9 +25,9 @@ object ModelModule:
   trait Provider:
     val model: Model
 
-  import model.ModelImpl
+  import model.ModelComponent
 
-  trait Interface extends Provider with ModelImpl
+  trait Interface extends Provider with ModelComponent
 
 object ControllerModule:
 
@@ -38,10 +38,10 @@ object ControllerModule:
 
   type ControllerRequirements = ViewModule.Provider with ModelModule.Provider
 
-  import controller.ControllerImpl
+  import controller.ControllerComponent
 
-  trait Interface extends Provider with ControllerImpl:
-    self: ControllerRequirements =>
+  trait Interface extends Provider with ControllerComponent:
+    context: ControllerRequirements =>
 
 object ViewModule:
 
@@ -52,7 +52,7 @@ object ViewModule:
 
   type ViewRequirements = ControllerModule.Provider
 
-  import view.ViewImpl
+  import view.ViewComponent
 
-  trait Interface extends Provider with ViewImpl:
-    self: ViewRequirements =>
+  trait Interface extends Provider with ViewComponent:
+    context: ViewRequirements =>

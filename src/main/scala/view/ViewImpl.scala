@@ -14,9 +14,10 @@ import view.widgets.slider.OxygenationSlider
 import controller.SimulationSpeed
 
 /** View methods implementation from [[View]]. */
-trait ViewImpl:
+trait ViewComponent:
   context: ViewRequirements =>
   given ViewRequirements = context
+
   class ViewImpl extends View:
     def show(stage: Stage): Unit =
       GUI.start(stage)
@@ -31,3 +32,7 @@ trait ViewImpl:
           aquarium.aquariumState.oxygenation
         )
       )
+
+  class FakeViewImpl extends View:
+    override def show(stage: Stage): Unit = {}
+    override def renderSimulation(aquarium: Aquarium): Unit = {}

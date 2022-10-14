@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import scala.annotation.tailrec
 
 /** Model methods implementation from [[Model]]. */
-trait ModelImpl:
+trait ModelComponent:
   class ModelImpl extends Model:
 
     private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()

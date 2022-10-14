@@ -7,9 +7,10 @@ import model.food.Food
 import mvc.ControllerModule.ControllerRequirements
 
 /** Controller methods implementation from [[Controller]]. */
-trait ControllerImpl:
-
-  class ControllerImpl(using context: ControllerRequirements) extends Controller:
+trait ControllerComponent:
+  context: ControllerRequirements =>
+  given ControllerRequirements = context
+  class ControllerImpl extends Controller:
 
     val simEngine: SimulationEngine = SimulationEngine(
       context.model.initializeAquarium(

@@ -107,3 +107,28 @@ trait Controller:
     *   the current chronicle
     */
   def getCurrentChronicle: Chronicle
+
+  /** Get all [[Fish]].
+    *
+    * @param iteration
+    *   of fish to get.
+    * @return
+    *   a [[List]] of [[Fish]].
+    */
+  def getAllFish(iteration: Int): List[Fish]
+
+  /** Get all [[Algae]].
+    *
+    * @param iteration
+    *   of algae to get.
+    * @return
+    *   a [[Algae]] of [[Algae]].
+    */
+  def getAllAlgae(iteration: Int): List[Algae]
+
+  /** Get the current iteration.
+    *
+    * @return
+    *   the current iteration as an [[Int]].
+    */
+  def currentIteration: Int

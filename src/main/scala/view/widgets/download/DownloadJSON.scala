@@ -10,13 +10,11 @@ import scala.language.postfixOps
 object DownloadJSON:
 
   def apply(path: String) =
-    //val outputFile = BufferedWriter(FileWriter(path + name))
     val gson = new Gson
     val writer = gson.newJsonWriter(FileWriter(path + "data.json"))
     writer.beginArray()
     (0 to context.controller.currentIteration).foreach(iteration =>
-      if context.controller.getAllFish(iteration).nonEmpty ||
-        context.controller.getAllAlgae(iteration).nonEmpty then
+      if context.controller.getAllFish(iteration).nonEmpty then
         writer.beginArray()
         context.controller.getAllFish(iteration).foreach(fish =>
           writer.beginObject()
@@ -29,6 +27,7 @@ object DownloadJSON:
           writer.endObject()
         )
         writer.endArray()
+      if context.controller.getAllAlgae(iteration).nonEmpty then
         writer.beginArray()
         context.controller.getAllAlgae(iteration).foreach(algae =>
           writer.beginObject()
@@ -43,15 +42,4 @@ object DownloadJSON:
         writer.endArray()
       )
     writer.endArray()
-
-  /*
-  private def saveToCSV[U](path: String, name: String)(getList: Int => List[U])(mapper: U => List[String]) =
-    val outputFile = BufferedWriter(FileWriter(path + name))
-    val csvWriter = CSVWriter.open(outputFile)
-    (0 to context.controller.currentIteration).foreach(iteration =>
-      csvWriter.writeAll(
-        getList(iteration).map(mapper).map(l => iteration.toString :: l)
-      )
-    )
-    csvWriter.close()
-*/
+    writer.close()

@@ -7,12 +7,9 @@ import model.food.Food
 import model.fish.Fish
 import model.Algae
 import mvc.ControllerModule.ControllerRequirements
-import mvc.MVC.given_ControllerRequirements as context
-
-import java.util.stream.IntStream
 
 /** Controller methods implementation from [[Controller]]. */
-trait ControllerImpl:
+trait ControllerComponent:
   context: ControllerRequirements =>
   given ControllerRequirements = context
   class ControllerImpl extends Controller:

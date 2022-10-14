@@ -4,7 +4,6 @@ import model.{Algae, FeedingType}
 import model.aquarium.{Aquarium, AquariumDimensions, Population}
 import model.fish.Fish
 import model.food.Food
-import mvc.MVC
 import mvc.MVC.given_ViewRequirements as context
 import mvc.ViewModule.ViewRequirements
 import scalafx.Includes.*
@@ -21,7 +20,6 @@ import scala.util.Random
 import controller.SimulationSpeed
 
 object BottomBar:
-
   val addFishButton: BottomBarButton = BottomBarButton("/icons/add-fish.png")
   addFishButton.tooltip = new Tooltip("Add fish or algae")
   addFishButton.onAction = _ =>

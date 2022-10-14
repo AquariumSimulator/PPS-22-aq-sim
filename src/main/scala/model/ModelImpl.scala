@@ -7,14 +7,13 @@ import model.fish.{Fish, UpdateFish}
 import model.food.{Food, UpdateFood}
 import model.interaction.Interaction
 import model.interaction.MultiplierVelocityFish.{SPEED_MULTIPLIER_IMPURITY, SPEED_MULTIPLIER_TEMPERATURE}
-import mvc.MVC.model
 
 import java.util.concurrent.ConcurrentLinkedQueue
 import scala.annotation.tailrec
 import scala.reflect.ClassTag
 
 /** Model methods implementation from [[Model]]. */
-trait ModelImpl:
+trait ModelComponent:
   class ModelImpl extends Model:
 
     private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()

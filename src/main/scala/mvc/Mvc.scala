@@ -2,11 +2,13 @@ package mvc
 
 import scalafx.application.JFXApp3
 
+trait MVCTrait extends ModelModule.Interface with ViewModule.Interface with ControllerModule.Interface
+
 /** MVC implementation through cake pattern with separation of files for a better readability. */
-object MVC extends JFXApp3 with ModelModule.Interface with ViewModule.Interface with ControllerModule.Interface:
-  override val model = new ModelImpl()
-  override val view = new ViewImpl()
-  override val controller = new ControllerImpl()
+object MVC extends MVCTrait with JFXApp3:
+  override val model = ModelImpl()
+  override val view = ViewImpl()
+  override val controller = ControllerImpl()
 
   /*@main Entry point*/
   override def start(): Unit =
@@ -23,9 +25,9 @@ object ModelModule:
   trait Provider:
     val model: Model
 
-  import model.ModelImpl
+  import model.ModelComponent
 
-  trait Interface extends Provider with ModelImpl
+  trait Interface extends Provider with ModelComponent
 
 object ControllerModule:
 
@@ -36,10 +38,10 @@ object ControllerModule:
 
   type ControllerRequirements = ViewModule.Provider with ModelModule.Provider
 
-  import controller.ControllerImpl
+  import controller.ControllerComponent
 
-  trait Interface extends Provider with ControllerImpl:
-    self: ControllerRequirements =>
+  trait Interface extends Provider with ControllerComponent:
+    context: ControllerRequirements =>
 
 object ViewModule:
 
@@ -50,7 +52,7 @@ object ViewModule:
 
   type ViewRequirements = ControllerModule.Provider
 
-  import view.ViewImpl
+  import view.ViewComponent
 
-  trait Interface extends Provider with ViewImpl:
-    self: ViewRequirements =>
+  trait Interface extends Provider with ViewComponent:
+    context: ViewRequirements =>

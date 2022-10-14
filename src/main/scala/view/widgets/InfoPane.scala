@@ -26,19 +26,16 @@ object InfoPane:
   downloadButton.onAction = _ =>
     val dialog: ChoiceDialog[String] = new ChoiceDialog(
       defaultChoice = "Download CSV",
-      choices = Seq("Download CSV", "Download JSON"),
-    ) :
+      choices = Seq("Download CSV", "Download JSON")
+    ):
       title = "Download CVS or JSON"
       headerText = "Choose the type"
     val choice: Option[String] = dialog.showAndWait()
 
-    val downloadType = choice match
-      case Some("Download CSV")  => Some(DownloadCSV(path))
-      case Some("Download JSON") => Some(DownloadJSON(path))
-      case Some(_) => Some(DownloadCSV(path))
-      case None => None
-
-    if downloadType.isDefined then downloadType.get
+    choice match
+      case Some("Download CSV") => DownloadCSV(path)
+      case Some("Download JSON") => DownloadJSON(path)
+      case Some(_) | None => None
 
   private val herbivorousFishLabel: InfoCell = InfoCell("Herbivorous fish", 0, "fish")
   private val carnivorousFishLabel: InfoCell = InfoCell("Carnivorous fish", 0, "fish")

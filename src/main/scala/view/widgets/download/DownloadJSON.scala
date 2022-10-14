@@ -31,7 +31,7 @@ object DownloadJSON:
           writeObject(writer, iteration, map)
         )
         writer.endArray()
-      )
+    )
     writer.endArray()
     writer.close()
 

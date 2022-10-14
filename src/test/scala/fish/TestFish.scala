@@ -7,6 +7,7 @@ import model.fish.{Fish, UpdateFish}
 import model.fish.Fish.{MAX_SATIETY, MEAT_AMOUNT}
 import model.food.Food
 
+/** Test for [[Fish]] */
 class TestFish extends AnyFunSpec with BeforeAndAfterEach:
 
   var f: Fish = Fish()
@@ -67,15 +68,4 @@ class TestFish extends AnyFunSpec with BeforeAndAfterEach:
       assert(f.eat(food).satiety === MAX_SATIETY)
     }
 
-//    it("should have more satiety after having eaten another fish") {
-//      val f: Fish = Fish(satiety = 15)
-//      val other: Fish = Fish(size = 1.5)
-//      assert(UpdateFish(f).eat(other).satiety === f.satiety + other.size * MEAT_AMOUNT)
-//    }
-//
-//    it("should not have more than MAX_SATIETY after having eaten another fish") {
-//      val f: Fish = Fish(satiety = MAX_SATIETY - 5)
-//      val other: Fish = Fish(size = 1.5)
-//      assert(UpdateFish(f).eat(other).satiety === MAX_SATIETY)
-//    }
   }

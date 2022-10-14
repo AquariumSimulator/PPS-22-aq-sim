@@ -2,19 +2,26 @@ package model
 
 import model.aquarium.{Aquarium, AquariumState, AvailableFood}
 import model.chronicle.Chronicle
+import model.db.PrologEngine
 import model.fish.Fish
 import model.food.Food
-import model.db.PrologEngine
 
 /** Model trait implemented in [[ModelImpl]]. */
 trait Model:
 
-  var chronicle: Chronicle = Chronicle()
+  /** This method
+    * @return
+    *   the current chronicle
+    */
+  def chronicle: Chronicle
 
-  def addChronicleEvent(message: String): Unit =
-    chronicle = chronicle.addEvent(message)
+  /** Adds a new event to the current chronicle
+    * @param event
+    *   event to add to the current chronicle
+    */
+  def addChronicleEvent(event: String): Unit
 
-  /** Add an interaction from the user to be processed.
+  /** Adds an interaction from the user
     *
     * @param interaction
     *   the user interaction.
@@ -35,14 +42,14 @@ trait Model:
   def initializeAquarium(herbivorousFishNumber: Int, carnivorousFishNumber: Int, algaeNumber: Int): Aquarium
 
   /** Step of the simulation
-    * @param aquarium
+    * @param currentAquarium
     *   the current aquarium
     * @return
     *   a new updated aquarium
     */
-  def step(aquarium: Aquarium): Aquarium
+  def step(currentAquarium: Aquarium): Aquarium
 
-  /** Saves the population of the given [[Aquarium]] in the database.
+  /** Saves the population of the given [[Aquarium]] in the database
     *
     * @param aquarium
     *   The [[Aquarium]] to be saved.
@@ -54,4 +61,4 @@ trait Model:
   /** @return
     *   A reference to the Database used by the simulation.
     */
-  def getDatabase(): PrologEngine
+  def getDatabase: PrologEngine

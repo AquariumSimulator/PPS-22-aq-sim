@@ -11,56 +11,56 @@ import scala.runtime.stdLibPatches.Predef.assert
 /** Test for the interface [[AvailableFood]] */
 class TestAvailableFood extends AnyFunSpec:
 
-  private val AquariumForAddTest = Aquarium(0, 0, 0)
+  private val aquarium = Aquarium(0, 0, 0)
 
-  private val newHerbivorousFood = Food(feedingType = FeedingType.HERBIVOROUS, position = (0, 1))
-  private val newCarnivorousFood = Food(position = (0, 1))
-  private val newFoodWithAddedElem = AquariumForAddTest.addFood(newHerbivorousFood).addFood(newCarnivorousFood)
+  private val herbivorousFood = Food(feedingType = FeedingType.HERBIVOROUS, position = (0, 1))
+  private val carnivorousFood = Food(position = (0, 1))
 
-  private val newFoodWithRemovedElem = AquariumForAddTest.deleteFood(newHerbivorousFood).deleteFood(newCarnivorousFood)
+  private val aquariumWithAddedElem = aquarium.addFood(herbivorousFood).addFood(carnivorousFood)
+  private val aquariumWithRemovedElem = aquarium.deleteFood(herbivorousFood).deleteFood(carnivorousFood)
 
   describe("A new instance of Aquarium") {
     it("should have an empty available food set") {
-      assert(AquariumForAddTest.availableFood.isEmpty)
+      assert(aquarium.availableFood.isEmpty)
     }
   }
-  describe("When addFood is called to add a new instance of herbivorous food") {
+  describe("When addFood is called to add herbivorous food") {
     it(
-      "should return a new available food set with an updated set equal to the old one plus a new Food instance"
+      s"should return an updated available food set equal to the old one plus a new ${Food.getClass.getName} instance"
     ) {
-      assert(newFoodWithAddedElem.herbivorousFood.size == AquariumForAddTest.herbivorousFood.size + 1)
+      assert(aquariumWithAddedElem.herbivorousFood.size == aquarium.herbivorousFood.size + 1)
     }
-    it(s"and it should contain $newHerbivorousFood") {
-      assert(newFoodWithAddedElem.herbivorousFood.contains(newHerbivorousFood))
-    }
-  }
-
-  describe("When deleteFood is called to remove an herbivorous food instance") {
-    it("should return a new available food set with an updated set with one less element") {
-      assert(newFoodWithRemovedElem.herbivorousFood.size == newFoodWithAddedElem.herbivorousFood.size - 1)
-    }
-    it(s"and it should not contain $newHerbivorousFood") {
-      assert(!newFoodWithRemovedElem.herbivorousFood.contains(newHerbivorousFood))
+    it(s"and it should contain $herbivorousFood") {
+      assert(aquariumWithAddedElem.herbivorousFood.contains(herbivorousFood))
     }
   }
 
-  describe("When addFood is called to add a new instance of carnivorous food") {
+  describe("When deleteFood is called to remove an herbivorous food") {
+    it("should return an updated available food set with one less element") {
+      assert(aquariumWithRemovedElem.herbivorousFood.size == aquariumWithAddedElem.herbivorousFood.size - 1)
+    }
+    it(s"and it should not contain $herbivorousFood") {
+      assert(!aquariumWithRemovedElem.herbivorousFood.contains(herbivorousFood))
+    }
+  }
+
+  describe("When addFood is called to add a carnivorous food") {
     it(
-      "should return a new available food set with an updated set equal to the old one plus a new Food instance"
+      s"should return an updated available food set equal to the old one plus a new ${Food.getClass.getName} instance"
     ) {
-      assert(newFoodWithAddedElem.carnivorousFood.size == AquariumForAddTest.carnivorousFood.size + 1)
+      assert(aquariumWithAddedElem.carnivorousFood.size == aquarium.carnivorousFood.size + 1)
     }
 
-    it(s"and it should contain $newCarnivorousFood ") {
-      assert(newFoodWithAddedElem.carnivorousFood.contains(newCarnivorousFood))
+    it(s"and it should contain $carnivorousFood ") {
+      assert(aquariumWithAddedElem.carnivorousFood.contains(carnivorousFood))
     }
   }
-  describe("When deleteFood is called to remove an carnivorous food instance") {
-    it("should return a new available food set with an updated set with one less element") {
-      assert(newFoodWithRemovedElem.carnivorousFood.size == newFoodWithAddedElem.carnivorousFood.size - 1)
+  describe("When deleteFood is called to remove a carnivorous food") {
+    it("should return an updated available food set with one less element") {
+      assert(aquariumWithRemovedElem.carnivorousFood.size == aquariumWithAddedElem.carnivorousFood.size - 1)
     }
 
-    it(s"and it should contain $newCarnivorousFood ") {
-      assert(!newFoodWithRemovedElem.carnivorousFood.contains(newCarnivorousFood))
+    it(s"and it should contain $carnivorousFood ") {
+      assert(!aquariumWithRemovedElem.carnivorousFood.contains(carnivorousFood))
     }
   }

@@ -1,6 +1,6 @@
 package interaction
 
-import model.*
+import model._
 import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.fish.Fish
 import model.interaction.Interaction
@@ -11,7 +11,7 @@ import scala.runtime.stdLibPatches.Predef.assert
 /** Test for the interaction of a fish on the aquarium state */
 class TestInteractionFishOnAquarium extends AnyFunSpec:
   private val aquariumState = AquariumState(5, 50, 7, 10, 10)
-  private val aquariumStateLimitsTest =
+  private val aquariumStateLimits =
     AquariumState(
       5,
       3,
@@ -24,13 +24,13 @@ class TestInteractionFishOnAquarium extends AnyFunSpec:
 
   private val interactionFishAquarium =
     Interaction(aquariumState, fish)
-  private val interactionFishAquariumLimitsTest =
-    Interaction(aquariumStateLimitsTest, fish)
+  private val interactionFishAquariumLimits =
+    Interaction(aquariumStateLimits, fish)
 
-  describe("An instance of InteractionFishOnAquarium") {
-    describe("with a given AquariumState") {
-      describe("and a given Fish") {
-        describe("when update() is called") {
+  describe(s"An instance of ${Interaction.getClass.getName}") {
+    describe(s"with a given ${AquariumState.getClass.getName}") {
+      describe(s"and a given ${Fish.getClass.getName}") {
+        describe("when update is called") {
           describe(s"if the new oxygenation level is lower than ${AquariumParametersLimits.OXYGENATION_MAX}") {
             describe(s"and the new ph is upper than ${AquariumParametersLimits.PH_MIN}") {
               describe(s"and the new impurity level is lower than ${AquariumParametersLimits.IMPURITY_MAX}") {
@@ -60,14 +60,14 @@ class TestInteractionFishOnAquarium extends AnyFunSpec:
                 describe("it should return a new AquariumState that") {
                   it(s"should have a new oxygenation level equal to the old one") {
                     assert(
-                      interactionFishAquariumLimitsTest.update().oxygenation == aquariumStateLimitsTest.oxygenation
+                      interactionFishAquariumLimits.update().oxygenation == aquariumStateLimits.oxygenation
                     )
                   }
                   it(s"should have a new ph equal to the old one") {
-                    assert(interactionFishAquariumLimitsTest.update().ph == aquariumStateLimitsTest.ph)
+                    assert(interactionFishAquariumLimits.update().ph == aquariumStateLimits.ph)
                   }
                   it(s"should have a new impurity level equal to the old one") {
-                    assert(interactionFishAquariumLimitsTest.update().impurity == aquariumStateLimitsTest.impurity)
+                    assert(interactionFishAquariumLimits.update().impurity == aquariumStateLimits.impurity)
                   }
                 }
               }

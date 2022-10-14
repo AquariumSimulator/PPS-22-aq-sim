@@ -23,7 +23,7 @@ object InfoPane:
 
   private val herbivorousFishLabel: InfoCell = InfoCell("Herbivorous fish", 0, "fish")
   private val carnivorousFishLabel: InfoCell = InfoCell("Carnivorous fish", 0, "fish")
-  private val algaeLabel: InfoCell = InfoCell("Algae", 0, "fish")
+  private val algaeLabel: InfoCell = InfoCell("Algae", 0, "algae")
   private val temperatureLabel: InfoCell = InfoCell("Temperature", 25, "°")
   private val brightnessLabel: InfoCell = InfoCell("Brightness", 50, "%")
   private val phLabel: InfoCell = InfoCell("pH", 5.6, "")

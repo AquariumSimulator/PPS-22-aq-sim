@@ -52,7 +52,7 @@ object BottomBar:
   changeSpeedButton.disable = true
   changeSpeedButton.tooltip = Tooltip("Increase speed")
   changeSpeedButton.onAction = (event: ActionEvent) =>
-    context.controller.getSpeed() match
+    context.controller.getSpeed match
       case SimulationSpeed.SLOW =>
         context.controller.changeSpeed(SimulationSpeed.NORMAL)
         IconButton.setImage(
@@ -86,9 +86,9 @@ object BottomBar:
   playButton.tooltip = Tooltip("Play the simulation")
   var speedBeforeStop: SimulationSpeed = SimulationSpeed.NORMAL
   playButton.onAction = (event: ActionEvent) =>
-    context.controller.isRunning() match
+    context.controller.isRunning match
       case true =>
-        speedBeforeStop = context.controller.getSpeed()
+        speedBeforeStop = context.controller.getSpeed
         context.controller.pauseSimulation()
         IconButton.setImage(
           playButton,

@@ -11,88 +11,87 @@ import scala.util.Random
 /** Test for the interface [[UpdatePopulation]] */
 class TestUpdatePopulation extends AnyFunSpec:
 
-  private val herbivorousFishesNumber = 3
-  private val carnivorousFishesNumber = 4
+  private val herbivorousFishNumber = 3
+  private val carnivorousFishNumber = 4
   private val algaeNumber = 5
-  private val algaeBase = 1.0
 
-  private val population = Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber)
+  private val population = Population(herbivorousFishNumber, carnivorousFishNumber, algaeNumber)
 
-  private val addHerbivorousElement = Fish(feedingType = FeedingType.HERBIVOROUS)
-  private val addCarnivorousElement = Fish()
-  private val addAlgaeElement = Algae(algaeBase)
+  private val herbivorousFish = Fish(feedingType = FeedingType.HERBIVOROUS)
+  private val carnivorousFish = Fish()
+  private val algae = Algae(1.0)
 
-  private val newHerbivorousSetForAddTest = population.addInhabitant(addHerbivorousElement)
-  private val newHerbivorousSetForRemoveTest = newHerbivorousSetForAddTest.removeInhabitant(addHerbivorousElement)
+  private val populationWithHerbivorousFish = population.addInhabitant(herbivorousFish)
+  private val PopulationWithoutHerbivorousFish = populationWithHerbivorousFish.removeInhabitant(herbivorousFish)
 
-  private val newCarnivorousSetForAddTest = population.addInhabitant(addCarnivorousElement)
-  private val newCarnivorousSetForRemoveTest = newCarnivorousSetForAddTest.removeInhabitant(addCarnivorousElement)
+  private val populationWithCarnivorousFish = population.addInhabitant(carnivorousFish)
+  private val populationWithoutCarnivorousFish = populationWithCarnivorousFish.removeInhabitant(carnivorousFish)
 
-  private val newAlgaeSetForAddTest = population.addInhabitant(addAlgaeElement)
-  private val newAlgaeSetForRemoveTest = newAlgaeSetForAddTest.removeInhabitant(addAlgaeElement)
+  private val populationWithAlgae = population.addInhabitant(algae)
+  private val populationWithoutAlgae = populationWithAlgae.removeInhabitant(algae)
 
-  describe("Considered an herbivorous fish set") {
+  describe(s"Considered ${Population.getClass.getName}") {
     describe("once the addInhabitant method is called") {
-      describe("it return a new population that have an updated herbivorous set that") {
-        it("should have size equal to the old size + 1") {
-          assert(newHerbivorousSetForAddTest.herbivorous.size == population.herbivorous.size + 1)
+      describe(s"to add an ${FeedingType.HERBIVOROUS} fish") {
+        describe(s"it return a new ${Population.getClass.getName} that have an updated fish set that") {
+          it("should have size equal to the old size + 1") {
+            assert(populationWithHerbivorousFish.herbivorous.size == population.herbivorous.size + 1)
+          }
+          it(s"and should contain $herbivorousFish") {
+            assert(populationWithHerbivorousFish.herbivorous.contains(herbivorousFish))
+          }
         }
-        it(s"and should contain $addHerbivorousElement") {
-          assert(newHerbivorousSetForAddTest.herbivorous.contains(addHerbivorousElement))
+      }
+      describe(s"to add an ${FeedingType.CARNIVOROUS} fish") {
+        describe("it return a new population that have an updated carnivorous set that") {
+          it("should have size equal to the old size + 1") {
+            assert(populationWithCarnivorousFish.carnivorous.size == population.carnivorous.size + 1)
+          }
+          it(s"and should contain $carnivorousFish") {
+            assert(populationWithCarnivorousFish.carnivorous.contains(carnivorousFish))
+          }
+        }
+      }
+      describe(s"to add an ${Algae.getClass.getName}") {
+        describe(s"it return a new ${Population.getClass.getName} that have an updated algae set that") {
+          it("should have size equal to the old size + 1") {
+            assert(populationWithAlgae.algae.size == population.algae.size + 1)
+          }
+          it(s"and should contain $algae") {
+            assert(populationWithAlgae.algae.contains(algae))
+          }
         }
       }
     }
     describe("once the removeInhabitant method is called") {
-      describe("it return a new population that have an updated herbivorous set that") {
-        it("should have size equal to the old size") {
-          assert(newHerbivorousSetForRemoveTest.herbivorous.size == population.herbivorous.size)
-        }
-        it(s"and should not contain $addHerbivorousElement") {
-          assert(!newHerbivorousSetForRemoveTest.herbivorous.contains(addHerbivorousElement))
-        }
-      }
-    }
-  }
-  describe("Considered an carnivorous fish set") {
-    describe("once the addInhabitant method is called") {
-      describe("it return a new population that have an updated carnivorous set that") {
-        it("should have size equal to the old size + 1") {
-          assert(newCarnivorousSetForAddTest.carnivorous.size == population.carnivorous.size + 1)
-        }
-        it(s"and should contain $addCarnivorousElement") {
-          assert(newCarnivorousSetForAddTest.carnivorous.contains(addCarnivorousElement))
+      describe(s"to remove a ${FeedingType.HERBIVOROUS} fish") {
+        describe(s"it return a new ${Population.getClass.getName} that have an updated fish set that") {
+          it("should have size equal to the old size") {
+            assert(PopulationWithoutHerbivorousFish.herbivorous.size == population.herbivorous.size)
+          }
+          it(s"and should not contain $herbivorousFish") {
+            assert(!PopulationWithoutHerbivorousFish.herbivorous.contains(herbivorousFish))
+          }
         }
       }
-    }
-    describe("once the removeInhabitant method is called") {
-      describe("it return a new population that have an updated carnivorous set that") {
-        it("should have size equal to the old size") {
-          assert(newCarnivorousSetForRemoveTest.carnivorous.size == population.carnivorous.size)
-        }
-        it(s"and should not contain $addCarnivorousElement") {
-          assert(!newCarnivorousSetForRemoveTest.carnivorous.contains(addCarnivorousElement))
-        }
-      }
-    }
-  }
-  describe("Considered an algae set") {
-    describe("once the addInhabitant method is called") {
-      describe("it return a new population that have an updated algae set that") {
-        it("should have size equal to the old size + 1") {
-          assert(newAlgaeSetForAddTest.algae.size == population.algae.size + 1)
-        }
-        it(s"and should contain $addAlgaeElement") {
-          assert(newAlgaeSetForAddTest.algae.contains(addAlgaeElement))
+      describe(s"to remove a ${FeedingType.CARNIVOROUS} fish") {
+        describe(s"it return a new ${Population.getClass.getName} that have an updated carnivorous set that") {
+          it("should have size equal to the old size") {
+            assert(populationWithoutCarnivorousFish.carnivorous.size == population.carnivorous.size)
+          }
+          it(s"and should not contain $carnivorousFish") {
+            assert(!populationWithoutCarnivorousFish.carnivorous.contains(carnivorousFish))
+          }
         }
       }
-    }
-    describe("once removeInhabitant method is called") {
-      describe("it return a new population that have an updated algae set that") {
-        it("should have size equal to the old size") {
-          assert(newAlgaeSetForRemoveTest.algae.size == population.algae.size)
-        }
-        it(s"and should not contain $addAlgaeElement") {
-          assert(!newAlgaeSetForRemoveTest.algae.contains(addAlgaeElement))
+      describe(s"to remove a ${Algae.getClass.getName} fish") {
+        describe(s"it return a new ${Population.getClass.getName} that have an updated algae set that") {
+          it("should have size equal to the old size") {
+            assert(populationWithoutAlgae.algae.size == population.algae.size)
+          }
+          it(s"and should not contain $algae") {
+            assert(!populationWithoutAlgae.algae.contains(algae))
+          }
         }
       }
     }

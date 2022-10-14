@@ -93,7 +93,7 @@ object SimulationEngine:
                   (speed match
                     case SLOW => 500
                     case NORMAL => 150
-                    case FAST => 10
+                    case FAST => 100
                     case HALT | STOP => 0
                   )
                     - deltaTime

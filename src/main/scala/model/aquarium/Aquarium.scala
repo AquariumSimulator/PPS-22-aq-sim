@@ -3,13 +3,15 @@ package model.aquarium
 import model.FeedingType
 import model.food.Food
 
-/** This class represent the current state of the simulation
+import scala.annotation.tailrec
+
+/** This class represent the aquarium
   * @param aquariumState
-  *   represent the current state of the aquarium
+  *   represent the state of the aquarium
   * @param population
-  *   represent the current population of the aquarium
+  *   represent the population of the aquarium
   * @param availableFood
-  *   represent the current food amount available in the aquarium
+  *   represent the food amount available in the aquarium
   */
 case class Aquarium(
     aquariumState: AquariumState,
@@ -24,7 +26,7 @@ case class Aquarium(
   override def deleteFood(food: Food): Aquarium =
     this.copy(availableFood = this.availableFood - food)
 
-/** Companion object of the case class */
+/** Companion object of the case class [[Aquarium]] */
 object Aquarium:
 
   /** Create a new [[Aquarium]]

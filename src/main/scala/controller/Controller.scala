@@ -1,10 +1,10 @@
 package controller
 
-import model.aquarium.Aquarium
-import model.food.Food
-import model.fish.Fish
 import model.Algae
+import model.aquarium.Aquarium
 import model.chronicle.Chronicle
+import model.fish.Fish
+import model.food.Food
 
 /** Controller trait implemented in [[ControllerImpl]]. */
 trait Controller:
@@ -28,21 +28,21 @@ trait Controller:
   def changeSpeed(simSpeed: SimulationSpeed): Unit
 
   /** Get speed of simulation. */
-  def getSpeed(): SimulationSpeed
+  def getSpeed: SimulationSpeed
 
   /** Check if the simulation is currently running or not.
     *
     * @return
     *   True if simulation is running.
     */
-  def isRunning(): Boolean
+  def isRunning: Boolean
 
   /** Get the current [[Aquarium]].
     *
     * @return
     *   The [[Aquarium]].
     */
-  def getAquarium(): Aquarium
+  def getAquarium: Aquarium
 
   /** Updates the temperature of the aquarium
     * @param temperature
@@ -100,6 +100,10 @@ trait Controller:
     *   - the number of Carnivorous Fish
     *   - the number of Algae
     */
-  def getPopulationTrend(): List[(Int, Int, Int)]
+  def getPopulationTrend: List[(Int, Int, Int)]
 
+  /** Return the current Chronicle
+    * @return
+    *   current Chronicle
+    */
   def getCurrentChronicle: Chronicle

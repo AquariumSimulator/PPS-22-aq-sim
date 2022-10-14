@@ -1,6 +1,6 @@
 package aquarium
 
-import model.aquarium.{Aquarium, InitializeAquarium}
+import model.aquarium.{Aquarium, InitializeAquarium, AquariumState}
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.runtime.stdLibPatches.Predef.assert
@@ -21,7 +21,7 @@ class TestAquarium extends AnyFunSpec:
   describe("A new Aquarium") {
     describe("when initialized") {
 
-      describe("with a given aquariumState") {
+      describe(s"with a given ${AquariumState.getClass.getName}") {
         it(s"should have temperature equals to ${InitializeAquarium.TEMPERATURE}") {
           assert(aquarium.aquariumState.temperature == InitializeAquarium.TEMPERATURE)
         }
@@ -43,8 +43,8 @@ class TestAquarium extends AnyFunSpec:
         }
       }
 
-      describe("with a given availableFood that") {
-        it("should be empty food set") {
+      describe(s"with a given available food Set that") {
+        it("should be empty") {
           assert(aquarium.availableFood.isEmpty)
         }
       }

@@ -15,16 +15,18 @@ object DownloadJSON:
     val writer = gson.newJsonWriter(FileWriter(path + "data.json"))
     writer.beginArray()
     (0 to context.controller.currentIteration).foreach(iteration =>
-      if context.controller.getAllFish(iteration).nonEmpty then
+      val fishes = context.controller.getAllFish(iteration)
+      val algaes = context.controller.getAllAlgae(iteration)
+      if fishes.nonEmpty then
         writer.beginArray()
-        context.controller.getAllFish(iteration).foreach(fish =>
+        fishes.foreach(fish =>
           val map = Map("feedingType" -> fish.feedingType.toString, "name" -> fish.name)
           writeObject(writer, iteration, map)
         )
         writer.endArray()
-      if context.controller.getAllAlgae(iteration).nonEmpty then
+      if algaes.nonEmpty then
         writer.beginArray()
-        context.controller.getAllAlgae(iteration).foreach(algae =>
+        algaes.foreach(algae =>
           val map = Map("base" -> algae.base.toString(), "height" -> algae.height.toString())
           writeObject(writer, iteration, map)
         )
@@ -37,8 +39,8 @@ object DownloadJSON:
     writer.beginObject()
     writer.name("iteration")
     writer.value(iteration.toString)
-    map.keySet.foreach(el =>
-      writer.name(el)
-      writer.value(map(el))
+    map.keySet.foreach(key =>
+      writer.name(key)
+      writer.value(map(key))
     )
     writer.endObject()

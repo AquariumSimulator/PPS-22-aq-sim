@@ -1,11 +1,11 @@
 package model
 
 import model.FeedingType
-import model.aquarium.*
+import model.aquarium._
 import model.fish.{Fish, UpdateFish}
-import model.food.*
+import model.food._
 import model.interaction.Interaction
-import mvc.MVC.model.*
+import mvc.MVC.model._
 import org.scalactic.Tolerance.convertNumericToPlusOrMinusWrapper
 import org.scalatest.funspec.AnyFunSpec
 
@@ -29,7 +29,6 @@ class TestStep extends AnyFunSpec:
   private val herbivorousReproduction: Fish = Fish(
     position = (0, AquariumDimensions.HEIGHT),
     feedingType = FeedingType.HERBIVOROUS,
-    satiety = satiety,
     reproductionFactor = Fish.MAX_REPRODUCTION_FACTOR
   )
 
@@ -94,8 +93,8 @@ class TestStep extends AnyFunSpec:
     }
 
     it("a fish that didn't eat anything has lower satiety") {
-      // a fish that wasn't hungry and a new born fish
-      val fishNumber = 1 + 1
+      // 2 fish that weren't hungry and a new born fish
+      val fishNumber = 2 + 1
       assert(
         newAquarium.population.herbivorous.count(f => f.satiety == Fish.MAX_SATIETY - Fish.SATIETY_SHIFT) == fishNumber
       )

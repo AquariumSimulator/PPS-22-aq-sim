@@ -1,8 +1,8 @@
 package interaction
 
-import model.aquarium.AquariumParametersLimits.*
-import model.interaction.DeathProbabilityAlgae.*
-import model.interaction.DeathProbabilityFish.*
+import model.aquarium.AquariumParametersLimits._
+import model.interaction.DeathProbabilityAlgae._
+import model.interaction.DeathProbabilityFish._
 import org.scalactic.Tolerance.convertNumericToPlusOrMinusWrapper
 import org.scalatest.funspec.AnyFunSpec
 

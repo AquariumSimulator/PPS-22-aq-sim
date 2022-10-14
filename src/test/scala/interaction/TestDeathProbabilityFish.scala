@@ -13,9 +13,9 @@ import scala.runtime.stdLibPatches.Predef.assert
 class TestDeathProbabilityFish extends AnyFunSpec:
 
   private val tolerance = 0.05
-
-  // TODO vanno calcolati
+  
   private val multiplier = 10
+  
   private val deltaPh = 0.05
   private val deltaOxygen = 0.55
   private val deltaAge = 0.1

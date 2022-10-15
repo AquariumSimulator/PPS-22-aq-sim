@@ -112,7 +112,7 @@ class TestStep extends AnyFunSpec:
     }
 
     it("an algae near to an hungry herbivorous fish is eaten") {
-      assert(newAquarium.population.algae.size == aquarium.population.algae.size - 1)
+      assert(!newAquarium.population.algae.contains(algaeEaten))
     }
 
     it("an herbivorous fish near to an hungry carnivorous fish is eaten") {

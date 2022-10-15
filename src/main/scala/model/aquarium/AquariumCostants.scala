@@ -36,7 +36,7 @@ object InitializeAquarium:
   /** Initial oxygenation value (expressed in mg/L) */
   val OXYGENATION: Double = 10
 
-/** Constants that represents the limit values of the various parameters of the aquarium */
+/** Constants that represent the limit values of the various parameters of the aquarium */
 object AquariumParametersLimits:
 
   /** Maximus number of fish in the aquarium */

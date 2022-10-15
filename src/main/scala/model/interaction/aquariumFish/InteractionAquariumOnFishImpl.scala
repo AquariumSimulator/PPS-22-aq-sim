@@ -12,7 +12,7 @@ import scala.util.Random
 
 /** Hidden implementation of [[Interaction]]
   * @param fish
-  *   that has to be updated. The interaction check if the fish is dead due to the oxygenation level or the PH level
+  *   that has to be updated. The interaction checks if the fish is dead due to the oxygenation level or the PH level
   * @param aquariumState
   *   the current state of the aquarium
   */

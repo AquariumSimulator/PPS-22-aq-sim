@@ -11,7 +11,7 @@ import scala.util.Random
 /** Hidden implementation of [[Interaction]]
   *
   * @param algae
-  *   the [[Algae]] that has to be updated. The interaction check if the alga is dead and calculate its growth.
+  *   the [[Algae]] that has to be updated. The interaction checks if the alga is dead and calculate its growth.
   * @param aquariumState
   *   the current state of the aquarium
   */

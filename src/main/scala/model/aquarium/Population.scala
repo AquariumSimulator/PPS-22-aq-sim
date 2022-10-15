@@ -8,6 +8,8 @@ import model.{Algae, Entity, FeedingType}
 import scala.annotation.tailrec
 import scala.language.postfixOps
 import scala.util.Random
+import model.chronicle.Events
+import mvc.MVC.model
 
 /** Trait that models the population of herbivorous fish, carnivorous fish and algae of the aquarium */
 trait FishTypes:
@@ -32,33 +34,41 @@ trait FishTypes:
   private def selectType(feedingType: FeedingType): Set[Fish] =
     fish.filter(f => f.feedingType == feedingType)
 
-/** This class represent the current population of the aquarium
+/** This class represents the current population of the aquarium
   * @param fish
   *   set of all the fish of the aquarium
   * @param algae
   *   set of all the algae of the aquarium
   */
 case class Population(override val fish: Set[Fish], algae: Set[Algae]) extends FishTypes with UpdatePopulation:
-  override def addInhabitant[A](newElem: A): Population =
+  override def addInhabitant[A](newInhabitant: A): Population =
     val currentFishNumber: Int = this.fish.size
-    newElem match
-      case f: Fish if currentFishNumber < FISH_MAX => this.copy(fish = this.fish + f)
-      case a: Algae if this.algae.size < ALGAE_MAX => this.copy(algae = this.algae + a)
+    newInhabitant match
+      case f: Fish if currentFishNumber < FISH_MAX =>
+        model.addChronicleEvent(Events.ADDED_ENTITY(f))
+        this.copy(fish = this.fish + f)
+      case a: Algae if this.algae.size < ALGAE_MAX =>
+        model.addChronicleEvent(Events.ADDED_ENTITY(a))
+        this.copy(algae = this.algae + a)
+      case _ => this
 
-  override def removeInhabitant[A](removeElem: A): Population =
-    removeElem match
-      case f: Fish => this.copy(fish = this.fish.filterNot(fish => fish == f))
-      case a: Algae => this.copy(algae = this.algae.filterNot(algae => algae == a))
+  override def removeInhabitant[A](removedInhabitant: A): Population =
+    removedInhabitant match
+      case f: Fish =>
+        this.copy(fish = this.fish.filterNot(fish => fish == f))
+      case a: Algae =>
+        this.copy(algae = this.algae.filterNot(algae => algae == a))
+      case _ => this
 
 /** Companion object of the case class [[Population]] */
 object Population:
 
-  /** Create a new [[Population]] from a given number of species
+  /** Creates a new [[Population]] from a given number of species
     *
     * @param herbivorousFishNumber
-    *   number of herbivorous fishes
+    *   number of herbivorous fish
     * @param carnivorousFishNumber
-    *   number of carnivorous fishes
+    *   number of carnivorous fish
     * @param algaeNumber
     *   number of algae
     * @return
@@ -93,14 +103,14 @@ object Population:
       addAlgae(algaeNumber)
     )
 
-  /** Calculate a random position for a fish */
+  /** Calculates a random position for a fish */
   def randomPosition(): (Double, Double) =
     (Random.between(0, AquariumDimensions.WIDTH), Random.between(0, AquariumDimensions.HEIGHT))
 
-  /** Calculate a random speed for a fish */
+  /** Calculates a random speed for a fish */
   def randomSpeed(): (Double, Double) =
     (Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED), Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED))
 
-  /** Calculate a random base for an algae */
+  /** Calculates a random base for an algae */
   def randomBase(): Double =
     0 + (AquariumDimensions.WIDTH - 0) * Random.nextDouble

@@ -59,7 +59,6 @@ trait ControllerComponent:
       addUserInteraction((aq: Aquarium) => aq.copy(aquariumState = aq.aquariumState.updateOxygenation(oxygenation)))
 
     override def addInhabitant[A](inhabitant: A): Unit =
-      context.model.addChronicleEvent(Events.ADDED_ENTITY(inhabitant))
       addUserInteraction((aq: Aquarium) => aq.copy(population = aq.population.addInhabitant(inhabitant)))
 
     override def removeInhabitant[A](inhabitant: A): Unit =

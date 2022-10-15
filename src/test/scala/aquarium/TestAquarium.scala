@@ -8,17 +8,17 @@ import scala.runtime.stdLibPatches.Predef.assert
 /** Test for [[Aquarium]] */
 class TestAquarium extends AnyFunSpec:
 
-  private val herbivorousFishesNumber = 3
-  private val carnivorousFishesNumber = 4
+  private val herbivorousFishNumber = 3
+  private val carnivorousFishNumber = 4
   private val algaeNumber = 5
 
   private val aquarium: Aquarium = Aquarium(
-    herbivorousFishesNumber = herbivorousFishesNumber,
-    carnivorousFishesNumber = carnivorousFishesNumber,
+    herbivorousFishNumber = herbivorousFishNumber,
+    carnivorousFishNumber = carnivorousFishNumber,
     algaeNumber = algaeNumber
   )
 
-  describe("A new Aquarium") {
+  describe(s"A new ${Aquarium.getClass.getName}") {
     describe("when initialized") {
 
       describe(s"with a given ${AquariumState.getClass.getName}") {
@@ -43,7 +43,7 @@ class TestAquarium extends AnyFunSpec:
         }
       }
 
-      describe(s"with a given available food Set that") {
+      describe(s"with a given available food set that") {
         it("should be empty") {
           assert(aquarium.availableFood.isEmpty)
         }

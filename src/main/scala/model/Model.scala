@@ -28,7 +28,7 @@ trait Model:
     */
   def addUserInteraction(interaction: Aquarium => Aquarium): Unit
 
-  /** Create the initial aquarium with a default [[AquariumState]], a [[Population]] initialized by the user and a
+  /** Creates the initial aquarium with a default [[AquariumState]], a [[Population]] initialized by the user and a
     * default [[AvailableFood]]
     * @param herbivorousFishNumber
     *   number of initial herbivorous fish

@@ -12,7 +12,7 @@ object ProbabilityTestsUtils:
   def checkForEach(list: List[(Double, Double)])(checkFunc: (Double, Double) => Boolean): Unit =
     list.foreach((value: Double, prob: Double) => assert(checkFunc(value, prob)))
 
-  /** Create a list of values with the relative probability
+  /** Creates a list of values with the relative probability
     * @param valStart
     *   start value of the iteration
     * @param probStart
@@ -20,7 +20,7 @@ object ProbabilityTestsUtils:
     * @param n
     *   number of values
     * @param returnFunc
-    *   function that create the list of tuples
+    *   function that creates the list of tuples
     * @return
     *   a list of values with the relative probability
     */

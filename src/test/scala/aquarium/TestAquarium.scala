@@ -18,7 +18,7 @@ class TestAquarium extends AnyFunSpec:
     algaeNumber = algaeNumber
   )
 
-  describe("A new Aquarium") {
+  describe(s"A new ${Aquarium.getClass.getName}") {
     describe("when initialized") {
 
       describe(s"with a given ${AquariumState.getClass.getName}") {
@@ -43,7 +43,7 @@ class TestAquarium extends AnyFunSpec:
         }
       }
 
-      describe(s"with a given available food Set that") {
+      describe(s"with a given available food set that") {
         it("should be empty") {
           assert(aquarium.availableFood.isEmpty)
         }

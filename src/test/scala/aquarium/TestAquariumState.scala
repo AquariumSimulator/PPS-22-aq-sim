@@ -16,7 +16,7 @@ class TestAquariumState extends AnyFunSpec:
 
   private val aquariumState = AquariumState(temperature, brightness, ph, impurity, oxygenation)
 
-  describe("A new AquariumState") {
+  describe(s"A new ${AquariumState.getClass.getName}") {
 
     describe("with given arguments") {
       it(s"should have temperature equals to $temperature") {

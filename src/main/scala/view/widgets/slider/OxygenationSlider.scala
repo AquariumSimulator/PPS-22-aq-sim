@@ -55,6 +55,6 @@ object OxygenationSlider:
     right = slider
 
     def update(newValue: Number): Unit =
-      // println("changing OxgenationSlider to " + newValue)
-      slider.value = newValue.asInstanceOf[Double]
-      slider.tooltip = SliderUtils.getTooltip(newValue, "mg/L")
+      if !slider.isHover then
+        slider.value = newValue.doubleValue()
+        slider.tooltip = SliderUtils.getTooltip(newValue, "mg/L")

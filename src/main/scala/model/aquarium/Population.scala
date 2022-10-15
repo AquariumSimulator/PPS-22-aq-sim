@@ -8,6 +8,8 @@ import model.{Algae, Entity, FeedingType}
 import scala.annotation.tailrec
 import scala.language.postfixOps
 import scala.util.Random
+import model.chronicle.Events
+import mvc.MVC.model
 
 /** Trait that models the population of herbivorous fish, carnivorous fish and algae of the aquarium */
 trait FishTypes:
@@ -42,13 +44,19 @@ case class Population(override val fish: Set[Fish], algae: Set[Algae]) extends F
   override def addInhabitant[A](newElem: A): Population =
     val currentFishNumber: Int = this.fish.size
     newElem match
-      case f: Fish if currentFishNumber < FISH_MAX => this.copy(fish = this.fish + f)
-      case a: Algae if this.algae.size < ALGAE_MAX => this.copy(algae = this.algae + a)
+      case f: Fish if currentFishNumber < FISH_MAX =>
+        model.addChronicleEvent(Events.ADDED_ENTITY(f))
+        this.copy(fish = this.fish + f)
+      case a: Algae if this.algae.size < ALGAE_MAX =>
+        model.addChronicleEvent(Events.ADDED_ENTITY(a))
+        this.copy(algae = this.algae + a)
+      case _ => this
 
   override def removeInhabitant[A](removeElem: A): Population =
     removeElem match
       case f: Fish => this.copy(fish = this.fish.filterNot(fish => fish == f))
       case a: Algae => this.copy(algae = this.algae.filterNot(algae => algae == a))
+      case _ => this
 
 /** Companion object of the case class [[Population]] */
 object Population:

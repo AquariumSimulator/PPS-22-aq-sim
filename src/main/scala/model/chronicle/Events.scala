@@ -59,7 +59,7 @@ object Events:
   def FISH_ATE_ENTITY[A]: (String, A) => String =
     (nameFish: String, entity: A) => nameFish + " ate " + checkEntity(entity)
 
-  /** Check what type of entity it's the one in input and return its name
+  /** Checks what type of entity it's the one in input and returns its name
     *
     * @param entity
     *   that has to be checked

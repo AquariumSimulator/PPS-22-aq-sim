@@ -1,7 +1,7 @@
 package controller
 
 import model.Algae
-import model.aquarium.*
+import model.aquarium._
 import model.fish.Fish
 import model.food.{Food, UpdateFood}
 import mvc.MVC.{controller, model}

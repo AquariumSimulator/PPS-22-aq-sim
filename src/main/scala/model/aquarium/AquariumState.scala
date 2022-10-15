@@ -1,6 +1,6 @@
 package model.aquarium
 
-/** Case class that represent the current state of the aquarium
+/** Case class that represents the current state of the aquarium
   * @param temperature
   *   temperature of the aquarium
   * @param brightness

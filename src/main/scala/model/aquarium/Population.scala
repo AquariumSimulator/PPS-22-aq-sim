@@ -34,7 +34,7 @@ trait FishTypes:
   private def selectType(feedingType: FeedingType): Set[Fish] =
     fish.filter(f => f.feedingType == feedingType)
 
-/** This class represent the current population of the aquarium
+/** This class represents the current population of the aquarium
   * @param fish
   *   set of all the fish of the aquarium
   * @param algae
@@ -63,12 +63,12 @@ case class Population(override val fish: Set[Fish], algae: Set[Algae]) extends F
 /** Companion object of the case class [[Population]] */
 object Population:
 
-  /** Create a new [[Population]] from a given number of species
+  /** Creates a new [[Population]] from a given number of species
     *
     * @param herbivorousFishNumber
-    *   number of herbivorous fishes
+    *   number of herbivorous fish
     * @param carnivorousFishNumber
-    *   number of carnivorous fishes
+    *   number of carnivorous fish
     * @param algaeNumber
     *   number of algae
     * @return

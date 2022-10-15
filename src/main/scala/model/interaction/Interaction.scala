@@ -16,7 +16,7 @@ import model.{Algae, Entity}
   *   type of the return
   */
 trait Interaction[A]:
-  /** Calculate the interactions
+  /** Calculates the interactions
     * @return
     *   [[A]]
     */

@@ -1,11 +1,10 @@
 package controller
 
-import model.Entity
+import model.{Algae, Entity}
 import model.aquarium.{Aquarium, InitializeAquarium}
 import model.chronicle.{Chronicle, Events}
-import model.food.Food
 import model.fish.Fish
-import model.Algae
+import model.food.Food
 import mvc.ControllerModule.ControllerRequirements
 
 /** Controller methods implementation from [[Controller]]. */
@@ -43,12 +42,6 @@ trait ControllerComponent:
     override def getAquarium: Aquarium =
       simEngine.getAquarium()
 
-    private def addUserInteraction(interaction: Aquarium => Aquarium): Unit =
-      context.model.addUserInteraction(interaction)
-      simEngine.isRunning() match
-        case false => simEngine.start(SimulationSpeed.HALT)
-        case _ =>
-
     override def updateTemperature(temperature: Double): Unit =
       context.model.addChronicleEvent(Events.UPDATED_AQUARIUM_STATE_PARAMETER(temperature, "Temperature", "°"))
       addUserInteraction((aq: Aquarium) => aq.copy(aquariumState = aq.aquariumState.updateTemperature(temperature)))
@@ -72,6 +65,12 @@ trait ControllerComponent:
     override def removeInhabitant[A](inhabitant: A): Unit =
       context.model.addChronicleEvent(Events.REMOVED_ENTITY(inhabitant))
       addUserInteraction((aq: Aquarium) => aq.copy(population = aq.population.removeInhabitant(inhabitant)))
+
+    private def addUserInteraction(interaction: Aquarium => Aquarium): Unit =
+      context.model.addUserInteraction(interaction)
+      simEngine.isRunning() match
+        case false => simEngine.start(SimulationSpeed.HALT)
+        case _ =>
 
     override def addFood(food: Food): Unit =
       context.model.addChronicleEvent(Events.ADDED_ENTITY(food))

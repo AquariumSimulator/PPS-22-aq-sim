@@ -41,9 +41,9 @@ trait FishTypes:
   *   set of all the algae of the aquarium
   */
 case class Population(override val fish: Set[Fish], algae: Set[Algae]) extends FishTypes with UpdatePopulation:
-  override def addInhabitant[A](newElem: A): Population =
+  override def addInhabitant[A](newInhabitant: A): Population =
     val currentFishNumber: Int = this.fish.size
-    newElem match
+    newInhabitant match
       case f: Fish if currentFishNumber < FISH_MAX =>
         model.addChronicleEvent(Events.ADDED_ENTITY(f))
         this.copy(fish = this.fish + f)
@@ -52,10 +52,12 @@ case class Population(override val fish: Set[Fish], algae: Set[Algae]) extends F
         this.copy(algae = this.algae + a)
       case _ => this
 
-  override def removeInhabitant[A](removeElem: A): Population =
-    removeElem match
-      case f: Fish => this.copy(fish = this.fish.filterNot(fish => fish == f))
-      case a: Algae => this.copy(algae = this.algae.filterNot(algae => algae == a))
+  override def removeInhabitant[A](removedInhabitant: A): Population =
+    removedInhabitant match
+      case f: Fish =>
+        this.copy(fish = this.fish.filterNot(fish => fish == f))
+      case a: Algae =>
+        this.copy(algae = this.algae.filterNot(algae => algae == a))
       case _ => this
 
 /** Companion object of the case class [[Population]] */
@@ -101,14 +103,14 @@ object Population:
       addAlgae(algaeNumber)
     )
 
-  /** Calculate a random position for a fish */
+  /** Calculates a random position for a fish */
   def randomPosition(): (Double, Double) =
     (Random.between(0, AquariumDimensions.WIDTH), Random.between(0, AquariumDimensions.HEIGHT))
 
-  /** Calculate a random speed for a fish */
+  /** Calculates a random speed for a fish */
   def randomSpeed(): (Double, Double) =
     (Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED), Random.between(Fish.MIN_SPEED, Fish.MAX_SPEED))
 
-  /** Calculate a random base for an algae */
+  /** Calculates a random base for an algae */
   def randomBase(): Double =
     0 + (AquariumDimensions.WIDTH - 0) * Random.nextDouble

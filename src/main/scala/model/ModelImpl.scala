@@ -17,12 +17,11 @@ trait ModelComponent:
   class ModelImpl extends Model:
 
     private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
+
     private val multiplier = (aqState: AquariumState) =>
       SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
         SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
-    private val foodCondition = (fish: Fish, food: Food) =>
-      fish.satiety < (Fish.MAX_SATIETY - food.nutritionAmount) && fish.collidesWith(food)
-    private val foodAction = (fish: Fish, food: Food) => fish.eat(food)
+
     private var currentChronicle: Chronicle = Chronicle()
 
     override def chronicle: Chronicle = currentChronicle
@@ -43,6 +42,10 @@ trait ModelComponent:
       Aquarium(herbivorousFishNumber, carnivorousFishNumber, algaeNumber)
 
     override def step(currentAquarium: Aquarium): Aquarium =
+
+      val foodCondition = (fish: Fish, food: Food) =>
+        fish.satiety < (Fish.MAX_SATIETY - food.nutritionAmount) && fish.collidesWith(food)
+      val foodAction = (fish: Fish, food: Food) => fish.eat(food)
 
       val aquarium = queue.isEmpty match
         case true => currentAquarium

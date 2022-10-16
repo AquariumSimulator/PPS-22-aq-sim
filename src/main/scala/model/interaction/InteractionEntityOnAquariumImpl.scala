@@ -1,4 +1,4 @@
-package model.interaction.aquariumEntity
+package model.interaction
 
 import model.Entity
 import model.aquarium.{AquariumParametersLimits, AquariumState}

@@ -1,10 +1,9 @@
-package model.interaction.fishAlgae
+package model.interaction
 
-import model.fish.Fish
-import model.FeedingType
-import model.Algae
-import model.interaction.Interaction
+import model.{Algae, FeedingType}
 import model.chronicle.Events
+import model.fish.Fish
+import model.interaction.Interaction
 import mvc.MVC.model
 
 /** Hidden implementation of [[Interaction]]

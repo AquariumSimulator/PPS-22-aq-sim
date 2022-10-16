@@ -1,4 +1,4 @@
-package model.interaction.aquariumAlgae
+package model.interaction
 
 import model.Algae
 import model.aquarium.{AquariumParametersLimits, AquariumState}

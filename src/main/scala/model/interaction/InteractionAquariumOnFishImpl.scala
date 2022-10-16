@@ -1,4 +1,4 @@
-package model.interaction.aquariumFish
+package model.interaction
 
 import model.aquarium.AquariumState
 import model.chronicle.Events

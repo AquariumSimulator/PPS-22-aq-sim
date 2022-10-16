@@ -16,7 +16,7 @@ import scala.util.Random
   * @param aquariumState
   *   the current state of the aquarium
   */
-class InteractionAquariumOnFishImpl(fish: Fish, aquariumState: AquariumState) extends Interaction[Option[Fish]]:
+private class InteractionAquariumOnFishImpl(fish: Fish, aquariumState: AquariumState) extends Interaction[Option[Fish]]:
 
   override def update(): Option[Fish] =
     if checkIfFishIsDead() then

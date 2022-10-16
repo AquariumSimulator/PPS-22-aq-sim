@@ -12,7 +12,8 @@ import model.interaction.Interaction
   * @param entity
   *   a [[Entity]] of the aquarium that influences the aquarium state
   */
-class InteractionEntityOnAquariumImpl(aquariumState: AquariumState, entity: Entity) extends Interaction[AquariumState]:
+private class InteractionEntityOnAquariumImpl(aquariumState: AquariumState, entity: Entity)
+    extends Interaction[AquariumState]:
 
   override def update(): AquariumState =
     aquariumState

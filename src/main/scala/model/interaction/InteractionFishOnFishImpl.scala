@@ -13,7 +13,7 @@ import mvc.MVC.model
   * @param fish2
   *   the [[Fish]] that represents the second fish of the interaction
   */
-class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
+private class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
     extends Interaction[(Option[Fish], Option[Fish], Option[Fish])]:
 
   override def update(): (Option[Fish], Option[Fish], Option[Fish]) =

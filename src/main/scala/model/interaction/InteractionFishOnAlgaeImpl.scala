@@ -12,7 +12,7 @@ import mvc.MVC.model
   * @param algae
   *   the [[Algae]] that has to be eaten
   */
-class InteractionFishOnAlgaeImpl(fish: Fish, algae: Algae) extends Interaction[(Fish, Option[Algae])]:
+private class InteractionFishOnAlgaeImpl(fish: Fish, algae: Algae) extends Interaction[(Fish, Option[Algae])]:
 
   override def update(): (Fish, Option[Algae]) =
     fish.feedingType match

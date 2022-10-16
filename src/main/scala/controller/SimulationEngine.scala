@@ -3,8 +3,6 @@ package controller
 import mvc.ControllerModule.ControllerRequirements
 import model.aquarium.{Aquarium, AquariumState, AvailableFood, Population}
 
-import scala.language.postfixOps
-
 /** Control of simulation loop, speed, stop and resume. */
 trait SimulationEngine:
 

@@ -5,13 +5,13 @@ import model.food.Food
 
 import scala.annotation.tailrec
 
-/** This class represent the aquarium
+/** This class represents the aquarium
   * @param aquariumState
-  *   represent the state of the aquarium
+  *   represents the state of the aquarium
   * @param population
-  *   represent the population of the aquarium
+  *   represents the population of the aquarium
   * @param availableFood
-  *   represent the food amount available in the aquarium
+  *   represents the food amount available in the aquarium
   */
 case class Aquarium(
     aquariumState: AquariumState,
@@ -31,18 +31,18 @@ object Aquarium:
 
   /** Create a new [[Aquarium]]
     *
-    * @param herbivorousFishesNumber
+    * @param herbivorousFishNumber
     *   number of herbivorous fishes
-    * @param carnivorousFishesNumber
+    * @param carnivorousFishNumber
     *   number of carnivorous fishes
     * @param algaeNumber
     *   number of algae
     * @return
     *   an instance of the aquarium
     */
-  def apply(herbivorousFishesNumber: Int, carnivorousFishesNumber: Int, algaeNumber: Int): Aquarium =
+  def apply(herbivorousFishNumber: Int, carnivorousFishNumber: Int, algaeNumber: Int): Aquarium =
     Aquarium(
       AquariumState(),
-      Population(herbivorousFishesNumber, carnivorousFishesNumber, algaeNumber),
+      Population(herbivorousFishNumber, carnivorousFishNumber, algaeNumber),
       Set.empty
     )

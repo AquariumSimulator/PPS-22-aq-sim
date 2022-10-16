@@ -1,14 +1,14 @@
 package interaction
 
-import model.aquarium.AquariumParametersLimits.*
-import model.interaction.DeathProbabilityAlgae.*
-import model.interaction.DeathProbabilityFish.*
+import model.aquarium.AquariumParametersLimits._
+import model.interaction.DeathProbabilityAlgae._
+import model.interaction.DeathProbabilityFish._
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.language.postfixOps
 import scala.runtime.stdLibPatches.Predef.assert
 
-/** Test for the lambda that calculate the probability of an algae to die */
+/** Test for the lambda that calculates the probability of an algae to die */
 class TestDeathProbabilityAlgae extends AnyFunSpec:
 
   private val probabilities =

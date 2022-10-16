@@ -1,14 +1,14 @@
 package interaction
 
-import model.aquarium.AquariumParametersLimits.*
-import model.interaction.MultiplierVelocityFish.*
+import model.aquarium.AquariumParametersLimits._
+import model.interaction.MultiplierVelocityFish._
 import org.scalactic.Tolerance.convertNumericToPlusOrMinusWrapper
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.language.postfixOps
 import scala.runtime.stdLibPatches.Predef.assert
 
-/** Test for the lambda that calculate the multiplier of a fish speed */
+/** Test for the lambda that calculates the multiplier of fish speed */
 class TestMultiplierVelocityFish extends AnyFunSpec:
 
   private val deltaTemp = 0.07

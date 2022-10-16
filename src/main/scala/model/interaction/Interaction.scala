@@ -16,7 +16,7 @@ import model.{Algae, Entity}
   *   type of the return
   */
 trait Interaction[A]:
-  /** Calculate the interactions
+  /** Calculates the interactions
     * @return
     *   [[A]]
     */
@@ -25,7 +25,8 @@ trait Interaction[A]:
 /** Companion object of [[Interaction]] */
 object Interaction:
 
-  /** Create a new interaction meant to check if the algae is alive (brightness level) and make it grow if it's possible
+  /** Creates a new interaction meant to check if the algae is alive (brightness level) and make it grow if it's
+    * possible
     *
     * @param algae
     *   that has to be updated
@@ -37,7 +38,7 @@ object Interaction:
   def apply(algae: Algae, aquariumState: AquariumState): Interaction[Option[Algae]] =
     InteractionAquariumOnAlgaeImpl(algae, aquariumState)
 
-  /** Create a new interaction meant to update the oxygenation level and the ph and the impurity level
+  /** Creates a new interaction meant to update the oxygenation level and the ph and the impurity level
     * @param aquariumState
     *   that has to be updated
     * @param entity
@@ -48,7 +49,7 @@ object Interaction:
   def apply(aquariumState: AquariumState, entity: Entity): Interaction[AquariumState] =
     InteractionEntityOnAquariumImpl(aquariumState: AquariumState, entity: Entity)
 
-  /** Create a new interaction is meant to check if the fish is alive and update its speed
+  /** Creates a new interaction is meant to check if the fish is alive and update its speed
     *
     * @param fish
     *   that has to be updated

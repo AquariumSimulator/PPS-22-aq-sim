@@ -1,21 +1,21 @@
 package interaction
 
-import model.aquarium.AquariumParametersLimits.*
-import model.interaction.DeathProbabilityAlgae.*
-import model.interaction.DeathProbabilityFish.*
+import model.aquarium.AquariumParametersLimits._
+import model.interaction.DeathProbabilityAlgae._
+import model.interaction.DeathProbabilityFish._
 import org.scalactic.Tolerance.convertNumericToPlusOrMinusWrapper
 import org.scalatest.funspec.AnyFunSpec
 
 import scala.language.postfixOps
 import scala.runtime.stdLibPatches.Predef.assert
 
-/** Test for the lambda that calculate the probability of a fish to die */
+/** Test for the lambda that calculates the probability of a fish to die */
 class TestDeathProbabilityFish extends AnyFunSpec:
 
   private val tolerance = 0.05
 
-  // TODO vanno calcolati
   private val multiplier = 10
+
   private val deltaPh = 0.05
   private val deltaOxygen = 0.55
   private val deltaAge = 0.1

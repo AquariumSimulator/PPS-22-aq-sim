@@ -19,7 +19,7 @@ class TestAvailableFood extends AnyFunSpec:
   private val aquariumWithAddedElem = aquarium.addFood(herbivorousFood).addFood(carnivorousFood)
   private val aquariumWithRemovedElem = aquarium.deleteFood(herbivorousFood).deleteFood(carnivorousFood)
 
-  describe("A new instance of Aquarium") {
+  describe(s"A new instance of ${Aquarium.getClass.getName}") {
     it("should have an empty available food set") {
       assert(aquarium.availableFood.isEmpty)
     }

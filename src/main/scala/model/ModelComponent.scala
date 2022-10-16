@@ -1,6 +1,6 @@
 package model
 
-import model.aquarium.*
+import model.aquarium._
 import model.chronicle.{Chronicle, Events}
 import model.db.PrologEngine
 import model.fish.{Fish, UpdateFish}
@@ -17,12 +17,11 @@ trait ModelComponent:
   class ModelImpl extends Model:
 
     private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
+
     private val multiplier = (aqState: AquariumState) =>
       SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
         SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
-    private val foodCondition = (fish: Fish, food: Food) =>
-      fish.satiety < (Fish.MAX_SATIETY - food.nutritionAmount) && fish.collidesWith(food)
-    private val foodAction = (fish: Fish, food: Food) => fish.eat(food)
+
     private var currentChronicle: Chronicle = Chronicle()
 
     override def chronicle: Chronicle = currentChronicle
@@ -44,6 +43,10 @@ trait ModelComponent:
 
     override def step(currentAquarium: Aquarium): Aquarium =
 
+      val foodCondition = (fish: Fish, food: Food) =>
+        fish.satiety < (Fish.MAX_SATIETY - food.nutritionAmount) && fish.collidesWith(food)
+      val foodAction = (fish: Fish, food: Food) => fish.eat(food)
+
       val aquarium = queue.isEmpty match
         case true => currentAquarium
         case _ => Iterator.iterate(currentAquarium, queue.size() + 1)(queue.poll()).toList.last
@@ -56,12 +59,12 @@ trait ModelComponent:
       )((s: AquariumState, e: Entity) => Interaction(s, e).update())
 
       val (carnivorous: Set[Fish], carnivorousFood: Set[Food]) =
-        EntityEntityInteractions(aquarium.population.carnivorous, aquarium.carnivorousFood)(foodCondition)(foodAction)
+        entityEntityInteractions(aquarium.population.carnivorous, aquarium.carnivorousFood)(foodCondition)(foodAction)
       val (herbivorous: Set[Fish], herbivorousFood: Set[Food]) =
-        EntityEntityInteractions(aquarium.population.herbivorous, aquarium.herbivorousFood)(foodCondition)(foodAction)
+        entityEntityInteractions(aquarium.population.herbivorous, aquarium.herbivorousFood)(foodCondition)(foodAction)
 
       val (newHerbivorous: Set[Fish], algae: Set[Algae]) =
-        EntityEntityInteractions(herbivorous, aquarium.population.algae)((fish: Fish, algae: Algae) =>
+        entityEntityInteractions(herbivorous, aquarium.population.algae)((fish: Fish, algae: Algae) =>
           fish.collidesWith(algae)
         )((fish: Fish, algae: Algae) => Interaction(fish, algae).update())
 
@@ -120,77 +123,92 @@ trait ModelComponent:
         newElem <- action(elem, aquariumState)
       yield newElem
 
-    private def EntityEntityInteractions[A: ClassTag, B, C](set1: Set[A], set2: Set[B])(
+    private def entityEntityInteractions[A: ClassTag, B, C](setA: Set[A], setB: Set[B])(
         tuplesCondition: (A, B) => Boolean
     )(action: (A, B) => C): (Set[A], Set[B]) =
-      var newSet1: Set[A] = set1
-      var newSet2: Set[B] = set2
-      var tuples = for
-        s1 <- set1
-        s2 <- set2
+      val tuples = for
+        s1 <- setA
+        s2 <- setB
         if tuplesCondition(s1, s2)
       yield (s1, s2)
 
-      def update(tuple: (A, B), newA: A): Unit =
-        newSet1 = newSet1.filterNot(f => f == tuple._1) + newA
-        tuples = tuples
-          .filterNot(t => t == tuple)
-          .map(t =>
-            t match
-              case t if t._1 == tuple._1 => (newA, t._2)
-              case _ => t
-          )
-      for
-        tuple <- tuples
-        res = action(tuple._1, tuple._2)
-      do
-        res match
-          case a: A =>
-            newSet2 = newSet2 - tuple._2
-            update(tuple, a)
-          case (a: A, Some(_)) =>
-            update(tuple, a)
-          case (a: A, None) =>
-            update(tuple, a)
-            newSet2 = newSet2 - tuple._2
-            tuples = tuples.filterNot(t => t._2 == tuple._2)
+      def update(tuple: (A, B), newA: A)(tuples: Set[(A, B)], newSetA: Set[A]): (Set[(A, B)], Set[A]) =
+        (
+          tuples
+            .filterNot(t => t == tuple)
+            .map(t =>
+              t match
+                case t if t._1 == tuple._1 => (newA, t._2)
+                case _ => t
+            ),
+          newSetA.filterNot(f => f == tuple._1) + newA
+        )
 
-      (newSet1, newSet2)
+      @tailrec
+      def _entityEntityInteractions(tuples: Set[(A, B)], setA: Set[A], setB: Set[B]): (Set[A], Set[B]) =
+        tuples.nonEmpty match
+          case true =>
+            val tuple = tuples.head
+            val (newTuples: Set[(A, B)], newSetA: Set[A], newSetB: Set[B]) = action(tuple._1, tuple._2) match
+              case a: A =>
+                val (updatedTuples: Set[(A, B)], updatedSetA: Set[A]) = update(tuple, a)(tuples, setA)
+                (updatedTuples, updatedSetA, setB - tuple._2)
+              case (a: A, Some(_)) =>
+                val (updatedTuples: Set[(A, B)], updatedSetA: Set[A]) = update(tuple, a)(tuples, setA)
+                (updatedTuples, updatedSetA, setB)
+              case (a: A, None) =>
+                val (updatedTuples: Set[(A, B)], updatedSetA: Set[A]) =
+                  update(tuple, a)(tuples.filterNot(t => t._2 == tuple._2), setA)
+                (updatedTuples, updatedSetA, setB - tuple._2)
+            _entityEntityInteractions(newTuples, newSetA, newSetB)
+          case _ => (setA, setB)
+
+      _entityEntityInteractions(tuples, setA, setB)
 
     private def fishFishInteractions(fish: Set[Fish]): Set[Fish] =
-      var tuples = fish.toList.tails
+      val tuples = fish.toList.tails
         .filter(_.nonEmpty)
         .flatMap(f => f.tail.map((f.head, _)))
         .filter(tuple => tuple._1.collidesWith(tuple._2))
         .toList
-      var fishFishInteraction = fish
-      def checkAndUpdate(oldFish: Fish, newFish: Option[Fish]): Unit =
-        if newFish.isEmpty then tuples = tuples.filter(t => t._1 != oldFish && t._2 != oldFish)
+
+      def checkAndUpdate(
+          oldFish: Fish,
+          newFish: Option[Fish]
+      )(tuples: List[(Fish, Fish)], fish: Set[Fish]): (List[(Fish, Fish)], Set[Fish]) =
+        if newFish.isEmpty then (tuples.filter(t => t._1 != oldFish && t._2 != oldFish), fish)
         else
-          tuples = tuples
-            .map(t =>
-              t match
-                case t if t._1 == oldFish => (newFish.get, t._2)
-                case t if t._2 == oldFish => (t._1, newFish.get)
-                case _ => t
+          (
+            tuples
+              .map(t =>
+                t match
+                  case t if t._1 == oldFish => (newFish.get, t._2)
+                  case t if t._2 == oldFish => (t._1, newFish.get)
+                  case _ => t
+              ),
+            fish + newFish.get
+          )
+
+      @tailrec
+      def _fishFishInteractions(tuples: List[(Fish, Fish)], fishFishInteraction: Set[Fish]): Set[Fish] =
+        tuples.nonEmpty match
+          case true =>
+            val tuple = tuples.head
+            val res = Interaction(tuple._1, tuple._2).update()
+
+            val newFishFishInteraction = fishFishInteraction.filterNot(f => f == tuple._1).filterNot(f => f == tuple._2)
+
+            val (newTuples: List[(Fish, Fish)], newFish: Set[Fish]) = checkAndUpdate(tuple._2, res._2)(
+              checkAndUpdate(tuple._1, res._1)(tuples, newFishFishInteraction)._1,
+              checkAndUpdate(tuple._1, res._1)(tuples, newFishFishInteraction)._2
             )
-          fishFishInteraction = fishFishInteraction + newFish.get
 
-      for
-        tuple <- tuples
-        res = Interaction(tuple._1, tuple._2).update()
-      do
-        fishFishInteraction = fishFishInteraction.filterNot(f => f == tuple._1)
-        fishFishInteraction = fishFishInteraction.filterNot(f => f == tuple._2)
+            res._3.isDefined && newFish.size < AquariumParametersLimits.FISH_MAX match
+              case true => _fishFishInteractions(newTuples.filterNot(t => t == tuple), newFish + res._3.get)
+              case _ => _fishFishInteractions(newTuples.filterNot(t => t == tuple), newFish)
+          case _ => fishFishInteraction
 
-        checkAndUpdate(tuple._1, res._1)
-        checkAndUpdate(tuple._2, res._2)
-        tuples = tuples.filterNot(t => t == tuple)
-
-        if res._3.isDefined && fishFishInteraction.size < AquariumParametersLimits.FISH_MAX
-        then fishFishInteraction = fishFishInteraction + res._3.get
-
-      fishFishInteraction
+      _fishFishInteractions(tuples, fish)
 
     override def saveAquarium(aquarium: Aquarium, iteration: Int): Unit =
       aquarium.population.fish.foreach(fish => PrologEngine.saveFish(fish, iteration))

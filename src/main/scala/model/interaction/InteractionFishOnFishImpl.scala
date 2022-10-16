@@ -1,10 +1,10 @@
-package model.interaction.fishFish
+package model.interaction
 
-import model.fish.Fish
 import model.FeedingType
 import model.aquarium.Population
-import model.interaction.Interaction
 import model.chronicle.Events
+import model.fish.Fish
+import model.interaction.Interaction
 import mvc.MVC.model
 
 /** Hidden implementation of [[Interaction]]
@@ -13,7 +13,7 @@ import mvc.MVC.model
   * @param fish2
   *   the [[Fish]] that represents the second fish of the interaction
   */
-class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
+private class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
     extends Interaction[(Option[Fish], Option[Fish], Option[Fish])]:
 
   override def update(): (Option[Fish], Option[Fish], Option[Fish]) =

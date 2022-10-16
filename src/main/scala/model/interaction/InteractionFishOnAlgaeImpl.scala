@@ -1,10 +1,9 @@
-package model.interaction.fishAlgae
+package model.interaction
 
-import model.fish.Fish
-import model.FeedingType
-import model.Algae
-import model.interaction.Interaction
+import model.{Algae, FeedingType}
 import model.chronicle.Events
+import model.fish.Fish
+import model.interaction.Interaction
 import mvc.MVC.model
 
 /** Hidden implementation of [[Interaction]]
@@ -13,7 +12,7 @@ import mvc.MVC.model
   * @param algae
   *   the [[Algae]] that has to be eaten
   */
-class InteractionFishOnAlgaeImpl(fish: Fish, algae: Algae) extends Interaction[(Fish, Option[Algae])]:
+private class InteractionFishOnAlgaeImpl(fish: Fish, algae: Algae) extends Interaction[(Fish, Option[Algae])]:
 
   override def update(): (Fish, Option[Algae]) =
     fish.feedingType match

@@ -1,4 +1,4 @@
-package model.interaction.aquariumAlgae
+package model.interaction
 
 import model.Algae
 import model.aquarium.{AquariumParametersLimits, AquariumState}
@@ -15,7 +15,8 @@ import scala.util.Random
   * @param aquariumState
   *   the current state of the aquarium
   */
-class InteractionAquariumOnAlgaeImpl(algae: Algae, aquariumState: AquariumState) extends Interaction[Option[Algae]]:
+private class InteractionAquariumOnAlgaeImpl(algae: Algae, aquariumState: AquariumState)
+    extends Interaction[Option[Algae]]:
 
   override def update(): Option[Algae] =
     if checkIfAlgaeAreDead() then

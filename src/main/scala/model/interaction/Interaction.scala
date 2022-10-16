@@ -3,11 +3,6 @@ package model.interaction
 import model.aquarium.{AquariumParametersLimits, AquariumState}
 import model.fish.Fish
 import model.food.Food
-import model.interaction.aquariumAlgae.InteractionAquariumOnAlgaeImpl
-import model.interaction.aquariumEntity.InteractionEntityOnAquariumImpl
-import model.interaction.aquariumFish.InteractionAquariumOnFishImpl
-import model.interaction.fishAlgae.InteractionFishOnAlgaeImpl
-import model.interaction.fishFish.InteractionFishOnFishImpl
 import model.{Algae, Entity}
 
 /** Trait that models the interactions between the entities of the aquarium and between the entities and the state of

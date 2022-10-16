@@ -6,7 +6,7 @@ import model.chronicle.Chronicle
 import model.fish.Fish
 import model.food.Food
 
-/** Controller trait implemented in [[ControllerImpl]]. */
+/** Controller trait implemented in [[ControllerComponent]]. */
 trait Controller:
 
   /** Start the simulation in a separated [[Thread]]. If simulation was halted, it resumes. If simulation was haltted

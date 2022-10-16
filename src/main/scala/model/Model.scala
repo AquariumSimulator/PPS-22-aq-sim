@@ -6,7 +6,7 @@ import model.db.PrologEngine
 import model.fish.Fish
 import model.food.Food
 
-/** Model trait implemented in [[ModelImpl]]. */
+/** Model trait implemented in [[ModelComponent]]. */
 trait Model:
 
   /** This method

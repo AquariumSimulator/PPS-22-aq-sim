@@ -83,15 +83,15 @@ object Interaction:
   def apply(fish1: Fish, fish2: Fish): Interaction[(Option[Fish], Option[Fish], Option[Fish])] =
     InteractionFishOnFishImpl(fish1, fish2)
 
-  /** Create a new [[Interaction]] by a given [[Fish]] and [[Food]]. This interaction is meant to check if the
-   * fish is hungry and, in that case, have to eat the food.
-   *
-   * @param fish
-   * that has to eat the food
-   * @param food
-   * that, possibly, has to be eaten
-   * @return
-   * a new [[Interaction]]
-   */
+  /** Create a new [[Interaction]] by a given [[Fish]] and [[Food]]. This interaction is meant to check if the fish is
+    * hungry and, in that case, have to eat the food.
+    *
+    * @param fish
+    *   that has to eat the food
+    * @param food
+    *   that, possibly, has to be eaten
+    * @return
+    *   a new [[Interaction]]
+    */
   def apply(fish: Fish, food: Food): Interaction[(Fish, Option[Food])] =
     InteractionFishOnFoodImpl(fish, food)

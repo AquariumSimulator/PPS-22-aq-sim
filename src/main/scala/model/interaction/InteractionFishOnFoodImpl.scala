@@ -7,11 +7,11 @@ import mvc.MVC.model
 import _root_.model.chronicle.Events
 
 /** Hidden implementation of [[Interaction]]
- * @param fish
- *   the [[Fish]] that has to eat the food
- * @param food
- *   the [[Food]] that has to be eaten
- */
+  * @param fish
+  *   the [[Fish]] that has to eat the food
+  * @param food
+  *   the [[Food]] that has to be eaten
+  */
 class InteractionFishOnFoodImpl(fish: Fish, food: Food) extends Interaction[(Fish, Option[Food])]:
 
   override def update(): (Fish, Option[Food]) =

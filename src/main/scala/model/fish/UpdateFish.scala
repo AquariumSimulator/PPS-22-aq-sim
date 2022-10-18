@@ -32,4 +32,3 @@ trait UpdateFish:
     *   a new [[Fish]]
     */
   def move(speedMultiplier: Double): Fish
-

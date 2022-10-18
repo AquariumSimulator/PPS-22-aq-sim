@@ -12,7 +12,7 @@ import _root_.model.chronicle.Events
   * @param food
   *   the [[Food]] that has to be eaten
   */
-class InteractionFishOnFoodImpl(fish: Fish, food: Food) extends Interaction[(Fish, Option[Food])]:
+private class InteractionFishOnFoodImpl(fish: Fish, food: Food) extends Interaction[(Fish, Option[Food])]:
 
   override def update(): (Fish, Option[Food]) =
     if (Fish.MAX_SATIETY - fish.satiety >= food.nutritionAmount)

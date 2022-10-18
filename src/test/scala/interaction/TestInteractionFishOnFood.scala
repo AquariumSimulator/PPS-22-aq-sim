@@ -7,7 +7,7 @@ import model.interaction.Interaction
 
 /** Test for the [[InteractionFishOnFood]] */
 class TestInteractionFishOnFood extends AnyFunSpec:
-  
+
   private val fish = Fish(satiety = 50)
   private val food = Food(nutritionAmount = 10)
   private val interaction = Interaction(fish, food)

@@ -49,22 +49,18 @@ Il team, nella sua interezza, ha già utilizzato questo pattern in altri progett
 
 ### 4.4 Descrizione dettagliata delle componenti
 
-Sottocomponenti dei macrocomponenti MVC:
-* Model 
-  * Acquario
-  * Pesce
-  * Alga
-  * Modellazione delle interazioni fra i vari elementi della simulazione
-* View
-  * GUI
-    * Control Bar
-    * Simulation view
-* Control
-  * Simulation engine
+Qui vediamo le principali classi che strutturano il progetto, mettendo in evidenza i metodi d'interfaccia fra i componenti e la suddivisione in sotto classi:
 
-// Diagramma delle classi
+![class_diagram](img/class_diagram.png)
 
-// Scelte tecnologiche cruciali ai fini architetturali
+Il *Controller* ha una classe di supporto *SimulationEngine* che si occupa degli aspetti di gestione della simulazione. Il *Model* è complesso in quanto deve rappresentare il dominio del progetto, tra le principali classi vediamo:
+- *Aquarium*: rappresentante lo stato della simulazione.
+- *Entity*: le entità che possono essere inserite nell'acquario, tra cui:
+  - *Fish*
+  - *Algae*
+  - *Food*
+- *Chronicle*: per la gestione dello storico.
+- *PrologEngine*: per l'accesso in lettura e scrittura dei dati nel db.
 
 ### 4.5 Architettura GUI
 

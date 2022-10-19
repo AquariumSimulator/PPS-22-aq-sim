@@ -1,7 +1,25 @@
 ## 4 Design architetturale
 
 ### 4.1 Casi d'uso
+I casi d'uso vengono usati per definire l'uso dell'applicativo da parte dell'utente, è importante considerarli in fase di architettura per creare un sistema adatto alle esigenze.
+
 ![casi d'uso](img/casi_d_uso.png)
+
+L'utente dopo aver avviato l'applicazione potrà interagirci tramite determinate azioni consentite, tra cui:
+- Controlli sulla simulazione:
+  - Start e stop.
+  - Cambiare velocità.
+  - Aggiungere e rimuovere pesci o alghe.
+  - Aggiungere cibo.
+  - Pulire l'acquario.
+- Modificare parametri della simulazione:
+  - Alzare o abbassare la temperatura.
+  - Alzare o abbassare la luminosità.
+  - Alzare o abbassare l'ossigenazione.
+- Estrarre dati dalla simulazione:
+  - Visualizzare grafici.
+  - Scaricare i dati generati.
+  - Leggere lo storico.
 
 ### 4.2 Architettura complessiva
 
@@ -27,9 +45,7 @@ MVC (Model-View-Controller) è un pattern di design del software comunemente usa
 	</dd>
 </dl>
 
-È stato scelto il pattern MVC per vari motivi. 
-Prima di tutto si è tenuto in considerazione che MVC è uno dei pattern più conosciuti ed utilizzati, il che rende più semplice ricercare documentazione ed esempi da cui prendere spunto. 
-Oltre a ciò, dato che il team, nella sua interezza, ha già utilizzato questo pattern in altri progetti, questa scelta rappresentava la soluzione più sicura ed efficiente per realizzare un solido design architetturale per il progetto. 
+Il team, nella sua interezza, ha già utilizzato questo pattern in altri progetti, questa scelta rappresentava la soluzione più sicura ed efficiente per realizzare un solido design architetturale per il progetto.
 
 ### 4.4 Descrizione dettagliata delle componenti
 

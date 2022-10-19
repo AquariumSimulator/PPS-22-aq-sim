@@ -62,7 +62,7 @@ Il *Controller* ha una classe di supporto *SimulationEngine* che si occupa degli
 - *Chronicle*: per la gestione dello storico.
 - *PrologEngine*: per l'accesso in lettura e scrittura dei dati nel db.
 
-### 4.5 Architettura GUI
+### 4.5 Mockup interfaccia utente
 
 **Interfaccia base**
 ![base](img/base.png)

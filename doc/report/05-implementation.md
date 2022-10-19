@@ -6,6 +6,8 @@
 ## Filippo Benvenuti
 
 ### MVC
+// gustosa separazione componenti
+// abilitazione al testing
 
 ### Simulation engine
 

@@ -21,7 +21,12 @@ Scrum basa la gestione dello sviluppo attraverso meeting specializzati in cui i 
 ### 2.2 Divisione in itinere dei task
 Durante il meeting di inizio *sprint* viene definito lo *sprint backlog*, esso contiene una suddivisione in *task* del lavoro dello sprint valutandone la complessità tentando di stimarne la difficoltà/tempo di sviluppo a priori, tali *task* sono successivamente assegnati ad uno ad uno agli sviluppatori, tentando per quanto possibile di mantenere un carico di lavoro bilanciato.
 
-//GitHub project
+Per il mantenimento dello stato di svolgimento dei task si è deciso di utilizzare *GitHub Projects*, uno strumento del tutto simile al famoso Trello, con il vantaggio di averlo integrato direttamente nel *repository* di GitHub quindi accessibile in modo agile.
+Tale strumento permette di assegnare i *task* tramite **drag & drop** a diverse liste che ne indicano lo stato, nel nostro caso abbiamo usato:
+- Todo: per i *task* definiti da svolgersi, ma non ancora presi in carico.
+- Doing: per i *task* che vengono presi in carico e sono in fase di svolgimento/completamento.
+- Done: per tutti i *task* che sono definiti finiti.
+
 
 ### 2.3 Revisione in itinere dei task
 Abbiamo scelto di mantenere immutabile l'elenco dei *task* durante il corso dello sprint, lasciando eventuali modifiche dovute alla rimozione di task rivelatosi inutili o all'aggiunta di task non programmati al meeting di fine sprint.
@@ -29,10 +34,32 @@ Le uniche modifiche apportabili allo *sprint backlog* ammissibili durante lo spr
 Per ogni task assegnato è stata considerata la seguente *definition of done*: un task o una funzionalità è da considerarsi terminato nel momento in cui è stato adeguatamente testato e documentato, ha passato una code review (automatica o manuale a seconda dell'importanza) e soddisfa le aspettative del committente.
 
 ### 2.4 Strumenti utilizzati per i test
-Il team ha deciso di svolgere l'intero progetto seguendo il modello di sviluppo **test-driven development (TDD)**, che consiste nella stesura di test automatici, realizzati, in questo contesto, mediante il tool **ScalaTest**, prima che venga scritto il codice del software. In questo modo l'obiettivo dello sviluppo diventa quello di superare i test precedentemente implementati.
+Si è deciso di svolgere l'intero progetto seguendo il modello di sviluppo **Test-Driven Development (TDD)**, esso consiste nell'organizzare lo sviluppo del progetto secondo tre fasi:
+- Red: implementare i test per ciò che si deve sviluppare ancor prima di averlo sviluppato (rosso perchè solitamente a questo punto il test non compila/non passa).
+- Green: sviluppo del codice per passare i test, concentrandosi sulla minimalità per passare i test piuttosto che sulla bellezza.
+- Refactor: concentrarsi sulla riscrittura del codice appena implementato, ritoccando se necessario anche il codice relativo a test precedenti.
+
+Queste tre fasi sono iterate per ogni singola implementazione necessaria al completamento del progetto, solitamento seguendo un periodo di tempo sotto i 20 minuti.
+Tale metodologia di lavoro consente di scrivere codice di qualità e testato, minimizzando la perdita di tempo relativa all'incorrettezza di un'implementazione: seguendo il metodo tradizionale, un programmatore potrebbe sviluppare tutto il giorno e trovarsi alla fine con un codice che non fa quello per cui è stato scritto, potenzialmente perdendo un'intera giornata di lavoro; grazie al *TDD*, invece, questo rischio si riduce al periodo del ciclo, portando ad una perdita di 20 minuti nel caso peggiore.
+
+Per i test automatici abbiamo usato la libreria **ScalaTest**: tra i tre metodi di scrittura dei test da essa offerti, la nostra scelta è ricaduta su *Describe - it*, la quale permette di scrivere test ordinati e composti secondo una descrizione gerarchica del dominio testato.
+I test scritti in questo modo risultano essere di facile comprensione ed esplicativi nel momento in cui uno di esso non dovesse passare.
+Tale metodologia è decorabile tramite *Give - When - Then*, grazie a queste *keyword* è possibile esplicare un ordinamento temporale dell'esecuzione dei test.
 
 ### 2.5 Strumenti utilizzati per la build
-Come strumento per la build automation è stato utilizzato Scala Build Tool (`sbt`), che ha permesso una gestione efficiente delle dipee del progetto e di alcuni plugins utili per il miglioramento della qualità del codice.
+Come strumento per la build automation è stato utilizzato Scala Build Tool (`sbt`), che ha permesso una gestione efficiente delle dipendenze del progetto:
+- scalafx: per la realizzazione della GUI
+- TuProlog: per l'implementazione in prolog del database.
+- scalatest: per i test.
+- scala-csv: per la generazione di file *CSV*.
+- gson: per la generazione di file *JSON*.
+e di alcuni plugins utili per il miglioramento della qualità del codice:
+- scalafmt: per la formattazione automatica del codice.
 
 ### 2.6 Strumenti utilizzati per la Continuous integration
-Lo strumento scelto per effettuare Continuous Integration è **GitHub Actions**, una piattaforma che consente di automatizzare i flussi di lavoro distribuendoli insieme alla repository del progetto. L'obiettivo è quello di verificare continuamente l'integrità del codice mediante test automatici e assicurare la più alta qualità del codice possibile. L'applicativo sarà testato su Windows, Linux a MacOS al fine di verificarne il corretto funzionamento.
+Il *repository* su GitHub ha due *branch* principali: **master**, contenente la versione finale del progetto, e **develop**, contenente l'ultima versione funzionante realizzata.
+Per l'implementazione di ogni *task* si è deciso di creare un nuovo *branch* a partire da develop: una volta terminato il task viene creata una **pull request** che, se confermata, permette di effettuare un **merge** delle modifiche apportate su develop.
+Per confermare una *pull request* è necessario che essa passi due tipologie di controllo:
+- Manuale: un altro membro del team deve revisionare il codice scritto e approvare i cambiamenti fatti (**Code Review**).
+- Automatico: grazie alle **GitHub Actions** ogni *pull request* scatena la verifica dei *test* su tre **container** diversi (Ubuntu, Windows e Mac), grazie ai quali ci assicuriamo che nessun test sia stato violato e che il progetto funzioni su ogni piattaforma (*multi-platform*).
+Una volta integrati i cambiamenti su *develop*, il *branch* usato per lo sviluppo puo' essere eliminato in sicurezza (senza perdere codice).

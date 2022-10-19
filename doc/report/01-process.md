@@ -20,19 +20,19 @@ Scrum basa la gestione dello sviluppo attraverso meeting specializzati in cui i 
 
 ### 2.2 Divisione in itinere dei task
 Durante il meeting di inizio *sprint* viene definito lo *sprint backlog*, esso contiene una suddivisione in *task* del lavoro dello sprint valutandone la complessità tentando di stimarne la difficoltà/tempo di sviluppo a priori, tali *task* sono successivamente assegnati ad uno ad uno agli sviluppatori, tentando per quanto possibile di mantenere un carico di lavoro bilanciato.
-Abbiamo scelto di mantenere immutabile l'elenco dei *task* durante il corso dello sprint, lasciando eventuali modifiche dovute alla rimozione di task rivelatosi inutili o all'aggiunta di task non programmati al meeting di fine sprint.
-Le uniche modifiche apportabili allo *sprint backlog* ammissibili durante lo sprint stesso riguardavano l'aggiornamento dello stato del task, ossia del numero indicativo del carico di lavoro rimanente.
 
 //GitHub project
 
 ### 2.3 Revisione in itinere dei task
+Abbiamo scelto di mantenere immutabile l'elenco dei *task* durante il corso dello sprint, lasciando eventuali modifiche dovute alla rimozione di task rivelatosi inutili o all'aggiunta di task non programmati al meeting di fine sprint.
+Le uniche modifiche apportabili allo *sprint backlog* ammissibili durante lo sprint stesso riguardavano l'aggiornamento dello stato del task, ossia del numero indicativo del carico di lavoro rimanente.
 Per ogni task assegnato è stata considerata la seguente *definition of done*: un task o una funzionalità è da considerarsi terminato nel momento in cui è stato adeguatamente testato e documentato, ha passato una code review (automatica o manuale a seconda dell'importanza) e soddisfa le aspettative del committente.
 
 ### 2.4 Strumenti utilizzati per i test
 Il team ha deciso di svolgere l'intero progetto seguendo il modello di sviluppo **test-driven development (TDD)**, che consiste nella stesura di test automatici, realizzati, in questo contesto, mediante il tool **ScalaTest**, prima che venga scritto il codice del software. In questo modo l'obiettivo dello sviluppo diventa quello di superare i test precedentemente implementati.
 
 ### 2.5 Strumenti utilizzati per la build
-Come strumento per la build automation è stato utilizzato Scala Build Tool (`sbt`), che ha permesso una gestione efficiente delle dipendenze del progetto e di alcuni plugins utili per la il miglioramento della qualità del codice.
+Come strumento per la build automation è stato utilizzato Scala Build Tool (`sbt`), che ha permesso una gestione efficiente delle dipee del progetto e di alcuni plugins utili per il miglioramento della qualità del codice.
 
 ### 2.6 Strumenti utilizzati per la Continuous integration
 Lo strumento scelto per effettuare Continuous Integration è **GitHub Actions**, una piattaforma che consente di automatizzare i flussi di lavoro distribuendoli insieme alla repository del progetto. L'obiettivo è quello di verificare continuamente l'integrità del codice mediante test automatici e assicurare la più alta qualità del codice possibile. L'applicativo sarà testato su Windows, Linux a MacOS al fine di verificarne il corretto funzionamento.

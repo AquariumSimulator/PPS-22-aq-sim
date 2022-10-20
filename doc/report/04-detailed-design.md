@@ -14,6 +14,18 @@ Il *cake pattern* si sposa in modo ottimale con il pattern architetturale *MVC*,
 ### Design simulation engine
 Il *simulation engine* è la parte che si occupa della gestione della simulazione, responsabile delle azioni di *start*, *pause* e *speed change*, il suo comportamento è naturalmente descrivibile come *macchina a stati finiti*, il suo diagramma degli **stati** risulta:
 
+![simEngineState](img/sim_engine_state.png)
+
+Possiamo osservare 5 stati della simulazione:
+- Halt: la simulazione è in pausa.
+- Running: la simulazione sta procedendo:
+  - Slow: velocità lenta, per osservare meglio cosa succede.
+  - Normal: velocità normale, per la normale operatività.
+  - Fast: velocità veloce, per evitare attese noiose.
+- Stop: la simulazione è terminata.
+
+All'apertura dell'applicativo la simulazione parte nello stato di *Halt*, in cui non avanza, quando passiamo in uno dei 3 stati di *Running* essa eseguirà a diverse velocità, in questi stati è sempre possibile cambiare velocità oppure tornare nello stato di *Halt*, da quest'ultimo possiamo far avanzare la simulazione di uno *Step* alla volta ritornando sullo stesso stato, tale meccanismo potrebbe tornare utile per realizzare la visualizzazione della simulazione passo-passo.
+Da ogni stato è sempre possibile allo stato *Stop*, nel quale non è più possibile uscire, esso indica che la simulazione è terminata e non può più essere avviata.
 
 ### Design prolog engine
 

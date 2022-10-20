@@ -1,8 +1,24 @@
 # 5 Implementazione
 
-### Obiettivi
-// roba funzionale
-// No side effect
+### Stile d'implementazione
+Il team si è impegnato nel cercare di produrre codice, per quanto possibile, aderente allo stile di programmazione funzionale, in particolare utilizzando classi e oggetti immutabili, attraverso metodi che non contengono *side effects* al loro interno.
+Durante la scrittura del codice si è cercato di rispettare il più possibile i principi DRY e KISS, assieme ai *SOLID principles*:
+- SRP: Single responsibility principle
+- OCP: Open/closed principle
+- LSP: Liskov’s substitutability principle
+- DIP: Dependency inversion principle
+
+Dove abbiamo pensato potesse essere utile utilizzare un *pattern* di progettazione, ci siamo impegnati ad implementare rispettandolo, creando codice di qualità e facilmente comprensibile.
+Ci siamo avvalsi il più possibile delle funzionalità di Scala, come:
+- Match case
+- Currying
+- Given instances
+- Higher order function
+- Type class
+- Case class
+- Objects
+- ...
+
 
 ## Filippo Benvenuti
 

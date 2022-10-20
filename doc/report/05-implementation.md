@@ -1,6 +1,7 @@
 # 5 Implementazione
 
 ### Obiettivi
+// roba funzionale
 // No side effect
 
 ## Filippo Benvenuti

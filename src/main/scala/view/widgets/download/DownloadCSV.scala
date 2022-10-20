@@ -7,9 +7,7 @@ import com.github.tototoshi.csv.CSVWriter
 import com.github.tototoshi.csv.defaultCSVFormat
 import mvc.MVC.given_ViewRequirements as context
 
-/**
-  * Used to save to file data of simulation in CSV format.
-  */
+/** Used to save to file data of simulation in CSV format. */
 object DownloadCSV:
 
   def apply(path: String): Unit =

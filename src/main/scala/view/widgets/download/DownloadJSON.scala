@@ -12,20 +12,19 @@ import scala.language.postfixOps
 
 object DownloadJSON:
   def apply(path: String): Unit =
-    val gson = new Gson
-    given writer: JsonWriter = gson.newJsonWriter(FileWriter(path + "data.json"))
-    val contr = context.controller
+    given writer: JsonWriter = (new Gson).newJsonWriter(FileWriter(path + "data.json"))
+    val controller = context.controller
     writer.beginArray()
-    (0 to contr.currentIteration).foreach(it =>
+    (0 to controller.currentIteration).foreach(it =>
       writer.beginArray()
       writer.beginObject()
       writer.name("iteration").value(it)
       writer.endObject()
-      writeArray[Fish](contr.getAllFish(it).map(
+      writeArray[Fish](controller.getAllFish(it).map(
         f => Map("feedingType" -> f.feedingType.toString, "name" -> f.name))
       )
-      writeArray[Algae](contr.getAllAlgae(it).map(
-        a => Map("base" -> a.base.toString(), "height" -> a.height.toString()))
+      writeArray[Algae](controller.getAllAlgae(it).map(
+        a => Map("base" -> a.base.toString, "height" -> a.height.toString))
       )
       writer.endArray()
     )

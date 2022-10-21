@@ -39,18 +39,13 @@ Il principale vantaggio di prevedere l'esistenza di questo componente la si trov
 
 ## Emanuele Lamagna
 
-### Design chronicle
-La **Chronicle** rappresenta la cronistoria dell'acquario. Qui sono inseriti tutti gli avvenimenti accaduti in esso, ordinati in ordine di data, partendo dall'avvenimento più recente. Tra i vari avvenimenti ci sono:
-- nascita, morte o rimozione di pesci e alghe
-- aggiunta di cibo
-- pulizia dell'acquario
-- cambio di velocità della simulazione
-- variazione ossigeno/temperatura
-
-La Chronicle è utile per controllare le azioni già svolte e concluse e agire di conseguenza nella scelta delle prossime azioni da eseguire.
+### Design entità
+Per rappresentare le varie entità presenti nell'acquario è stato creato il concetto di Entità, condiviso da pesci, alghe e cibo. Ci sono parametri condivisi da ogni tipologia di entità, come ad esempio la grandezza e la posizione nell'acquario. In ogni caso specifico, poi, sono stati utilizzati parametri specifici a seconda dell'entità in questione: ad esempio i pesci possiedono una proprietà che specifica il tipo di alimentazione (se erbivori o carnivori), mentre il cibo ha una proprietà che indica l'apporto "calorico" fornito.
 
 ### Design view
 La **View** è lo strumento che l'utente utilizza per sperimentare l'esperienza di simulazione. Già dalla fase di realizzazione del mockup ho pensato a come poter rendere il sistema completo di ogni sua funzionalità rimanendo però pulito, efficiente e funzionale per l'utente che lo utilizza.
+
+![aquariumView](img/aquarium.png)
 
 Partendo dalle caratteristiche che il sistema avrebbe dovuto avere, ho pensato a una serie di widget volti a soddisfare al meglio ogni singola funzionalità:
 
@@ -73,4 +68,8 @@ Partendo dalle caratteristiche che il sistema avrebbe dovuto avere, ho pensato a
   - PH
   - Impurità
   - Ossigenazione
-- **Cronistoria:** ho inserito un pannello contenente l'elenco degli avvenimento dell'acquario. La cronistoria è descritta in modo dettagliato nel paragrafo precedente.
+- **Cronistoria:** ho inserito un pannello contenente l'elenco degli avvenimenti dell'acquario: Tra di essi possiamo trovare:
+  - nascita, morte o rimozione di pesci e alghe
+  - aggiunta di cibo
+  - pulizia dell'acquario
+  - cambio di velocità della simulazione

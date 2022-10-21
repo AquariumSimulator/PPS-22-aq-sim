@@ -21,14 +21,12 @@ object DownloadJSON:
       writer.beginObject()
       writer.name("iteration").value(it)
       writer.endObject()
-
       writeArray[Fish](contr.getAllFish(it).map(
         f => Map("feedingType" -> f.feedingType.toString, "name" -> f.name))
       )
       writeArray[Algae](contr.getAllAlgae(it).map(
         a => Map("base" -> a.base.toString(), "height" -> a.height.toString()))
       )
-
       writer.endArray()
     )
     writer.endArray()

@@ -52,12 +52,14 @@ La Chronicle è utile per controllare le azioni già svolte e concluse e agire d
 ### Design view
 La **View** è lo strumento che l'utente utilizza per sperimentare l'esperienza di simulazione. Già dalla fase di realizzazione del mockup ho pensato a come poter rendere il sistema completo di ogni sua funzionalità rimanendo però pulito, efficiente e funzionale per l'utente che lo utilizza.
 
-Partendo dalle caratteristiche che il sistema avrebbe dovuto avere, ho pensato ad una serie di widget volti a soddisfare al meglio ogni singola funzionalità:
+Partendo dalle caratteristiche che il sistema avrebbe dovuto avere, ho pensato a una serie di widget volti a soddisfare al meglio ogni singola funzionalità:
 
-- **Pannello della simulazione:** per visualizzare i pesci, le alge e il cibo nel loro ciclo di vita ho pensato ad un semplice pannello centrale. I pesci sono liberi di muoversi, le alghe si posizionano in fondo e il cibo, una volta inserito, cade dall'alto verso il basso.
-- **Barra inferiore:** ho pensato ad una barra, nella parte bassa della view, che, oltre ad avere il bottone di pausa/ripresa della simulazione, contenesse tutti i comandi volti ad eseguire azioni esenti da un qualche tipo di range (come sarebbe, ad esempio, il cambio di temperatura). Questi comandi sono:
+- **Pannello della simulazione:** per visualizzare i pesci, le alghe e il cibo nel loro ciclo di vita ho pensato a un semplice pannello centrale.
+  I pesci sono liberi di muoversi, le alghe si posizionano in fondo e il cibo, una volta inserito, cade dall'alto verso il basso.
+- **Barra inferiore:** ho pensato a una barra, nella parte bassa della view, che, oltre ad avere il bottone di pausa/ripresa della simulazione, contenesse tutti i comandi volti a eseguire azioni esenti da un qualche tipo di range (come sarebbe, ad esempio, il cambio di temperatura).
+  Questi comandi sono:
   - aggiunta di pesci o alghe
-  - rimozione di pesci o alghe
+  - cambio di velocità della simulazione
   - aggiunta di cibo
   - pulizia dell'acquario
 - **Sliders:** contrariamente alla barra inferiore, gli sliders permettono modifiche di valori compresi in un certo range. Più nel dettaglio troviamo:

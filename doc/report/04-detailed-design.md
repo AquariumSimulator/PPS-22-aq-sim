@@ -36,6 +36,7 @@ Il principale vantaggio di prevedere l'esistenza di questo componente la si trov
 ### Design acquario
 
 ![UML_acquario<](img/UML_aquarium.png)
+UML del design dell'acquario
 
 Parlando del design dell'**acquario** ho scelto di strutturarlo in modo da renderlo il più modulare possibile. Questo permette, in un secondo momento, di lavorare singolarmente con le sue varie componenti e aggiungerne di nuove in caso si voglia ampliare la simulazione.
 Le principali componenti sono la **popolazione**, nel nostro caso specifico composta da pesci erbivori, carnivori e alghe, il suo **stato**, composto da temperatura, luminosità, ph, livello di impurità e livello di ossigenazione, e il **cibo disponibile**. Dato che popolazione e stato dell'acquario sono due componenti più complesse sono state realizzate come due classi separate poi incapsulate all'interno dell'acquario.

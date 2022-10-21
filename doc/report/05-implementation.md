@@ -79,8 +79,8 @@ Cito anche l'utilizzo di **for comprehension** e **ricorsione tail** in alcuni c
  
 Un ultimo particolare implementativo da notare è la gestione delle interazioni asincrone dell'utente con la simulazione. Data la natura concorrente di queste operazioni è stata utilizzata una **ConcurrentLinkedQueue** di funzioni di tipo *Aquarium => Aquarium*. In questo modo, ogni volta che viene chiamato lo *step* della simulazione vengono eseguite sull'acquario corrente tutte le azioni che l'utente ha eseguito tramite la GUI.
  
-## Lista del codice prodotto
-Per quanto riguarda le parti che ho implementato mi sono occupata:
+## Codice prodotto
+Per quanto riguarda le parti del sistema che ho implementato, mi sono occupata:
 * Di tutto il modulo dell'*Acquario* contenuto all'interno del package **aquarium** all'interno del package **Model** e dei test associati
 * Della realizzazione della struttura della factory delle *Interaction*, del file **Probabilities** che contiene varie costanti e lambda expression utilizzate dalle interazioni. Ho anche realizzato **InteractionEntityOnAquariumStateImpl**, **InteractionAquariumStateOnFishImpl** e **InteractionAquariumStateOnalgaeImpl**
 * Di buona parte dei metodi contenuti e implementati in *Model* e *ModelComponent*, e dei relativi test, quali:

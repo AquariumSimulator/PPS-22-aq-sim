@@ -62,7 +62,10 @@ Il *Controller* ha una classe di supporto *SimulationEngine* che si occupa degli
 - *Chronicle*: per la gestione dello storico.
 - *PrologEngine*: per l'accesso in lettura e scrittura dei dati nel db.
 
-### 4.5 Mockup interfaccia utente
+### 4.5 Scelte tecnologiche con impatti sull'architettura
+**ScalaFX** per come è implementato, siamo stati in grado di farlo funzionare correttamente solamente implementando il suo *wrapper* del *main*, difatto portando l'esecuzione del progetto sul **Thread** dedicato all'interfaccia grafica, ciò ha necessariamente portato ad implementazione la simulazione su un *Thread* diverso creato appositamente, come descritto nel documento "05-implementation" al paragrafo "Simulation engine".
+
+### 4.6 Mockup interfaccia utente
 
 **Interfaccia base**
 ![base](img/base.png)

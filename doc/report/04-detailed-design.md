@@ -39,6 +39,36 @@ Il principale vantaggio di prevedere l'esistenza di questo componente la si trov
 
 ## Emanuele Lamagna
 
-### Design *chronicle*
+### Design chronicle
+La **Chronicle** rappresenta la cronistoria dell'acquario. Qui sono inseriti tutti gli avvenimenti accaduti in esso, ordinati in ordine di data, partendo dall'avvenimento più recente. Tra i vari avvenimenti ci sono:
+- nascita, morte o rimozione di pesci e alghe
+- aggiunta di cibo
+- pulizia dell'acquario
+- cambio di velocità della simulazione
+- variazione ossigeno/temperatura
+
+La Chronicle è utile per controllare le azioni già svolte e concluse e agire di conseguenza nella scelta delle prossime azioni da eseguire.
 
 ### Design view
+La **View** è lo strumento che l'utente utilizza per sperimentare l'esperienza di simulazione. Già dalla fase di realizzazione del mockup ho pensato a come poter rendere il sistema completo di ogni sua funzionalità rimanendo però pulito, efficiente e funzionale per l'utente che lo utilizza.
+
+Partendo dalle caratteristiche che il sistema avrebbe dovuto avere, ho pensato ad una serie di widget volti a soddisfare al meglio ogni singola funzionalità:
+
+- **Pannello della simulazione:** per visualizzare i pesci, le alge e il cibo nel loro ciclo di vita ho pensato ad un semplice pannello centrale. I pesci sono liberi di muoversi, le alghe si posizionano in fondo e il cibo, una volta inserito, cade dall'alto verso il basso.
+- **Barra inferiore:** ho pensato ad una barra, nella parte bassa della view, che, oltre ad avere il bottone di pausa/ripresa della simulazione, contenesse tutti i comandi volti ad eseguire azioni esenti da un qualche tipo di range (come sarebbe, ad esempio, il cambio di temperatura). Questi comandi sono:
+  - aggiunta di pesci o alghe
+  - rimozione di pesci o alghe
+  - aggiunta di cibo
+  - pulizia dell'acquario
+- **Sliders:** contrariamente alla barra inferiore, gli sliders permettono modifiche di valori compresi in un certo range. Più nel dettaglio troviamo:
+  - slider della temperatura
+  - slider dell'ossigenazione
+  - slider della luminosità
+- **Pannello delle informazioni:** per visualizzare le informazioni in tempo reale ho ideato un pannello (nella parte in alto a sinistra della View) diviso in celle: ogni cella mostra una certa caratteristica dell'acquario. In ordine abbiamo:
+  - Popolazione, che mostra il numero di entità totali ma, al click su di essa, apre un popup che elenca in dettaglio i tipi di entità presenti e la relativa quantità
+  - Temperatura
+  - Luminosità
+  - PH
+  - Impurità
+  - Ossigenazione
+- **Cronistoria:** ho inserito un pannello contenente l'elenco degli avvenimento dell'acquario. La cronistoria è descritta in modo dettagliato nel paragrafo precedente.

@@ -1,7 +1,25 @@
 ## 4 Design architetturale
 
 ### 4.1 Casi d'uso
+I casi d'uso vengono usati per definire l'uso dell'applicativo da parte dell'utente, è importante considerarli in fase di architettura per creare un sistema adatto alle esigenze.
+
 ![casi d'uso](img/casi_d_uso.png)
+
+L'utente dopo aver avviato l'applicazione potrà interagirci tramite determinate azioni consentite, tra cui:
+- Controlli sulla simulazione:
+  - Start e stop.
+  - Cambiare velocità.
+  - Aggiungere e rimuovere pesci o alghe.
+  - Aggiungere cibo.
+  - Pulire l'acquario.
+- Modificare parametri della simulazione:
+  - Alzare o abbassare la temperatura.
+  - Alzare o abbassare la luminosità.
+  - Alzare o abbassare l'ossigenazione.
+- Estrarre dati dalla simulazione:
+  - Visualizzare grafici.
+  - Scaricare i dati generati.
+  - Leggere lo storico.
 
 ### 4.2 Architettura complessiva
 
@@ -27,30 +45,27 @@ MVC (Model-View-Controller) è un pattern di design del software comunemente usa
 	</dd>
 </dl>
 
-È stato scelto il pattern MVC per vari motivi. 
-Prima di tutto si è tenuto in considerazione che MVC è uno dei pattern più conosciuti ed utilizzati, il che rende più semplice ricercare documentazione ed esempi da cui prendere spunto. 
-Oltre a ciò, dato che il team, nella sua interezza, ha già utilizzato questo pattern in altri progetti, questa scelta rappresentava la soluzione più sicura ed efficiente per realizzare un solido design architetturale per il progetto. 
+Il team, nella sua interezza, ha già utilizzato questo pattern in altri progetti, questa scelta rappresentava la soluzione più sicura ed efficiente per realizzare un solido design architetturale per il progetto.
 
 ### 4.4 Descrizione dettagliata delle componenti
 
-Sottocomponenti dei macrocomponenti MVC:
-* Model 
-  * Acquario
-  * Pesce
-  * Alga
-  * Modellazione delle interazioni fra i vari elementi della simulazione
-* View
-  * GUI
-    * Control Bar
-    * Simulation view
-* Control
-  * Simulation engine
+Qui vediamo le principali classi che strutturano il progetto, mettendo in evidenza i metodi d'interfaccia fra i componenti e la suddivisione in sotto classi:
 
-// Diagramma delle classi
+![class_diagram](img/class_diagram.png)
 
-// Scelte tecnologiche cruciali ai fini architetturali
+Il *Controller* ha una classe di supporto *SimulationEngine* che si occupa degli aspetti di gestione della simulazione. Il *Model* è complesso in quanto deve rappresentare il dominio del progetto, tra le principali classi vediamo:
+- *Aquarium*: rappresentante lo stato della simulazione.
+- *Entity*: le entità che possono essere inserite nell'acquario, tra cui:
+  - *Fish*
+  - *Algae*
+  - *Food*
+- *Chronicle*: per la gestione dello storico.
+- *PrologEngine*: per l'accesso in lettura e scrittura dei dati nel db.
 
-### 4.5 Architettura GUI
+### 4.5 Scelte tecnologiche con impatti sull'architettura
+**ScalaFX** per come è implementato, siamo stati in grado di farlo funzionare correttamente solamente implementando il suo *wrapper* del *main*, difatto portando l'esecuzione del progetto sul **Thread** dedicato all'interfaccia grafica, ciò ha necessariamente portato ad implementazione la simulazione su un *Thread* diverso creato appositamente, come descritto nel documento "05-implementation" al paragrafo "Simulation engine".
+
+### 4.6 Mockup interfaccia utente
 
 **Interfaccia base**
 ![base](img/base.png)

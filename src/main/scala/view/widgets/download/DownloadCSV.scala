@@ -7,6 +7,7 @@ import com.github.tototoshi.csv.CSVWriter
 import com.github.tototoshi.csv.defaultCSVFormat
 import mvc.MVC.given_ViewRequirements as context
 
+/** Used to save to file data of simulation in CSV format. */
 object DownloadCSV:
 
   def apply(path: String): Unit =
@@ -17,7 +18,7 @@ object DownloadCSV:
     println("Done: " + path)
 
   private def saveFish(path: String) =
-    saveToCSV(path, "fish.csv")(context.controller.getAllFish)(fish =>
+    saveToCSV(path + "fish.csv")(context.controller.getAllFish)(fish =>
       List(
         fish.feedingType.toString,
         fish.name
@@ -25,15 +26,15 @@ object DownloadCSV:
     )
 
   private def saveAlgae(path: String) =
-    saveToCSV(path, "algae.csv")(context.controller.getAllAlgae)(algae =>
+    saveToCSV(path + "algae.csv")(context.controller.getAllAlgae)(algae =>
       List(
         algae.base.toString,
         algae.height.toString
       )
     )
 
-  private def saveToCSV[U](path: String, name: String)(getList: Int => List[U])(mapper: U => List[String]) =
-    val outputFile = BufferedWriter(FileWriter(path + name))
+  private def saveToCSV[U](pathWithName: String)(getList: Int => List[U])(mapper: U => List[String]) =
+    val outputFile = BufferedWriter(FileWriter(pathWithName))
     val csvWriter = CSVWriter.open(outputFile)
     (0 to context.controller.currentIteration).foreach(iteration =>
       csvWriter.writeAll(

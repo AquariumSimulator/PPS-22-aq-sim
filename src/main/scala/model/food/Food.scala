@@ -10,6 +10,7 @@ object Food:
   val MAX_NUTRITION_AMOUNT: Int = 15
   val IMPURITY_CONSTANT: Double = Math.pow(10, -4)
   val SPEED: (Double, Double) = (0.0, 0.2)
+  val SPEED_MULTIPLIER: Double = 1.0
 
 case class Food(
     position: (Double, Double) = (Random.between(0, aqDim.WIDTH), 0),

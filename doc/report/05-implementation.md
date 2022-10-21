@@ -107,4 +107,6 @@ Per quanto riguarda le parti del sistema che ho implementato, mi sono occupata:
 
 ## Emanuele Lamagna
 
-###
+### Entities
+
+### Download JSON

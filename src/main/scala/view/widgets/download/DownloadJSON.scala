@@ -20,11 +20,11 @@ object DownloadJSON:
       writer.beginObject()
       writer.name("iteration").value(it)
       writer.endObject()
-      writeArray[Fish](controller.getAllFish(it).map(
-        f => Map("feedingType" -> f.feedingType.toString, "name" -> f.name))
+      writeArray[Fish](
+        controller.getAllFish(it).map(f => Map("feedingType" -> f.feedingType.toString, "name" -> f.name))
       )
-      writeArray[Algae](controller.getAllAlgae(it).map(
-        a => Map("base" -> a.base.toString, "height" -> a.height.toString))
+      writeArray[Algae](
+        controller.getAllAlgae(it).map(a => Map("base" -> a.base.toString, "height" -> a.height.toString))
       )
       writer.endArray()
     )
@@ -37,7 +37,5 @@ object DownloadJSON:
       writer.endArray()
   private def writeObject(using writer: JsonWriter)(map: Map[String, String]) =
     writer.beginObject()
-    map.keySet.foreach(key =>
-      writer.name(key).value(map(key))
-    )
+    map.keySet.foreach(key => writer.name(key).value(map(key)))
     writer.endObject()

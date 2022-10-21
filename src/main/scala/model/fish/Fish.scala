@@ -67,28 +67,28 @@ case class Fish(
     this.copy(reproductionFactor = newReproductionFactor)
 
   override def move(mul: Double): Fish =
-    var newPosition = calculatePosition(this.speed)(mul)
-    var newSpeed = this.speed
+    var (posX, posY) = calculatePosition(this.speed)(mul)
+    var (speedX, speedY) = this.speed
 
-    newPosition._1 match
+    posX match
       case x if x < 0 =>
-        newPosition = newPosition.copy(_1 = 0)
-        newSpeed = newSpeed.copy(_1 = newSpeed._1 * -1)
+        posX = 0
+        speedX = speedX * -1
       case x if x + this.size._1 > AquariumDimensions.WIDTH =>
-        newPosition = newPosition.copy(_1 = AquariumDimensions.WIDTH - this.size._1)
-        newSpeed = newSpeed.copy(_1 = newSpeed._1 * -1)
+        posX = AquariumDimensions.WIDTH - this.size._1
+        speedX = speedX * -1
       case _ =>
 
-    newPosition._2 match
+    posY match
       case y if y < 0 =>
-        newPosition = newPosition.copy(_2 = 0)
-        newSpeed = newSpeed.copy(_2 = newSpeed._2 * -1)
+        posY = 0
+        speedY = speedY * -1
       case y if y + this.size._2 > AquariumDimensions.HEIGHT =>
-        newPosition = newPosition.copy(_2 = AquariumDimensions.HEIGHT - this.size._2)
-        newSpeed = newSpeed.copy(_2 = newSpeed._2 * -1)
+        posY = AquariumDimensions.HEIGHT - this.size._2
+        speedY = speedY * -1
       case _ =>
 
-    this.copy(position = newPosition, speed = newSpeed)
+    this.copy(position = (posX, posY), speed = (speedX, speedY))
 
   override def eat(food: Food): Fish =
     model.addChronicleEvent(Events.FISH_ATE_ENTITY(this.name, food))

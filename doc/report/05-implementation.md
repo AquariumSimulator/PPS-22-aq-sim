@@ -108,5 +108,54 @@ Per quanto riguarda le parti del sistema che ho implementato, mi sono occupata:
 ## Emanuele Lamagna
 
 ### Entities
+Per quanto riguarda le entità ho curato più che altro Fish, quella sicuramente più corposa, mentre le altre (Algae e Food) sono passive e più semplici. 
+
+Ho scelto di utilizzare una case class, la quale permette di essere sicuri che le sue proprietà non vengano modificate: questo per evitare di introdurre side effects nel codice.
+Oltre a ciò è presente il companion object della classe, che contiene tutte le informazioni statiche necessarie.
+
+Tra i vari metodi il più importante è sicuramente *move*, che permette al pesce di muoversi nello spazio dell'acquario tenendo conto delle pareti, della velocità e della direzione.
+Qui ho scelto di calcolare in primis la nuova posizione con il giusto moltiplicatore, e poi applicare un doppio *match case* per verificare se le nuove coordinate sono accettabili oppure se è necessario cambiare la posizione e la velocità.
+Infatti se ad esempio il pesce raggiunge una coordinata negativa occorre riportarlo nel range giusto e modificare la velocità nel senso opposto.
+
+In generale sono presenti molti metodi brevi e chiari, per mantenere un'elevata leggibilità del codice.
+
+### Interazioni
+Insieme ad Albertini mi sono occupato delle varie interazioni fra le entità: in particolare mi sono occupato delle interazioni fra:
+- pesci e alghe
+- pesci e cibo
+- due pesci
+
+Quest'ultimo caso è sicuramente il più degno di nota, siccome prevede più casistiche diverse. Infatti i pesci possono:
+- mangiarsi a vicenda
+- riprodursi
+- ignorarsi
+
+Nel metodo *update*, comune a tutte le interazioni, tramite un *match case* cerco di capire in quale di queste tre situazioni mi ritrovo.
+Nell'ultimo caso ovviamente non succede nulla e i pesci rimangono identici, ma negli altri due casi utilizzo due funzioni rispettivamente: *checkReproduction* e *checkEatFish*. Questo per una migliore suddivisione e leggibilità del codice e per il rispetto del principio KISS.
 
 ### Download JSON
+**DownloadJSON** sfrutta la libreria Gson per salvare la popolazione dell'acquario (alghe e pesci) in un file JSON.
+In particolare vengono risaltati i principi:
+
+- **KISS**: l'implementazione è molto semplice, poiché grazie a Gson basta scrivere in maniera lineare l'apertura/chiusura dei vari JSON Object o JSON Array. Qui ho reso tutto più semplice, leggibile e funzionale con due metodi che rispecchiano le due principali operazioni: *writeArray* e *writeObject*.
+- **DRY**: proprio grazie ai due metodi sopra citati è stato possibile applicare questo principio. Infatti essi hanno evitato di riempire il codice di ripetizioni, siccome la scrittura di JSON Object o JSON Array accade più di una volta.
+- **SRP**: la classe ha un unico scopo e quindi ha un'unica ragione per poter cambiare.
+
+Oltre a ciò ho utilizzato **given** per evitare la ripetizione del passaggio di alcuni parametri, aiutato anche dall'utilizzo dell **currying**.
+
+
+
+### Codice prodotto
+In seguito le parti di codice di cui mi sono occupato:
+- Model
+  - cronistoria dell'acquario (case class **Chronicle**, trait **UpdateChronicle**)
+  - gestione dei pesci (case class **Fish** e relativo companion object, trait **UpdateFish**)
+  - interazioni, sempre nel model, fra:
+    - due pesci (classe **InteractionFishOnFish**)
+    - un pesce e un'alga (classe **InteractionFishOnAlgae**)
+    - un pesce e un cibo (classe **InteractionFishOnFood**)
+- View
+  - realizzazione iniziale della **GUI** e dei suoi componenti (poi portata avanti soprattutto da altri membri del team)
+  - realizzazione del pannello Chronicle
+  - implementazione del download di file insieme a Benvenuti (io in particolare ho realizzato il download dei JSON tramite l'object DownloadJSON)
+  - implementazione della visualizzazione dei nomi dei pesci sotto alla loro icona nella simulation view

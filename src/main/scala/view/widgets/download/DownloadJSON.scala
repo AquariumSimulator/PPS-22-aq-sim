@@ -17,20 +17,18 @@ object DownloadJSON:
     writer.beginArray()
     (0 to controller.currentIteration).foreach(it =>
       writer.beginArray()
-      writer.beginObject()
-      writer.name("iteration").value(it)
-      writer.endObject()
-      writeArray[Fish](
+      writeObject(Map("iteration" -> it.toString))
+      writeArray(
         controller.getAllFish(it).map(f => Map("feedingType" -> f.feedingType.toString, "name" -> f.name))
       )
-      writeArray[Algae](
+      writeArray(
         controller.getAllAlgae(it).map(a => Map("base" -> a.base.toString, "height" -> a.height.toString))
       )
       writer.endArray()
     )
     writer.endArray()
     writer.close()
-  private def writeArray[U](using writer: JsonWriter)(mapList: List[Map[String, String]]) =
+  private def writeArray(using writer: JsonWriter)(mapList: List[Map[String, String]]) =
     if mapList.nonEmpty then
       writer.beginArray()
       mapList.foreach(map => writeObject(map))

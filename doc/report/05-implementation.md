@@ -19,14 +19,29 @@ Ci siamo avvalsi il più possibile delle funzionalità di Scala, come:
 - Objects
 - ...
 
-
-
 ## Filippo Benvenuti
 
 ### MVC
-// gustosa separazione componenti
-// abilitazione al testing
-// pattern 
+**MVC** è la parte di progetto che si preoccupa d'implementare il pattern *MVC*, considerando l'affinità con **Cake pattern** come pattern di progettazione, ho deciso che quest'ultimo sarebbe stato il miglior modo per unire tutti i concetti messi in gioco, di seguito una spiegazione breve ma efficace delle parti principali.
+Partendo dalla macro visione sull'implementazione del codice abbiamo:
+
+![mvc](img/mvc.png)
+
+Una prima suddivisione in tre componenti, racchiusi ognuno dentro al proprio *Module*, tenuti assieme dall'*object* *MVC* e in relazione tra loro tramite i *Requirements*.
+Nell'uso delle frecce ho tentato di seguire il più possibile la semantica di **UML**, in alcuni casi però ho dovuto aggiungere *keyword* per rappresentare al meglio alcuni dettagli e concetti relativi a scala, come:
+- file: indica che l'interfaccia è contenuta nell'oggetto a cui punta, ma che il codice è scritto in un file separato da quello del contenitore.
+- type: indica una **class type**.
+- self: indica che l'interfaccia da cui parte la freccia ha un **self type** composto dalla *class type* verso cui punta.
+ 
+La suddivisione in file diversi non è casuale, come vedremo nel dettaglio questa scelta a portato alla netta separazione tra il gravoso **boiler template** del *Cake pattern* e l'implementazione delle classi, di fatto creando un codice portabile in altri progetti, trasformando in un certo senso il *Cake pattern* in una libreria per la gestione di *MVC*.
+
+La complessità dei tre componenti non è poca, ma notiamo che la struttura è simile e replicabile per tutti e tre, analizziamo allora solamente il *ViewModule* che è il più completo, il punto d'ingresso è il *trait* **Interface**, questo mette a disposizione l'accesso alla *View* ed integra l'uso del componente tramite alcuni particolari meccanismi:
+- Estendere **Provider**: un *trait* contenente un *val* di tipo *View*, l'interfaccia dove sono definiti i metodi per comunicare con la *GUI*, questo ci indica che tramite *Interface* è possibile accedere alla *View*, poi vedremo perchè in questo caso è comodo avere il riferimento alla *View* in un *trait* separato.
+- Estendere **ViewComponent**: un *trait* contenente le effettive implementazioni di *View*, in questo caso due: **ViewImpl** per il normale funzionamento del progetto e **FakeViewImpl** che non invoca alcuna *GUI* consentendo il *testing* anche su *container* come quelli usati per la *continuous integration*. Grazie a questa struttura, al momento della creazione di *MVC* è possibile scegliere quale implementazione usare semplicemente istanziando l'una o l'altra. Inoltre ha un *self type* su *ViewRequirements* che analizziamo al prossimo punto.
+- *Self type* con **ViewRequirements**: questa è una *class type* contenente i componenti a cui si può accedere dalla *View*, in questo caso per la natura di *MVC* essa può vedere solamente il *Controller*, questo viene fatto richiedendo la presenza del *Provider* del *Controller*. Da notare che il *self type* ci permette di utilizzare i metodi dell'interfaccia in questione, senza fornirne una vera implementazione, ma rimandando il dovere di farlo a chi ci implementa, questo è il meccanismo col quale riusciamo a creare dipendenze fra i componenti di *MVC* in modo agevole, evitando errori a *run time* dovuti a chiamate ricorsive tra componenti.
+
+MVC infine estende le *Interface* dei tre componenti, poi facendo **override** delle *val* di *Model*, *View* e *Controller* ne fornisce un'implementazione passando dai rispettivi *Component*, di fatto soddisfando i *self type* di cui abbiamo parlato sopra.
+Lato *testing* è bastato creare un **FakeMVC** che implementasse *FakeViewImpl* al posto di *ViewImpl* per poter testare senza creare un'effetiva *GUI*.
 
 ### Simulation engine
 La parte principale del **Simualtion engine** risiede nella gestione della simulazione, in particolare possiamo concentrarci sull'implementazione del **loop**, essa è rinchiusa nell'uso di un iteratore infinito, al quale viene passato lo stato iniziale dell'*Aquarium*, ad ogni iterazione esso invoca il metodo *step* che dato un *Aquarium* ne restituisce la versione aggiornata al passo dopo della simulazione.
@@ -38,6 +53,34 @@ Per come ho organizzato il *Simulation Engine*, per mettere in pausa la simulazi
 - *KISS*: per la parte di dichiarazione, un *object* contenente un *apply* che porta al completamento dell'operazione richiesta, di fatto rendendo banale l'invocazione da altri file:
   ```DownloadCSV("path/where/save/)```
 - *DRY*: per l'organizzazione interna del codice, qui infatti ho usato diverse tecniche per eliminare completamente la ripetizione di codice, la funzione *saveToCSV* è generica nel tipo che stiamo salvando e accetta parametri in **currying**, in particolare il primo parametro è dichiarato con **using** e l'ultimo sfrutta il concetto di **higher order function**. Tali dettagli han permesso di usare la stessa funzione due volte evitando ripetizioni, specificando solo le differenze in termini di dati e **strategy** sul comportamento interno. Inoltre il **given** su *String* sfrutta implicitamente il *currying*, evitando di passare due volte lo stesso parametro ad invocazioni diverse.
+
+### Codice prodotto
+Tutto quello che riguarda la struttura di MVC, in particolare:
+- mvc
+  - Mvc
+- controller
+  - Controller e ControllerComponent
+    - *startSimulation*
+    - *pauseSimulation*
+    - *stopSimulation*
+    - *changeSpeed*
+    - *getSpeed*
+    - *isRunning*
+    - *getAquarium*
+    - *currentIteration*
+  - Simulation Engine
+- model
+  - food
+    - Food
+    - UpdateFood
+  - Algae
+  - FeedingType
+  - Model e ModelComponent (struttura per MVC)
+  - db (in aiuto a Filippo Barbari)
+- view
+  - View e ViewComponent (struttura per MVC)
+  - downlaod
+    - DownlaodCSV
 
 ## Elisa Albertini
 
@@ -127,5 +170,57 @@ Per quanto riguarda le parti del sistema che ho implementato, mi sono occupata:
 ## Emanuele Lamagna
 
 ### Entities
+Per quanto riguarda le entità ho curato più che altro Fish, quella sicuramente più corposa, mentre le altre (Algae e Food) sono passive e più semplici. 
+
+Ho scelto di utilizzare una case class, la quale permette di essere sicuri che le sue proprietà non vengano modificate: questo per evitare di introdurre side effects nel codice.
+Oltre a ciò è presente il companion object della classe, che contiene tutte le informazioni statiche necessarie.
+
+Tra i vari metodi il più importante è sicuramente *move*, che permette al pesce di muoversi nello spazio dell'acquario tenendo conto delle pareti, della velocità e della direzione.
+Qui ho scelto di calcolare in primis la nuova posizione con il giusto moltiplicatore, e poi applicare un doppio *match case* per verificare se le nuove coordinate sono accettabili oppure se è necessario cambiare la posizione e la velocità.
+Infatti se ad esempio il pesce raggiunge una coordinata negativa occorre riportarlo nel range giusto e modificare la velocità nel senso opposto.
+
+In generale sono presenti molti metodi brevi e chiari, per mantenere un'elevata leggibilità del codice.
+
+### Interazioni
+Insieme ad Albertini mi sono occupato delle varie interazioni fra le entità: in particolare mi sono occupato delle interazioni fra:
+- pesci e alghe
+- pesci e cibo
+- due pesci
+
+Quest'ultimo caso è sicuramente il più degno di nota, siccome prevede più casistiche diverse. Infatti i pesci possono:
+- mangiarsi a vicenda
+- riprodursi
+- ignorarsi
+
+Nel metodo *update*, comune a tutte le interazioni, tramite un *match case* cerco di capire in quale di queste tre situazioni mi ritrovo.
+Nell'ultimo caso ovviamente non succede nulla e i pesci rimangono identici, ma negli altri due casi utilizzo due funzioni rispettivamente: *checkReproduction* e *checkEatFish*. Questo per una migliore suddivisione e leggibilità del codice e per il rispetto del principio KISS.
 
 ### Download JSON
+**DownloadJSON** sfrutta la libreria Gson per salvare la popolazione dell'acquario (alghe e pesci) in un file JSON.
+In particolare vengono risaltati i principi:
+
+- **KISS**: l'implementazione è molto semplice, poiché grazie a Gson basta scrivere in maniera lineare l'apertura/chiusura dei vari JSON Object o JSON Array. Qui ho reso tutto più semplice, leggibile e funzionale con due metodi che rispecchiano le due principali operazioni: *writeArray* e *writeObject*.
+- **DRY**: proprio grazie ai due metodi sopra citati è stato possibile applicare questo principio. Infatti essi hanno evitato di riempire il codice di ripetizioni, siccome la scrittura di JSON Object o JSON Array accade più di una volta.
+- **SRP**: la classe ha un unico scopo e quindi ha un'unica ragione per poter cambiare.
+
+Oltre a ciò ho utilizzato **given** per evitare la ripetizione del passaggio di alcuni parametri, aiutato anche dall'utilizzo dell **currying**.
+
+
+
+### Codice prodotto
+In seguito le parti di codice di cui mi sono occupato:
+- Model
+  - cronistoria dell'acquario (case class **Chronicle**, trait **UpdateChronicle**)
+  - gestione dei pesci (case class **Fish** e relativo companion object, trait **UpdateFish**)
+  - interazioni, sempre nel model, fra:
+    - due pesci (classe **InteractionFishOnFish**)
+    - un pesce e un'alga (classe **InteractionFishOnAlgae**)
+    - un pesce e un cibo (classe **InteractionFishOnFood**)
+- View
+  - realizzazione iniziale della **GUI** e dei suoi componenti (poi portata avanti soprattutto da altri membri del team)
+  - realizzazione del pannello Chronicle
+  - implementazione del download di file insieme a Benvenuti (io in particolare ho realizzato il download dei JSON tramite l'object DownloadJSON)
+  - implementazione della visualizzazione dei nomi dei pesci sotto alla loro icona nella simulation view
+
+Mi sono poi occupato di tutte le classi di test relative ai file sopra citati.
+Infine, oltre al codice, sebbene fosse esente dagli obiettivi del progetti, ho anche ideato la parte di mockup della GUI per rendere il suo sviluppo il più rapido e semplice possibile per concentrarci poi sulla realizzazione delle funzionalità di Model e Controller.

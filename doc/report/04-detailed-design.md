@@ -75,7 +75,8 @@ Detto questo, le interazioni sono state modellate tramite l'interfaccia *Interac
 ## Emanuele Lamagna
 
 ### Design entità
-Per rappresentare le varie entità presenti nell'acquario è stato creato il concetto di Entità, condiviso da pesci, alghe e cibo. Ci sono parametri condivisi da ogni tipologia di entità, come ad esempio la grandezza e la posizione nell'acquario. In ogni caso specifico, poi, sono stati utilizzati parametri specifici a seconda dell'entità in questione: ad esempio i pesci possiedono una proprietà che specifica il tipo di alimentazione (se erbivori o carnivori), mentre il cibo ha una proprietà che indica l'apporto "calorico" fornito.
+![aquariumView](img/entities.png)
+Per rappresentare le varie entità presenti nell'acquario è stato creato il concetto di **Entità**, condiviso da pesci, alghe e cibo. Ci sono parametri condivisi da ogni tipologia di entità, come ad esempio la grandezza e la posizione nell'acquario. In ogni caso specifico, poi, sono stati utilizzati parametri specifici a seconda dell'entità in questione: ad esempio i pesci possiedono una proprietà che specifica il tipo di alimentazione (se erbivori o carnivori), mentre il cibo ha una proprietà che indica l'apporto "calorico" fornito.
 
 ### Design view
 La **View** è lo strumento che l'utente utilizza per sperimentare l'esperienza di simulazione. Già dalla fase di realizzazione del mockup ho pensato a come poter rendere il sistema completo di ogni sua funzionalità rimanendo però pulito, efficiente e funzionale per l'utente che lo utilizza.

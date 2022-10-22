@@ -23,4 +23,3 @@ private class InteractionFishOnAlgaeImpl(fish: Fish, algae: Algae) extends Inter
 
   private def isFishHungry: Boolean =
     Fish.MAX_SATIETY - fish.satiety >= (algae.height * Algae.NUTRITION_AMOUNT)
-    

@@ -49,7 +49,7 @@ Le principali componenti dell'acquario, *Aquarium*, *AquariumState* e *Populatio
 In *AquariumState* ho fatto uso di **currying** e **higher order functions** in modo da rendere il codice più leggibile e da ridurre anche le ripetizioni. In particolare, la funzione che controlla che i valori dei parametri dell'acquario non escano dai limiti, prende in input una **lambda expression** che fa il controllo sul nuovo valore.
  
 ```
-def checkValueAndReturnAquarium(value: Double)(checkFunc: Double => Boolean)(
+private def checkValueAndReturnAquarium(value: Double)(checkFunc: Double => Boolean)(
   newAquarium: AquariumState
 ): AquariumState = ...
 ```
@@ -77,9 +77,10 @@ Parlando invece delle implementazioni di interazioni da me realizzate, per alcun
 ### Model
 Parlando della realizzazione dei metodi dell'interfaccia *Model*, l'implementazione più rilevante è quella dello *step* della simulazione. Tale metodo, prende in input l'*Aquarium* corrente e ne restituisce uno nuovo aggiornato, rispettando i principi della **Functional Programming**.  
 Il comportamento del metodo è stato partizionato in modo da rispettare il più possibile i principi **DRY** e **KISS**. Per fare questo ho fatto dunque uso di **generici** e **higher order function**, affiancate dall'uso del **currying**, che mi hanno aiutato a ridurre le ripetizioni di codice e a rendere i miei metodi più comprensibili.  
+Di seguito riporto un esempio:
 
 ```
-def newAquariumState[A](entities: Set[A], initialState: AquariumState)(
+private def newAquariumState[A](entities: Set[A], initialState: AquariumState)(
     action: (AquariumState, A) => AquariumState
 ): AquariumState =
 ```
@@ -89,7 +90,7 @@ Cito anche l'utilizzo di **for comprehension** e **ricorsione tail** in alcuni c
  
 Un ultimo particolare implementativo da notare è la gestione delle interazioni asincrone dell'utente con la simulazione. Data la natura concorrente di queste operazioni è stata utilizzata una **ConcurrentLinkedQueue** di funzioni di tipo *Aquarium => Aquarium*. 
 ```
-val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
+private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
 ```
 
 In questo modo, ogni volta che viene chiamato lo *step* della simulazione, tutte le azioni che l'utente ha eseguito tramite la GUI vengono eseguite sull'acquario corrente.

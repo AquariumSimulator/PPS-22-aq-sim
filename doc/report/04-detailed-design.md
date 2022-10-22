@@ -41,10 +41,10 @@ UML del design dell'acquario
 Parlando del design dell'**acquario** ho scelto di strutturarlo in modo che fosse il più modulare possibile. Questo permette, in un secondo momento, di lavorare singolarmente con le sue componenti e aggiungerne di nuove in caso si voglia ampliare la simulazione.
 Le principali componenti sono la **popolazione**, nel nostro caso specifico composta da pesci erbivori, carnivori e alghe, il suo **stato**, composto da temperatura, luminosità, ph, livello di impurità e livello di ossigenazione, e il **cibo disponibile**. Dato che popolazione e stato dell'acquario sono due componenti più complesse, sono state realizzate come due classi separate, poi utilizzate all'interno dell'acquario.
  
-Le componenti risultanti sono state *Aquarium*, che ha come proprietà un'istanza di *Population*, di *AquariumState* e il cibo disponibile.
+Le componenti risultanti sono state *Aquarium*, che ha come proprietà un'istanza di *Population*, un'istanza di *AquariumState* e il cibo disponibile.
  
 Dato che ogni componente, compreso il cibo, richiede determinate funzionalità, ognuno di essi implementa delle interfacce che le forniscono. 
-* *Population* implementa due differenti interfacce, una che modella la popolazione di pesci e fornisce i metodi che li restituiscono differenziati per tipo di alimentazione, e una che fornisce i metodi per aggiungere e togliere abitanti nell'acquario.
+* *Population* implementa due differenti interfacce, una che modella la popolazione di pesci e fornisce i metodi che li restituiscono differenziati per tipo di alimentazione e una che fornisce i metodi per aggiungere e togliere abitanti nell'acquario.
 * *AquariumState* implementa un’interfaccia che fornisce i metodi per modificare i parametri dell'acquario.
 * *Aquarium* implementa due interfacce che forniscono metodi per la gestione del cibo. Una modella il cibo disponibile e fornisce i metodi che lo restituiscono differenziato per tipo, mentre la seconda fornisce i metodi che permettono di andare ad aggiungerne e toglierne.
  

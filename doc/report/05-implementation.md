@@ -19,8 +19,6 @@ Ci siamo avvalsi il più possibile delle funzionalità di Scala, come:
 - Objects
 - ...
 
-
-
 ## Filippo Benvenuti
 
 ### MVC
@@ -55,6 +53,34 @@ Per come ho organizzato il *Simulation Engine*, per mettere in pausa la simulazi
 - *KISS*: per la parte di dichiarazione, un *object* contenente un *apply* che porta al completamento dell'operazione richiesta, di fatto rendendo banale l'invocazione da altri file:
   ```DownloadCSV("path/where/save/)```
 - *DRY*: per l'organizzazione interna del codice, qui infatti ho usato diverse tecniche per eliminare completamente la ripetizione di codice, la funzione *saveToCSV* è generica nel tipo che stiamo salvando e accetta parametri in **currying**, in particolare il primo parametro è dichiarato con **using** e l'ultimo sfrutta il concetto di **higher order function**. Tali dettagli han permesso di usare la stessa funzione due volte evitando ripetizioni, specificando solo le differenze in termini di dati e **strategy** sul comportamento interno. Inoltre il **given** su *String* sfrutta implicitamente il *currying*, evitando di passare due volte lo stesso parametro ad invocazioni diverse.
+
+### Codice prodotto
+Tutto quello che riguarda la struttura di MVC, in particolare:
+- mvc
+  - Mvc
+- controller
+  - Controller e ControllerComponent
+    - *startSimulation*
+    - *pauseSimulation*
+    - *stopSimulation*
+    - *changeSpeed*
+    - *getSpeed*
+    - *isRunning*
+    - *getAquarium*
+    - *currentIteration*
+  - Simulation Engine
+- model
+  - food
+    - Food
+    - UpdateFood
+  - Algae
+  - FeedingType
+  - Model e ModelComponent (struttura per MVC)
+  - db (in aiuto a Filippo Barbari)
+- view
+  - View e ViewComponent (struttura per MVC)
+  - downlaod
+    - DownlaodCSV
 
 ## Elisa Albertini
 

@@ -220,3 +220,6 @@ In seguito le parti di codice di cui mi sono occupato:
   - realizzazione del pannello Chronicle
   - implementazione del download di file insieme a Benvenuti (io in particolare ho realizzato il download dei JSON tramite l'object DownloadJSON)
   - implementazione della visualizzazione dei nomi dei pesci sotto alla loro icona nella simulation view
+
+Mi sono poi occupato di tutte le classi di test relative ai file sopra citati.
+Infine, oltre al codice, sebbene fosse esente dagli obiettivi del progetti, ho anche ideato la parte di mockup della GUI per rendere il suo sviluppo il più rapido e semplice possibile per concentrarci poi sulla realizzazione delle funzionalità di Model e Controller.

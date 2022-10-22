@@ -18,10 +18,6 @@ trait ModelComponent:
 
     private val queue: ConcurrentLinkedQueue[Aquarium => Aquarium] = new ConcurrentLinkedQueue()
 
-    private val multiplier = (aqState: AquariumState) =>
-      SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
-        SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
-
     private var currentChronicle: Chronicle = Chronicle()
 
     override def chronicle: Chronicle = currentChronicle
@@ -43,9 +39,9 @@ trait ModelComponent:
 
     override def step(currentAquarium: Aquarium): Aquarium =
 
-      val foodCondition = (fish: Fish, food: Food) =>
-        fish.satiety < (Fish.MAX_SATIETY - food.nutritionAmount) && fish.collidesWith(food)
-      val foodAction = (fish: Fish, food: Food) => fish.eat(food)
+      val multiplier = (aqState: AquariumState) =>
+        SPEED_MULTIPLIER_TEMPERATURE(aqState.temperature) *
+          SPEED_MULTIPLIER_IMPURITY(aqState.impurity)
 
       val aquarium = queue.isEmpty match
         case true => currentAquarium
@@ -58,20 +54,21 @@ trait ModelComponent:
         aquarium.aquariumState
       )((s: AquariumState, e: Entity) => Interaction(s, e).update())
 
-      val (carnivorous: Set[Fish], carnivorousFood: Set[Food]) =
-        entityEntityInteractions(aquarium.population.carnivorous, aquarium.carnivorousFood)(foodCondition)(foodAction)
-      val (herbivorous: Set[Fish], herbivorousFood: Set[Food]) =
-        entityEntityInteractions(aquarium.population.herbivorous, aquarium.herbivorousFood)(foodCondition)(foodAction)
+      val (fish: Set[Fish], newFood: Set[Food]) =
+        entityEntityInteractions(aquarium.population.fish, aquarium.availableFood)((fish: Fish, food: Food) =>
+          fish.collidesWith(food) && fish.feedingType == food.feedingType
+        )((fish: Fish, food: Food) => Interaction(fish, food).update())
 
       val (newHerbivorous: Set[Fish], algae: Set[Algae]) =
-        entityEntityInteractions(herbivorous, aquarium.population.algae)((fish: Fish, algae: Algae) =>
-          fish.collidesWith(algae)
+        entityEntityInteractions(fish.filter(f => f.feedingType == FeedingType.HERBIVOROUS), aquarium.population.algae)(
+          (fish: Fish, algae: Algae) => fish.collidesWith(algae)
         )((fish: Fish, algae: Algae) => Interaction(fish, algae).update())
 
       val newFish =
-        entityStep(fishFishInteractions(carnivorous.concat(newHerbivorous)), updatedAquariumState)((f: Fish) =>
-          f.isAlive
-        )((f: Fish, a: AquariumState) =>
+        entityStep(
+          fishFishInteractions(fish.filter(f => f.feedingType == FeedingType.CARNIVOROUS).concat(newHerbivorous)),
+          updatedAquariumState
+        )((f: Fish) => f.isAlive)((f: Fish, a: AquariumState) =>
           val fish: Fish =
             if f.reproductionFactor < Fish.MAX_REPRODUCTION_FACTOR
             then f.updateReproductionFactor(f.reproductionFactor + Fish.REPRODUCTION_FACTOR_SHIFT)
@@ -97,7 +94,7 @@ trait ModelComponent:
       Aquarium(
         updatedAquariumState,
         newPopulation,
-        for food <- herbivorousFood.concat(carnivorousFood)
+        for food <- newFood
         yield UpdateFood(food).move(Food.SPEED_MULTIPLIER)
       )
 
@@ -150,9 +147,6 @@ trait ModelComponent:
           case true =>
             val tuple = tuples.head
             val (newTuples: Set[(A, B)], newSetA: Set[A], newSetB: Set[B]) = action(tuple._1, tuple._2) match
-              case a: A =>
-                val (updatedTuples: Set[(A, B)], updatedSetA: Set[A]) = update(tuple, a)(tuples, setA)
-                (updatedTuples, updatedSetA, setB - tuple._2)
               case (a: A, Some(_)) =>
                 val (updatedTuples: Set[(A, B)], updatedSetA: Set[A]) = update(tuple, a)(tuples, setA)
                 (updatedTuples, updatedSetA, setB)

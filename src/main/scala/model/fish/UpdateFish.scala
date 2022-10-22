@@ -32,12 +32,3 @@ trait UpdateFish:
     *   a new [[Fish]]
     */
   def move(speedMultiplier: Double): Fish
-
-  /** Represent the event in which the fish eats the food
-    *
-    * @param food
-    *   the food eaten by the fish
-    * @return
-    *   a new [[Fish]]
-    */
-  def eat(food: Food): Fish

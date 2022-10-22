@@ -90,10 +90,6 @@ case class Fish(
 
     this.copy(position = (posX, posY), speed = (speedX, speedY))
 
-  override def eat(food: Food): Fish =
-    model.addChronicleEvent(Events.FISH_ATE_ENTITY(this.name, food))
-    this.copy(satiety = MAX_SATIETY min (this.satiety + food.nutritionAmount))
-
 /** Companion object of the case class */
 object Fish:
   var n: Int = 0

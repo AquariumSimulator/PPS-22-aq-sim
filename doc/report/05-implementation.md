@@ -24,9 +24,26 @@ Ci siamo avvalsi il più possibile delle funzionalità di Scala, come:
 ## Filippo Benvenuti
 
 ### MVC
-// gustosa separazione componenti
-// abilitazione al testing
-// pattern 
+**MVC** è la parte di progetto che si preoccupa d'implementare il pattern *MVC*, considerando l'affinità con **Cake pattern** come pattern di progettazione, ho deciso che quest'ultimo sarebbe stato il miglior modo per unire tutti i concetti messi in gioco, di seguito una spiegazione breve ma efficace delle parti principali.
+Partendo dalla macro visione sull'implementazione del codice abbiamo:
+
+![mvc](img/mvc.png)
+
+Una prima suddivisione in tre componenti, racchiusi ognuno dentro al proprio *Module*, tenuti assieme dall'*object* *MVC* e in relazione tra loro tramite i *Requirements*.
+Nell'uso delle frecce ho tentato di seguire il più possibile la semantica di **UML**, in alcuni casi però ho dovuto aggiungere *keyword* per rappresentare al meglio alcuni dettagli e concetti relativi a scala, come:
+- file: indica che l'interfaccia è contenuta nell'oggetto a cui punta, ma che il codice è scritto in un file separato da quello del contenitore.
+- type: indica una **class type**.
+- self: indica che l'interfaccia da cui parte la freccia ha un **self type** composto dalla *class type* verso cui punta.
+ 
+La suddivisione in file diversi non è casuale, come vedremo nel dettaglio questa scelta a portato alla netta separazione tra il gravoso **boiler template** del *Cake pattern* e l'implementazione delle classi, di fatto creando un codice portabile in altri progetti, trasformando in un certo senso il *Cake pattern* in una libreria per la gestione di *MVC*.
+
+La complessità dei tre componenti non è poca, ma notiamo che la struttura è simile e replicabile per tutti e tre, analizziamo allora solamente il *ViewModule* che è il più completo, il punto d'ingresso è il *trait* **Interface**, questo mette a disposizione l'accesso alla *View* ed integra l'uso del componente tramite alcuni particolari meccanismi:
+- Estendere **Provider**: un *trait* contenente un *val* di tipo *View*, l'interfaccia dove sono definiti i metodi per comunicare con la *GUI*, questo ci indica che tramite *Interface* è possibile accedere alla *View*, poi vedremo perchè in questo caso è comodo avere il riferimento alla *View* in un *trait* separato.
+- Estendere **ViewComponent**: un *trait* contenente le effettive implementazioni di *View*, in questo caso due: **ViewImpl** per il normale funzionamento del progetto e **FakeViewImpl** che non invoca alcuna *GUI* consentendo il *testing* anche su *container* come quelli usati per la *continuous integration*. Grazie a questa struttura, al momento della creazione di *MVC* è possibile scegliere quale implementazione usare semplicemente istanziando l'una o l'altra. Inoltre ha un *self type* su *ViewRequirements* che analizziamo al prossimo punto.
+- *Self type* con **ViewRequirements**: questa è una *class type* contenente i componenti a cui si può accedere dalla *View*, in questo caso per la natura di *MVC* essa può vedere solamente il *Controller*, questo viene fatto richiedendo la presenza del *Provider* del *Controller*. Da notare che il *self type* ci permette di utilizzare i metodi dell'interfaccia in questione, senza fornirne una vera implementazione, ma rimandando il dovere di farlo a chi ci implementa, questo è il meccanismo col quale riusciamo a creare dipendenze fra i componenti di *MVC* in modo agevole, evitando errori a *run time* dovuti a chiamate ricorsive tra componenti.
+
+MVC infine estende le *Interface* dei tre componenti, poi facendo **override** delle *val* di *Model*, *View* e *Controller* ne fornisce un'implementazione passando dai rispettivi *Component*, di fatto soddisfando i *self type* di cui abbiamo parlato sopra.
+Lato *testing* è bastato creare un **FakeMVC** che implementasse *FakeViewImpl* al posto di *ViewImpl* per poter testare senza creare un'effetiva *GUI*.
 
 ### Simulation engine
 La parte principale del **Simualtion engine** risiede nella gestione della simulazione, in particolare possiamo concentrarci sull'implementazione del **loop**, essa è rinchiusa nell'uso di un iteratore infinito, al quale viene passato lo stato iniziale dell'*Aquarium*, ad ogni iterazione esso invoca il metodo *step* che dato un *Aquarium* ne restituisce la versione aggiornata al passo dopo della simulazione.

@@ -16,7 +16,11 @@ private class InteractionFishOnAlgaeImpl(fish: Fish, algae: Algae) extends Inter
 
   override def update(): (Fish, Option[Algae]) =
     fish.feedingType match
-      case FeedingType.HERBIVOROUS if Fish.MAX_SATIETY - fish.satiety >= (algae.height * Algae.NUTRITION_AMOUNT) =>
+      case FeedingType.HERBIVOROUS if isFishHungry =>
         model.addChronicleEvent(Events.FISH_ATE_ENTITY(fish.name, algae))
         (fish.copy(satiety = fish.satiety + algae.height * Algae.NUTRITION_AMOUNT), Option.empty)
       case _ => (fish, Some(algae))
+
+  private def isFishHungry: Boolean =
+    Fish.MAX_SATIETY - fish.satiety >= (algae.height * Algae.NUTRITION_AMOUNT)
+    

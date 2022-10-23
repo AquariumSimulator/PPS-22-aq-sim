@@ -95,21 +95,21 @@ trait ModelComponent:
         updatedAquariumState,
         newPopulation,
         for food <- newFood
-        yield UpdateFood(food).move(1)
+        yield UpdateFood(food).move(Food.SPEED_MULTIPLIER)
       )
 
     private def newAquariumState[A](entities: Set[A], initialState: AquariumState)(
-        func: (AquariumState, A) => AquariumState
+        action: (AquariumState, A) => AquariumState
     ): AquariumState =
       @tailrec
       def _newAquariumState[A](population: Set[A], aquariumState: AquariumState)(
-          func: (AquariumState, A) => AquariumState
+          action: (AquariumState, A) => AquariumState
       ): AquariumState =
         population match
-          case p if p.nonEmpty => _newAquariumState(p.tail, func(aquariumState, p.head))(func)
+          case p if p.nonEmpty => _newAquariumState(p.tail, action(aquariumState, p.head))(action)
           case _ => aquariumState
 
-      _newAquariumState(entities, initialState)(func)
+      _newAquariumState(entities, initialState)(action)
 
     private def entityStep[A](entities: Set[A], aquariumState: AquariumState)(
         isAlive: A => Boolean

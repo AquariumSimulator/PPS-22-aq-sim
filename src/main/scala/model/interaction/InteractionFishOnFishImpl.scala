@@ -40,7 +40,7 @@ private class InteractionFishOnFishImpl(fish1: Fish, fish2: Fish)
         )
 
   private def checkEatFish(fish1: Fish, fish2: Fish): (Option[Fish], Option[Fish], Option[Fish]) =
-    val (carnivorous: Fish, herbivorous: Fish) = checkFishPosition(fish1, fish2)
+    val (carnivorous, herbivorous) = checkFishPosition(fish1, fish2)
     if (isCarnivorousHungry(carnivorous, herbivorous))
       model.addChronicleEvent(Events.FISH_ATE_ENTITY(carnivorous.name, herbivorous))
       (

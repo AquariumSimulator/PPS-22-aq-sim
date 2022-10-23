@@ -224,3 +224,15 @@ In seguito le parti di codice di cui mi sono occupato:
 
 Mi sono poi occupato di tutte le classi di test relative ai file sopra citati.
 Infine, oltre al codice, sebbene fosse esente dagli obiettivi del progetti, ho anche ideato la parte di mockup della GUI per rendere il suo sviluppo il più rapido e semplice possibile per concentrarci poi sulla realizzazione delle funzionalità di Model e Controller.
+
+## 5.5 Coverage
+Grazie alla libreria **Jacoco** abbiamo calcolato la *coverage* del nostro codice secondo determinati parametri:
+
+![coverage](img/coverage.png)
+
+Il dato più interessante riguarda la percentuale di copertura delle classi, che nel nostro caso è del 40,43%.
+Tale percentuale dev'essere letta con un riferimento alle singole classi. Osserviamo allora, più nello specifico, i risultati ottenuti:
+
+![coverage-report](img/coverage_report.png)
+
+Dal *report* si nota come le classi inerenti a *Model* e *Controller* abbiano una *coverage* molto vicina al 100%, mentre le classi della *View*, che non sono state testate, sono la principale causa dell'abbassamento della copertura totale.
